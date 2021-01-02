@@ -1,0 +1,18 @@
+<div>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        {{food.title}}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-img id="food-img" [src]="food.img"></ion-img>
+      <ion-list>
+        <ion-item>
+          <ion-label>Precio: {{food.price}}</ion-label>
+        </ion-item>
+        <p>{{food.description}}</p>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</div>
