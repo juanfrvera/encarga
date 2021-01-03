@@ -15,3 +15,14 @@
 #container a {
   text-decoration: none;
 }
+
+#footer {
+  margin: 1em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#footer a {
+  color: gray;
+}

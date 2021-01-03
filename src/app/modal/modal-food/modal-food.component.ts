@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-modal-food',
@@ -9,9 +10,13 @@ export class ModalFoodComponent implements OnInit {
   // Data passed in by componentProps
   @Input() food;
 
-  constructor() { }
+  constructor(private modalCtrl: ModalController) { }
 
   ngOnInit() {
+  }
+
+  public close() {
+    this.modalCtrl.dismiss();
   }
 
 }

@@ -1,9 +1,12 @@
 <div>
   <ion-card>
-    <ion-card-header>
+    <ion-card-header id="header">
       <ion-card-title>
         {{food.title}}
       </ion-card-title>
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
     </ion-card-header>
     <ion-card-content>
       <ion-img id="food-img" [src]="food.img"></ion-img>
@@ -13,6 +16,35 @@
         </ion-item>
         <p>{{food.description}}</p>
       </ion-list>
+
+
+      <ion-item>
+        <ion-label>Cantidad</ion-label>
+        <ion-select interface="popover" value="1">
+          <ion-select-option value="1">1 unidad</ion-select-option>
+          <ion-select-option value="2">2 unidades</ion-select-option>
+          <ion-select-option value="3">3 unidades</ion-select-option>
+          <ion-select-option value="4">4 unidades</ion-select-option>
+          <ion-select-option value="5">5 unidades</ion-select-option>
+          <ion-select-option value="6">6 unidades</ion-select-option>
+          <ion-select-option value="7">Más de 6 unidades</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Cantidad</ion-label>
+        <ion-select interface="action-sheet" value="1" cancelText="Cancelar">
+          <ion-select-option value="1">1 unidad</ion-select-option>
+          <ion-select-option value="2">2 unidades</ion-select-option>
+          <ion-select-option value="3">3 unidades</ion-select-option>
+          <ion-select-option value="4">4 unidades</ion-select-option>
+          <ion-select-option value="5">5 unidades</ion-select-option>
+          <ion-select-option value="6">6 unidades</ion-select-option>
+          <ion-select-option value="7">Más de 6 unidades</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-button>Comprar ahora</ion-button>
+      <ion-button color="light">Agregar a pedido</ion-button>
     </ion-card-content>
   </ion-card>
 </div>
