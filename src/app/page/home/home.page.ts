@@ -17,6 +17,7 @@ export class HomePage {
       {
         title: "Choripan",
         img: this.foodFolder + "choripan.jpg",
+        description: "Chorizo, salsa a eleccion",
         price: 200
       },
       {
@@ -63,18 +64,22 @@ export class HomePage {
       [
         {
           title: "Muzzarella",
+          description: "muzarrella, salsa, oregano",
           price: 200
         },
         {
           title: "Fugazzetta",
+          description: "muzarrella, salsa, cebolla grillada",
           price: 320
         },
         {
           title: "Pepperoni",
+          description: "muzarrella, salsa, salame milan",
           price: 400
         },
         {
           title: "Rellena",
+          description: "rellena con jamon y queso, exterior muzarrella y tomate",
           price: 600
         }
       ]
@@ -86,18 +91,22 @@ export class HomePage {
       [
         {
           title: "Sandwich de miga",
+          description: "jamon y queso, mayonesa",
           price: 200
         },
         {
           title: "Sandwich de milanesa",
+          description: "milanesa de ternera, lechuga, tomate, jamon y queso",
           price: 320
         },
         {
           title: "Hamburguesa completa",
+          description: "hamburguesa de ternera, lechuga, tomate, jamon y queso",
           price: 400
         },
         {
-          title: "Milanesa napolitana con fritas",
+          title: "Milanesa napolitana",
+          description: "milanesa de ternera, tomate, jamon y queso",
           price: 600
         }
       ]
