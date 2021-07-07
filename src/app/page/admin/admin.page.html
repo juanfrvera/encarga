@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Administrar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Items</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="empty-state">
+      <p>Aún no tienes items, crea uno para poder empezar a vender!</p>
+      <ion-button (click)="crearItem()" size="large">Crear item</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { ModalFoodComponent } from '../modal/modal-food/modal-food.component';
+import { ModalFoodComponent } from '../../modal/modal-food/modal-food.component';
 
 @Component({
   selector: 'app-home',
