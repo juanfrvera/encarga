@@ -1,6 +1,5 @@
-import { DOCUMENT } from '@angular/common';
 import { Component } from '@angular/core';
-import { IonMenuToggle, IonToggle, MenuController, ModalController } from '@ionic/angular';
+import { MenuController, ModalController, ToastController } from '@ionic/angular';
 import { ModalFoodComponent } from '../../modal/modal-food/modal-food.component';
 
 @Component({
@@ -10,7 +9,7 @@ import { ModalFoodComponent } from '../../modal/modal-food/modal-food.component'
 })
 export class HomePage {
   readonly foodFolder = "../../assets/img/food/";
-  
+
   public promos = {
     titulo: 'Promos',
     items: [
@@ -146,7 +145,8 @@ export class HomePage {
 
   constructor(
     public modalController: ModalController,
-    public menuController: MenuController
+    public menuController: MenuController,
+    public toastController: ToastController
   ) {
 
   }
@@ -166,6 +166,29 @@ export class HomePage {
     return await modal.present();
   }
 
+  public mostrarTotal() {
+    this.presentToastWithOptions();
+  }
+
+  async presentToastWithOptions() {
+    const toast = await this.toastController.create({
+      header: 'Total',
+      message: '$1200', //TODO: poner la suma total del pedido
+      position: 'bottom',
+      buttons: [
+        {
+          text: 'Continuar',
+          role: 'submit',
+          //TODO: Pasar a la vista de pago
+          handler: () => {
+            console.log('Pasar a la parte de pago');
+          }
+        }
+      ]
+    });
+    await toast.present();
+  }
+
   public clickCategoria(idCategoria: string) {
     const element = document.getElementById(idCategoria);
     element.scrollIntoView({ behavior: "smooth", block: 'start' });
@@ -179,14 +202,15 @@ export class HomePage {
     else {
       food.cantidad = 1;
     }
-    
+
+    this.mostrarTotal();
   }
 
   public quitarCantidad(food) {
     if (food.cantidad > 0) {
       food.cantidad -= 1;
     }
-    
+
   }
 
 }
