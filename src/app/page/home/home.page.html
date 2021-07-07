@@ -5,7 +5,7 @@
       <ion-buttons slot="end">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
-      
+
     </ion-toolbar>
   </ion-header>
   <ion-content>
@@ -50,11 +50,30 @@
         <ion-grid>
           <ion-row>
             <ion-col *ngFor="let food of categoria.items;">
-              <ion-item (click)="clickFood(food)">
-                <ion-thumbnail *ngIf="food.img" slot="start">
+              <ion-item>
+                <!-- <ion-thumbnail *ngIf="food.img" slot="start">
                   <img [src]="food.img">
-                </ion-thumbnail>
-                <ion-label>{{food.title}}</ion-label>
+                </ion-thumbnail> -->
+                <ion-label (click)="clickFood(food)">
+                  <h2>{{food.title}}</h2>
+                  <p>{{food.description}}</p>
+                  <h2>$ {{food.price}}</h2>
+                </ion-label>
+                <div class="botones">
+                  <ion-button (click)="agregarCantidad(food)" color="medium" shape="round">
+                    <ion-icon name="add"></ion-icon>
+                  </ion-button>
+                  
+                  <div *ngIf="food.cantidad" class="botones">
+                    <ion-label>{{food.cantidad}}</ion-label>
+                    <ion-button (click)="quitarCantidad(food)" color="medium" shape="round">
+                      <ion-icon name="remove-outline"></ion-icon>
+                    </ion-button>
+                  </div>
+                  
+                </div>
+
+
               </ion-item>
             </ion-col>
           </ion-row>

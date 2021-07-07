@@ -10,50 +10,28 @@ import { ModalFoodComponent } from '../../modal/modal-food/modal-food.component'
 })
 export class HomePage {
   readonly foodFolder = "../../assets/img/food/";
-
+  
   public promos = {
     titulo: 'Promos',
     items: [
       {
         title: "Choripan",
-        img: this.foodFolder + "choripan.jpg",
         description: "Chorizo, salsa a eleccion",
         price: 200
       },
       {
-        title: "Empanadas",
-        img: this.foodFolder + "empanadas.jpg",
+        title: "Docena de empanadas surtidas",
+        description: "carne, pollo, verdura",
         price: 300
       },
       {
-        title: "Empanadas árabes",
-        img: this.foodFolder + "empanadas-arabes.jpg",
-        price: 370
-      },
-      {
-        title: "Fugazzeta",
-        img: this.foodFolder + "pizza-fugazzeta.jpg",
-        price: 320
-      },
-      {
-        title: "Pepperoni",
-        img: this.foodFolder + "pizza-pepperoni.jpg",
-        price: 400
-      },
-      {
-        title: "Rellena",
-        img: this.foodFolder + "pizza-rellena.jpg",
+        title: "2 Muzzas + 1 docena de empanadas",
+        description: "jamon y queso, pollo o verdura",
         price: 600
       },
       {
-        title: "Sandwich",
-        img: this.foodFolder + "sandwich.jpg",
-        price: 200
-      },
-      {
-        title: "Sandwich Milanesa",
-        img: this.foodFolder + "sandwich-milanesa.jpg",
-        price: 250
+        title: "2 Muzzas + 1 Especial",
+        price: 500
       },
     ]
   }
@@ -192,6 +170,23 @@ export class HomePage {
     const element = document.getElementById(idCategoria);
     element.scrollIntoView({ behavior: "smooth", block: 'start' });
     this.menuController.close();
+  }
+
+  public agregarCantidad(food) {
+    if (food.cantidad) {
+      food.cantidad += 1;
+    }
+    else {
+      food.cantidad = 1;
+    }
+    
+  }
+
+  public quitarCantidad(food) {
+    if (food.cantidad > 0) {
+      food.cantidad -= 1;
+    }
+    
   }
 
 }

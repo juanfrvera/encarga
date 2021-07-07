@@ -31,3 +31,9 @@
   position: relative;
   bottom: 65px; // <<< your offset here >>>
 }
+
+.botones {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
