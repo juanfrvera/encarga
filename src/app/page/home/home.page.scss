@@ -26,3 +26,8 @@
 #footer a {
   color: gray;
 }
+
+.section-offset {
+  position: relative;
+  bottom: 65px; // <<< your offset here >>>
+}
