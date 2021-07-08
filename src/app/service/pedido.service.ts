@@ -21,4 +21,8 @@ export class PedidoService {
     // Save to localstorage
     localStorage.setItem(PedidoService.storageKey, JSON.stringify(pedidos));
   }
+
+  public remove(item : Item){
+    
+  }
 }
