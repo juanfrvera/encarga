@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { MenuController, ModalController, ToastController } from '@ionic/angular';
+import { MenuController, ModalController, NavController, ToastController } from '@ionic/angular';
+import { PedidoService } from 'src/app/service/pedido.service';
+import { ProductoService } from 'src/app/service/producto.service';
 import { ModalFoodComponent } from '../../modal/modal-food/modal-food.component';
 
 @Component({
@@ -9,148 +11,18 @@ import { ModalFoodComponent } from '../../modal/modal-food/modal-food.component'
 })
 export class HomePage {
   readonly foodFolder = "../../assets/img/food/";
-
-  public total: number = 0;
-
-  //Datos falsos
-  public promos = {
-    titulo: 'Promos',
-    items: [
-      {
-        title: "Choripan",
-        description: "Chorizo, salsa a eleccion",
-        price: 200
-      },
-      {
-        title: "Docena de empanadas surtidas",
-        description: "carne, pollo, verdura",
-        price: 300
-      },
-      {
-        title: "2 Muzzas + 1 docena de empanadas",
-        description: "jamon y queso, pollo o verdura",
-        price: 600
-      },
-      {
-        title: "2 Muzzas + 1 Especial",
-        price: 500
-      },
-    ]
-  }
-  public pizzas = {
-
-    titulo: "Pizzas",
-    items:
-      [
-        {
-          title: "Muzzarella",
-          description: "muzarrella, salsa, oregano",
-          price: 200
-        },
-        {
-          title: "Fugazzetta",
-          description: "muzarrella, salsa, cebolla grillada",
-          price: 320
-        },
-        {
-          title: "Pepperoni",
-          description: "muzarrella, salsa, salame milan",
-          price: 400
-        },
-        {
-          title: "Rellena",
-          description: "rellena con jamon y queso, exterior muzarrella y tomate",
-          price: 600
-        }
-      ]
-  }
-
-  public minutas = {
-    titulo: "Minutas",
-    items:
-      [
-        {
-          title: "Sandwich de miga",
-          description: "jamon y queso, mayonesa",
-          price: 200
-        },
-        {
-          title: "Sandwich de milanesa",
-          description: "milanesa de ternera, lechuga, tomate, jamon y queso",
-          price: 320
-        },
-        {
-          title: "Hamburguesa completa",
-          description: "hamburguesa de ternera, lechuga, tomate, jamon y queso",
-          price: 400
-        },
-        {
-          title: "Milanesa napolitana",
-          description: "milanesa de ternera, tomate, jamon y queso",
-          price: 600
-        }
-      ]
-  }
-
-  public empanadas = {
-    titulo: "Empanadas",
-    items:
-      [
-        {
-          title: "Jamon y queso",
-          price: 100
-        },
-        {
-          title: "Carne",
-          price: 100
-        },
-        {
-          title: "Verdura",
-          price: 100
-        },
-        {
-          title: "Pollo",
-          price: 100
-        }
-      ]
-  }
-
-  public bebidas = {
-    titulo: "Bebidas",
-    items:
-      [
-        {
-          title: "Gaseosa chica",
-          price: 100
-        },
-        {
-          title: "Gaseosa grande",
-          price: 200
-        },
-        {
-          title: "Agua chica",
-          price: 100
-        },
-        {
-          title: "Agua saborizada",
-          price: 200
-        },
-        {
-          title: "Exprimido de naranja",
-          price: 200
-        }
-      ]
-  }
-
-  /**Obtiene la lista de categorias */
+  
   public get Categorias() {
-    return [this.promos, this.pizzas, this.minutas, this.empanadas, this.bebidas]
+    return this.productoService.Categorias;
   }
 
   constructor(
+    private pedido: PedidoService,
+    public productoService: ProductoService,
     public modalController: ModalController,
     public menuController: MenuController,
-    public toastController: ToastController
+    public toastController: ToastController, 
+    public navCtrl: NavController
   ) {
 
   }
@@ -181,7 +53,7 @@ export class HomePage {
   async presentToastWithOptions() {
     const toast = await this.toastController.create({
       header: 'Total',
-      message: '$' + this.total.toString(),
+      message: '$' + this.pedido.total.toString(),
       position: 'bottom',
       buttons: [
         {
@@ -189,7 +61,7 @@ export class HomePage {
           role: 'submit',
           //TODO: Pasar a la vista de pago
           handler: () => {
-            console.log('Pasar a la parte de pago');
+            this.navCtrl.navigateForward('/detalle')
           }
         }
       ]
@@ -215,19 +87,20 @@ export class HomePage {
     else {
       food.cantidad = 1;
     }
-    
+
     //Se fija si el total es 0, suma el producto y muestra el total
-    if (this.total == 0) {
-      this.total = this.total + food.price;
-      this.mostrarTotal(); 
+    if (this.pedido.total == 0) {
+      this.pedido.total = this.pedido.total + food.price;
+      this.mostrarTotal();
     }
     //El total ya es mayor que 0, por lo que suma el producto, borra el toast anterior y crea uno nuevo con el total actualizado
     else {
-      this.total = this.total + food.price;
+      this.pedido.total = this.pedido.total + food.price;
       this.toastController.dismiss();
       this.mostrarTotal();
     }
 
+    this.pedido.add(food);
   }
 
   /**Quita el producto al pedido, restandolo del total */
@@ -236,12 +109,12 @@ export class HomePage {
     if (food.cantidad > 0) {
       food.cantidad -= 1;
     }
-    
+
     //Resta el producto del total
-    this.total = this.total - food.price;
+    this.pedido.total = this.pedido.total - food.price;
 
     //Si el total esta en 0, no muestra ningun toast con total
-    if (this.total == 0) {
+    if (this.pedido.total == 0) {
       this.toastController.dismiss();
     }
     //Si el total es mayor que 0, borra el toast anterior y crea uno nuevo con el total actualizado
@@ -250,6 +123,7 @@ export class HomePage {
       this.mostrarTotal();
     }
 
+    this.pedido.remove(food);
   }
 
 }
