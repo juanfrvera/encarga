@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MenuController, ModalController, NavController, ToastController } from '@ionic/angular';
 import { PedidoService } from 'src/app/service/pedido.service';
-import { ProductoService } from 'src/app/service/producto.service';
+import { ItemService } from 'src/app/service/item.service';
 import { ModalFoodComponent } from '../../modal/modal-food/modal-food.component';
 
 @Component({
@@ -13,12 +13,12 @@ export class HomePage {
   readonly foodFolder = "../../assets/img/food/";
   
   public get Categorias() {
-    return this.productoService.Categorias;
+    return this.itemService.Categorias;
   }
 
   constructor(
     private pedido: PedidoService,
-    public productoService: ProductoService,
+    public itemService: ItemService,
     public modalController: ModalController,
     public menuController: MenuController,
     public toastController: ToastController, 
