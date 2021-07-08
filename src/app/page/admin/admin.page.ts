@@ -15,7 +15,7 @@ export class AdminPage implements OnInit {
   }
 
   public crearItem() {
-    this.presentModal();
+    const modal = this.presentModal();
   }
 
   async presentModal() {

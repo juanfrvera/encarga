@@ -1,11 +1,35 @@
-<ion-card>
-  <ion-card-header>
-    <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-    <ion-card-title>Card Title</ion-card-title>
-  </ion-card-header>
-
-  <ion-card-content>
-    Keep close to Nature's heart... and break clear away, once in awhile,
-    and climb a mountain or spend a week in the woods. Wash your spirit clean.
-  </ion-card-content>
-</ion-card>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Agregar Item</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Título</ion-label>
+        <ion-input formControlName="titulo" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Precio</ion-label>
+        <ion-input formControlName="precio"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Descripción</ion-label>
+        <ion-textarea formControlName="descripcion"></ion-textarea>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ion-footer>
+    <ion-toolbar>
+      <ion-buttons>
+        <ion-button (click)="cancelar()">
+          <ion-icon slot="start" name="close"></ion-icon>
+          Cancelar
+        </ion-button>
+        <ion-button type="submit" color="primary">
+          <ion-icon slot="start" name="save"></ion-icon>
+          Guardar
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+</form>
