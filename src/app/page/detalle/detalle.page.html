@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Detalle del pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="container">
+    <div class="detalle-pedido">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Pedido #121314</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-item *ngFor='let item of itemsConCantidad'>
+            <ion-label>
+              <h2>{{item.titulo}}</h2>
+              <h2>Cantidad: {{item.cantidad}}</h2>
+              <p>Subtotal: $ {{item.precio * item.cantidad}}</p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>
+              <h1>Total: $ {{this.total}}</h1>
+            </ion-label>
+          </ion-item>
+
+
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div class="detalle-entrega">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Detalle de entrega</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-item>
+            <ion-label position="floating">Nombre y Apellido</ion-label>
+            <ion-input></ion-input>
+          </ion-item>
+
+          <ion-radio-group>
+            <ion-item>
+              <ion-label>Envio a domicilio</ion-label>
+              <ion-radio slot="start" value="envio"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Retiro</ion-label>
+              <ion-radio slot="start" value="retiro"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+
+          <ion-item>
+            <ion-label position="floating">Direccion</ion-label>
+            <ion-input disabled></ion-input>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+
+    <div class="botones">
+      <ion-button color="medium">Volver</ion-button>
+      <ion-button color="primary">Continuar</ion-button>
+    </div>
+
+  </div>
+
+</ion-content>
