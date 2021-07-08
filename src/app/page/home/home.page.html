@@ -60,13 +60,13 @@
                   <h2>$ {{food.price}}</h2>
                 </ion-label>
                 <div class="botones">
-                  <ion-button (click)="agregarCantidad(food)" color="medium" shape="round">
+                  <ion-button (click)="agregarProducto(food)" color="medium" shape="round">
                     <ion-icon name="add"></ion-icon>
                   </ion-button>
                   
                   <div *ngIf="food.cantidad" class="botones">
                     <ion-label>{{food.cantidad}}</ion-label>
-                    <ion-button (click)="quitarCantidad(food)" color="medium" shape="round">
+                    <ion-button (click)="quitarProducto(food)" color="medium" shape="round">
                       <ion-icon name="remove-outline"></ion-icon>
                     </ion-button>
                   </div>
