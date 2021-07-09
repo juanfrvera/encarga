@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PedidoService } from 'src/app/service/pedido.service';
-import { ItemService } from 'src/app/service/item.service';
+import { ItemService } from 'src/app/service/item.service';;
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-detalle',
@@ -10,10 +11,12 @@ import { ItemService } from 'src/app/service/item.service';
 export class DetallePage implements OnInit {
   public itemsConCantidad;
   public total = this.pedidoService.total;
+  public envio: boolean = false;
 
   constructor(
     private pedidoService: PedidoService,
     private itemService: ItemService,
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -28,4 +31,15 @@ export class DetallePage implements OnInit {
     });
   }
 
+  public clickEnvio() {
+    this.envio = true;
+  }
+
+  public clickRetiro() {
+    this.envio = false;
+  }
+
+  public clickVolver() {
+    this.location.back();
+  }
 }
