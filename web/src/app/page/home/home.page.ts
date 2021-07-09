@@ -17,13 +17,19 @@ export class HomePage {
   }
 
   constructor(
-    private pedido: PedidoService,
+    private pedidoService: PedidoService,
     public itemService: ItemService,
     public modalController: ModalController,
     public menuController: MenuController,
     public toastController: ToastController, 
     public navCtrl: NavController
   ) {
+
+  }
+
+  ionViewWillEnter() {
+    if (this.pedidoService.total > 0) 
+    this.mostrarTotal();
 
   }
 
@@ -53,7 +59,7 @@ export class HomePage {
   async presentToastWithOptions() {
     const toast = await this.toastController.create({
       header: 'Total',
-      message: '$' + this.pedido.total.toString(),
+      message: '$' + this.pedidoService.total.toString(),
       position: 'bottom',
       buttons: [
         {
@@ -89,18 +95,18 @@ export class HomePage {
     }
 
     //Se fija si el total es 0, suma el producto y muestra el total
-    if (this.pedido.total == 0) {
-      this.pedido.total = this.pedido.total + food.price;
+    if (this.pedidoService.total == 0) {
+      this.pedidoService.total = this.pedidoService.total + food.price;
       this.mostrarTotal();
     }
     //El total ya es mayor que 0, por lo que suma el producto, borra el toast anterior y crea uno nuevo con el total actualizado
     else {
-      this.pedido.total = this.pedido.total + food.price;
+      this.pedidoService.total = this.pedidoService.total + food.price;
       this.toastController.dismiss();
       this.mostrarTotal();
     }
 
-    this.pedido.add(food);
+    this.pedidoService.add(food);
   }
 
   /**Quita el producto al pedido, restandolo del total */
@@ -111,10 +117,10 @@ export class HomePage {
     }
 
     //Resta el producto del total
-    this.pedido.total = this.pedido.total - food.price;
+    this.pedidoService.total = this.pedidoService.total - food.price;
 
     //Si el total esta en 0, no muestra ningun toast con total
-    if (this.pedido.total == 0) {
+    if (this.pedidoService.total == 0) {
       this.toastController.dismiss();
     }
     //Si el total es mayor que 0, borra el toast anterior y crea uno nuevo con el total actualizado
@@ -123,7 +129,7 @@ export class HomePage {
       this.mostrarTotal();
     }
 
-    this.pedido.remove(food);
+    this.pedidoService.remove(food);
   }
 
 }

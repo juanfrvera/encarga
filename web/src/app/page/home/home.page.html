@@ -42,37 +42,28 @@
       </ion-card-header>
 
       <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col *ngFor="let food of categoria.items;">
-              <ion-item>
-                <!-- <ion-thumbnail *ngIf="food.img" slot="start">
+        <ion-item *ngFor="let food of categoria.items;">
+          <!-- <ion-thumbnail *ngIf="food.img" slot="start">
                   <img [src]="food.img">
                 </ion-thumbnail> -->
-                <ion-label (click)="clickFood(food)">
-                  <h2>{{food.title}}</h2>
-                  <p>{{food.description}}</p>
-                  <h2>$ {{food.price}}</h2>
-                </ion-label>
-                <div class="botones">
-                  <ion-button (click)="agregarProducto(food)" color="medium" shape="round">
-                    <ion-icon name="add"></ion-icon>
-                  </ion-button>
-                  
-                  <div *ngIf="food.cantidad" class="botones">
-                    <ion-label>{{food.cantidad}}</ion-label>
-                    <ion-button (click)="quitarProducto(food)" color="medium" shape="round">
-                      <ion-icon name="remove-outline"></ion-icon>
-                    </ion-button>
-                  </div>
-                  
-                </div>
+          <ion-label (click)="clickFood(food)">
+            <h2>{{food.title}}</h2>
+            <p>{{food.description}}</p>
+            <h2>$ {{food.price}}</h2>
+          </ion-label>
+          <div class="botones">
+            <ion-button (click)="agregarProducto(food)" color="medium" shape="round">
+              <ion-icon name="add"></ion-icon>
+            </ion-button>
 
-
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+            <div *ngIf="food.cantidad" class="botones">
+              <ion-label>{{food.cantidad}}</ion-label>
+              <ion-button (click)="quitarProducto(food)" color="medium" shape="round">
+                <ion-icon name="remove-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </ion-item>
       </ion-card-content>
     </ion-card>
     <div id="footer">
