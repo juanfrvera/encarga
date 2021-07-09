@@ -1,0 +1,2 @@
+Para hacer deploy de la api a heroku hay que correr el siguiente comando desde la raiz del proyecto:
+git subtree push --prefix api heroku master
