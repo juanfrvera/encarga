@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Item } from 'src/app/data/item';
+import { ItemService } from 'src/app/service/item.service';
 import { ItemComponent } from '../../component/item/item.component';
 
 @Component({
@@ -7,15 +9,25 @@ import { ItemComponent } from '../../component/item/item.component';
   templateUrl: './admin.page.html',
   styleUrls: ['./admin.page.scss'],
 })
-export class AdminPage implements OnInit {
+export class AdminPage {
 
-  constructor(private modalController: ModalController) { }
+  public items: Item[];
 
-  ngOnInit() {
+  public get Items() {
+    return this.itemService.get()
+  }
+  
+  constructor(
+    private modalController: ModalController,
+    private itemService: ItemService
+    ) { }
+
+  ionViewWillLeave() {
+    this.Items;
   }
 
   public crearItem() {
-    const modal = this.presentModal();
+    this.presentModal();
   }
 
   async presentModal() {

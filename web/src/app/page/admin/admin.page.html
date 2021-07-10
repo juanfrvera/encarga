@@ -12,9 +12,20 @@
     <ion-card-header>
       <ion-card-title>Items</ion-card-title>
     </ion-card-header>
-    <ion-card-content class="empty-state">
-      <p>Aún no tienes items, agrea uno para empezar a vender!</p>
-      <ion-button (click)="crearItem()" size="large">Agregar item</ion-button>
+    <ion-card-content>
+      <ion-item *ngFor="let item of Items;">
+        <!-- <ion-thumbnail *ngIf="food.img" slot="start">
+                <img [src]="food.img">
+              </ion-thumbnail> -->
+        <ion-label>
+          <h2>{{item.titulo}}</h2>
+          <p>{{item.descripcion}}</p>
+          <h2>$ {{item.precio}}</h2>
+        </ion-label>
+      </ion-item>
+      <h2 *ngIf="!Items.length">Aún no tienes items, agrega uno para empezar a vender</h2>
+
+      <ion-button (click)="crearItem()" class="boton" expand="block">Agregar item</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>
