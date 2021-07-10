@@ -1,7 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Agregar Item</ion-card-title>
+      <ion-card-title *ngIf="!editando">Agregar Item</ion-card-title>
+      <ion-card-title *ngIf="editando">Editar Item</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-item>
