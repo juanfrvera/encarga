@@ -14,3 +14,15 @@ exports.create = async (req, res) => {
         },
     });
 };
+
+exports.getAll = async (req, res) => {
+    // El último creado aparecerá primero en la lista
+    const response = await db.query('SELECT * FROM item ORDER BY id DESC');
+    res.status(200).send(response.rows);
+}
+
+exports.getById = async (req, res) => {
+    const id = parseInt(req.params.id);
+    const response = await db.query('SELECT * FROM item WHERE id = $1', [id]);
+    res.status(200).send(response.rows);
+}
