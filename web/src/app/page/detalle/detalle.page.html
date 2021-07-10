@@ -54,23 +54,28 @@
             <ion-radio-group formControlName="entrega">
               <ion-item>
                 <ion-label>Envio a domicilio</ion-label>
-                <ion-radio name="inputEnvio" slot="start" value="envio"></ion-radio>
+                <ion-radio name="inputEnvio" slot="start" value="Envio a domicilio"></ion-radio>
               </ion-item>
 
               <ion-item>
                 <ion-label>Retiro en sucursal</ion-label>
-                <ion-radio name="inputRetiro" slot="start" value="retiro"></ion-radio>
+                <ion-radio name="inputRetiro" slot="start" value="Retira en sucursal"></ion-radio>
               </ion-item>
             </ion-radio-group>
 
-            <ion-item *ngIf="user.entrega == 'envio'">
+            <ion-item *ngIf="form.value.entrega == 'Envio a domicilio'">
               <ion-label position="floating">Direccion</ion-label>
               <ion-input name="inputDireccion" formControlName="direccion"></ion-input>
             </ion-item>
             <!-- Error message -->
-            <span class="error" *ngIf="finalizado && errorControl.direccion.errors?.required">
+            <span class="error" *ngIf="finalizado && form.value.entrega == 'Envio a domicilio' && !form.value.direccion">
               <ion-icon name="alert-circle-outline"></ion-icon> Por favor, escribe tu direccion.
             </span>
+
+            <ion-item>
+              <ion-label position="floating">Comentarios</ion-label>
+              <ion-textarea formControlName="comentarios"></ion-textarea>
+            </ion-item>
 
           </ion-card-content>
         </ion-card>
