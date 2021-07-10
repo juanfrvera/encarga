@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Item } from '../data/item';
 
 @Injectable({
   providedIn: 'root'
@@ -155,6 +156,8 @@ export class ItemService {
       ]
   }
 
+  private static readonly storageKey = "items";
+
 
   private get Items() {
     return [...this.promos.items, ...this.pizzas.items, ...this.minutas.items, ...this.empanadas.items, ...this.bebidas.items];
@@ -173,4 +176,27 @@ export class ItemService {
     else return this.Items;
   }
 
+  /**Obtiene un array de items */
+  public get() {
+    //Obtiene del local storage
+    const itemsJson = localStorage.getItem(ItemService.storageKey);
+    //Los convierte a array de items
+    const items = itemsJson ? JSON.parse(itemsJson) as Item[] : []
+    //Devuelve el array
+    return items;
+  }
+
+  /**Agrega un item al array de items */
+  public add(item: Item) {
+    //Obtiene del local storage
+    const itemsJson = localStorage.getItem(ItemService.storageKey);
+    //Los convierte a array de items
+    const items = itemsJson ? JSON.parse(itemsJson) as Item[] : [];
+
+    //Agrega el item al array
+    items.push({ id: item.id, titulo: item.titulo, precio: item.precio, descripcion: item.descripcion });
+
+    // Guarda en el localstorage
+    localStorage.setItem(ItemService.storageKey, JSON.stringify(items));
+  }
 }
