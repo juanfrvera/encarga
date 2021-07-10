@@ -5,6 +5,17 @@
     </ion-card-header>
     <ion-card-content>
       <ion-item>
+        <!-- TODO: Referenciar a categorias que se hayan agregado -->
+        <ion-label>Categoria</ion-label>
+        <ion-select interface="popover" placeholder="Selecciona una categoria">
+          <ion-select-option value="f">Promos</ion-select-option>
+          <ion-select-option value="m">Pizzas</ion-select-option>
+          <ion-select-option value="m">Minutas</ion-select-option>
+          <ion-select-option value="m">Empanadas</ion-select-option>
+          <ion-select-option value="m">Bebidas</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
         <ion-label position="floating">Título</ion-label>
         <ion-input formControlName="titulo" type="text"></ion-input>
       </ion-item>
@@ -20,7 +31,7 @@
   </ion-card>
   <ion-footer>
     <ion-toolbar>
-      <ion-buttons>
+      <ion-buttons class="alinear">
         <ion-button (click)="cancelar()">
           <ion-icon slot="start" name="close"></ion-icon>
           Cancelar

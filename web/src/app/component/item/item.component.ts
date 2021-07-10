@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NumberValueAccessor, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { ItemService } from 'src/app/service/item.service';
 import { Item } from '../../data/item';
 
 @Component({
@@ -12,7 +13,10 @@ export class ItemComponent implements OnInit {
   @Input() item: Item;
   public form: FormGroup;
 
-  constructor(private modalController: ModalController) { }
+  constructor(
+    private modalController: ModalController,
+    private itemService: ItemService
+    ) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -28,6 +32,24 @@ export class ItemComponent implements OnInit {
 
   public submit() {
     if (this.form.valid) {
+      let nuevoId: number;
+      //Obtiene los items
+      const items = this.itemService.get(); 
+      //Si es vacio el nuevo item tendra id 1
+      if (!items.length) {
+        nuevoId = 1;
+      }
+      //Si hay items, se fija en el id del ultimo item y le suma 1
+      else {
+        let ultimoId = parseInt(items[items.length - 1].id);
+        nuevoId = ultimoId + 1;
+      }
+      //Guarda los valores del formulario
+      const itemForm = this.form.value;
+      //Genera el nuevo item a guardar
+      const nuevoItem = {id: nuevoId.toString(), titulo: itemForm.titulo, precio: itemForm.precio, descripcion: itemForm.descripcion};
+      //Lo guarda en el local storage
+      this.itemService.add(nuevoItem);
       console.log("ok");
       this.cerrar();
     }
