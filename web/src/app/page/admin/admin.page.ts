@@ -26,16 +26,24 @@ export class AdminPage {
     this.Items;
   }
 
-  public crearItem() {
+  public clickAgregarItem() {
     this.presentModal();
   }
 
-  async presentModal() {
+  async presentModal(item?:Item) {
     const modal = await this.modalController.create({
       component: ItemComponent,
-      cssClass: 'my-custom-class'
+      cssClass: 'my-custom-class',
+      componentProps: {
+        editando: true,
+        item: item
+      }
     });
     return await modal.present();
+  }
+
+  public clickEditarItem(item: Item) {
+    this.presentModal(item);
   }
 
 }

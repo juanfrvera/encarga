@@ -156,6 +156,8 @@ export class ItemService {
       ]
   }
 
+  public itemsCreados = []
+
   private static readonly storageKey = "items";
 
 
@@ -178,25 +180,11 @@ export class ItemService {
 
   /**Obtiene un array de items */
   public get() {
-    //Obtiene del local storage
-    const itemsJson = localStorage.getItem(ItemService.storageKey);
-    //Los convierte a array de items
-    const items = itemsJson ? JSON.parse(itemsJson) as Item[] : []
-    //Devuelve el array
-    return items;
+    return this.itemsCreados;
   }
 
   /**Agrega un item al array de items */
   public add(item: Item) {
-    //Obtiene del local storage
-    const itemsJson = localStorage.getItem(ItemService.storageKey);
-    //Los convierte a array de items
-    const items = itemsJson ? JSON.parse(itemsJson) as Item[] : [];
-
-    //Agrega el item al array
-    items.push({ id: item.id, titulo: item.titulo, precio: item.precio, descripcion: item.descripcion });
-
-    // Guarda en el localstorage
-    localStorage.setItem(ItemService.storageKey, JSON.stringify(items));
+    this.itemsCreados.push(item)
   }
 }
