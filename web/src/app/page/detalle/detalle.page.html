@@ -33,42 +33,57 @@
     </div>
 
     <div class="detalle-entrega">
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>Detalle de entrega</ion-card-title>
-        </ion-card-header>
+      <form [formGroup]="form" (ngSubmit)="clickFinalizar()">
 
-        <ion-card-content>
-          <ion-item>
-            <ion-label position="floating">Nombre y Apellido</ion-label>
-            <ion-input></ion-input>
-          </ion-item>
 
-          <ion-radio-group>
-            <ion-item (click)="clickEnvio()">
-              <ion-label>Envio a domicilio</ion-label>
-              <ion-radio slot="start" value="envio"></ion-radio>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Detalle de entrega</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-item>
+              <ion-label position="floating">Nombre y Apellido</ion-label>
+              <ion-input name="inputNombre" formControlName="nombre"></ion-input>
             </ion-item>
+            <!-- Error message -->
+            <span class="error" *ngIf="finalizado && errorControl.nombre.errors?.required">
+              <ion-icon name="alert-circle-outline"></ion-icon> Por favor, escribe tu nombre y apellido.
+            </span>
 
-            <ion-item (click)="clickRetiro()">
-              <ion-label>Retiro en sucursal</ion-label>
-              <ion-radio slot="start" value="retiro"></ion-radio>
+            <ion-radio-group formControlName="entrega">
+              <ion-item>
+                <ion-label>Envio a domicilio</ion-label>
+                <ion-radio name="inputEnvio" slot="start" value="envio"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Retiro en sucursal</ion-label>
+                <ion-radio name="inputRetiro" slot="start" value="retiro"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+
+            <ion-item *ngIf="user.entrega == 'envio'">
+              <ion-label position="floating">Direccion</ion-label>
+              <ion-input name="inputDireccion" formControlName="direccion"></ion-input>
             </ion-item>
-          </ion-radio-group>
+            <!-- Error message -->
+            <span class="error" *ngIf="finalizado && errorControl.direccion.errors?.required">
+              <ion-icon name="alert-circle-outline"></ion-icon> Por favor, escribe tu direccion.
+            </span>
 
-          <ion-item *ngIf="envio">
-            <ion-label position="floating">Direccion</ion-label>
-            <ion-input></ion-input>
-          </ion-item>
-        </ion-card-content>
-      </ion-card>
+          </ion-card-content>
+        </ion-card>
+        <ion-footer class="botones">
+          <ion-button (click)="clickVolver()" color="medium">Volver</ion-button>
+          <ion-button type="submit" color="primary">Finalizar</ion-button>
+        </ion-footer>
+
+      </form>
 
     </div>
 
-    <div class="botones">
-      <ion-button (click)="clickVolver()" color="medium">Volver</ion-button>
-      <ion-button color="primary">Continuar</ion-button>
-    </div>
+
 
   </div>
 
