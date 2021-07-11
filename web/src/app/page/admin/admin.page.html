@@ -1,3 +1,24 @@
+<ion-menu side="start" menuId="first" contentId="admin">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menu</ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item [routerLink]="['/home']">Inicio
+      </ion-item>
+      <ion-item [routerLink]="['/admin']">Administrar
+        <ion-icon name="log-in-outline" slot="start"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -7,12 +28,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true" id="admin">
   <ion-card>
     <ion-card-header>
       <ion-card-title>Items</ion-card-title>
+      <ion-button (click)="clickAgregarItem()" class="boton" expand="block">Agregar item</ion-button>
     </ion-card-header>
+
     <ion-card-content>
+      <!-- Se muestra cuando no hay items a mostrar -->
+      <h2 *ngIf="!Items.length">Aún no tienes items, agrega uno para empezar a vender</h2>
+
+      <!-- Items -->
       <ion-item (click)="clickEditarItem(item)" *ngFor="let item of Items;">
         <!-- <ion-thumbnail *ngIf="food.img" slot="start">
                 <img [src]="food.img">
@@ -23,9 +50,8 @@
           <h2>$ {{item.precio}}</h2>
         </ion-label>
       </ion-item>
-      <h2 *ngIf="!Items.length">Aún no tienes items, agrega uno para empezar a vender</h2>
+      <!-- Items -->
 
-      <ion-button (click)="clickAgregarItem()" class="boton" expand="block">Agregar item</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>

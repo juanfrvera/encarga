@@ -35,7 +35,7 @@ export class HomePage {
   }
 
   /** Muestra el modal de informacion de comida */
-  public clickFood(food) {
+  public clickItem(food) {
     this.presentModal(food);
   }
 
