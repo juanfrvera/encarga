@@ -2,13 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-modal-food',
-  templateUrl: './modal-food.component.html',
-  styleUrls: ['./modal-food.component.scss'],
+  selector: 'app-modal-item',
+  templateUrl: './modal-item.component.html',
+  styleUrls: ['./modal-item.component.scss'],
 })
-export class ModalFoodComponent implements OnInit {
+export class ModalItemComponent implements OnInit {
   // Data passed in by componentProps
-  @Input() food;
+  @Input() item;
 
   constructor(private modalCtrl: ModalController) { }
 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MenuController, ModalController, NavController, ToastController } from '@ionic/angular';
 import { PedidoService } from 'src/app/service/pedido.service';
 import { ItemService } from 'src/app/service/item.service';
-import { ModalFoodComponent } from '../../modal/modal-food/modal-food.component';
+import { ModalItemComponent } from '../../modal/modal-item/modal-item.component';
 import { Item } from 'src/app/data/item';
 import { ItemConCantidad } from 'src/app/data/item-con-cantidad';
 import { CategoriaConItemsConCantidad } from 'src/app/data/categoria-con-items';
@@ -16,6 +16,7 @@ export class HomePage {
   readonly foodFolder = '../../assets/img/food/';
 
   private categorias: CategoriaConItemsConCantidad[];
+  private total = 0;
 
   public get Categorias() {
     return this.categorias;
@@ -40,23 +41,50 @@ export class HomePage {
         return { ...item, cantidad: 0 };
       });
 
-      const pedido = pedidoService.get();
-      if (pedido && pedido.lineas) {
-        pedido.lineas.forEach(linea => {
-          // Buscar el item correspondiente a la linea y asignarle la cantidad pedida
-          const itemConCantidad = categoria.items.find(item => item.id === linea.idItem);
-          itemConCantidad.cantidad = linea.cantidad;
-        });
-      }
-
       this.categorias = [categoria];
+      this.reflejarPedido();
+
+      if (this.hayPedido()) {
+        this.mostrarTotal();
+      }
     }, error => {
       console.error(error);
     });
   }
 
+  /** Carga las cantidades pedidas a los items con cantidad y calcula la variable total */
+  private reflejarPedido() {
+    // Aplanar los items para recorrerlos más facilmente
+    const itemsAplanados = this.categorias.map(cat => cat.items).flat();
+    const pedido = this.pedidoService.get();
+    if (pedido && pedido.lineas) {
+      pedido.lineas.forEach(linea => {
+        // Buscar el item correspondiente a la linea y asignarle la cantidad pedida
+        const itemConCantidad = itemsAplanados.find((item: ItemConCantidad) => item.id === linea.idItem);
+        // El item puede haber sido eliminado de la base de datos mientras estaba guardado en el pedido de un cliente
+        // Este chequeo es para que no haya un error de referencia
+        if (itemConCantidad) {
+          itemConCantidad.cantidad = linea.cantidad;
+
+          if (itemConCantidad.precio) {
+            this.total += itemConCantidad.precio * itemConCantidad.cantidad;
+          }
+        }
+        else {
+          // Como el item guardado no existe mas, eliminar la linea del pedido
+          this.pedidoService.eliminarLinea(linea);
+          console.log('Se eliminó el item \'' + itemConCantidad.titulo + '\' porque ya no existe en el catálogo');
+        }
+      });
+    }
+  }
+
+  private hayPedido() {
+    return this.total > 0;
+  }
+
   ionViewWillEnter() {
-    if (this.pedidoService.total > 0) {
+    if (this.hayPedido()) {
       this.mostrarTotal();
     }
   }
@@ -80,28 +108,14 @@ export class HomePage {
 
   /** Agrega el producto al pedido, sumandolo al total */
   public agregarItem(item: ItemConCantidad) {
-    this.pedidoService.add(item);
-    // Se fija si hay alguna cantidad
-    if (item.cantidad) {
-      item.cantidad += 1;
-    }
-    // Cantidad en 0
-    else {
-      item.cantidad = 1;
-    }
+    item.cantidad += 1;
 
-    // Se fija si el total es 0, suma el producto y muestra el total
-    // tslint:disable-next-line: triple-equals
-    if (this.pedidoService.total == 0) {
-      this.pedidoService.total = this.pedidoService.total + item.precio;
-      this.mostrarTotal();
-    }
-    // El total ya es mayor que 0, por lo que suma el producto, borra el toast anterior y crea uno nuevo con el total actualizado
-    else {
-      this.pedidoService.total = this.pedidoService.total + item.precio;
+    // Borra el toast anterior
+    if (this.hayPedido()) {
       this.toastController.dismiss();
-      this.mostrarTotal();
     }
+    this.total += item.precio;
+    this.mostrarTotal();
 
     this.pedidoService.add(item);
   }
@@ -114,11 +128,11 @@ export class HomePage {
     }
 
     // Resta el producto del total
-    this.pedidoService.total = this.pedidoService.total - item.precio;
+    this.total -= item.precio;
 
     // Si el total esta en 0, no muestra ningun toast con total
     // tslint:disable-next-line: triple-equals
-    if (this.pedidoService.total == 0) {
+    if (!this.hayPedido()) {
       this.toastController.dismiss();
     }
     // Si el total es mayor que 0, borra el toast anterior y crea uno nuevo con el total actualizado
@@ -131,12 +145,12 @@ export class HomePage {
   }
 
   /** Crea el modal */
-  private async presentModal(food) {
+  private async presentModal(item) {
     const modal = await this.modalController.create({
-      component: ModalFoodComponent,
+      component: ModalItemComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-        food
+        item
       }
     });
     return await modal.present();
@@ -145,7 +159,7 @@ export class HomePage {
   private async presentToastWithOptions() {
     const toast = await this.toastController.create({
       header: 'Total',
-      message: '$' + this.pedidoService.total.toString(),
+      message: '$' + this.total.toString(),
       position: 'bottom',
       buttons: [
         {

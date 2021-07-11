@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Util } from 'src/util';
 import { Item } from '../data/item';
+import { LineaPedido } from '../data/linea-pedido';
 import { Pedido } from '../data/pedido';
 
 @Injectable({
@@ -9,7 +10,6 @@ import { Pedido } from '../data/pedido';
 export class PedidoService {
 
   private static readonly storageKey = 'pedido';
-  public total = 0;
 
   constructor() { }
 
@@ -52,6 +52,15 @@ export class PedidoService {
     else {
       lineaPedido.cantidad--;
     }
+
+    this.save(pedido);
+  }
+
+  public eliminarLinea(linea: LineaPedido) {
+    const pedido = this.get();
+    // Se busca por id ya que el objeto pasado puede ser diferente al objeto traido del localstorage
+    const indice = pedido.lineas.findIndex(l => l.idItem === linea.idItem);
+    Util.eliminarEn(pedido.lineas, indice);
 
     this.save(pedido);
   }

@@ -5,22 +5,22 @@
         <ion-buttons slot="end">
           <ion-icon (click)="close()" slot="icon-only" name="close"></ion-icon>
         </ion-buttons>
-        <ion-title>{{food.title}}</ion-title>
+        <ion-title>{{item.titulo}}</ion-title>
       </ion-toolbar>
     </ion-card-header>
-    
+
     <ion-card-content>
-      <ion-img id="food-img" [src]="food.img"></ion-img>
-      <p>{{food.description}}</p>
+      <ion-img id="item-img" [src]="item.img"></ion-img>
+      <p>{{item.descripcion}}</p>
       <ion-list>
         <ion-item>
-          <ion-label>$ {{food.price}}</ion-label>
+          <ion-label>$ {{item.precio}}</ion-label>
         </ion-item>
-        
+
       </ion-list>
 
 
-      
+
     </ion-card-content>
   </ion-card>
 </div>
