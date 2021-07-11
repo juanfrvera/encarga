@@ -1,10 +1,12 @@
 const express = require('express')
 const app = express()
+var cors = require('cors')
+
+app.use(cors())
+app.use(express.json());
 
 // heroku port, 3000 if we are local
 const port = process.env.PORT ?? 3000
-
-app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
