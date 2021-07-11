@@ -1,6 +1,6 @@
 export interface Item {
     id: string;
     titulo: string;
-    precio?: string;
+    precio?: number;
     descripcion?: string;
 }

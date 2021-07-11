@@ -3,6 +3,7 @@ import { PedidoService } from 'src/app/service/pedido.service';
 import { ItemService } from 'src/app/service/item.service';;
 import { Location } from '@angular/common';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
+import { ItemConCantidad } from 'src/app/data/item-con-cantidad';
 
 @Component({
   selector: 'app-detalle',
@@ -13,7 +14,7 @@ export class DetallePage implements OnInit {
 
   public finalizado = false;
   public form: FormGroup;
-  public itemsConCantidad;
+  public itemsConCantidad: ItemConCantidad[];
   public total = this.pedidoService.total;
 
 
@@ -24,15 +25,16 @@ export class DetallePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    const pedidos = this.pedidoService.get();
+    const pedido = this.pedidoService.get();
     // Obtiene los id de los items
-    const itemIds = pedidos.map(lp => lp.idItem);
+    const itemIds = pedido.lineas?.map(lp => lp.idItem);
     // Guarda los items con su cantidad
     this.itemsConCantidad = this.itemService.getItemsByIds(itemIds).map(item => {
+      // Convierte un item a item con cantidad
+      // Descomponiendo las propiedades de item y agregandole cantidad
       return {
-        titulo: item.titulo,
-        cantidad: pedidos.find(pedido => pedido.idItem === item.id).cantidad,
-        precio: item.precio
+        ...item,
+        cantidad: pedido.lineas.find(linea => linea.idItem === item.id).cantidad,
       };
     });
 
