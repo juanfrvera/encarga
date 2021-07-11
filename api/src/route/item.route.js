@@ -18,5 +18,8 @@ app.put('/item/:id', (req, res) => {
 app.delete('/item/:id', (req, res) => {
     controller.deleteById(req, res);
 });
+app.post('/item/filter', (req, res) => {
+    controller.getWithFilter(req, res);
+});
 
 module.exports = app;

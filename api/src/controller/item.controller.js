@@ -45,3 +45,17 @@ exports.deleteById = async (req, res) => {
 
     res.status(200).send({ message: 'Item deleted successfully!', id: id });
 };
+
+exports.getWithFilter = async (req, res) => {
+    const { listaIds } = req.body;
+
+    if (listaIds) {
+        // El último creado aparecerá primero en la lista
+        // Se devolverán solo los que estén dentro de la lista de ids
+        const response = await db.query('SELECT * FROM item WHERE id = ANY($1::int[]) ORDER BY id DESC', [listaIds]);
+        res.status(200).send(response.rows);
+    }
+    else {
+        return this.getAll(req, res);
+    }
+}
