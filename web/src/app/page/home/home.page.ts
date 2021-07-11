@@ -52,37 +52,6 @@ export class HomePage {
     });
   }
 
-  /** Carga las cantidades pedidas a los items con cantidad y calcula la variable total */
-  private reflejarPedido() {
-    // Aplanar los items para recorrerlos más facilmente
-    const itemsAplanados = this.categorias.map(cat => cat.items).flat();
-    const pedido = this.pedidoService.get();
-    if (pedido && pedido.lineas) {
-      pedido.lineas.forEach(linea => {
-        // Buscar el item correspondiente a la linea y asignarle la cantidad pedida
-        const itemConCantidad = itemsAplanados.find((item: ItemConCantidad) => item.id === linea.idItem);
-        // El item puede haber sido eliminado de la base de datos mientras estaba guardado en el pedido de un cliente
-        // Este chequeo es para que no haya un error de referencia
-        if (itemConCantidad) {
-          itemConCantidad.cantidad = linea.cantidad;
-
-          if (itemConCantidad.precio) {
-            this.total += itemConCantidad.precio * itemConCantidad.cantidad;
-          }
-        }
-        else {
-          // Como el item guardado no existe mas, eliminar la linea del pedido
-          this.pedidoService.eliminarLinea(linea);
-          console.log('Se eliminó el item \'' + itemConCantidad.titulo + '\' porque ya no existe en el catálogo');
-        }
-      });
-    }
-  }
-
-  private hayPedido() {
-    return this.total > 0;
-  }
-
   ionViewWillEnter() {
     if (this.hayPedido()) {
       this.mostrarTotal();
@@ -172,5 +141,34 @@ export class HomePage {
       ]
     });
     await toast.present();
+  }
+  private hayPedido() {
+    return this.total > 0;
+  }
+  /** Carga las cantidades pedidas a los items con cantidad y calcula la variable total */
+  private reflejarPedido() {
+    // Aplanar los items para recorrerlos más facilmente
+    const itemsAplanados = this.categorias.map(cat => cat.items).flat();
+    const pedido = this.pedidoService.get();
+    if (pedido && pedido.lineas) {
+      pedido.lineas.forEach(linea => {
+        // Buscar el item correspondiente a la linea y asignarle la cantidad pedida
+        const itemConCantidad = itemsAplanados.find((item: ItemConCantidad) => item.id === linea.idItem);
+        // El item puede haber sido eliminado de la base de datos mientras estaba guardado en el pedido de un cliente
+        // Este chequeo es para que no haya un error de referencia
+        if (itemConCantidad) {
+          itemConCantidad.cantidad = linea.cantidad;
+
+          if (itemConCantidad.precio) {
+            this.total += itemConCantidad.precio * itemConCantidad.cantidad;
+          }
+        }
+        else {
+          // Como el item guardado no existe mas, eliminar la linea del pedido
+          this.pedidoService.eliminarLinea(linea);
+          console.log('Se eliminó el item \'' + itemConCantidad.titulo + '\' porque ya no existe en el catálogo');
+        }
+      });
+    }
   }
 }

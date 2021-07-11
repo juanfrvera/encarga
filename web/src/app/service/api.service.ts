@@ -24,4 +24,7 @@ export class ApiService<T> {
   public deleteById(id: string) {
     return this.http.delete<T>(this.url + this.route + id);
   }
+  public getWithFilter(filter: any) {
+    return this.http.post<T[]>(this.url + this.route + 'filter', filter);
+  }
 }

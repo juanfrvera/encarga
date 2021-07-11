@@ -15,7 +15,7 @@ export class DetallePage implements OnInit {
   public finalizado = false;
   public form: FormGroup;
   public itemsConCantidad: ItemConCantidad[];
-  public total = this.pedidoService.total;
+  public total = 0;
 
 
   constructor(
@@ -28,14 +28,24 @@ export class DetallePage implements OnInit {
     const pedido = this.pedidoService.get();
     // Obtiene los id de los items
     const itemIds = pedido.lineas?.map(lp => lp.idItem);
-    // Guarda los items con su cantidad
-    this.itemsConCantidad = this.itemService.getItemsByIds(itemIds).map(item => {
-      // Convierte un item a item con cantidad
-      // Descomponiendo las propiedades de item y agregandole cantidad
-      return {
-        ...item,
-        cantidad: pedido.lineas.find(linea => linea.idItem === item.id).cantidad,
-      };
+    // Pedir items para esos ids y guardarlos con su cantidad
+    this.itemService.getItemsByIds(itemIds).subscribe(items => {
+      this.itemsConCantidad = items.map(item => {
+        // Linea correspondiente a este item mapeado
+        const lineaPedido = pedido.lineas.find(linea => linea.idItem === item.id);
+
+        // Aprovecho para calcular el total
+        if (item.precio) {
+          this.total += item.precio;
+        }
+
+        // Convierte un item a item con cantidad
+        // Descomponiendo las propiedades de item y agregandole cantidad
+        return {
+          ...item,
+          cantidad: lineaPedido.cantidad,
+        };
+      });
     });
 
     // Formulario de informacion de entrega

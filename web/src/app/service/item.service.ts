@@ -30,11 +30,13 @@ export class ItemService {
     return this.api.getAll();
   }
 
-  public getItemsByIds(itemIds?: string[]) {
-    if (itemIds) {
-      return this.Items.filter(item => itemIds.includes(item.id));
-    }
-    else { return this.Items; }
+  /**
+   * Devuelve los items cuyos ids coincidan
+   * @param listaIds Lista de ids de items requeridos
+   * @returns Items que coincidan
+   */
+  public getItemsByIds(listaIds: string[]) {
+    return this.api.getWithFilter({ listaIds });
   }
 
   /** Crea un nuevo item */
@@ -50,7 +52,7 @@ export class ItemService {
   public edit(item: Item) {
     this.api.updateById(item.id, item).subscribe(() => {
       const index = this.Items.findIndex(i => i.id === item.id);
-      this.Items[index] = item;      
+      this.Items[index] = item;
     }, error => {
       console.error(error);
     });
