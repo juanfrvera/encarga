@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NumberValueAccessor, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { ItemService } from 'src/app/service/item.service';
 import { Item } from '../../data/item';
 
@@ -16,7 +16,8 @@ export class ItemComponent implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private itemService: ItemService
+    private itemService: ItemService,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -31,8 +32,30 @@ export class ItemComponent implements OnInit {
     }
   }
 
-  public cancelar() {
-    this.cerrar();
+  async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Eliminar',
+      message: 'Esta seguro que quiere eliminar este item?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'light',
+          handler: () => {
+          }
+        }, {
+          text: 'Aceptar',
+          handler: () => {
+            this.itemService.delete(this.item);
+            console.log('eliminado');
+            this.cerrar();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   public submit() {
@@ -62,10 +85,10 @@ export class ItemComponent implements OnInit {
       else {
         console.log('edicion');
         const itemForm = this.form.value;
-        const items = this.itemService.Items;
-        const index = items.findIndex(i => i.id === this.item.id);
-        const nuevoItem = { id: items[index].id, titulo: itemForm.titulo, precio: itemForm.precio, descripcion: itemForm.descripcion }
-        items[index] = nuevoItem;
+        // Arma el item editado
+        const itemEditado = { id: this.item.id, titulo: itemForm.titulo, precio: itemForm.precio, descripcion: itemForm.descripcion }
+        //Se actualiza el item editado
+        this.itemService.edit(itemEditado);
         console.log('ok');
         this.cerrar();
       }
@@ -79,5 +102,16 @@ export class ItemComponent implements OnInit {
   private cerrar() {
     this.modalController.dismiss();
   }
+
+  public cancelar() {
+    this.cerrar();
+  }
+
+
+  public clickEliminarItem() {
+    this.presentAlertConfirm();
+  }
+
+
 
 }

@@ -11,8 +11,6 @@ import { ItemComponent } from '../../component/item/item.component';
 })
 export class AdminPage {
 
-  public items: Item[];
-
   public get Items() {
     return this.itemService.Items;
   }
@@ -22,10 +20,7 @@ export class AdminPage {
     private itemService: ItemService
   ) { }
 
-  public clickAgregarItem() {
-    this.presentModal();
-  }
-
+  /** Presenta el modal */
   async presentModal(item?: Item) {
     const modal = await this.modalController.create({
       component: ItemComponent,
@@ -38,8 +33,13 @@ export class AdminPage {
     return await modal.present();
   }
 
+  public clickAgregarItem() {
+    this.presentModal();
+  }
+
   public clickEditarItem(item: Item) {
     this.presentModal(item);
   }
+
 
 }

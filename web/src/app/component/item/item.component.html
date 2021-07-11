@@ -1,9 +1,17 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <ion-card>
-    <ion-card-header>
+
+    <ion-card-header class="header">
       <ion-card-title *ngIf="!editando">Agregar Item</ion-card-title>
       <ion-card-title *ngIf="editando">Editar Item</ion-card-title>
+
+      <ion-button *ngIf="editando" (click)="clickEliminarItem()" color="medium" fill="clear" size="small">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+      
+
     </ion-card-header>
+
     <ion-card-content>
       <ion-item>
         <!-- TODO: Referenciar a categorias que se hayan agregado -->
