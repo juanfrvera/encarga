@@ -1,190 +1,48 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Item } from '../data/item';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemService {
-  //Datos falsos
-  public promos = {
-    titulo: 'Promos',
-    items: [
-      {
-        id: "1",
-        title: "Choripan",
-        description: "Chorizo, salsa a eleccion",
-        price: 200
-      },
-      {
-        id: "2",
-        title: "Docena de empanadas surtidas",
-        description: "carne, pollo, verdura",
-        price: 300
-      },
-      {
-        id: "3",
-        title: "2 Muzzas + 1 docena de empanadas",
-        description: "jamon y queso, pollo o verdura",
-        price: 600
-      },
-      {
-        id: "4",
-        title: "2 Muzzas + 1 Especial",
-        price: 500
-      },
-    ]
-  }
-  public pizzas = {
+  private readonly api: ApiService<Item>;
 
-    titulo: "Pizzas",
-    items:
-      [
-        {
-          id: "5",
-          title: "Muzzarella",
-          description: "muzarrella, salsa, oregano",
-          price: 200
-        },
-        {
-          id: "6",
-          title: "Fugazzetta",
-          description: "muzarrella, salsa, cebolla grillada",
-          price: 320
-        },
-        {
-          id: "7",
-          title: "Pepperoni",
-          description: "muzarrella, salsa, salame milan",
-          price: 400
-        },
-        {
-          id: "8",
-          title: "Rellena",
-          description: "rellena con jamon y queso, exterior muzarrella y tomate",
-          price: 600
-        }
-      ]
+  private items: Item[] = [];
+
+  public get Items() {
+    return this.items;
   }
 
-  public minutas = {
-    titulo: "Minutas",
-    items:
-      [
-        {
-          id: "9",
-          title: "Sandwich de miga",
-          description: "jamon y queso, mayonesa",
-          price: 200
-        },
-        {
-          id: "10",
-          title: "Sandwich de milanesa",
-          description: "milanesa de ternera, lechuga, tomate, jamon y queso",
-          price: 320
-        },
-        {
-          id: "11",
-          title: "Hamburguesa completa",
-          description: "hamburguesa de ternera, lechuga, tomate, jamon y queso",
-          price: 400
-        },
-        {
-          id: "12",
-          title: "Milanesa napolitana",
-          description: "milanesa de ternera, tomate, jamon y queso",
-          price: 600
-        }
-      ]
-  }
-
-  public empanadas = {
-    titulo: "Empanadas",
-    items:
-      [
-        {
-          id: "13",
-          title: "Jamon y queso",
-          price: 100
-        },
-        {
-          id: "14",
-          title: "Carne",
-          price: 100
-        },
-        {
-          id: "15",
-          title: "Verdura",
-          price: 100
-        },
-        {
-          id: "16",
-          title: "Pollo",
-          price: 100
-        }
-      ]
-  }
-
-  public bebidas = {
-    titulo: "Bebidas",
-    items:
-      [
-        {
-          id: "17",
-          title: "Gaseosa chica",
-          price: 100
-        },
-        {
-          id: "18",
-          title: "Gaseosa grande",
-          price: 200
-        },
-        {
-          id: "19",
-          title: "Agua chica",
-          price: 100
-        },
-        {
-          id: "20",
-          title: "Agua saborizada",
-          price: 200
-        },
-        {
-          id: "21",
-          title: "Exprimido de naranja",
-          price: 200
-        }
-      ]
-  }
-
-  public itemsCreados = []
-
-  private static readonly storageKey = "items";
-
-
-  private get Items() {
-    return [...this.promos.items, ...this.pizzas.items, ...this.minutas.items, ...this.empanadas.items, ...this.bebidas.items];
-  }
-
-  /**Obtiene la lista de categorias */
+  /** Obtiene la lista de categorias */
   public get Categorias() {
-    return [this.promos, this.pizzas, this.minutas, this.empanadas, this.bebidas]
+    return [{ titulo: 'Todo', items: this.Items }];
   }
 
-  constructor() { }
+  constructor(http: HttpClient) {
+    this.api = new ApiService(http, 'item/');
 
-  public getItems(itemIds?: string[]) {
-    if (itemIds)
+    this.api.getAll().subscribe(lista => {
+      this.items = lista;
+    }, error => {
+      console.error(error);
+    });
+  }
+
+  public getItemsByIds(itemIds?: string[]) {
+    if (itemIds) {
       return this.Items.filter(item => itemIds.includes(item.id));
-    else return this.Items;
+    }
+    else { return this.Items; }
   }
 
-  /**Obtiene un array de items */
-  public get() {
-    return this.itemsCreados;
-  }
-
-  /**Agrega un item al array de items */
-  public add(item: Item) {
-    this.itemsCreados.push(item)
+  /** Agrega un item al array de items */
+  public create(item: Item) {
+    this.api.create(item).subscribe(() => {
+      this.Items.push(item);
+    }, error => {
+      console.error(error);
+    });
   }
 }

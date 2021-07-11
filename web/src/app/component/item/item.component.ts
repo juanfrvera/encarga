@@ -26,8 +26,9 @@ export class ItemComponent implements OnInit {
       descripcion: new FormControl(this.item?.descripcion)
     });
 
-    if (!this.item)
+    if (!this.item) {
       this.editando = false;
+    }
   }
 
   public cancelar() {
@@ -38,40 +39,40 @@ export class ItemComponent implements OnInit {
     if (this.form.valid) {
       if (!this.editando) {
         let nuevoId: number;
-        //Obtiene los items
-        const items = this.itemService.get();
-        //Si es vacio el nuevo item tendra id 1
+        // Obtiene los items
+        const items = this.itemService.Items;
+        // Si es vacio el nuevo item tendra id 1
         if (!items.length) {
           nuevoId = 1;
         }
-        //Si hay items, se fija en el id del ultimo item y le suma 1
+        // Si hay items, se fija en el id del ultimo item y le suma 1
         else {
-          let ultimoId = parseInt(items[items.length - 1].id);
+          const ultimoId = parseInt(items[items.length - 1].id);
           nuevoId = ultimoId + 1;
         }
-        //Guarda los valores del formulario
+        // Guarda los valores del formulario
         const itemForm = this.form.value;
-        //Genera el nuevo item a guardar
+        // Genera el nuevo item a guardar
         const nuevoItem = { id: nuevoId.toString(), titulo: itemForm.titulo, precio: itemForm.precio, descripcion: itemForm.descripcion };
-        //Lo guarda en el local storage
-        this.itemService.add(nuevoItem);
-        console.log("ok");
+        // Lo guarda en el local storage
+        this.itemService.create(nuevoItem);
+        console.log('ok');
         this.cerrar();
       }
       else {
-        console.log('edicion')
+        console.log('edicion');
         const itemForm = this.form.value;
-        const items = this.itemService.get();
-        const index = items.findIndex(i => i.id == this.item.id);
+        const items = this.itemService.Items;
+        const index = items.findIndex(i => i.id === this.item.id);
         const nuevoItem = { id: items[index].id, titulo: itemForm.titulo, precio: itemForm.precio, descripcion: itemForm.descripcion }
         items[index] = nuevoItem;
-        console.log("ok");
+        console.log('ok');
         this.cerrar();
       }
-      
+
     }
     else {
-      console.log("invalid");
+      console.log('invalid');
     }
   }
 

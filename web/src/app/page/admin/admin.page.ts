@@ -14,29 +14,25 @@ export class AdminPage {
   public items: Item[];
 
   public get Items() {
-    return this.itemService.get()
+    return this.itemService.Items;
   }
-  
+
   constructor(
     private modalController: ModalController,
     private itemService: ItemService
-    ) { }
-
-  ionViewWillLeave() {
-    this.Items;
-  }
+  ) { }
 
   public clickAgregarItem() {
     this.presentModal();
   }
 
-  async presentModal(item?:Item) {
+  async presentModal(item?: Item) {
     const modal = await this.modalController.create({
       component: ItemComponent,
       cssClass: 'my-custom-class',
       componentProps: {
         editando: true,
-        item: item
+        item
       }
     });
     return await modal.present();

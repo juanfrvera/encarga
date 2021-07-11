@@ -45,23 +45,23 @@
       </ion-card-header>
 
       <ion-card-content>
-        <ion-item *ngFor="let food of categoria.items;">
-          <!-- <ion-thumbnail *ngIf="food.img" slot="start">
-                  <img [src]="food.img">
+        <ion-item *ngFor="let item of categoria.items;">
+          <!-- <ion-thumbnail *ngIf="item.img" slot="start">
+                  <img [src]="item.img">
                 </ion-thumbnail> -->
-          <ion-label (click)="clickFood(food)">
-            <h2>{{food.title}}</h2>
-            <p>{{food.description}}</p>
-            <h2>$ {{food.price}}</h2>
+          <ion-label (click)="clickitem(item)">
+            <h2>{{item.titulo}}</h2>
+            <p>{{item.descripcion}}</p>
+            <h2>$ {{item.precio}}</h2>
           </ion-label>
           <div class="botones">
-            <ion-button (click)="agregarProducto(food)" color="medium" shape="round">
+            <ion-button (click)="agregarProducto(item)" color="medium" shape="round">
               <ion-icon name="add"></ion-icon>
             </ion-button>
 
-            <div *ngIf="food.cantidad" class="botones">
-              <ion-label>{{food.cantidad}}</ion-label>
-              <ion-button (click)="quitarProducto(food)" color="medium" shape="round">
+            <div *ngIf="item.cantidad" class="botones">
+              <ion-label>{{item.cantidad}}</ion-label>
+              <ion-button (click)="quitarProducto(item)" color="medium" shape="round">
                 <ion-icon name="remove-outline"></ion-icon>
               </ion-button>
             </div>
