@@ -1,4 +1,4 @@
-const { Client } = require('pg');
+const { Pool } = require('pg');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -6,15 +6,15 @@ dotenv.config();
 console.log(process.env.DATABASE_URL);
 
 // DB connection
-const client = new Client({
+const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
         rejectUnauthorized: false
     }
 });
 
-client.connect();
+pool.connect();
 
 module.exports = {
-    query: (text, params) => client.query(text, params),
+    query: (text, params) => pool.query(text, params),
 };
