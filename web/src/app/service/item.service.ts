@@ -15,11 +15,6 @@ export class ItemService {
     return this.items;
   }
 
-  /** Obtiene la lista de categorias */
-  public get Categorias() {
-    return [{ titulo: 'Todo', items: this.Items }];
-  }
-
   constructor(http: HttpClient) {
     this.api = new ApiService(http, 'item/');
 
@@ -31,7 +26,10 @@ export class ItemService {
     });
   }
 
-  /** Obtiene los items por id */
+  public getAll() {
+    return this.api.getAll();
+  }
+
   public getItemsByIds(itemIds?: string[]) {
     if (itemIds) {
       return this.Items.filter(item => itemIds.includes(item.id));

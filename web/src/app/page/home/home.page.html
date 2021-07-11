@@ -46,22 +46,19 @@
 
       <ion-card-content>
         <ion-item *ngFor="let item of categoria.items;">
-          <!-- <ion-thumbnail *ngIf="item.img" slot="start">
-                  <img [src]="item.img">
-                </ion-thumbnail> -->
           <ion-label (click)="clickItem(item)">
             <h2>{{item.titulo}}</h2>
             <p>{{item.descripcion}}</p>
             <h2>$ {{item.precio}}</h2>
           </ion-label>
           <div class="botones">
-            <ion-button (click)="agregarProducto(item)" color="medium" shape="round">
+            <ion-button (click)="agregarItem(item)" color="medium" shape="round">
               <ion-icon name="add"></ion-icon>
             </ion-button>
 
             <div *ngIf="item.cantidad" class="botones">
               <ion-label>{{item.cantidad}}</ion-label>
-              <ion-button (click)="quitarProducto(item)" color="medium" shape="round">
+              <ion-button (click)="quitarItem(item)" color="medium" shape="round">
                 <ion-icon name="remove-outline"></ion-icon>
               </ion-button>
             </div>

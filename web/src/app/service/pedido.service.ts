@@ -1,55 +1,63 @@
 import { Injectable } from '@angular/core';
+import { Util } from 'src/util';
 import { Item } from '../data/item';
-import { LineaPedido } from '../data/lineaPedido';
+import { Pedido } from '../data/pedido';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PedidoService {
 
-  private static readonly storageKey = "pedidos";
-  public total: number = 0;
+  private static readonly storageKey = 'pedido';
+  public total = 0;
 
   constructor() { }
-  
+
   public get() {
-    const pedidosJson = localStorage.getItem(PedidoService.storageKey);
-    const pedidos = pedidosJson ? JSON.parse(pedidosJson) as LineaPedido[] : []
-    return pedidos;
+    const pedidoJson = localStorage.getItem(PedidoService.storageKey);
+    const pedido = pedidoJson ? JSON.parse(pedidoJson) as Pedido : {} as Pedido;
+    return pedido;
   }
 
   public add(item: Item) {
-    // Get from localstorage
-    const pedidosJson = localStorage.getItem(PedidoService.storageKey);
-    const pedidos = pedidosJson ? JSON.parse(pedidosJson) as LineaPedido[] : [];
+    const pedido = this.get();
 
-    const lineaPedido = pedidos.find(p => p.idItem == item.id);
+    // Si no hay array de lineas, se pondrá en null
+    const lineaPedido = pedido.lineas?.find(p => p.idItem === item.id);
 
-    if (!lineaPedido)
+    if (!lineaPedido) {
+      // Inicializar array si este no existe
+      if (!pedido.lineas) {
+        pedido.lineas = [];
+      }
       // Add item
-      pedidos.push({ idItem: item.id, cantidad: 1 });
-    else
+      pedido.lineas.push({ idItem: item.id, cantidad: 1 });
+    }
+    else {
       lineaPedido.cantidad++;
+    }
 
-    // Save to localstorage
-    localStorage.setItem(PedidoService.storageKey, JSON.stringify(pedidos));
+    this.save(pedido);
   }
 
   public remove(item: Item) {
-    // Get from localstorage
-    const pedidosJson = localStorage.getItem(PedidoService.storageKey);
-    const pedidos = pedidosJson ? JSON.parse(pedidosJson) as LineaPedido[] : [];
+    const pedido = this.get();
 
-    const lineaPedido = pedidos.find(p => p.idItem == item.id);
-    const indexLineaPedido = pedidos.indexOf(lineaPedido);
+    const lineaPedido = pedido.lineas?.find(p => p.idItem === item.id);
 
-    if (lineaPedido.cantidad == 1)
+    if (lineaPedido.cantidad === 1) {
       // Remove item
-      pedidos.splice(indexLineaPedido, 1);
-    else
+      Util.eliminarItem(pedido.lineas, lineaPedido);
+    }
+    else {
       lineaPedido.cantidad--;
+    }
 
-    // Save to localstorage
-    localStorage.setItem(PedidoService.storageKey, JSON.stringify(pedidos));
+    this.save(pedido);
+  }
+
+  /** Save to localStorage */
+  private save(pedido: Pedido) {
+    localStorage.setItem(PedidoService.storageKey, JSON.stringify(pedido));
   }
 }
