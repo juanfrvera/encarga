@@ -13,9 +13,7 @@ const client = new Client({
     }
 });
 
-client.on('connect', () => {
-    console.log('DB connected successful');
-});
+client.connect();
 
 module.exports = {
     query: (text, params) => client.query(text, params),
