@@ -8,6 +8,9 @@ console.log(process.env.DATABASE_URL);
 // DB connection
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 pool.on('connect', () => {
