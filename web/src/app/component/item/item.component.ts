@@ -60,39 +60,22 @@ export class ItemComponent implements OnInit {
 
   public submit() {
     if (this.form.valid) {
+      const itemForm = this.form.value;
+
       if (!this.editando) {
-        let nuevoId: number;
-        // Obtiene los items
-        const items = this.itemService.Items;
-        // Si es vacio el nuevo item tendra id 1
-        if (!items.length) {
-          nuevoId = 1;
-        }
-        // Si hay items, se fija en el id del ultimo item y le suma 1
-        else {
-          const ultimoId = parseInt(items[items.length - 1].id);
-          nuevoId = ultimoId + 1;
-        }
-        // Guarda los valores del formulario
-        const itemForm = this.form.value;
         // Genera el nuevo item a guardar
-        const nuevoItem = { id: nuevoId.toString(), titulo: itemForm.titulo, precio: itemForm.precio, descripcion: itemForm.descripcion };
+        const nuevoItem = { titulo: itemForm.titulo, precio: itemForm.precio, descripcion: itemForm.descripcion };
         // Lo guarda en el local storage
         this.itemService.create(nuevoItem);
-        console.log('ok');
         this.cerrar();
       }
       else {
-        console.log('edicion');
-        const itemForm = this.form.value;
         // Arma el item editado
         const itemEditado = { id: this.item.id, titulo: itemForm.titulo, precio: itemForm.precio, descripcion: itemForm.descripcion }
         //Se actualiza el item editado
         this.itemService.edit(itemEditado);
-        console.log('ok');
         this.cerrar();
       }
-
     }
     else {
       console.log('invalid');

@@ -42,7 +42,7 @@ export class ItemService {
   /** Crea un nuevo item */
   public create(item: Item) {
     this.api.create(item).subscribe(() => {
-      this.Items.push(item);
+      this.Items.unshift(item);
     }, error => {
       console.error(error);
     });
