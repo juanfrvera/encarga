@@ -1,44 +1,34 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <ion-card>
+<div id="container">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <ion-card>
 
-    <ion-card-header class="header">
-      <ion-card-title *ngIf="!editando">Agregar Item</ion-card-title>
-      <ion-card-title *ngIf="editando">Editar Item</ion-card-title>
+      <ion-card-header class="header">
+        <ion-card-title *ngIf="!editando">Agregar Item</ion-card-title>
+        <ion-card-title *ngIf="editando">Editar Item</ion-card-title>
 
-      <ion-button *ngIf="editando" (click)="clickEliminarItem()" color="medium" fill="clear" size="small">
-        <ion-icon name="trash-outline"></ion-icon>
-      </ion-button>
-      
+        <ion-button *ngIf="editando" (click)="clickEliminarItem()" color="medium" fill="clear" size="small">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
 
-    </ion-card-header>
 
-    <ion-card-content>
-      <ion-item>
-        <!-- TODO: Referenciar a categorias que se hayan agregado -->
-        <ion-label>Categoria</ion-label>
-        <ion-select interface="popover" placeholder="Selecciona una categoria">
-          <ion-select-option value="f">Promos</ion-select-option>
-          <ion-select-option value="m">Pizzas</ion-select-option>
-          <ion-select-option value="m">Minutas</ion-select-option>
-          <ion-select-option value="m">Empanadas</ion-select-option>
-          <ion-select-option value="m">Bebidas</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Título</ion-label>
-        <ion-input formControlName="titulo" type="text"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Precio</ion-label>
-        <ion-input formControlName="precio"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Descripción</ion-label>
-        <ion-textarea formControlName="descripcion"></ion-textarea>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
-  <ion-footer>
+      </ion-card-header>
+
+      <ion-card-content>
+        <!-- TODO: Agregar input de categorias -->
+        <ion-item>
+          <ion-label position="floating">Título</ion-label>
+          <ion-input formControlName="titulo" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Precio</ion-label>
+          <ion-input formControlName="precio"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Descripción</ion-label>
+          <ion-textarea formControlName="descripcion"></ion-textarea>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
     <ion-toolbar>
       <ion-buttons class="alinear">
         <ion-button (click)="cancelar()">
@@ -51,5 +41,5 @@
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
-  </ion-footer>
-</form>
+  </form>
+</div>

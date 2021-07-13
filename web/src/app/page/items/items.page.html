@@ -5,26 +5,34 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Items</ion-card-title>
-      <ion-button (click)="clickAgregarItem()" class="boton" expand="block">Agregar item</ion-button>
-    </ion-card-header>
 
-    <ion-card-content>
-      <!-- Se muestra cuando no hay items a mostrar -->
-      <h2 *ngIf="!Items.length">Aún no tienes items, agrega uno para empezar a vender</h2>
+  <div *ngIf="!Items.length" class="container-empty">
+    <div class="items-empty-state">
+      <img src="../../../assets/empty-state/caja.png" alt="">
+      <p>Aún no tienes items, comienza a agregarlos!</p>
+      <ion-button (click)="clickAgregarItem()">Agregar</ion-button>
+    </div>
+  </div>
 
-      <!-- Items -->
-      <ion-item (click)="clickEditarItem(item)" *ngFor="let item of Items;">
-        <ion-label>
-          <h2>{{item.titulo}}</h2>
-          <p>{{item.descripcion}}</p>
-          <h2>$ {{item.precio}}</h2>
-        </ion-label>
-      </ion-item>
-      <!-- Items -->
+  <div *ngIf="Items.length" class="container-full">
+    <ion-card>
+      <ion-card-header class="header">
+        <ion-card-title>Items</ion-card-title>
+        <ion-button (click)="clickAgregarItem()">Agregar</ion-button>
+      </ion-card-header>
 
-    </ion-card-content>
-  </ion-card>
+      <ion-card-content>
+        <ion-item (click)="clickEditarItem(item)" *ngFor="let item of Items;">
+          <ion-label class="ion-text-wrap">
+            <h2>{{item.titulo}}</h2>
+            <p>{{item.descripcion}}</p>
+          </ion-label>
+          <h1>$ {{item.precio}}</h1>
+        </ion-item>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+
 </ion-content>

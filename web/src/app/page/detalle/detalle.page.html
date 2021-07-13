@@ -9,6 +9,7 @@
     <div class="detalle-pedido">
       <ion-card>
         <ion-card-header>
+          <!-- TODO: PONER CODIGO DE PEDIDO -->
           <ion-card-title>Pedido #121314</ion-card-title>
         </ion-card-header>
 
@@ -23,8 +24,16 @@
 
           <ion-item>
             <ion-label>
-              <h1>Total: $ {{this.total}}</h1>
+              <ion-text color="dark">
+                <h1 class="total">Total: $ {{this.total}}</h1>
+              </ion-text>
             </ion-label>
+          </ion-item>
+
+          <ion-item button lines="none">
+            <ion-button (click)="clickVolver()" fill="outline" color="primary" slot="start">
+              Seguir comprando
+            </ion-button>
           </ion-item>
 
 
@@ -33,7 +42,7 @@
     </div>
 
     <div class="detalle-entrega">
-      <form [formGroup]="form" (ngSubmit)="clickFinalizar()">
+      <form [formGroup]="form" (ngSubmit)="clickFinalizar(form.value.telPrueba)">
 
 
         <ion-card>
@@ -47,13 +56,15 @@
               <ion-input name="inputNombre" formControlName="nombre"></ion-input>
             </ion-item>
             <!-- Error message -->
-            <span class="error" *ngIf="finalizado && errorControl.nombre.errors?.required">
-              <ion-icon name="alert-circle-outline"></ion-icon> Por favor, escribe tu nombre y apellido.
-            </span>
+            <ion-text color="danger">
+              <span class="error" *ngIf="finalizado && errorControl.nombre.errors?.required">
+                <ion-icon name="alert-circle-outline"></ion-icon> Por favor, escribe tu nombre y apellido.
+              </span>
+            </ion-text>
 
             <ion-radio-group formControlName="entrega">
               <ion-item>
-                <ion-label>Envio a domicilio</ion-label>
+                <ion-label>Envío a domicilio</ion-label>
                 <ion-radio name="inputEnvio" slot="start" value="Envio a domicilio"></ion-radio>
               </ion-item>
 
@@ -64,13 +75,16 @@
             </ion-radio-group>
 
             <ion-item *ngIf="form.value.entrega == 'Envio a domicilio'">
-              <ion-label position="floating">Direccion</ion-label>
+              <ion-label position="floating">Dirección</ion-label>
               <ion-input name="inputDireccion" formControlName="direccion"></ion-input>
             </ion-item>
             <!-- Error message -->
-            <span class="error" *ngIf="finalizado && form.value.entrega == 'Envio a domicilio' && !form.value.direccion">
-              <ion-icon name="alert-circle-outline"></ion-icon> Por favor, escribe tu direccion.
-            </span>
+            <ion-text color="danger">
+              <span class="error"
+                *ngIf="finalizado && form.value.entrega == 'Envio a domicilio' && !form.value.direccion">
+                <ion-icon name="alert-circle-outline"></ion-icon> Por favor, escribe tu dirección.
+              </span>
+            </ion-text>
 
             <ion-item>
               <ion-label position="floating">Comentarios</ion-label>
@@ -79,10 +93,41 @@
 
           </ion-card-content>
         </ion-card>
-        <ion-footer class="botones">
-          <ion-button (click)="clickVolver()" color="medium">Volver</ion-button>
-          <ion-button type="submit" color="primary">Finalizar</ion-button>
-        </ion-footer>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title class="header-demo">
+              <ion-icon name="arrow-down"></ion-icon>
+              Probá nuestra DEMO
+              <ion-icon name="arrow-down"></ion-icon>
+            </ion-card-title>
+
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text color="dark">
+              <h2>Ingresa un número de teléfono válido dentro de Argentina.</h2>
+              <h2>Sin 0, 15 ni espacios.</h2>
+            </ion-text>
+
+            <p>Ejemplo: 3442xxxxxx</p>
+            <ion-item>
+
+              <ion-input formControlName="telPrueba" type="number"></ion-input>
+            </ion-item>
+            <!-- Error message -->
+            <ion-text color="danger">
+              <span class="error" *ngIf="finalizado && errorControl.telPrueba.errors?.required">
+                <ion-icon name="alert-circle-outline"></ion-icon> Por favor, escribe un número de teléfono.
+              </span>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+        <div class="botones">
+          <ion-button type="submit" color="primary">
+            <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
+            Enviar pedido
+          </ion-button>
+        </div>
 
       </form>
 

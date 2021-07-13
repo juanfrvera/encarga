@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
-    <ion-title>Pedidos</ion-title>
+    <ion-title>Inicio</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -19,23 +19,27 @@
 
       <ion-card-content>
         <ion-item *ngFor="let item of categoria.items;">
-          <ion-label (click)="clickItem(item)">
-            <h2>{{item.titulo}}</h2>
-            <p>{{item.descripcion}}</p>
-            <h2>$ {{item.precio}}</h2>
-          </ion-label>
-          <div class="botones">
-            <ion-button (click)="agregarItem(item)" color="medium" shape="round">
-              <ion-icon name="add"></ion-icon>
-            </ion-button>
-
-            <div *ngIf="item.cantidad" class="botones">
-              <ion-label>{{item.cantidad}}</ion-label>
-              <ion-button (click)="quitarItem(item)" color="medium" shape="round">
-                <ion-icon name="remove-outline"></ion-icon>
-              </ion-button>
+          <ion-label class="ion-text-wrap">
+            <div>
+              <h2>{{item.titulo}}</h2>
+              <p>{{item.descripcion}}</p>
             </div>
-          </div>
+
+            <div class="botones">
+              <ion-button (click)="agregarItem(item)" color="medium">
+                <ion-icon name="add"></ion-icon>
+              </ion-button>
+
+              <div *ngIf="item.cantidad" class="botones">
+                <ion-label>{{item.cantidad}}</ion-label>
+                <ion-button (click)="quitarItem(item)" color="medium">
+                  <ion-icon name="remove-outline"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+          </ion-label>
+          <h1>$ {{item.precio}}</h1>
+
         </ion-item>
       </ion-card-content>
     </ion-card>

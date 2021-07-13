@@ -36,7 +36,7 @@ export class DetallePage implements OnInit {
 
         // Aprovecho para calcular el total
         if (item.precio) {
-          this.total += item.precio;
+          this.total += item.precio * lineaPedido.cantidad;
         }
 
         // Convierte un item a item con cantidad
@@ -53,7 +53,8 @@ export class DetallePage implements OnInit {
       nombre: new FormControl('', Validators.required),
       entrega: new FormControl('Envio a domicilio', Validators.required),
       direccion: new FormControl(''),
-      comentarios: new FormControl('')
+      comentarios: new FormControl(''),
+      telPrueba: new FormControl('', Validators.required)
     });
   }
 
@@ -63,7 +64,8 @@ export class DetallePage implements OnInit {
   }
 
   /** Chequea que el formulario de info de entrega este correcto y envia el arma el mensaje de whatsapp */
-  public clickFinalizar() {
+  public clickFinalizar(telPrueba: number) {
+    console.log(telPrueba);
     this.finalizado = true;
     // Valores del form
     const u = this.form.value;
@@ -83,7 +85,7 @@ export class DetallePage implements OnInit {
 
       // Crea el link de whatsapp con el telefono y cuerpo a enviar
       const a = document.createElement('a');
-      a.href = 'https://wa.me/5493442568745/?text=' + encodeURI(cuerpo);
+      a.href = `https://wa.me/549${telPrueba}/?text=` + encodeURI(cuerpo);
       a.target = '_blank';
       a.click();
 

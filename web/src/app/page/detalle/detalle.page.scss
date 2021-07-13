@@ -1,18 +1,30 @@
-.botones {
-    text-align: center;
-    padding-bottom: 20px;
+#container h2 {
+    line-height: 22px;
 }
 
-.detalle-pedido{
-    padding-top: 10px;
+.botones {
+    text-align: center;
+    margin    : 20px 0 20px 0;
+}
+
+.detalle-pedido {
+    padding-top   : 10px;
     padding-bottom: 10px;
 }
 
-.detalle-entrega{
-    padding-bottom: 20px;
+.error {
+    font-size: 12px;
 }
 
-.error{
-    color: #b01605;
-    font-size: 12px;
+.total {
+    font-weight: 500;
+    font-size  : 20px;
+}
+
+.header-demo {
+    display: flex;
+}
+
+.header-demo ion-icon {
+    align-self: center;
 }

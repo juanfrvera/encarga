@@ -14,11 +14,11 @@ export class ItemsPage implements OnInit {
   public get Items() {
     return this.itemService.Items;
   }
-  
+
   constructor(
     private modalController: ModalController,
     private itemService: ItemService
-    ) { }
+  ) { }
 
   ngOnInit() {
   }
@@ -27,7 +27,7 @@ export class ItemsPage implements OnInit {
   async presentModal(item?: Item) {
     const modal = await this.modalController.create({
       component: ItemComponent,
-      cssClass: 'my-custom-class',
+      cssClass: 'modalCustom',
       componentProps: {
         editando: true,
         item
@@ -48,4 +48,4 @@ export class ItemsPage implements OnInit {
 
 
 }
-  
+

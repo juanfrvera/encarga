@@ -18,7 +18,7 @@ const routes : Routes = [
       },
       {
         path: '',
-        redirectTo: 'categorias',
+        redirectTo: 'items',
         pathMatch: 'full'
       }
     ]

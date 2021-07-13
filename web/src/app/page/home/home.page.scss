@@ -1,39 +1,42 @@
+
+#container {
+  margin-bottom: 100px;
+}
+
 #container strong {
-  font-size: 20px;
+  font-size  : 20px;
   line-height: 26px;
 }
 
 #container p {
-  font-size: 16px;
   line-height: 22px;
+  color      : #8c8c8c;
 
-  color: #8c8c8c;
-
-  margin: 0;
 }
 
 #container a {
   text-decoration: none;
 }
 
-#footer {
-  margin: 1em;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-#footer a {
-  color: gray;
+#container h1 {
+  font-size  : 18px;
+  font-weight: 500;
 }
 
 .section-offset {
   position: relative;
-  bottom: 65px; // <<< your offset here >>>
+  bottom  : 65px; // <<< your offset here >>>
 }
 
 .botones {
-  display: flex;
-  flex-direction: column;
+  display    : flex;
   align-items: center;
+}
+
+.botones ion-button {
+  margin: 10px 10px 10px 0;
+}
+
+.botones ion-label {
+  margin: 0 10px 0 0;
 }

@@ -1,3 +1,46 @@
-.boton {
-    margin-top: 20px;
+/////////// EMPTY STATE /////////////
+.items-empty-state {
+    text-align: center;
+    width     : 100%;
 }
+
+.items-empty-state img {
+    max-width: 200px;
+}
+
+.items-empty-state p {
+    color    : gray;
+    margin   : 20px;
+    font-size: 14px;
+}
+
+.container-empty {
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    width          : 100%;
+    height         : 100%;
+}
+
+//////// FIN EMPTY STATE ////////////
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header ion-card-title {
+    align-self: center;
+}
+
+.container-full p {
+    line-height: 22px;
+    color      : #8c8c8c;
+
+}
+
+.container-full h1 {
+    font-size  : 18px;
+    font-weight: 500;
+}
+

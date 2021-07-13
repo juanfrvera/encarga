@@ -58,6 +58,7 @@ export class ItemService {
     });
   }
 
+  /** Elimina un item */
   public delete(item: Item) {
     this.api.deleteById(item.id).subscribe(() => {
       const index = this.Items.findIndex(i => i.id === item.id);

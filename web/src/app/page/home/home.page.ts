@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MenuController, ModalController, NavController, ToastController } from '@ionic/angular';
+import { ModalController, NavController, ToastController } from '@ionic/angular';
 import { PedidoService } from 'src/app/service/pedido.service';
 import { ItemService } from 'src/app/service/item.service';
 import { ModalItemComponent } from '../../modal/modal-item/modal-item.component';
@@ -26,7 +26,6 @@ export class HomePage {
     itemService: ItemService,
     private pedidoService: PedidoService,
     private modalController: ModalController,
-    private menuController: MenuController,
     private toastController: ToastController,
     private navCtrl: NavController
   ) {
@@ -58,22 +57,28 @@ export class HomePage {
     }
   }
 
-  /** Muestra el modal de informacion de comida */
-  public clickItem(item: Item) {
-    this.presentModal(item);
+  ionViewWillLeave() {
+    this.toastController.dismiss();
   }
+
+  // /** Muestra el modal de informacion de comida */
+  // public clickItem(item: Item) {
+  //   this.presentModal(item);
+  // }
 
   /** Muestra el toast con el total */
   public mostrarTotal() {
     this.presentToastWithOptions();
   }
-  /** Redirige a la categoria seleccionada en el menu */
-  public clickCategoria(idCategoria: string) {
-    // Obtiene el elemento, se redirige a esa zona de la pagina y cierra el menu
-    const element = document.getElementById(idCategoria);
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    this.menuController.close();
-  }
+
+  // /** Redirige a la categoria seleccionada en el menu */
+  // public clickCategoria(idCategoria: string) {
+  //   this.navCtrl.navigateForward('/home');
+  //   // Obtiene el elemento, se redirige a esa zona de la pagina y cierra el menu
+  //   const element = document.getElementById(idCategoria);
+  //   element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  //   this.menuController.close();
+  // }
 
   /** Agrega el producto al pedido, sumandolo al total */
   public agregarItem(item: ItemConCantidad) {
@@ -113,23 +118,26 @@ export class HomePage {
     this.pedidoService.remove(item);
   }
 
-  /** Crea el modal */
-  private async presentModal(item) {
-    const modal = await this.modalController.create({
-      component: ModalItemComponent,
-      cssClass: 'my-custom-class',
-      componentProps: {
-        item
-      }
-    });
-    return await modal.present();
-  }
+  // /** Crea el modal */
+  // private async presentModal(item) {
+  //   const modal = await this.modalController.create({
+  //     component: ModalItemComponent,
+  //     cssClass: 'my-custom-class',
+  //     componentProps: {
+  //       item
+  //     }
+  //   });
+  //   return await modal.present();
+  // }
+
   /** Crea el toast */
   private async presentToastWithOptions() {
     const toast = await this.toastController.create({
+      cssClass: 'toastCustom',
       header: 'Total',
       message: '$' + this.total.toString(),
       position: 'bottom',
+      color: 'tertiary',
       buttons: [
         {
           text: 'Continuar',
@@ -145,6 +153,7 @@ export class HomePage {
   private hayPedido() {
     return this.total > 0;
   }
+
   /** Carga las cantidades pedidas a los items con cantidad y calcula la variable total */
   private reflejarPedido() {
     // Aplanar los items para recorrerlos más facilmente
