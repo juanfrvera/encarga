@@ -1,24 +1,3 @@
-<ion-menu side="start" menuId="first" contentId="contenido">
-  <ion-header>
-    <ion-toolbar color="primary">
-      <ion-title>Menu</ion-title>
-      <ion-buttons slot="end">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <ion-list>
-      <ion-item *ngFor="let categoria of Categorias" (click)="clickCategoria(categoria.titulo)">{{categoria.titulo}}
-      </ion-item>
-      <ion-item [routerLink]="['/admin']">Administrar
-        <ion-icon name="log-in-outline" slot="start"></ion-icon>
-      </ion-item>
-    </ion-list>
-  </ion-content>
-</ion-menu>
-
 <ion-header [translucent]="true">
   <ion-toolbar class="header">
     <ion-buttons slot="start">
@@ -29,12 +8,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" id="contenido">
-
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Pedidos</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
   <div id="container">
 

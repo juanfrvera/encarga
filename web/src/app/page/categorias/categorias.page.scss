@@ -1,0 +1,23 @@
+
+.cat-empty-state {
+    text-align: center;
+    width: 100%;
+}
+
+.cat-empty-state img {
+    max-width: 200px;
+}
+
+.cat-empty-state p {
+    color: gray;
+    margin: 20px;
+    font-size: 14px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
