@@ -65,7 +65,7 @@ export class ItemComponent implements OnInit {
       if (!this.editando) {
         // Genera el nuevo item a guardar
         const nuevoItem = { titulo: itemForm.titulo, precio: itemForm.precio, descripcion: itemForm.descripcion };
-        // Lo guarda en el local storage
+        // Lo guarda en el servidor
         this.itemService.create(nuevoItem);
         this.cerrar();
       }
