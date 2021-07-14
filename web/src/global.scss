@@ -21,6 +21,13 @@
 
 }
 
+.ios .modalCustom .modal-wrapper {
+   height  : 70%;
+   top     : 30%;
+   position: absolute;
+   display : block;
+}
+
 .ios ion-card-title {
    font-size: 22px;
 }
