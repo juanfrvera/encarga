@@ -24,7 +24,7 @@ export class HomePage {
     private toastController: ToastController,
     private navCtrl: NavController
   ) {
-    itemService.getAll().subscribe(items => {
+    itemService.Items.subscribe(items => {
       // TODO: cambiar este código temporal
       // Código temporal hasta que tengamos categorias
       const categoria: CategoriaConItemsConCantidad = { id: '0', titulo: 'Todos', items: [] };

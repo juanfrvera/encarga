@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { ItemComponent } from 'src/app/component/item/item.component';
-import { Item } from 'src/app/data/item';
-import { ItemService } from 'src/app/service/item.service';
+import { ItemComponent } from '../../component/item/item.component';
+import { Item } from '../../data/item';
+import { ItemService } from '../../service/item.service';
 
 @Component({
   selector: 'app-items',
