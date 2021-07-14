@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import { ModalController, NavController, ToastController } from '@ionic/angular';
-import { PedidoService } from 'src/app/service/pedido.service';
-import { ItemService } from 'src/app/service/item.service';
-import { ModalItemComponent } from '../../modal/modal-item/modal-item.component';
-import { Item } from 'src/app/data/item';
-import { ItemConCantidad } from 'src/app/data/item-con-cantidad';
-import { CategoriaConItemsConCantidad } from 'src/app/data/categoria-con-items';
+import { NavController, ToastController } from '@ionic/angular';
+import { PedidoService } from '../../service/pedido.service';
+import { ItemService } from '../../service/item.service';
+import { ItemConCantidad } from '../../data/item-con-cantidad';
+import { CategoriaConItemsConCantidad } from '../../data/categoria-con-items';
 
 @Component({
   selector: 'app-home',
@@ -13,8 +11,6 @@ import { CategoriaConItemsConCantidad } from 'src/app/data/categoria-con-items';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  readonly foodFolder = '../../assets/img/food/';
-
   private categorias: CategoriaConItemsConCantidad[];
   private total = 0;
 
@@ -25,7 +21,6 @@ export class HomePage {
   constructor(
     itemService: ItemService,
     private pedidoService: PedidoService,
-    private modalController: ModalController,
     private toastController: ToastController,
     private navCtrl: NavController
   ) {
@@ -61,24 +56,10 @@ export class HomePage {
     this.toastController.dismiss();
   }
 
-  // /** Muestra el modal de informacion de comida */
-  // public clickItem(item: Item) {
-  //   this.presentModal(item);
-  // }
-
   /** Muestra el toast con el total */
   public mostrarTotal() {
     this.presentToastWithOptions();
   }
-
-  // /** Redirige a la categoria seleccionada en el menu */
-  // public clickCategoria(idCategoria: string) {
-  //   this.navCtrl.navigateForward('/home');
-  //   // Obtiene el elemento, se redirige a esa zona de la pagina y cierra el menu
-  //   const element = document.getElementById(idCategoria);
-  //   element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  //   this.menuController.close();
-  // }
 
   /** Agrega el producto al pedido, sumandolo al total */
   public agregarItem(item: ItemConCantidad) {
@@ -117,18 +98,6 @@ export class HomePage {
 
     this.pedidoService.remove(item);
   }
-
-  // /** Crea el modal */
-  // private async presentModal(item) {
-  //   const modal = await this.modalController.create({
-  //     component: ModalItemComponent,
-  //     cssClass: 'my-custom-class',
-  //     componentProps: {
-  //       item
-  //     }
-  //   });
-  //   return await modal.present();
-  // }
 
   /** Crea el toast */
   private async presentToastWithOptions() {
