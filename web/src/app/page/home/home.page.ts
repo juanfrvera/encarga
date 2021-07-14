@@ -46,7 +46,7 @@ export class HomePage {
     });
   }
 
-  ionViewWillEnter() {
+  ionViewDidEnter() {
     if (this.hayPedido()) {
       this.mostrarTotal();
     }
