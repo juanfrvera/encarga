@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NumberValueAccessor, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
-import { ItemService } from 'src/app/service/item.service';
+import { ItemService } from '../../service/item.service';
 import { Item } from '../../data/item';
 
 @Component({

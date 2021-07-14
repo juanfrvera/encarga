@@ -41,8 +41,8 @@ export class ItemService {
 
   /** Crea un nuevo item */
   public create(itemSinId) {
-    this.api.create(itemSinId).subscribe(() => {
-      this.Items.unshift(itemSinId);
+    this.api.create(itemSinId).subscribe((itemServer) => {
+      this.Items.unshift(itemServer);
     }, error => {
       console.error(error);
     });

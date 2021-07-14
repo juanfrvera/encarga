@@ -10,7 +10,7 @@ export class ApiService<T> {
   }
 
   public create(data: T) {
-    return this.http.post(this.url + this.route, data);
+    return this.http.post<T>(this.url + this.route, data);
   }
   public getAll() {
     return this.http.get<T[]>(this.url + this.route);
