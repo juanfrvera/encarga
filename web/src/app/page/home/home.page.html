@@ -13,8 +13,12 @@
 
     <ion-card *ngFor="let categoria of Categorias;">
       <span class="section-offset" id="{{categoria.titulo}}"></span>
-      <ion-card-header>
+      <ion-card-header class="header">
         <ion-card-title>{{categoria.titulo}} </ion-card-title>
+        <ion-button fill="clear" color="danger" size="small">
+          <ion-icon name="close" color="danger"></ion-icon>
+          Limpiar
+        </ion-button>
       </ion-card-header>
 
       <ion-card-content>

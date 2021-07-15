@@ -40,3 +40,12 @@
 .botones ion-label {
   margin: 0 10px 0 0;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header ion-card-title {
+  align-self: center;
+}

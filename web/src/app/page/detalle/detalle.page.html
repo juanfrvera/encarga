@@ -11,17 +11,34 @@
   <div id="container">
     <div class="detalle-pedido">
       <ion-card>
-        <ion-card-header>
+        <ion-card-header class="header">
           <ion-card-title>Detalle del pedido</ion-card-title>
+          <ion-button fill="clear" color="danger" size="small">
+            <ion-icon name="close" color="danger"></ion-icon>
+            Limpiar
+          </ion-button>
         </ion-card-header>
 
         <ion-card-content>
           <ion-item *ngFor='let item of itemsConCantidad'>
             <ion-label>
               <h2>{{item.titulo}}</h2>
-              <h2>Cantidad: {{item.cantidad}}</h2>
-              <p>Subtotal: $ {{item.precio * item.cantidad}}</p>
+              <div class="botones">
+                <ion-button (click)="agregarItem(item)" color="medium">
+                  <ion-icon name="add"></ion-icon>
+                </ion-button>
+  
+                <div *ngIf="item.cantidad" class="botones">
+                  <ion-label>{{item.cantidad}}</ion-label>
+                  <ion-button (click)="quitarItem(item)" color="medium">
+                    <ion-icon name="remove-outline"></ion-icon>
+                  </ion-button>
+                </div>
+              </div>              
             </ion-label>
+            <h2 class="subtotal">
+              ${{item.precio * item.cantidad}}
+            </h2>
           </ion-item>
 
           <ion-item>
@@ -124,7 +141,7 @@
             </ion-text>
           </ion-card-content>
         </ion-card>
-        <div class="botones">
+        <div class="boton-submit">
           <ion-button type="submit" color="primary">
             <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
             Enviar pedido

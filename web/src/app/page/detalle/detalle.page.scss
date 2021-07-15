@@ -2,7 +2,7 @@
     line-height: 22px;
 }
 
-.botones {
+.boton-submit {
     text-align: center;
     margin    : 20px 0 20px 0;
 }
@@ -27,4 +27,30 @@
 
 .header-demo ion-icon {
     align-self: center;
+}
+
+.header {
+    display        : flex;
+    justify-content: space-between;
+}
+
+.header ion-card-title {
+    align-self: center;
+}
+
+.botones {
+    display    : flex;
+    align-items: center;
+}
+
+.botones ion-button {
+    margin: 10px 10px 10px 0;
+}
+
+.botones ion-label {
+    margin: 0 10px 0 0;
+}
+
+.subtotal {
+    font-weight: 500;
 }
