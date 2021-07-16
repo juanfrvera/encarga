@@ -7,6 +7,7 @@ import { HomeComponent } from './page/home/home.component';
 import { DetalleComponent } from './page/detalle/detalle.component';
 import { AdminComponent } from './page/admin/admin.component';
 import { LandingComponent } from './page/landing/landing.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { LandingComponent } from './page/landing/landing.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
