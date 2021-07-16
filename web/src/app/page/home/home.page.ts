@@ -4,6 +4,9 @@ import { PedidoService } from '../../service/pedido.service';
 import { ItemService } from '../../service/item.service';
 import { ItemConCantidad } from '../../data/item-con-cantidad';
 import { CategoriaConItemsConCantidad } from '../../data/categoria-con-items';
+import { Observer } from 'rxjs';
+import { Item } from '../../data/item';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +22,7 @@ export class HomePage {
   }
 
   constructor(
+    router: Router,
     itemService: ItemService,
     private pedidoService: PedidoService,
     private toastController: ToastController,
@@ -36,9 +40,14 @@ export class HomePage {
       });
 
       this.categorias = [categoria];
-      this.reflejarPedido();
 
-      if (this.hayPedido()) {
+      // Esta suscripción es llamada al iniciar y puede no tener items del server aún (vacía por defecto)
+      if (items && items.length) {
+        this.reflejarPedido();
+      }
+
+      // Solo mostrar el total cuando hay pedido y estamos en home
+      if (this.hayPedido() && router.url == '/home') {
         this.mostrarTotal();
       }
     }, error => {
@@ -125,6 +134,8 @@ export class HomePage {
 
   /** Carga las cantidades pedidas a los items con cantidad y calcula la variable total */
   private reflejarPedido() {
+    this.total = 0;
+
     // Aplanar los items para recorrerlos más facilmente
     const itemsAplanados = this.categorias.map(cat => cat.items).flat();
     const pedido = this.pedidoService.get();
@@ -144,7 +155,7 @@ export class HomePage {
         else {
           // Como el item guardado no existe mas, eliminar la linea del pedido
           this.pedidoService.eliminarLinea(linea);
-          console.log('Se eliminó el item \'' + itemConCantidad.titulo + '\' porque ya no existe en el catálogo');
+          console.log('Se eliminó el item \'' + linea.idItem + '\' porque ya no existe en el catálogo');
         }
       });
     }
