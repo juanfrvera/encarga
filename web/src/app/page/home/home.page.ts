@@ -4,8 +4,6 @@ import { PedidoService } from '../../service/pedido.service';
 import { ItemService } from '../../service/item.service';
 import { ItemConCantidad } from '../../data/item-con-cantidad';
 import { CategoriaConItemsConCantidad } from '../../data/categoria-con-items';
-import { Observer } from 'rxjs';
-import { Item } from '../../data/item';
 import { Router } from '@angular/router';
 
 @Component({
