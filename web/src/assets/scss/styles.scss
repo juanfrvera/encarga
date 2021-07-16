@@ -1,0 +1,7 @@
+/** Este archivo sirve como punto principal para importar otros archivos scss **/
+
+// Utilizado para sobreescribir estilos por defecto de bootstrap
+@import 'bootstrap-custom';
+
+// Estilos globales para toda la app
+@import 'global';
