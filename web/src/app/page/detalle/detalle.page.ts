@@ -58,6 +58,14 @@ export class DetallePage implements OnInit {
     });
   }
 
+  public agregarItem(item){
+    console.log("No implementado aún");
+  }
+
+  public quitarItem(item){
+    console.log("No implementado aún");
+  }
+
   /** Vuelve a la pagina anterior */
   public clickVolver() {
     this.location.back();
