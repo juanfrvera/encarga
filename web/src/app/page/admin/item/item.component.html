@@ -9,11 +9,11 @@
                 <div class="list-group list-group-flush mb-3">
                     <!-- Item -->
                     <div class="d-flex w-100 justify-content-between mb-4" *ngFor="let item of items;">
-                        <div>
+                        <div class="izquierda">
                             <h5 class="mb-1">{{item.titulo}}</h5>
                             <p class="mb-2 fw-light text-muted">{{item.descripcion}}</p>
                         </div>
-                        <span class="align-self-center fw-bold fs-5 mb-0">$ {{item.precio}}</span>
+                        <div class="derecha align-self-center fw-bold fs-5 mb-0">$ {{item.precio}}</div>
                     </div>
                 </div>
             </div>
