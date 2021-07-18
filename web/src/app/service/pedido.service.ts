@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Util } from 'src/util';
+import { Util } from '../util';
 import { Item } from '../data/item';
 import { LineaPedido } from '../data/linea-pedido';
 import { Pedido } from '../data/pedido';
@@ -45,15 +45,20 @@ export class PedidoService {
 
     const lineaPedido = pedido.lineas?.find(p => p.idItem === item.id);
 
-    if (lineaPedido.cantidad === 1) {
-      // Remove item
-      Util.eliminarItem(pedido.lineas, lineaPedido);
-    }
-    else {
-      lineaPedido.cantidad--;
-    }
+    if (lineaPedido) {
+      if (lineaPedido.cantidad === 1) {
+        // Remove item
+        Util.eliminarItem(pedido.lineas, lineaPedido);
+      }
+      else {
+        lineaPedido.cantidad--;
+      }
 
-    this.save(pedido);
+      this.save(pedido);
+    }
+    else{
+      throw "No se encontró la línea a remover";
+    }
   }
 
   public eliminarLinea(linea: LineaPedido) {

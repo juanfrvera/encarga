@@ -2,20 +2,22 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Item } from '../data/item';
+import { ItemSinId } from '../data/item-sin-id';
 import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemService {
-  private readonly api: ApiService<Item>;
+  private readonly api: ApiService<ItemSinId, Item>;
 
-  private items: BehaviorSubject<Item[]> = new BehaviorSubject(null);
-  private readonly itemsObservable = this.items.asObservable();
+  private items: BehaviorSubject<Item[]> = new BehaviorSubject([] as Item[]);
+  private itemsObservable?: Observable<Item[]> = undefined;
 
   public get Items(): Observable<Item[]> {
     // La primera vez, items va a ser null
-    if (!this.items.getValue()) {
+    if (!this.itemsObservable) {
+      this.itemsObservable = this.items.asObservable();
       // Cargar una lista vacía momentaneamente para que no fallen los suscriptores que esperen una lista
       this.items.next([]);
       // Mientras tanto, consultar al servidor los items reales, cuando estos vengan, avisarle a los suscriptores
@@ -40,7 +42,7 @@ export class ItemService {
   }
 
   /** Crea un nuevo item */
-  public create(itemSinId) {
+  public create(itemSinId: ItemSinId) {
     // Crear en server y guardar la instancia del observable
     const obs = this.api.create(itemSinId);
 

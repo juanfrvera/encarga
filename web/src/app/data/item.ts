@@ -1,6 +1,5 @@
-export interface Item {
+import { ItemSinId } from "./item-sin-id";
+
+export interface Item extends ItemSinId{
     id: string;
-    titulo: string;
-    precio?: number;
-    descripcion?: string;
 }

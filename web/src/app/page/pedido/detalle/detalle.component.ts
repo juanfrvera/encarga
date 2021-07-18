@@ -14,7 +14,7 @@ export class DetalleComponent implements OnInit {
 
   public finalizado = false;
   public form: FormGroup;
-  public itemsConCantidad: ItemConCantidad[];
+  public itemsConCantidad: ItemConCantidad[] = [];
   public total = 0;
 
 
@@ -22,7 +22,16 @@ export class DetalleComponent implements OnInit {
     private pedidoService: PedidoService,
     private itemService: ItemService,
     private location: Location
-  ) { }
+  ) {
+    // Formulario de informacion de entrega
+    this.form = new FormGroup({
+      nombre: new FormControl('', Validators.required),
+      entrega: new FormControl('Envio a domicilio', Validators.required),
+      direccion: new FormControl(''),
+      comentarios: new FormControl(''),
+      telPrueba: new FormControl('', Validators.required)
+    });
+  }
 
   ngOnInit() {
     const pedido = this.pedidoService.get();
@@ -32,7 +41,7 @@ export class DetalleComponent implements OnInit {
     this.itemService.getItemsByIds(itemIds).subscribe(items => {
       this.itemsConCantidad = items.map(item => {
         // Linea correspondiente a este item mapeado
-        const lineaPedido = pedido.lineas.find(linea => linea.idItem === item.id);
+        const lineaPedido = pedido.lineas.find(linea => linea.idItem === item.id) ?? { cantidad: 0 };
 
         // Aprovecho para calcular el total
         if (item.precio) {
@@ -47,22 +56,13 @@ export class DetalleComponent implements OnInit {
         };
       });
     });
-
-    // Formulario de informacion de entrega
-    this.form = new FormGroup({
-      nombre: new FormControl('', Validators.required),
-      entrega: new FormControl('Envio a domicilio', Validators.required),
-      direccion: new FormControl(''),
-      comentarios: new FormControl(''),
-      telPrueba: new FormControl('', Validators.required)
-    });
   }
 
-  public agregarItem(item) {
+  public agregarItem(item: any) {
     console.log("No implementado aún");
   }
 
-  public quitarItem(item) {
+  public quitarItem(item: any) {
     console.log("No implementado aún");
   }
 
@@ -86,7 +86,7 @@ export class DetalleComponent implements OnInit {
 
       // Agrega al cuerpo los items del pedido con su cantidad y subtotal
       for (const e of this.itemsConCantidad) {
-        cuerpo += `_${e.cantidad} X ${e.titulo} : $${e.cantidad * e.precio}_\n`;
+        cuerpo += `_${e.cantidad} X ${e.titulo} : $${e.cantidad * (e.precio ?? 0)}_\n`;
       }
       // Agrega al cuerpo el total
       cuerpo += `\n*TOTAL*\n$${this.total}`;
@@ -100,7 +100,6 @@ export class DetalleComponent implements OnInit {
     }
     else {
       console.log('invalid');
-      return false;
     }
   }
 

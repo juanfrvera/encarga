@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private categorias: CategoriaConItemsConCantidad[];
+  private categorias: CategoriaConItemsConCantidad[] = [];
   private total = 0;
 
   public get Categorias() {
@@ -68,7 +68,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.hayPedido()) {
       this.ocultarToast();
     }
-    this.total += item.precio;
+    this.total += item.precio ?? 0;
     this.mostrarToast();
 
     this.pedidoService.add(item);
@@ -82,7 +82,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     // Resta el producto del total
-    this.total -= item.precio;
+    this.total -= item.precio ?? 0;
 
     // Si el total esta en 0, no muestra ningun toast con total
     // tslint:disable-next-line: triple-equals
