@@ -13,7 +13,8 @@ import { Toast } from 'bootstrap';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  @ViewChild(Toast) private toast: Toast;
+  @ViewChild('toast', { static: true }) toastElement: any;
+  private toast: Toast;
 
   private categorias: CategoriaConItemsConCantidad[] = [];
   private total = 0;
@@ -55,6 +56,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.toast = new Toast(this.toastElement.nativeElement, { autohide: false });
     if (this.hayPedido()) {
       this.mostrarToast();
     }
@@ -68,10 +70,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   public agregarItem(item: ItemConCantidad) {
     item.cantidad += 1;
 
-    // Borra el toast anterior
-    if (this.hayPedido()) {
-      this.ocultarToast();
-    }
     this.total += item.precio ?? 0;
     this.mostrarToast();
 
@@ -95,7 +93,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
     // Si el total es mayor que 0, borra el toast anterior y crea uno nuevo con el total actualizado
     else {
-      this.ocultarToast();
       this.mostrarToast();
     }
 
