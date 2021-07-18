@@ -1,9 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PedidoService } from '../../../service/pedido.service';
 import { ItemService } from '../../../service/item.service';
 import { ItemConCantidad } from '../../../data/item-con-cantidad';
 import { CategoriaConItemsConCantidad } from '../../../data/categoria-con-items';
 import { Router } from '@angular/router';
+
+import { Toast } from 'bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -11,6 +13,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  @ViewChild(Toast) private toast: Toast;
+
   private categorias: CategoriaConItemsConCantidad[] = [];
   private total = 0;
 
@@ -124,10 +128,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private mostrarToast() {
-    //this.presentToastWithOptions();
+    this.toast.show();
   }
   private ocultarToast() {
-    //this.toastController.dismiss();
+    this.toast.hide();
   }
 
   /** Carga las cantidades pedidas a los items con cantidad y calcula la variable total */
