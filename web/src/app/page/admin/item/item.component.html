@@ -4,24 +4,24 @@
             <h1 class="card-title align-self-center">Items</h1>
             <button type="button" class="btn btn-primary btn-sm">Agregar</button>
         </div>
-        <div class="list-group list-group-flush mb-3">
-            <div class="d-flex w-100 justify-content-between">
-                <div>
-                    <h5 class="mb-1">titulo</h5>
-                    <p class="mb-2 fw-light text-muted">descripcion</p>
-                    <div class="d-flex">
-                        <button type="button" class="btn btn-secondary btn-sm">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                        <div class="d-flex">
-                            <p class="m-auto px-3">cantidad</p>
-                            <button type="button" class="btn btn-secondary btn-sm">
-                                <i class="fas fa-minus"></i>
-                            </button>
+        <div *ngIf="Items | async as items; else cargando">
+            <div *ngIf="items.length; else empty" class="container-full">
+                <div class="list-group list-group-flush mb-3">
+                    <!-- Item -->
+                    <div class="d-flex w-100 justify-content-between mb-4" *ngFor="let item of items;">
+                        <div>
+                            <h5 class="mb-1">{{item.titulo}}</h5>
+                            <p class="mb-2 fw-light text-muted">{{item.descripcion}}</p>
                         </div>
+                        <span class="align-self-center fw-bold fs-5 mb-0">$ {{item.precio}}</span>
                     </div>
                 </div>
-                <p class="align-self-center fw-bold fs-5 mb-0">$</p>
             </div>
+            <ng-template #empty>
+                Empty
+            </ng-template>
         </div>
+        <ng-template #cargando>
+            Cargando
+        </ng-template>
     </div>

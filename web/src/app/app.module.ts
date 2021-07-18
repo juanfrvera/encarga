@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { PedidoComponent } from './page/pedido/pedido.component';
 import { AdminComponent } from './page/admin/admin.component';
+import { ItemComponent } from './page/admin/item/item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PedidoComponent,
-    AdminComponent
+    AdminComponent,
+    ItemComponent
   ],
   imports: [
     BrowserModule,
