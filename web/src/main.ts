@@ -4,9 +4,6 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
-// Código javascript de bootstrap
-import 'bootstrap';
-
 if (environment.production) {
   enableProdMode();
 }
