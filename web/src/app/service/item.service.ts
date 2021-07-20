@@ -11,16 +11,14 @@ import { ApiService } from './api.service';
 export class ItemService {
   private readonly api: ApiService<ItemSinId, Item>;
 
-  private items: BehaviorSubject<Item[]> = new BehaviorSubject([] as Item[]);
-  private itemsObservable?: Observable<Item[]> = undefined;
+  private items: BehaviorSubject<Item[] | null> = new BehaviorSubject<Item[] | null>(null);
+  private itemsObservable?: Observable<Item[] | null>;
 
-  public get Items(): Observable<Item[]> {
+  public get Items() {
     // La primera vez, items va a ser null
     if (!this.itemsObservable) {
       this.itemsObservable = this.items.asObservable();
-      // Cargar una lista vacía momentaneamente para que no fallen los suscriptores que esperen una lista
-      this.items.next([]);
-      // Mientras tanto, consultar al servidor los items reales, cuando estos vengan, avisarle a los suscriptores
+      // Consultar al servidor los items reales, cuando estos vengan, avisarle a los suscriptores
       this.getAll().subscribe(items => this.items.next(items));
     }
 
@@ -71,11 +69,13 @@ export class ItemService {
       // Obtener lista actual
       const lista = this.items.getValue();
 
-      // Actualizar localmente el elemento
-      const index = lista.findIndex(i => i.id === item.id);
-      lista[index] = item;
+      if (lista) {
+        // Actualizar localmente el elemento
+        const index = lista.findIndex(i => i.id === item.id);
+        lista[index] = item;
 
-      this.items.next(lista);
+        this.items.next(lista);
+      }
     }, error => {
       console.error(error);
     });
@@ -92,12 +92,15 @@ export class ItemService {
     obs.subscribe(() => {
       const lista = this.items.getValue();
 
-      // Eliminar elemento localmente
-      const index = lista.findIndex(i => i.id === item.id);
-      lista.splice(index, 1);
+      // Solo eliminar localmente si el item está en la lista y la lista existe
+      if (lista) {
+        // Eliminar elemento localmente
+        const index = lista.findIndex(i => i.id === item.id);
+        lista.splice(index, 1);
 
-      // Informar nueva lista a los suscriptores
-      this.items.next(lista);
+        // Informar nueva lista a los suscriptores
+        this.items.next(lista);
+      }
     }, error => {
       console.error(error);
     });

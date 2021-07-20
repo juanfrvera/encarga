@@ -37,26 +37,28 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.toast = new Toast(this.toastElement.nativeElement, { autohide: false });
 
     this.itemService.Items.subscribe(items => {
-      // TODO: cambiar este código temporal
-      // Código temporal hasta que tengamos categorias
-      const categoria: CategoriaConItemsConCantidad = { id: '0', titulo: 'Todos', items: [] };
+      if (items) {
+        // TODO: cambiar este código temporal
+        // Código temporal hasta que tengamos categorias
+        const categoria: CategoriaConItemsConCantidad = { id: '0', titulo: 'Todos', items: [] };
 
-      categoria.items = items.map(item => {
-        // Convierte un item a item con cantidad
-        // Descomponiendo las propiedades de item y agregandole cantidad
-        return { ...item, cantidad: 0 };
-      });
+        categoria.items = items.map(item => {
+          // Convierte un item a item con cantidad
+          // Descomponiendo las propiedades de item y agregandole cantidad
+          return { ...item, cantidad: 0 };
+        });
 
-      this.categorias = [categoria];
+        this.categorias = [categoria];
 
-      // Esta suscripción es llamada al iniciar y puede no tener items del server aún (vacía por defecto)
-      if (items && items.length) {
-        this.reflejarPedido();
-      }
+        // Esta suscripción es llamada al iniciar y puede no tener items del server aún (vacía por defecto)
+        if (items.length) {
+          this.reflejarPedido();
+        }
 
-      // Solo mostrar el total cuando hay pedido y estamos en home
-      if (this.hayPedido() && this.router.url == '/pedido') {
-        this.mostrarToast();
+        // Solo mostrar el total cuando hay pedido y estamos en home
+        if (this.hayPedido() && this.router.url == '/pedido') {
+          this.mostrarToast();
+        }
       }
     }, error => {
       console.error(error);
