@@ -86,9 +86,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   /** Quita el producto al pedido, restandolo del total */
   public quitarItem(item: ItemConCantidad) {
     // Se fija que la cantidad este en 0 para no pasar a nros negativos
-    if (item.cantidad > 0) {
-      item.cantidad -= 1;
-    }
+    if (item.cantidad <= 0) return;
+
+    item.cantidad--;
 
     // Resta el producto del total
     this.total -= item.precio ?? 0;

@@ -7,23 +7,26 @@
             </div>
             <div class="list-group list-group-flush mb-3">
                 <!-- Item -->
-                <div *ngFor="let item of categoria.items;" class="item d-flex w-100 justify-content-between mb-4">
+                <div *ngFor="let itemConCantidad of categoria.items;"
+                    class="item d-flex w-100 justify-content-between mb-4">
                     <div class="izquierda">
-                        <h5 class="mb-1">{{item.titulo}}</h5>
-                        <p class="mb-2 fw-light text-muted">{{item.descripcion}}</p>
+                        <h5 class="mb-1">{{itemConCantidad.titulo}}</h5>
+                        <p class="mb-2 fw-light text-muted">{{itemConCantidad.descripcion}}</p>
                         <div class="d-flex">
-                            <button (click)="agregarItem(item)" type="button" class="btn btn-secondary btn-sm">
+                            <button (click)="agregarItem(itemConCantidad)" type="button"
+                                class="btn btn-secondary btn-sm">
                                 <i class="fas fa-plus"></i>
                             </button>
-                            <div class="d-flex">
-                                <p class="m-auto px-3">{{item.cantidad}}</p>
-                                <button (click)="quitarItem(item)" type="button" class="btn btn-secondary btn-sm">
+                            <div *ngIf="itemConCantidad.cantidad" class="d-flex">
+                                <p class="m-auto px-3">{{itemConCantidad.cantidad}}</p>
+                                <button (click)="quitarItem(itemConCantidad)" type="button"
+                                    class="btn btn-secondary btn-sm">
                                     <i class="fas fa-minus"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class="derecha align-self-center fw-bold fs-5 mb-0">$ {{item.precio}}</div>
+                    <div class="derecha align-self-center fw-bold fs-5 mb-0">$ {{itemConCantidad.precio}}</div>
                 </div>
             </div>
         </div>
