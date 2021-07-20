@@ -21,7 +21,13 @@
         </div>
     </div>
     <ng-template #empty>
-        Empty
+        <div class="d-flex justify-content-center align-items-center w-100 h-100">
+            <div class="text-center">
+                <img src="../../../assets/empty-state/caja.png" alt="">
+                <p class="text-muted mt-3">Aún no tienes ítems, comienza a agregarlos!</p>
+                <button class="btn btn-primary">Agregar</button>
+            </div>
+        </div>
     </ng-template>
 </div>
 <ng-template #cargando>
