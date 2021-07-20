@@ -1,11 +1,12 @@
-<div class="card m-3 shadow">
-    <div class="card-body">
-        <div class="d-flex justify-content-between mb-3">
-            <h1 class="card-title align-self-center">Items</h1>
-            <button type="button" class="btn btn-primary btn-sm">Agregar</button>
-        </div>
-        <div *ngIf="Items | async as items; else cargando">
-            <div *ngIf="items.length; else empty" class="container-full">
+<div *ngIf="Items | async as items; else cargando">
+    <div *ngIf="items.length; else empty" class="card m-3 shadow">
+        <!-- Hay Items y cargó -->
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-3">
+                <h1 class="card-title align-self-center">Items</h1>
+                <button type="button" class="btn btn-primary btn-sm">Agregar</button>
+            </div>
+            <div class="container-full">
                 <div class="list-group list-group-flush mb-3">
                     <!-- Item -->
                     <div class="d-flex w-100 justify-content-between mb-4" *ngFor="let item of items;">
@@ -17,11 +18,12 @@
                     </div>
                 </div>
             </div>
-            <ng-template #empty>
-                Empty
-            </ng-template>
         </div>
-        <ng-template #cargando>
-            Cargando
-        </ng-template>
     </div>
+    <ng-template #empty>
+        Empty
+    </ng-template>
+</div>
+<ng-template #cargando>
+    Cargando
+</ng-template>

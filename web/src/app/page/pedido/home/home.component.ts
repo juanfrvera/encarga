@@ -3,7 +3,7 @@ import { PedidoService } from '../../../service/pedido.service';
 import { ItemService } from '../../../service/item.service';
 import { ItemConCantidad } from '../../../data/item-con-cantidad';
 import { CategoriaConItemsConCantidad } from '../../../data/categoria-con-items';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Toast } from 'bootstrap';
 
@@ -22,13 +22,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   public get Categorias() {
     return this.categorias;
   }
+  public get Total() {
+    return this.total;
+  }
 
   constructor(
-    router: Router,
-    itemService: ItemService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private itemService: ItemService,
     private pedidoService: PedidoService
-  ) {
-    itemService.Items.subscribe(items => {
+  ) { }
+
+  ngOnInit() {
+    this.toast = new Toast(this.toastElement.nativeElement, { autohide: false });
+
+    this.itemService.Items.subscribe(items => {
       // TODO: cambiar este código temporal
       // Código temporal hasta que tengamos categorias
       const categoria: CategoriaConItemsConCantidad = { id: '0', titulo: 'Todos', items: [] };
@@ -47,16 +55,13 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
 
       // Solo mostrar el total cuando hay pedido y estamos en home
-      if (this.hayPedido() && router.url == '/home') {
+      if (this.hayPedido() && this.router.url == '/pedido') {
         this.mostrarToast();
       }
     }, error => {
       console.error(error);
     });
-  }
 
-  ngOnInit() {
-    this.toast = new Toast(this.toastElement.nativeElement, { autohide: false });
     if (this.hayPedido()) {
       this.mostrarToast();
     }
@@ -97,6 +102,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     this.pedidoService.remove(item);
+  }
+
+  public continuar() {
+    this.router.navigate(['detalle'], { relativeTo: this.route });
   }
 
   /** Crea el toast */
