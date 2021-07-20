@@ -6,3 +6,11 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.item .izquierda{
+    flex-shrink: 1500;
+    margin-right: 1rem;
+}
+.item .derecha{
+    flex-basis: content;
+}
