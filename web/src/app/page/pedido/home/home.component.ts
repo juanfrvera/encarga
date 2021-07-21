@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PedidoService } from '../../../service/pedido.service';
 import { ItemService } from '../../../service/item.service';
 import { ItemConCantidad } from '../../../data/item-con-cantidad';
@@ -13,7 +13,7 @@ import { Toast } from 'bootstrap';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  @ViewChild('toast', { static: true }) toastElement: any;
+  @ViewChild('toast', { static: true }) toastElement: ElementRef;
   private toast: Toast;
 
   private categorias: CategoriaConItemsConCantidad[] = [];
