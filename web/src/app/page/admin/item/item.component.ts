@@ -46,6 +46,10 @@ export class ItemComponent implements AfterViewInit {
     this.abrir();
   }
 
+  public eliminar() {
+    console.log('No implementado aun')
+  }
+
   public guardar() {
     if (this.formulario.esValido()) {
       if (this.Item.id) {

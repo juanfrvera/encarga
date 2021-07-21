@@ -3,15 +3,18 @@
     <div class="modal-dialog modal-dialog-centered modal-lg align-items-end">
         <div class="modal-content">
             <div class="modal-header">
-                <div *ngIf="Item.id; else headerCrear" #headerEditar>
-                    <h5 class="modal-title" id="exampleModalLabel">Editar ítem</h5>
+                <div *ngIf="Item.id; else headerCrear" #headerEditar class="w-100 d-flex justify-content-between">
+                        <h5 class="modal-title align-self-center" id="exampleModalLabel">Editar ítem</h5>
+                        <button (click)="eliminar()" class="btn">
+                            <i class="far fa-trash-alt"></i>
+                        </button>               
                 </div>
                 <ng-template #headerCrear>
                     <h5 class="modal-title" id="exampleModalLabel">Agregar ítem</h5>
                 </ng-template>
             </div>
             <div class="modal-body">
-                <app-formulario class="px-2">
+                <app-formulario>
                     <div class="mb-3">
                         <label for="titulo" class="form-label">Título</label>
                         <input [(ngModel)]="Item.titulo" id="titulo" type="text" class="form-control" required>
@@ -23,7 +26,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="descripcion" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="descripcion" rows="3"></textarea>
+                        <textarea [(ngModel)]="Item.descripcion" class="form-control" id="descripcion" rows="3"></textarea>
                     </div>
                 </app-formulario>
             </div>
