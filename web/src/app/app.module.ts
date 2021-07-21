@@ -8,12 +8,14 @@ import { PedidoComponent } from './page/pedido/pedido.component';
 import { AdminComponent } from './page/admin/admin.component';
 import { ItemComponent } from './page/admin/item/item.component';
 import { HomeComponent } from './page/pedido/home/home.component';
+import { DetalleComponent } from './page/pedido/detalle/detalle.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PedidoComponent,
     HomeComponent,
+    DetalleComponent,
     AdminComponent,
     ItemComponent
   ],

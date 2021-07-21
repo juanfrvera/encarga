@@ -1,1 +1,87 @@
-<p>detalle works!</p>
+<div class="card m-3 shadow">
+    <div class="card-body">
+        <div class="d-flex justify-content-between mb-3">
+            <h2 class="card-title align-self-center">Detalle del pedido</h2>
+            <button class="btn btn-link">Limpiar</button>
+        </div>
+
+        <div class="list-group list-group-flush">
+            <div *ngFor="let item of itemsConCantidad;" class="d-flex w-100 justify-content-between mb-2">
+                <div>
+                    <h5 class="mb-2">{{item.titulo}}</h5>
+                    <div class="d-flex">
+                        <button (click)="agregarItem(item)" type="button" class="btn btn-secondary btn-sm">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <div class="d-flex">
+                            <p class="m-auto px-3">{{item.cantidad}}</p>
+                            <button (click)="quitarItem(item)" type="button" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <p class="align-self-center mb-0">$ {{(item.precio ?? 0) * item.cantidad}}</p>
+            </div>
+            <hr>
+            <h2 class="fw-light">Total:
+                <h3 class="fw-bold"> $ {{this.total}}</h3>
+            </h2>
+        </div>
+    </div>
+</div>
+
+<div class="card m-3 shadow">
+    <div class="card-body">
+        <h2 class="card-title mb-4">Detalle de entrega</h2>
+
+        <form class="row g-3">
+            <div class="col-12">
+                <label for="nombre" class="form-label">Nombre y Apellido</label>
+                <input class="form-control" id="nombre" type="text" required>
+            </div>
+            <div class="col-6-md">
+                <div class="form-check form-check-inline">
+                    <input checked class="form-check-input" type="radio" name="inlineRadioOptions" id="entrega-envio"
+                        value="Envio a domicilio">
+                    <label class="form-check-label" for="entrega-envio">Envio a domicilio</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="entrega-retiro"
+                        value="Retira en sucursal">
+                    <label class="form-check-label" for="entrega-retiro">Retira en sucursal</label>
+                </div>
+            </div>
+            <div class="col-6-md">
+                <label for="direccion" class="form-label">Dirección</label>
+                <input class="form-control" id="direccion" required>
+            </div>
+            <div class="col-12">
+                <label for="comentarios" class="form-label">Comentarios</label>
+                <textarea class="form-control" id="comentarios"></textarea>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow m-3">
+    <div class="card-body">
+        <h2 class="card-title mb-4">Probá nuestra Demo</h2>
+
+        <form>
+            <div>
+                <label for="telefono" class="form-label">Ingresá un número de teléfono válido dentro de Argentina</label>
+                <p>Sin 0, 15 ni espacios</p>
+                <input class="form-control" id="telefono" type="tel" required>
+                <p class="text-muted">Ejemplo: 3442xxxxxx</p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="text-center m-4">
+    <button class="btn btn-primary fw-bold">
+        <i class="fab fa-whatsapp"></i>
+        Enviar pedido
+    </button>
+</div>
