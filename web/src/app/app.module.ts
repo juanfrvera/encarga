@@ -9,6 +9,7 @@ import { AdminComponent } from './page/admin/admin.component';
 import { ItemComponent } from './page/admin/item/item.component';
 import { HomeComponent } from './page/pedido/home/home.component';
 import { DetalleComponent } from './page/pedido/detalle/detalle.component';
+import { FormularioComponent } from './component/formulario/formulario.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { DetalleComponent } from './page/pedido/detalle/detalle.component';
     HomeComponent,
     DetalleComponent,
     AdminComponent,
-    ItemComponent
+    ItemComponent,
+    FormularioComponent
   ],
   imports: [
     BrowserModule,
