@@ -14,7 +14,8 @@ export class DetalleComponent implements OnInit {
   @ViewChild(FormularioComponent) formulario: FormularioComponent;
 
   /** Datos de formulario */
-  public datos: { nombre?: string, entrega?: string, direccion?: string, comentarios?: string, telPrueba?: string } = {};
+  public datos: { nombre?: string, entrega?: string, direccion?: string, comentarios?: string, telPrueba?: string } =
+    { nombre: '', entrega: 'Envio a domicilio', direccion: '', comentarios: '', telPrueba: '' };
   public itemsConCantidad: ItemConCantidad[] = [];
   public finalizado = false;
   public total = 0;
@@ -83,7 +84,7 @@ export class DetalleComponent implements OnInit {
       // Agrega al cuerpo el total
       cuerpo += `\n*TOTAL*\n$${this.total}`;
 
-      // Crea el link de whatsapp con el telefono y cuerpo a enviar
+      // Crea el link de whatsapp con el telefono y cuerpo a enviar 
       const a = document.createElement('a');
       a.href = `https://wa.me/549${d.telPrueba}/?text=` + encodeURI(cuerpo);
       a.target = '_blank';
