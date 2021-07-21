@@ -10,6 +10,7 @@ import { ItemComponent } from './page/admin/item/item.component';
 import { HomeComponent } from './page/pedido/home/home.component';
 import { DetalleComponent } from './page/pedido/detalle/detalle.component';
 import { FormularioComponent } from './component/formulario/formulario.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { FormularioComponent } from './component/formulario/formulario.component
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

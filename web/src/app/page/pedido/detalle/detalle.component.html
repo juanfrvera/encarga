@@ -29,64 +29,73 @@
                     <h3 class="fw-light fs-3">Total:</h3>
                     <h3 class="fw-bold fs-3"> $ {{this.total}}</h3>
                 </div>
-                <button class="btn btn-outline-primary btn-sm boton align-self-center" routerLink="/pedido">Seguir comprando</button>
+                <button class="btn btn-outline-primary btn-sm boton align-self-center" routerLink="/pedido">Seguir
+                    comprando</button>
             </div>
 
-            
+
         </div>
     </div>
 </div>
 
-<div id="detalle-entrega" class="card m-3 shadow">
-    <div class="card-body">
-        <h2 class="card-title mb-4 fw-bold fs-3">Detalle de entrega</h2>
+<app-formulario>
+    <div id="detalle-entrega" class="card m-3 shadow">
+        <div class="card-body">
+            <h2 class="card-title mb-4 fw-bold fs-3">Detalle de entrega</h2>
 
-        <form class="row g-3 px-2">
-            <div class="col-12">
-                <label for="nombre" class="form-label">Nombre y Apellido</label>
-                <input class="form-control" id="nombre" type="text" required>
-            </div>
-            <div class="col-6-md ps-2">
-                <div class="form-check form-check-inline">
-                    <input checked class="form-check-input" type="radio" name="inlineRadioOptions" id="entrega-envio"
-                        value="Envio a domicilio">
-                    <label class="form-check-label" for="entrega-envio">Envio a domicilio</label>
+            <div class="row g-3 px-2">
+                <div class="col-12">
+                    <label for="nombre" class="form-label">Nombre y Apellido</label>
+                    <input [(ngModel)]="datos.nombre" id="nombre" name="nombre" class="form-control" type="text"
+                        required>
+                    <div class="invalid-feedback">Por favor ingresa tu nombre y apellido.</div>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="entrega-retiro"
-                        value="Retira en sucursal">
-                    <label class="form-check-label" for="entrega-retiro">Retira en sucursal</label>
+                <div class="col-6-md ps-2">
+                    <div class="form-check form-check-inline">
+                        <input [(ngModel)]="datos.entrega" checked class="form-check-input" type="radio"
+                            name="inlineRadioOptions" id="entrega-envio" name="entrega-envio" value="Envio a domicilio">
+                        <label class="form-check-label" for="entrega-envio">Envio a domicilio</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input [(ngModel)]="datos.entrega" class="form-check-input" type="radio"
+                            name="inlineRadioOptions" id="entrega-retiro" name="entrega-retiro"
+                            value="Retira en sucursal">
+                        <label class="form-check-label" for="entrega-retiro">Retira en sucursal</label>
+                    </div>
+                </div>
+                <div class="col-6-md">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input [(ngModel)]="datos.direccion" id="direccion" name="direccion" class="form-control" required>
+                </div>
+                <div class="col-12">
+                    <label for="comentarios" class="form-label">Comentarios</label>
+                    <textarea [(ngModel)]="datos.comentarios" id="comentarios" name="comentarios"
+                        class="form-control"></textarea>
+                    <div class="valid-feedback">Si quieres puedes agregar comentarios.</div>
                 </div>
             </div>
-            <div class="col-6-md">
-                <label for="direccion" class="form-label">Dirección</label>
-                <input class="form-control" id="direccion" required>
-            </div>
-            <div class="col-12">
-                <label for="comentarios" class="form-label">Comentarios</label>
-                <textarea class="form-control" id="comentarios"></textarea>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
 
-<div id="demo" class="card shadow m-3">
-    <div class="card-body">
-        <h2 class="card-title mb-4 fw-bold fs-3">Probá nuestra Demo</h2>
+    <div id="demo" class="card shadow m-3">
+        <div class="card-body">
+            <h2 class="card-title mb-4 fw-bold fs-3">Probá nuestra Demo</h2>
 
-        <form class="px-2">
-            <div>
-                <label for="telefono" class="form-label">Ingresá un número de teléfono válido dentro de
-                    Argentina</label>
-                <p>Sin 0, 15 ni espacios</p>
-                <input class="form-control" id="telefono" type="tel" placeholder="Ej: 3442112233" required>
-            </div>
-        </form>
+            <form class="px-2">
+                <div>
+                    <label for="telefono" class="form-label">Ingresá un número de teléfono válido dentro de
+                        Argentina</label>
+                    <p>Sin 0, 15 ni espacios</p>
+                    <input [(ngModel)]="datos.telPrueba" id="telefono" name="telefono" class="form-control" type="tel"
+                        placeholder="Ej: 3442112233" required>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+</app-formulario>
 
 <div class="text-center m-4">
-    <button class="btn btn-primary fw-bold">
+    <button (click)="clickFinalizar()" class="btn btn-primary fw-bold">
         <i class="fab fa-whatsapp"></i>
         Enviar pedido
     </button>

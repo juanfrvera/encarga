@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PedidoService } from '../../../service/pedido.service';
 import { ItemService } from '../../../service/item.service';;
 import { Location } from '@angular/common';
-import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { ItemConCantidad } from '../../../data/item-con-cantidad';
+import { FormularioComponent } from '../../../component/formulario/formulario.component';
 
 @Component({
   selector: 'app-detalle',
@@ -11,10 +11,12 @@ import { ItemConCantidad } from '../../../data/item-con-cantidad';
   styleUrls: ['./detalle.component.scss']
 })
 export class DetalleComponent implements OnInit {
+  @ViewChild(FormularioComponent) formulario: FormularioComponent;
 
-  public finalizado = false;
-  public form: FormGroup;
+  /** Datos de formulario */
+  public datos: { nombre?: string, entrega?: string, direccion?: string, comentarios?: string, telPrueba?: string } = {};
   public itemsConCantidad: ItemConCantidad[] = [];
+  public finalizado = false;
   public total = 0;
 
 
@@ -22,16 +24,7 @@ export class DetalleComponent implements OnInit {
     private pedidoService: PedidoService,
     private itemService: ItemService,
     private location: Location
-  ) {
-    // Formulario de informacion de entrega
-    this.form = new FormGroup({
-      nombre: new FormControl('', Validators.required),
-      entrega: new FormControl('Envio a domicilio', Validators.required),
-      direccion: new FormControl(''),
-      comentarios: new FormControl(''),
-      telPrueba: new FormControl('', Validators.required)
-    });
-  }
+  ) { }
 
   ngOnInit() {
     const pedido = this.pedidoService.get();
@@ -72,17 +65,16 @@ export class DetalleComponent implements OnInit {
   }
 
   /** Chequea que el formulario de info de entrega este correcto y envia el arma el mensaje de whatsapp */
-  public clickFinalizar(telPrueba: number) {
-    console.log(telPrueba);
+  public clickFinalizar() {
     this.finalizado = true;
-    // Valores del form
-    const u = this.form.value;
-    // Chequea si el form es valido
-    if (this.form.valid && (u.entrega !== 'Envio a domicilio' || u.direccion)) {
 
+    /** Datos del formulario */
+    const d = this.datos;
+    // Chequea si el form es valido
+    if (this.formulario.esValido() && (d.entrega !== 'Envio a domicilio' || d.direccion)) {
       console.log('ok');
       // Agrega al cuerpo del mensaje a enviar info de la entrega
-      let cuerpo = `*DETALLE DE ENTREGA*\nNombre y Apellido:\n_${u.nombre}_\nForma de entrega:\n_${u.entrega} / ${u.direccion}_\nComentarios:\n_${u.comentarios}_\n\n*DETALLE DE PEDIDO*\n`;
+      let cuerpo = `*DETALLE DE ENTREGA*\nNombre y Apellido:\n_${d.nombre}_\nForma de entrega:\n_${d.entrega} / ${d.direccion}_\nComentarios:\n_${d.comentarios}_\n\n*DETALLE DE PEDIDO*\n`;
 
       // Agrega al cuerpo los items del pedido con su cantidad y subtotal
       for (const e of this.itemsConCantidad) {
@@ -93,18 +85,14 @@ export class DetalleComponent implements OnInit {
 
       // Crea el link de whatsapp con el telefono y cuerpo a enviar
       const a = document.createElement('a');
-      a.href = `https://wa.me/549${telPrueba}/?text=` + encodeURI(cuerpo);
+      a.href = `https://wa.me/549${d.telPrueba}/?text=` + encodeURI(cuerpo);
       a.target = '_blank';
       a.click();
 
     }
     else {
       console.log('invalid');
+      this.formulario.mostrarFeedback();
     }
-  }
-
-  /** Obtiene los errores */
-  public get errorControl() {
-    return this.form.controls;
   }
 }
