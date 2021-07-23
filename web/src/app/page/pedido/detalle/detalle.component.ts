@@ -72,6 +72,18 @@ export class DetalleComponent implements OnInit {
 
     if (item.cantidad <= 0) {
       Util.eliminarItem(this.itemsConCantidad, item);
+      this.swalService.fire(
+        {
+          title: 'Oh, oh...',
+          text: 'Parece que tu pedido está vacío. Volvé para agregar ítems.',
+          confirmButtonText: 'Volver',
+          icon: 'info',
+          iconColor: '#fc453c'
+        }
+      ).then(res => {
+        if (res.isConfirmed)
+          this.router.navigateByUrl('/pedido');
+      });
     }
   }
 
@@ -86,7 +98,8 @@ export class DetalleComponent implements OnInit {
     this.total = 0;
     this.swalService.fire(
       {
-        title: 'Carrito vacío',
+        title: 'Oh, oh...',
+        text: 'Parece que tu pedido está vacío. Volvé para agregar ítems.',
         confirmButtonText: 'Volver',
         icon: 'info',
         iconColor: '#fc453c'
