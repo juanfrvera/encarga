@@ -8,7 +8,8 @@ export class SwalService {
   private static readonly defaultOptions: SweetAlertOptions = {
     customClass: {
       confirmButton: 'confirm-button'
-    }
+    },
+    reverseButtons: true
   };
 
   constructor() { }

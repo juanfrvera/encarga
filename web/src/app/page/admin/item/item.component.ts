@@ -1,8 +1,10 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Modal } from 'bootstrap';
+import Swal from 'sweetalert2';
 import { FormularioComponent } from '../../../component/formulario/formulario.component';
 import { Item } from '../../../data/item';
 import { ItemService } from '../../../service/item.service';
+import { SwalService } from '../../../service/swal.service';
 import { Util } from '../../../util';
 
 @Component({
@@ -27,7 +29,8 @@ export class ItemComponent implements AfterViewInit {
   }
 
   constructor(
-    private itemService: ItemService
+    private itemService: ItemService,
+    private swalService: SwalService
   ) { }
 
   ngAfterViewInit(): void {
@@ -47,7 +50,29 @@ export class ItemComponent implements AfterViewInit {
   }
 
   public eliminar() {
-    console.log('No implementado aun')
+    this.swalService.fire({
+      icon: 'warning',
+      title: '¿Estás seguro?',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Sí, eliminar',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        return this.itemService.delete(this.item).toPromise().then(deletedItem => {
+          return deletedItem;
+        },
+          error => {
+            Swal.showValidationMessage('Ocurrió un error al intentar eliminar');
+          });
+      },
+      // Sirve para que al apretar Escape no se cierre el modal
+      target: this.modalElement.nativeElement
+    }).then(result => {
+      // Si se eliminó sin errores
+      if (result.isConfirmed) {
+        this.cerrar();
+      }
+    });
   }
 
   public guardar() {
