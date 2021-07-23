@@ -4,10 +4,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div *ngIf="Item.id; else headerCrear" #headerEditar class="w-100 d-flex justify-content-between">
-                        <h5 class="modal-title align-self-center" id="exampleModalLabel">Editar ítem</h5>
-                        <button (click)="eliminar()" class="btn">
-                            <i class="far fa-trash-alt"></i>
-                        </button>               
+                    <h5 class="modal-title align-self-center" id="exampleModalLabel">Editar ítem</h5>
+                    <button (click)="eliminar()" class="btn">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
                 </div>
                 <ng-template #headerCrear>
                     <h5 class="modal-title" id="exampleModalLabel">Agregar ítem</h5>
@@ -26,7 +26,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="descripcion" class="form-label">Descripción</label>
-                        <textarea [(ngModel)]="Item.descripcion" class="form-control" id="descripcion" rows="3"></textarea>
+                        <textarea [(ngModel)]="Item.descripcion" class="form-control" id="descripcion"
+                            rows="3"></textarea>
                     </div>
                 </app-formulario>
             </div>
@@ -47,10 +48,10 @@
                 <button (click)="agregar()" type="button" class="btn btn-primary btn-sm text-white">Agregar</button>
             </div>
             <div class="container-full">
-                <div class="list-group list-group-flush mt-4 px-2">
+                <div class="list-group list-group-flush mt-4">
                     <!-- Item -->
                     <div *ngFor="let item of items;" (click)="editar(item)"
-                        class="d-flex w-100 justify-content-between mb-4">
+                        class="d-flex w-100 justify-content-between p-2 rounded cursor-pointer hover">
                         <div class="izquierda">
                             <h5 class="mb-1 fs-6">{{item.titulo}}</h5>
                             <p class="mb-2 text-muted desc">{{item.descripcion}}</p>
