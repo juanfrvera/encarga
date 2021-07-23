@@ -2,31 +2,31 @@
     <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
             <h1 class="card-title align-self-center fw-bold fs-3">Detalle del pedido</h1>
-            <button class="btn btn-link">Limpiar</button>
+            <button class="btn btn-link text-secondary">Limpiar</button>
         </div>
 
         <div class="list-group list-group-flush px-2">
-            <div *ngFor="let item of itemsConCantidad;" class="d-flex w-100 justify-content-between mb-2">
-                <div>
+            <div *ngFor="let item of itemsConCantidad;" class="item d-flex w-100 justify-content-between mb-3">
+                <div class="izquierda">
                     <h5 class="mb-2 fs-6">{{item.titulo}}</h5>
                     <div class="d-flex">
-                        <button (click)="agregarItem(item)" type="button" class="btn btn-secondary btn-sm">
+                        <button (click)="agregarItem(item)" type="button" class="btn btn-outline-primary btn-sm rounded-circle">
                             <i class="fas fa-plus"></i>
                         </button>
                         <div class="d-flex">
                             <p class="m-auto px-3">{{item.cantidad}}</p>
-                            <button (click)="quitarItem(item)" type="button" class="btn btn-secondary btn-sm">
+                            <button (click)="quitarItem(item)" type="button" class="btn btn-outline-primary btn-sm rounded-circle">
                                 <i class="fas fa-minus"></i>
                             </button>
                         </div>
                     </div>
                 </div>
-                <p class="align-self-center fw-bold mb-0">$ {{(item.precio ?? 0) * item.cantidad}}</p>
+                <p class="derecha align-self-center fw-bold mb-0">$ {{(item.precio ?? 0) * item.cantidad}}</p>
             </div>
             <hr>
             <div class="d-flex justify-content-between">
                 <div class="total">
-                    <h3 class="fw-light fs-3">Total:</h3>
+                    <h3 class="fw-light fs-4">Total:</h3>
                     <h3 class="fw-bold fs-3"> $ {{this.total}}</h3>
                 </div>
                 <button class="btn btn-outline-primary btn-sm boton align-self-center" routerLink="/pedido">Seguir
@@ -66,6 +66,7 @@
                 <div *ngIf="datos.entrega == 'Envio a domicilio'" class="col-12">
                     <label for="direccion" class="form-label">Dirección</label>
                     <input [(ngModel)]="datos.direccion" id="direccion" name="direccion" class="form-control" required>
+                    <div class="invalid-feedback">Por favor, ingresa tu dirección.</div>
                 </div>
                 <div class="col-12">
                     <label for="comentarios" class="form-label">Comentarios</label>
@@ -92,7 +93,7 @@
 </app-formulario>
 
 <div class="text-center m-4">
-    <button (click)="clickFinalizar()" class="btn btn-primary fw-bold">
+    <button (click)="clickFinalizar()" class="btn btn-primary fw-bold text-white">
         <i class="fab fa-whatsapp"></i>
         Enviar pedido
     </button>

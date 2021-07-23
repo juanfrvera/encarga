@@ -14,13 +14,13 @@
                         <p class="mb-2 text-muted desc">{{itemConCantidad.descripcion}}</p>
                         <div class="d-flex">
                             <button (click)="agregarItem(itemConCantidad)" type="button"
-                                class="btn btn-secondary btn-sm">
+                                class="btn btn-outline-primary btn-sm rounded-circle">
                                 <i class="fas fa-plus"></i>
                             </button>
                             <div *ngIf="itemConCantidad.cantidad" class="d-flex">
                                 <p class="m-auto px-3">{{itemConCantidad.cantidad}}</p>
                                 <button (click)="quitarItem(itemConCantidad)" type="button"
-                                    class="btn btn-secondary btn-sm">
+                                    class="btn btn-outline-primary btn-sm rounded-circle">
                                     <i class="fas fa-minus"></i>
                                 </button>
                             </div>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="derecha">
                     <button (click)="continuar()" type="button"
-                        class="btn btn-primary continuar fw-bold">Continuar</button>
+                        class="btn btn-primary continuar fw-bold text-white">Continuar</button>
                 </div>
             </div>
         </div>

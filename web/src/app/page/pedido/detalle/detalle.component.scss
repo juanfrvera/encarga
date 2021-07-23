@@ -1,3 +1,11 @@
 .boton {
     max-height: 2rem;
 }
+
+.item .izquierda{
+    flex-shrink: 1500;
+    margin-right: 1rem;
+}
+.item .derecha{
+    flex-basis: content;
+}
