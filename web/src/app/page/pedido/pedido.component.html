@@ -1,7 +1,7 @@
 <nav class="navbar navbar-light bg-light shadow">
     <div class="container-fluid justify-content-start">
-        <button class="btn btn-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
-            aria-controls="offcanvasExample">
+        <button class="btn btn-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasPedido"
+            aria-controls="offcanvasPedido">
             <i class="fas fa-bars"></i>
         </button>
         <span class="navbar-brand mb-0 ms-3 h1"><strong>encarga.shop</strong></span>
@@ -9,9 +9,9 @@
 </nav>
 
 
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasPedido" aria-labelledby="offcanvasPedidoLabel">
     <div class="offcanvas-header border-bottom border-primary border-2">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel"><strong>encarga.shop</strong></h5>
+        <h5 class="offcanvas-title" id="offcanvasPedidoLabel"><strong>encarga.shop</strong></h5>
         <button type="button" class="btn btn-link" data-bs-dismiss="offcanvas" aria-label="Close">
             <i class="fas fa-bars"></i>
         </button>
@@ -19,7 +19,8 @@
     <div class="offcanvas-body">
         <div class="list-group list-group-flush">
             <button type="button" class="list-group-item list-group-item-action">Todos</button>
-            <button type="button" class="list-group-item list-group-item-action" aria-current="true">
+            <button routerLink="/admin" type="button" class="list-group-item list-group-item-action"
+                aria-current="true">
                 <div class="d-inline-block w-fixed">
                     <i class="fas fa-sign-in-alt"></i>
                 </div>
