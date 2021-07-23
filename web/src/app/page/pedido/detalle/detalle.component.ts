@@ -4,6 +4,7 @@ import { ItemService } from '../../../service/item.service';;
 import { Location } from '@angular/common';
 import { ItemConCantidad } from '../../../data/item-con-cantidad';
 import { FormularioComponent } from '../../../component/formulario/formulario.component';
+import { Util } from '../../../util';
 
 @Component({
   selector: 'app-detalle',
@@ -52,12 +53,22 @@ export class DetalleComponent implements OnInit {
     });
   }
 
-  public agregarItem(item: any) {
-    console.log("No implementado aún");
+  public agregarItem(item: ItemConCantidad) {
+    item.cantidad++;
+    this.pedidoService.add(item);
+
+    this.total += item.precio ?? 0;
   }
 
-  public quitarItem(item: any) {
-    console.log("No implementado aún");
+  public quitarItem(item: ItemConCantidad) {
+    item.cantidad--;
+    this.pedidoService.remove(item);
+
+    this.total -= item.precio ?? 0;
+
+    if (item.cantidad <= 0) {
+      Util.eliminarItem(this.itemsConCantidad, item);
+    }
   }
 
   /** Vuelve a la pagina anterior */
