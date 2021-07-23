@@ -26,7 +26,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="derecha align-self-center fw-bold fs-5 mb-0">$ {{itemConCantidad.precio}}</div>
+                    <div class="derecha align-self-center fw-bold fs-5 mb-0">${{itemConCantidad.precio}}</div>
                 </div>
             </div>
         </div>
@@ -39,12 +39,12 @@
                 <div class="izquierda">
                     <span class="arriba titulo">Total</span>
                     <div class="abajo">
-                        <span class="precio fw-bold">${{Total}}</span>
+                        <span class="precio fw-bold fs-5">${{Total}}</span>
                     </div>
                 </div>
                 <div class="derecha">
                     <button (click)="continuar()" type="button"
-                        class="btn btn-primary continuar fw-bold text-white border-white">Continuar</button>
+                        class="btn btn-primary continuar fw-bold border-white">Continuar</button>
                 </div>
             </div>
         </div>
