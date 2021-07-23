@@ -72,18 +72,21 @@ export class DetalleComponent implements OnInit {
 
     if (item.cantidad <= 0) {
       Util.eliminarItem(this.itemsConCantidad, item);
-      this.swalService.fire(
-        {
-          title: 'Oh, oh...',
-          text: 'Parece que tu pedido está vacío. Volvé para agregar ítems.',
-          confirmButtonText: 'Volver',
-          icon: 'info',
-          iconColor: '#fc453c'
-        }
-      ).then(res => {
-        if (res.isConfirmed)
-          this.router.navigateByUrl('/pedido');
-      });
+
+      if (!this.itemsConCantidad.length) {
+        this.swalService.fire(
+          {
+            title: 'Oh, oh...',
+            text: 'Parece que tu pedido está vacío. Volvé para agregar ítems.',
+            confirmButtonText: 'Volver',
+            icon: 'info',
+            iconColor: '#fc453c'
+          }
+        ).then(res => {
+          if (res.isConfirmed)
+            this.router.navigateByUrl('/pedido');
+        });
+      }
     }
   }
 
