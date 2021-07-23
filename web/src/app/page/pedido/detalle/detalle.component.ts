@@ -4,6 +4,7 @@ import { ItemService } from '../../../service/item.service';;
 import { Location } from '@angular/common';
 import { ItemConCantidad } from '../../../data/item-con-cantidad';
 import { FormularioComponent } from '../../../component/formulario/formulario.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-detalle',
@@ -24,7 +25,8 @@ export class DetalleComponent implements OnInit {
   constructor(
     private pedidoService: PedidoService,
     private itemService: ItemService,
-    private location: Location
+    private location: Location,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -63,6 +65,11 @@ export class DetalleComponent implements OnInit {
   /** Vuelve a la pagina anterior */
   public clickVolver() {
     this.location.back();
+  }
+
+  public limpiar() {
+    this.pedidoService.eliminarTodasLineas();
+    this.router.navigateByUrl('/pedido');
   }
 
   /** Chequea que el formulario de info de entrega este correcto y envia el arma el mensaje de whatsapp */

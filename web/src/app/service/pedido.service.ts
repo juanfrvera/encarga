@@ -70,6 +70,14 @@ export class PedidoService {
     this.save(pedido);
   }
 
+  public eliminarTodasLineas(){
+    const pedido = this.get();
+
+    pedido.lineas = [];
+
+    this.save(pedido);
+  }
+
   /** Save to localStorage */
   private save(pedido: Pedido) {
     localStorage.setItem(PedidoService.storageKey, JSON.stringify(pedido));
