@@ -6,10 +6,12 @@ import Swal, { SweetAlertIcon, SweetAlertOptions } from 'sweetalert2';
 })
 export class SwalService {
   private static readonly defaultOptions: SweetAlertOptions = {
+    buttonsStyling: false,
     customClass: {
-      confirmButton: 'confirm-button'
+      cancelButton: 'btn btn-outline-secondary m-1 cancel-button',
+      confirmButton: 'btn btn-primary text-white m-1 confirm-button',
     },
-    reverseButtons: true
+    reverseButtons: true,
   };
 
   constructor() { }
