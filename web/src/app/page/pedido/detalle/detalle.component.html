@@ -2,7 +2,7 @@
     <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
             <h1 class="card-title align-self-center fw-bold fs-3">Detalle del pedido</h1>
-            <button class="btn btn-link text-secondary">Limpiar</button>
+            <button class="btn btn-link text-muted">Limpiar</button>
         </div>
 
         <div class="list-group list-group-flush px-2">
@@ -21,7 +21,11 @@
                         </div>
                     </div>
                 </div>
-                <p class="derecha align-self-center fw-bold mb-0">$ {{(item.precio ?? 0) * item.cantidad}}</p>
+                <div class="derecha align-self-center d-flex flex-column align-items-end">
+                    <p class="mb-0 text-muted subtotal">Subtotal:</p>
+                    <p class=" fw-bold mb-0">$ {{(item.precio ?? 0) * item.cantidad}}</p>
+                </div>
+                
             </div>
             <hr>
             <div class="d-flex justify-content-between">
