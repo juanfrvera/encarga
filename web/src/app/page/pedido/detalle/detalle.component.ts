@@ -6,6 +6,7 @@ import { ItemConCantidad } from '../../../data/item-con-cantidad';
 import { FormularioComponent } from '../../../component/formulario/formulario.component';
 import { Router } from '@angular/router';
 import { Util } from '../../../util';
+import { SwalService } from 'src/app/service/swal.service';
 
 @Component({
   selector: 'app-detalle',
@@ -26,6 +27,7 @@ export class DetalleComponent implements OnInit {
   constructor(
     private pedidoService: PedidoService,
     private itemService: ItemService,
+    private swalService: SwalService,
     private location: Location,
     private router: Router
   ) { }
@@ -80,7 +82,20 @@ export class DetalleComponent implements OnInit {
 
   public limpiar() {
     this.pedidoService.eliminarTodasLineas();
-    this.router.navigateByUrl('/pedido');
+    this.itemsConCantidad = [];
+    this.total = 0;
+    this.swalService.fire(
+      {
+        title: 'Carrito vacío',
+        confirmButtonText: 'Volver',
+        icon: 'info',
+        iconColor: '#fc453c'
+      }
+    ).then(res => {
+      if (res.isConfirmed)
+        this.router.navigateByUrl('/pedido');
+    })
+
   }
 
   /** Chequea que el formulario de info de entrega este correcto y envia el arma el mensaje de whatsapp */
