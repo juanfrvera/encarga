@@ -11,6 +11,7 @@ import { HomeComponent } from './page/pedido/home/home.component';
 import { DetalleComponent } from './page/pedido/detalle/detalle.component';
 import { FormularioComponent } from './component/formulario/formulario.component';
 import { FormsModule } from '@angular/forms';
+import { ModalComponent } from './component/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FormsModule } from '@angular/forms';
     DetalleComponent,
     AdminComponent,
     ItemComponent,
-    FormularioComponent
+    FormularioComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

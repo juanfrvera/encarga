@@ -1,43 +1,38 @@
 <!-- Modal -->
-<div #modal class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg align-items-end">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div *ngIf="Item.id; else headerCrear" #headerEditar class="w-100 d-flex justify-content-between">
-                    <h5 class="modal-title align-self-center" id="exampleModalLabel">Editar ítem</h5>
-                    <button (click)="eliminar()" class="btn">
-                        <i class="far fa-trash-alt"></i>
-                    </button>
-                </div>
-                <ng-template #headerCrear>
-                    <h5 class="modal-title" id="exampleModalLabel">Agregar ítem</h5>
-                </ng-template>
-            </div>
-            <div class="modal-body">
-                <app-formulario>
-                    <div class="mb-3">
-                        <label for="titulo" class="form-label">Título</label>
-                        <input [(ngModel)]="Item.titulo" id="titulo" type="text" class="form-control" required>
-                        <div class="invalid-feedback">Por favor ingrese un título</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="precio" class="form-label">Precio</label>
-                        <input [(ngModel)]="Item.precio" id="precio" type="number" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="descripcion" class="form-label">Descripción</label>
-                        <textarea [(ngModel)]="Item.descripcion" class="form-control" id="descripcion"
-                            rows="3"></textarea>
-                    </div>
-                </app-formulario>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button (click)="guardar()" type="button" class="btn btn-primary text-white">Guardar</button>
-            </div>
+<app-modal>
+    <ng-container ngProjectAs="[header]">
+        <div *ngIf="Item.id; else headerCrear" #headerEditar class="w-100 d-flex justify-content-between">
+            <h5 class="modal-title align-self-center" id="modalLabel">Editar ítem</h5>
+            <button (click)="eliminar()" class="btn">
+                <i class="far fa-trash-alt"></i>
+            </button>
         </div>
-    </div>
-</div>
+        <ng-template #headerCrear>
+            <h5 class="modal-title" id="modalLabel">Agregar ítem</h5>
+        </ng-template>
+    </ng-container>
+    <ng-container ngProjectAs="[body]">
+        <app-formulario>
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título</label>
+                <input [(ngModel)]="Item.titulo" id="titulo" type="text" class="form-control" required>
+                <div class="invalid-feedback">Por favor ingrese un título</div>
+            </div>
+            <div class="mb-3">
+                <label for="precio" class="form-label">Precio</label>
+                <input [(ngModel)]="Item.precio" id="precio" type="number" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea [(ngModel)]="Item.descripcion" class="form-control" id="descripcion" rows="3"></textarea>
+            </div>
+        </app-formulario>
+    </ng-container>
+    <ng-container ngProjectAs="[footer]">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button (click)="guardar()" type="button" class="btn btn-primary text-white">Guardar</button>
+    </ng-container>
+</app-modal>
 
 <div *ngIf="Items | async as items; else cargando">
     <div *ngIf="items.length; else empty" class="card">
