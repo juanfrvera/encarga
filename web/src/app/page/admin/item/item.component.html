@@ -1,77 +1,20 @@
-<!-- Modal -->
-<app-modal>
-    <ng-container ngProjectAs="[header]">
-        <div *ngIf="Item.id; else headerCrear" #headerEditar class="w-100 d-flex justify-content-between">
-            <h5 class="modal-title align-self-center" id="modalLabel">Editar ítem</h5>
-            <button (click)="eliminar()" class="btn">
-                <i class="far fa-trash-alt"></i>
-            </button>
+<app-crud [service]="Service">
+    <!-- Formulario dentro del modal -->
+    <!-- La directiva let permite obtener el item actual ya que es proveido por el componente -->
+    <!-- El componente crud busca el primer ng-template que encuentra y lo mete dentro del formulario del modal -->
+    <ng-template let-item>
+        <div class="mb-3">
+            <label for="titulo" class="form-label">Título</label>
+            <input [(ngModel)]="item.titulo" id="titulo" type="text" class="form-control" required>
+            <div class="invalid-feedback">Por favor ingrese un título</div>
         </div>
-        <ng-template #headerCrear>
-            <h5 class="modal-title" id="modalLabel">Agregar ítem</h5>
-        </ng-template>
-    </ng-container>
-    <ng-container ngProjectAs="[body]">
-        <app-formulario>
-            <div class="mb-3">
-                <label for="titulo" class="form-label">Título</label>
-                <input [(ngModel)]="Item.titulo" id="titulo" type="text" class="form-control" required>
-                <div class="invalid-feedback">Por favor ingrese un título</div>
-            </div>
-            <div class="mb-3">
-                <label for="precio" class="form-label">Precio</label>
-                <input [(ngModel)]="Item.precio" id="precio" type="number" class="form-control">
-            </div>
-            <div class="mb-3">
-                <label for="descripcion" class="form-label">Descripción</label>
-                <textarea [(ngModel)]="Item.descripcion" class="form-control" id="descripcion" rows="3"></textarea>
-            </div>
-        </app-formulario>
-    </ng-container>
-    <ng-container ngProjectAs="[footer]">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button (click)="guardar()" type="button" class="btn btn-primary text-white">Guardar</button>
-    </ng-container>
-</app-modal>
-
-<div *ngIf="Items | async as items; else cargando">
-    <div *ngIf="items.length; else empty" class="card">
-        <!-- Hay Items y cargó -->
-        <div class="card-body">
-            <div class="d-flex justify-content-between mb-3">
-                <h1 class="card-title align-self-center fw-bold fs-3">Items</h1>
-                <button (click)="agregar()" type="button" class="btn btn-primary btn-sm text-white">Agregar</button>
-            </div>
-            <div class="container-full">
-                <app-lista [items]="items" (itemClick)="editar($event)">
-                    <ng-template let-item>
-                        <!-- here we can use item -->
-                        <div class="d-flex w-100 justify-content-between p-2 rounded cursor-pointer hover">
-                            <div class="izquierda">
-                                <h5 class="mb-1 fs-6">{{item.titulo}}</h5>
-                                <p class="mb-2 text-muted desc">{{item.descripcion}}</p>
-                            </div>
-                            <div class="derecha align-self-center fw-bold fs-5 mb-0">$ {{item.precio}}</div>
-                        </div>
-                    </ng-template>
-                </app-lista>
-            </div>
+        <div class="mb-3">
+            <label for="precio" class="form-label">Precio</label>
+            <input [(ngModel)]="item.precio" id="precio" type="number" class="form-control">
         </div>
-    </div>
-    <ng-template #empty>
-        <div class="d-flex justify-content-center align-items-center w-100 h-100">
-            <div class="text-center">
-                <img src="../../../assets/empty-state/caja.png" alt="">
-                <p class="text-muted mt-3">Aún no tienes ítems, comienza a agregarlos!</p>
-                <button (click)="agregar()" class="btn btn-primary text-white">Agregar</button>
-            </div>
+        <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea [(ngModel)]="item.descripcion" class="form-control" id="descripcion" rows="3"></textarea>
         </div>
     </ng-template>
-</div>
-<ng-template #cargando>
-    <div class="d-flex flex-column justify-content-center align-items-center vh-100">
-        <div class="spinner-border text-primary" role="status"></div>
-        <span class="mt-3">Cargando...</span>
-    </div>
-
-</ng-template>
+</app-crud>

@@ -13,6 +13,7 @@ import { FormularioComponent } from './component/formulario/formulario.component
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from './component/modal/modal.component';
 import { ListaComponent } from './component/lista/lista.component';
+import { CrudComponent } from './component/crud/crud.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ListaComponent } from './component/lista/lista.component';
     ItemComponent,
     FormularioComponent,
     ModalComponent,
-    ListaComponent
+    ListaComponent,
+    CrudComponent
   ],
   imports: [
     BrowserModule,

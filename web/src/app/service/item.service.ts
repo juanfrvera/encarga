@@ -4,12 +4,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Item } from '../data/item';
 import { ItemSinId } from '../data/item-sin-id';
 import { ApiService } from './api.service';
+import { CrudService } from './instance/crud.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ItemService {
-  private readonly api: ApiService<ItemSinId, Item>;
+export class ItemService extends CrudService<ItemSinId, Item> {
 
   private items: BehaviorSubject<Item[] | null> = new BehaviorSubject<Item[] | null>(null);
   private itemsObservable?: Observable<Item[] | null>;
@@ -27,7 +27,7 @@ export class ItemService {
   }
 
   constructor(http: HttpClient) {
-    this.api = new ApiService(http, 'item/');
+    super(new ApiService(http, 'item/'));
   }
 
   /**
