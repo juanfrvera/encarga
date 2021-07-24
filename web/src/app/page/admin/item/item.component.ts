@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { Modal } from 'bootstrap';
+import { Component, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2';
 import { FormularioComponent } from '../../../component/formulario/formulario.component';
+import { ModalComponent } from '../../../component/modal/modal.component';
 import { Item } from '../../../data/item';
 import { ItemService } from '../../../service/item.service';
 import { SwalService } from '../../../service/swal.service';
@@ -12,10 +12,9 @@ import { Util } from '../../../util';
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss']
 })
-export class ItemComponent implements AfterViewInit {
+export class ItemComponent {
   @ViewChild(FormularioComponent) formulario: FormularioComponent;
-  @ViewChild('modal', { static: true }) modalElement: ElementRef;
-  private modal: Modal;
+  @ViewChild(ModalComponent) modal: ModalComponent;
 
   /** Item en modal */
   private item: Item = {} as Item;
@@ -32,10 +31,6 @@ export class ItemComponent implements AfterViewInit {
     private itemService: ItemService,
     private swalService: SwalService
   ) { }
-
-  ngAfterViewInit(): void {
-    this.modal = new Modal(this.modalElement.nativeElement);
-  }
 
   /** Muestra el modal en modo creacion */
   public agregar() {
@@ -66,7 +61,7 @@ export class ItemComponent implements AfterViewInit {
           });
       },
       // Sirve para que al apretar Escape no se cierre el modal
-      target: this.modalElement.nativeElement
+      target: this.modal.Element.nativeElement
     }).then(result => {
       // Si se eliminó sin errores
       if (result.isConfirmed) {
@@ -95,11 +90,11 @@ export class ItemComponent implements AfterViewInit {
 
   private abrir() {
     this.formulario.ocultarFeedback();
-    this.modal.show();
+    this.modal.abrir();
   }
 
   private cerrar() {
-    this.modal.hide();
+    this.modal.cerrar();
   }
 
   private limpiarItem() {
