@@ -37,16 +37,9 @@
         <div #toast class="toast text-white bg-primary bg-gradient" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-autohide="false">
             <div class="toast-body">
-                <div class="izquierda">
-                    <span class="arriba titulo">Total</span>
-                    <div class="abajo">
-                        <span class="precio fw-bold fs-5">${{Total}}</span>
-                    </div>
-                </div>
-                <div class="derecha">
-                    <button (click)="continuar()" type="button"
-                        class="btn btn-primary continuar fw-bold border-white">Continuar</button>
-                </div>
+                <span class="precio fw-bold fs-5">${{Total}}</span>
+                <button (click)="continuar()" type="button" class="btn btn-primary continuar fw-bold border-white">Ver
+                    mi pedido</button>
             </div>
         </div>
     </div>
