@@ -12,9 +12,7 @@ import { CategoriaComponent } from './page/admin/categoria/categoria.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'pedido',
-    pathMatch: 'full'
-    //component: LandingComponent
+    component: LandingComponent
   },
   {
     path: 'pedido',
