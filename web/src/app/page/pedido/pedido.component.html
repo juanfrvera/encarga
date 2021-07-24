@@ -1,32 +1,35 @@
-<nav class="navbar navbar-light bg-light shadow">
-    <div class="container-fluid justify-content-start">
-        <button (click)="abrirMenu()" class="btn btn-link" type="button">
-            <i class="fas fa-bars"></i>
-        </button>
-        <span class="navbar-brand mb-0 ms-3 h1"><strong>encarga.shop</strong></span>
-    </div>
-</nav>
+<div #container>
+    <nav class="navbar navbar-light bg-light shadow">
+        <div class="container-fluid justify-content-start">
+            <button (click)="abrirMenu()" class="btn btn-link" type="button">
+                <i class="fas fa-bars"></i>
+            </button>
+            <span class="navbar-brand mb-0 ms-3 h1"><strong>encarga.shop</strong></span>
+        </div>
+    </nav>
 
 
-<div #offcanvas class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasPedido" aria-labelledby="offcanvasPedidoLabel">
-    <div class="offcanvas-header border-bottom border-primary border-2">
-        <h5 class="offcanvas-title" id="offcanvasPedidoLabel"><strong>encarga.shop</strong></h5>
-        <button type="button" class="btn btn-link" data-bs-dismiss="offcanvas" aria-label="Close">
-            <i class="fas fa-bars"></i>
-        </button>
-    </div>
-    <div class="offcanvas-body">
-        <div class="list-group list-group-flush">
-            <button type="button" class="list-group-item list-group-item-action">Todos</button>
-            <button routerLink="/admin" type="button" class="list-group-item list-group-item-action"
-                aria-current="true">
-                <div class="d-inline-block w-fixed">
-                    <i class="fas fa-sign-in-alt"></i>
-                </div>
-                Ingresar
+    <div #offcanvas class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasPedido"
+        aria-labelledby="offcanvasPedidoLabel">
+        <div class="offcanvas-header border-bottom border-primary border-2">
+            <h5 class="offcanvas-title" id="offcanvasPedidoLabel"><strong>encarga.shop</strong></h5>
+            <button type="button" class="btn btn-link" data-bs-dismiss="offcanvas" aria-label="Close">
+                <i class="fas fa-bars"></i>
             </button>
         </div>
+        <div class="offcanvas-body">
+            <div class="list-group list-group-flush">
+                <button type="button" class="list-group-item list-group-item-action">Todos</button>
+                <button routerLink="/admin" type="button" class="list-group-item list-group-item-action"
+                    aria-current="true">
+                    <div class="d-inline-block w-fixed">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    Ingresar
+                </button>
+            </div>
+        </div>
     </div>
-</div>
 
-<router-outlet></router-outlet>
+    <router-outlet></router-outlet>
+</div>
