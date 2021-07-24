@@ -12,6 +12,7 @@ import { DetalleComponent } from './page/pedido/detalle/detalle.component';
 import { FormularioComponent } from './component/formulario/formulario.component';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from './component/modal/modal.component';
+import { ListaComponent } from './component/lista/lista.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ModalComponent } from './component/modal/modal.component';
     AdminComponent,
     ItemComponent,
     FormularioComponent,
-    ModalComponent
+    ModalComponent,
+    ListaComponent
   ],
   imports: [
     BrowserModule,

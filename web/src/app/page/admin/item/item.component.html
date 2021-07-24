@@ -43,17 +43,18 @@
                 <button (click)="agregar()" type="button" class="btn btn-primary btn-sm text-white">Agregar</button>
             </div>
             <div class="container-full">
-                <div class="list-group list-group-flush mt-4">
-                    <!-- Item -->
-                    <div *ngFor="let item of items;" (click)="editar(item)"
-                        class="d-flex w-100 justify-content-between p-2 rounded cursor-pointer hover">
-                        <div class="izquierda">
-                            <h5 class="mb-1 fs-6">{{item.titulo}}</h5>
-                            <p class="mb-2 text-muted desc">{{item.descripcion}}</p>
+                <app-lista [items]="items" (itemClick)="editar($event)">
+                    <ng-template let-item>
+                        <!-- here we can use item -->
+                        <div class="d-flex w-100 justify-content-between p-2 rounded cursor-pointer hover">
+                            <div class="izquierda">
+                                <h5 class="mb-1 fs-6">{{item.titulo}}</h5>
+                                <p class="mb-2 text-muted desc">{{item.descripcion}}</p>
+                            </div>
+                            <div class="derecha align-self-center fw-bold fs-5 mb-0">$ {{item.precio}}</div>
                         </div>
-                        <div class="derecha align-self-center fw-bold fs-5 mb-0">$ {{item.precio}}</div>
-                    </div>
-                </div>
+                    </ng-template>
+                </app-lista>
             </div>
         </div>
     </div>

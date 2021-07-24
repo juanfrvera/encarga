@@ -1,0 +1,6 @@
+<div class="list-group list-group-flush mt-4">
+    <div *ngFor="let item of items" (click)="click(item)">
+        <ng-template [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: item}">
+        </ng-template>
+    </div>
+</div>
