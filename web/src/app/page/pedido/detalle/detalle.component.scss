@@ -17,3 +17,21 @@
 .hover-white button:hover {
     color: #fdfcfa;
 }
+
+img {
+    max-width: 200px;
+} 
+
+body {
+    height: 100%;
+}
+
+.empty-state {
+    position: fixed;
+    height: 100%;
+    top: 50%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
