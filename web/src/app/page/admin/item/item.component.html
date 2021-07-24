@@ -40,7 +40,7 @@
 </div>
 
 <div *ngIf="Items | async as items; else cargando">
-    <div *ngIf="items.length; else empty" class="card m-3 shadow">
+    <div *ngIf="items.length; else empty" class="card">
         <!-- Hay Items y cargó -->
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">

@@ -24,3 +24,14 @@
   padding-left: 0.5rem;
   padding-right: 0.5rem !important;
 }
+
+.card {
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+  margin: 1rem 0;
+}
+
+@media (min-width: 400px) {
+  .card {
+    margin: 1rem;
+  }
+}
