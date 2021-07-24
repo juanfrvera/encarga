@@ -95,25 +95,6 @@ export class DetalleComponent implements OnInit {
     this.location.back();
   }
 
-  public limpiar() {
-    this.pedidoService.eliminarTodasLineas();
-    this.itemsConCantidad = [];
-    this.total = 0;
-    this.swalService.fire(
-      {
-        title: 'Oh, oh...',
-        text: 'Parece que tu pedido está vacío. Volvé para agregar ítems.',
-        confirmButtonText: 'Volver',
-        icon: 'info',
-        iconColor: '#fc453c'
-      }
-    ).then(res => {
-      if (res.isConfirmed)
-        this.router.navigateByUrl('/pedido');
-    })
-
-  }
-
   /** Chequea que el formulario de info de entrega este correcto y envia el arma el mensaje de whatsapp */
   public clickFinalizar() {
     this.finalizado = true;

@@ -1,9 +1,10 @@
 <div>
     <!-- Categoría -->
-    <div *ngFor="let categoria of Categorias;" class="card m-3 shadow">
+    <div *ngFor="let categoria of Categorias; first as esPrimera" class="card m-3 shadow">
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
                 <h1 class="card-title align-self-center fw-bold fs-3">{{categoria.titulo}}</h1>
+                <button *ngIf="esPrimera" (click)="limpiar()" class="btn btn-link text-muted">Limpiar</button>
             </div>
             <div class="list-group list-group-flush px-2">
                 <!-- Item -->
@@ -33,8 +34,8 @@
     </div>
     <!-- Toast -->
     <div class="position-sticky p-3 bottom-0" style="z-index: 11">
-        <div #toast class="toast text-white bg-primary bg-gradient" role="alert" aria-live="assertive" aria-atomic="true"
-            data-bs-autohide="false">
+        <div #toast class="toast text-white bg-primary bg-gradient" role="alert" aria-live="assertive"
+            aria-atomic="true" data-bs-autohide="false">
             <div class="toast-body">
                 <div class="izquierda">
                     <span class="arriba titulo">Total</span>

@@ -106,6 +106,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.pedidoService.remove(item);
   }
 
+  public limpiar() {
+    this.pedidoService.eliminarTodasLineas();
+    this.reflejarPedido();
+    this.ocultarToast();
+  }
+
   public continuar() {
     this.router.navigate(['detalle'], { relativeTo: this.route });
   }
@@ -148,6 +154,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // Aplanar los items para recorrerlos más facilmente
     const itemsAplanados = this.categorias.map(cat => cat.items).flat();
+
+    // Primero limpiar todas las cantidades que pueden estar guardadas en memoria
+    itemsAplanados.forEach(itemConCantidad => {
+      itemConCantidad.cantidad = 0;
+    });
+
     const pedido = this.pedidoService.get();
     if (pedido && pedido.lineas) {
       pedido.lineas.forEach(linea => {
