@@ -1,7 +1,7 @@
 <main>
-    <section id="home" class="vh-100 p-4 bg">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white rounded">
-            <div class="container-fluid">
+    <section id="home" class="vh-100 p-4 bg-primary">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white rounded shadow">
+            <div class="container-fluid px-5">
                 <a class="navbar-brand" href="#"><strong>encarga.shop</strong></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
@@ -9,15 +9,15 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse flex-grow-0" id="navbarTogglerDemo02">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-16">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            <a class="nav-link active" aria-current="page" href="#home">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Sobre</a>
+                            <a class="nav-link" href="#about">Sobre</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Funcionalidades</a>
+                            <a class="nav-link" href="#funciones">Funcionalidades</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Demo</a>
@@ -39,7 +39,8 @@
                     <div class="card p-4">
                         <div class="card-body">
                             <h2 class="card-title fw-bold">Conectáte con tus clientes rápidamente</h2>
-                            <p class="card-text">Expandir tu negocio nunca fue tan sencillo.</p>
+                            <p class="card-text">Expandir tu negocio nunca fue tan simple. Nuestra app web te ofrece una
+                                manera sencilla de vender y llegar a más clientes.</p>
                             <a href="#" class="btn btn-primary bg-gradient"> <strong>Conocé más</strong> </a>
                         </div>
                     </div>
@@ -64,44 +65,46 @@
                     <img src="../../../assets/phone-frames/phone-frame.png" alt="" class="img-fluid w-50">
                 </div>
                 <div class="col-12 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">
-                                <i class="fas fa-check-circle text-primary pe-2"></i>
-                                DISEÑO INTUITIVO
-                            </h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
-                                velit blanditiis sed asperiores quasi.</p>
+                    <div class="w-fixed">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    <i class="fas fa-check-circle text-primary pe-2"></i>
+                                    <strong>DISEÑO CREATIVO</strong>
+                                </h6>
+                                <p class="card-text">Optamos por ofrecer una buena experiencia de usuario, al pensar en
+                                    cada detalle.</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    <i class="fas fa-check-circle text-primary pe-2"></i>
+                                    <strong>FÁCIL USO</strong>
+                                </h6>
+                                <p class="card-text">Apuntamos a diseñar una interfaz entendible y sencilla, fácil de
+                                    seguir para cualquier persona.</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    <i class="fas fa-check-circle text-primary pe-2"></i>
+                                    <strong>AHORRO DE TIEMPO</strong>
+                                </h6>
+                                <p class="card-text">Priorizamos tu negocio al ofrecerte un contacto inmediato con tus
+                                    clientes.</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">
-                                <i class="fas fa-check-circle text-primary pe-2"></i>
-                                FÁCIL DE USAR
-                            </h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda
-                                accusamus maiores necessitatibus facere eius!
-                            </p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">
-                                <i class="fas fa-check-circle text-primary pe-2"></i>
-                                AHORRO DE TIEMPO
-                            </h5>
-                            <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corporis
-                                itaque possimus asperiores totam praesentium vero laborum.</p>
-                        </div>
-                    </div>
+
 
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="funciones" class="vh-100 p-4 bg text-white">
+    <section id="funciones" class="vh-100 p-4 bg-primary text-white">
         <div class="text-center m-5">
             <h2>
                 <strong>Funcionalidades</strong>
@@ -113,36 +116,244 @@
                 <div class="col-12 col-md-4 text-center">
                     <i class="fas fa-clipboard-list fs-1 mb-3"></i>
                     <h5>ADMINISTRÁ TUS PRODUCTOS</h5>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+                    <p>Nuestro panel administrativo te permite agregar, actualizar y quitar ítems sencillamente.</p>
                 </div>
                 <div class="col-12 col-md-4 text-center">
                     <i class="fab fa-whatsapp fs-1 mb-3"></i>
                     <h5>WHATSAPP INTEGRADO</h5>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+                    <p>Incorporamos tu número de Whatsapp para que tus clientes puedan contactarse fácilmente.</p>
                 </div>
                 <div class="col-12 col-md-4 text-center">
                     <i class="fas fa-mobile-alt fs-1 mb-3"></i>
                     <h5>PLATAFORMA FLEXIBLE</h5>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+                    <p>Nuestra interfaz se adapta completamente a los distintos dispositivos.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="demo" class="vh-100 p-4">
+        <div class="text-center m-5">
+            <h2>
+                <strong>Un vistazo a nuestra interfaz</strong>
+            </h2>
+        </div>
+
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                                class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                                aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                                aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner pb-5">
+                            <div class="carousel-item active">
+                                <img src="../../../assets/phone-frames/phone-frame.png" class="d-block w-25 m-auto"
+                                    alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="../../../assets/phone-frames/phone-frame.png" class="d-block w-25 m-auto"
+                                    alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="../../../assets/phone-frames/phone-frame.png" class="d-block w-25 m-auto"
+                                    alt="...">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="prev">
+                            <span class="text-primary fs-4" aria-hidden="true">
+                                <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="next">
+                            <span class="text-primary fs-4" aria-hidden="true">
+                                <i class="fas fa-chevron-right"></i>
+                            </span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 align-self-center">
+                    <h4>Probá nuestra Demo</h4>
+                    <p>Te invitamos a experimentar nuestra app web completamente <strong>gratis</strong>. Podrás
+                        interactuar en tiempo real con las funcionalidades que tenemos para ofrecerte.</p>
+                    <button class="btn btn-primary bg-gradient"><strong>Probálo aquí</strong></button>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section id="precios" class="vh-100 p-4 bg-primary">
+        <div class="text-center m-5 text-white">
+            <h2>
+                <strong>Precios</strong>
+            </h2>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <h4 class="card-title">Plan 1</h4>
+                                <p>Lorem ipsum dolor, sit amet consectetur.</p>
+                                <h2 class="mb-3"><strong><span class="fs-6">AR$</span>1000,00<span
+                                            class="fs-6">/mes</span></strong></h2>
+                                <button class="btn btn-primary bg-gradient"><strong>Seleccionar</strong></button>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">An item</li>
+                                <li class="list-group-item">A second item</li>
+                                <li class="list-group-item">A third item</li>
+                                <li class="list-group-item">A fourth item</li>
+                                <li class="list-group-item">And a fifth one</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <h4 class="card-title">Plan 2</h4>
+                                <p>Lorem ipsum dolor, sit amet consectetur.</p>
+                                <h2 class="mb-3"><strong><span class="fs-6">AR$</span>1500,00<span
+                                            class="fs-6">/mes</span></strong></h2>
+                                <button class="btn btn-primary bg-gradient"><strong>Seleccionar</strong></button>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">An item</li>
+                                <li class="list-group-item">A second item</li>
+                                <li class="list-group-item">A third item</li>
+                                <li class="list-group-item">A fourth item</li>
+                                <li class="list-group-item">And a fifth one</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <h4 class="card-title">Plan 3</h4>
+                                <p>Lorem ipsum dolor, sit amet consectetur.</p>
+                                <h2 class="mb-3"><strong><span class="fs-6">AR$</span>2000,00<span
+                                            class="fs-6">/mes</span></strong></h2>
+                                <button class="btn btn-primary bg-gradient"><strong>Seleccionar</strong></button>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">An item</li>
+                                <li class="list-group-item">A second item</li>
+                                <li class="list-group-item">A third item</li>
+                                <li class="list-group-item">A fourth item</li>
+                                <li class="list-group-item">And a fifth one</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
     </section>
 
-    <section id="precios">
+    <section id="equipo" class="vh-100 p-4">
+        <div class="text-center m-5">
+            <h2>
+                <strong>Nuestro equipo</strong>
+            </h2>
+        </div>
 
+        <div class="container">
+            <div class="row px-5">
+                <div class="col-12 col-md-6 text-center">
+                    <div class="card">
+                        <div class="card-body p-5">
+                            <img src="../../../assets/empty-state/caja-changed.png" alt=""
+                                class="rounded-circle w-25 mb-4">
+                            <h4 class="text-primary"><strong>JUAN FRANCISCO VERA</strong></h4>
+                            <h6 class="text-muted">APP DEVELOPER</h6>
+                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque optio veritatis
+                                perspiciatis eligendi vero est voluptatem sed? Reiciendis dolor.</p>
+                            <div class="d-flex justify-content-evenly fs-5 text-primary pt-3">
+                                <i class="far fa-envelope"></i>
+                                <i class="fab fa-gitlab"></i>
+                                <i class="fab fa-instagram"></i>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 text-center">
+                    <div class="card">
+                        <div class="card-body p-5">
+                            <img src="../../../assets/empty-state/caja-changed.png" alt=""
+                                class="rounded-circle w-25 mb-4">
+                            <h4 class="text-primary"><strong>VICTORIA DERUDDER</strong></h4>
+                            <h6 class="text-muted">APP DEVELOPER</h6>
+                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque optio veritatis
+                                perspiciatis eligendi vero est voluptatem sed? Reiciendis dolor.</p>
+                            <div class="d-flex justify-content-evenly fs-5 text-primary pt-3">
+                                <i class="far fa-envelope"></i>
+                                <i class="fab fa-gitlab"></i>
+                                <i class="fab fa-instagram"></i>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section id="equipo">
+    <footer id="footer" class="bg-dark p-4 text-white">
+        <div class="container">
+            <div class="row px-5">
+                <div class="col-12 col-md-4 p-4">
+                    <h4><strong>encarga.shop</strong></h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque rerum voluptatum similique
+                        aliquid in quae quis nisi.</p>
+                    <div class="d-flex justify-content-evenly fs-4 mt-4">
+                        <i class="fab fa-facebook-f"></i>
+                        <i class="fab fa-twitter"></i>
+                        <i class="fab fa-instagram"></i>
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 p-4">
 
-    </section>
+                </div>
+                <div class="col-12 col-md-4 p-4">
+                    <h5>Enlaces</h5>
+                    <nav class="nav flex-column">
+                        <a class="nav-link link-light" href="#home">Home</a>
+                        <a class="nav-link link-light" href="#about">Sobre</a>
+                        <a class="nav-link link-light" href="#funciones">Funcionalidades</a>
+                        <a class="nav-link link-light" href="#demo">Demo</a>
+                        <a class="nav-link link-light" href="#precios">Precios</a>
+                        <a class="nav-link link-light" href="#equipo">Equipo</a>
+                      </nav>
+                </div>
+            </div>
+        </div>
 
-    <footer id="footer">
-
+        
+        <div class="text-center px-5">
+            <hr>
+            <p><i class="far fa-copyright"></i> Copyright 2021. MIXIN. Todos los derechos reservados.</p>
+        </div>
+        
     </footer>
 
 
