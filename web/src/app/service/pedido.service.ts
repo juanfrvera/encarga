@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Util } from '../util';
-import { Item } from '../data/item';
+import { Item } from '../data/item/item';
 import { LineaPedido } from '../data/linea-pedido';
 import { Pedido } from '../data/pedido';
 

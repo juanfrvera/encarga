@@ -17,4 +17,10 @@
             <textarea [(ngModel)]="item.descripcion" class="form-control" id="descripcion" rows="3"></textarea>
         </div>
     </ng-template>
+    <div empty-state class="d-flex justify-content-center align-items-center w-100 h-100">
+        <div class="text-center">
+            <img src="../../../assets/empty-state/caja.png" alt="">
+            <p class="text-muted mt-3">Aún no tienes ítems, comienza a agregarlos!</p>
+        </div>
+    </div>
 </app-crud>

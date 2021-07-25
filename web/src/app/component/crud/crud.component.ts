@@ -1,7 +1,6 @@
 import { Component, ContentChild, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2';
 import { ObjetoConId } from '../../data/objeto-con-id';
-import { ObjetoSinId } from '../../data/objeto-sin-id';
 import { CrudService } from '../../service/instance/crud.service';
 import { SwalService } from '../../service/swal.service';
 import { Util } from '../../util';
@@ -13,8 +12,8 @@ import { ModalComponent } from '../modal/modal.component';
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.scss']
 })
-export class CrudComponent implements OnInit {
-  @Input() service: CrudService<ObjetoSinId, ObjetoConId>;
+export class CrudComponent<ConId extends ObjetoConId> implements OnInit {
+  @Input() service: CrudService<ConId>;
 
   @ViewChild(FormularioComponent) formulario: FormularioComponent;
   @ViewChild(ModalComponent) modal: ModalComponent;
@@ -23,7 +22,7 @@ export class CrudComponent implements OnInit {
   @ContentChild(TemplateRef) templateRef: TemplateRef<any>;
 
   /** Item en modal */
-  private item: ObjetoConId = {} as ObjetoConId;
+  private item: ConId = {} as ConId;
 
   public get Item() {
     return this.item;
@@ -45,7 +44,7 @@ export class CrudComponent implements OnInit {
   }
 
   /** Muestra el modal en modo edicion */
-  public editar(item: ObjetoConId) {
+  public editar(item: ConId) {
     this.item = Util.copiaProfunda(item);
     this.abrir();
   }
@@ -62,7 +61,7 @@ export class CrudComponent implements OnInit {
         return this.service.delete(this.item).toPromise().then(deletedItem => {
           return deletedItem;
         },
-          error => {
+          () => {
             Swal.showValidationMessage('Ocurrió un error al intentar eliminar');
           });
       },
@@ -104,7 +103,7 @@ export class CrudComponent implements OnInit {
   }
 
   private limpiarItem() {
-    this.item = {} as ObjetoConId;
+    this.item = {} as ConId;
   }
 
 }

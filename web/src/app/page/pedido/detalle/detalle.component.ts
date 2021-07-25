@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { PedidoService } from '../../../service/pedido.service';
 import { ItemService } from '../../../service/item.service';;
 import { Location } from '@angular/common';
-import { ItemConCantidad } from '../../../data/item-con-cantidad';
+import { ItemConCantidad } from '../../../data/item/item-con-cantidad';
 import { FormularioComponent } from '../../../component/formulario/formulario.component';
 import { Router } from '@angular/router';
 import { Util } from '../../../util';

@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PedidoService } from '../../../service/pedido.service';
 import { ItemService } from '../../../service/item.service';
-import { ItemConCantidad } from '../../../data/item-con-cantidad';
-import { CategoriaConItemsConCantidad } from '../../../data/categoria-con-items';
+import { ItemConCantidad } from '../../../data/item/item-con-cantidad';
+import { CategoriaConItemsConCantidad } from '../../../data/categoria/categoria-con-items';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Toast } from 'bootstrap';

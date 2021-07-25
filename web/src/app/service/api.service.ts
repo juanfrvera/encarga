@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { shareReplay } from 'rxjs/operators';
 
-export class ApiService<SinId, ConId> {
+export class ApiService<ConId> {
 
   private readonly url: string = 'https://encargarpedido.herokuapp.com/';
   private readonly route: string;
@@ -10,7 +10,7 @@ export class ApiService<SinId, ConId> {
     this.route = route;
   }
 
-  public create(data: SinId) {
+  public create(data: Omit<ConId, 'id'>) {
     return this.http.post<ConId>(this.url + this.route, data)
       // Esto se hace ya que nos suscribimos más de una vez
       // Más información: https://blog.angular-university.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/
@@ -24,7 +24,7 @@ export class ApiService<SinId, ConId> {
   public getById(id: string) {
     return this.http.get<ConId>(this.url + this.route + id);
   }
-  public updateById(id: string, data: SinId) {
+  public updateById(id: string, data: Omit<ConId, 'id'>) {
     return this.http.put<ConId>(this.url + this.route + id, data)
       // Esto se hace ya que nos suscribimos más de una vez
       // Más información: https://blog.angular-university.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/

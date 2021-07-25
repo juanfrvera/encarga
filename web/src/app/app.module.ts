@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { ModalComponent } from './component/modal/modal.component';
 import { ListaComponent } from './component/lista/lista.component';
 import { CrudComponent } from './component/crud/crud.component';
+import { CategoriaComponent } from './page/admin/categoria/categoria.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { CrudComponent } from './component/crud/crud.component';
     DetalleComponent,
     AdminComponent,
     ItemComponent,
+    CategoriaComponent,
     FormularioComponent,
     ModalComponent,
     ListaComponent,
