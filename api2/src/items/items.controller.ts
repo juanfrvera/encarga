@@ -5,7 +5,7 @@ import { UpdateItemDto } from './dto/update-item.dto';
 
 @Controller('items')
 export class ItemsController {
-  constructor(private readonly itemsService: ItemsService) {}
+  constructor(private readonly itemsService: ItemsService) { }
 
   @Post()
   create(@Body() createItemDto: CreateItemDto) {
@@ -31,4 +31,10 @@ export class ItemsController {
   remove(@Param('id') id: string) {
     return this.itemsService.remove(+id);
   }
+
+  @Post('filter')
+  findAllWithFilter(@Body() filter: any) {
+    return this.itemsService.findAllWithFilter(filter);
+  }
+
 }

@@ -1,26 +1,47 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
+import { Item } from './entities/item.entity';
 
 @Injectable()
 export class ItemsService {
-  create(createItemDto: CreateItemDto) {
-    return 'This action adds a new item';
+  constructor(@InjectRepository(Item) private readonly repo: Repository<Item>) { }
+
+  create(createItemDto: CreateItemDto): Promise<Item> {
+    return this.repo.save(createItemDto);
   }
 
   findAll() {
-    return `This action returns all items`;
+    return this.repo.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} item`;
+    return this.repo.findOne(id);
   }
 
-  update(id: number, updateItemDto: UpdateItemDto) {
-    return `This action updates a #${id} item`;
+  async update(id: number, updateItemDto: UpdateItemDto) {
+    const original = await this.repo.findOne(id);
+
+    const updated: Item = {
+      ...original,
+      ...updateItemDto
+    };
+
+    await this.repo.save(updated);
+
+    return updated;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} item`;
+    const item = this.repo.findOne(id);
+    this.repo.delete(id);
+
+    return item;
+  }
+
+  findAllWithFilter(filter: { listaIds: number[] }) {
+    return this.repo.findByIds(filter.listaIds);
   }
 }
