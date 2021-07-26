@@ -9,7 +9,7 @@ import { CrudService } from './instance/crud.service';
 })
 export class ItemService extends CrudService<Item>{
   constructor(http: HttpClient) {
-    super(new ApiService(http, 'item/'));
+    super(new ApiService(http, 'items/'));
   }
 
   /**
