@@ -15,10 +15,12 @@ import { ModalComponent } from './component/modal/modal.component';
 import { ListaComponent } from './component/lista/lista.component';
 import { CrudComponent } from './component/crud/crud.component';
 import { CategoriaComponent } from './page/admin/categoria/categoria.component';
+import { LandingComponent } from './page/landing/landing.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LandingComponent,
     PedidoComponent,
     HomeComponent,
     DetalleComponent,

@@ -2,12 +2,12 @@
 
 main {
     font-family: 'Poppins', sans-serif;
-    font-size: 12px;
+    font-size  : 12px;
 }
 
 .w-fixed {
     max-width: 400px;
-    margin: auto;
+    margin   : auto;
 }
 
 .carousel-indicators button {
@@ -15,10 +15,43 @@ main {
 }
 
 .list-group-item {
-    border: none;
+    border          : none;
     background-color: transparent;
 }
 
 .text-16 li {
     font-size: 1rem;
+}
+
+#btn-back-to-top {
+    position: fixed;
+    bottom  : 25px;
+    right   : 25px;
+    display : none;
+}
+
+
+.social-icons .social-icon {
+    display         : inline-flex;
+    align-items     : center;
+    justify-content : center;
+    height          : 3rem;
+    width           : 3rem;
+    background-color: #6c757d ;
+    color           : #fdfcfa;
+    border-radius   : 100%;
+    font-size       : 1.2rem;
+    margin-right    : 1.5rem;
+}
+
+.social-icons .social-icon:last-child {
+    margin-right: 0;
+}
+
+.social-icons .social-icon:hover {
+    background-color: #fc453c;
+}
+
+#contacto a {
+    text-decoration: none;
 }
