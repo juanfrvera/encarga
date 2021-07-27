@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       if (items) {
         // TODO: cambiar este código temporal
         // Código temporal hasta que tengamos categorias
-        const categoria: CategoriaConItemsConCantidad = { id: '0', titulo: 'Todos', items: [] };
+        const categoria: CategoriaConItemsConCantidad = { id: '0', nombre: 'Todos', items: [] };
 
         categoria.items = items.map(item => {
           // Convierte un item a item con cantidad
