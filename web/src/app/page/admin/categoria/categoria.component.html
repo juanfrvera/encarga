@@ -1,4 +1,14 @@
 <app-crud [service]="Service">
+    <!-- Formulario dentro del modal -->
+    <!-- La directiva let permite obtener el item actual ya que es proveido por el componente -->
+    <!-- El componente crud busca el primer ng-template que encuentra y lo mete dentro del formulario del modal -->
+    <ng-template let-categoria>
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input [(ngModel)]="categoria.nombre" id="titulo" type="text" class="form-control" required>
+            <div class="invalid-feedback">Por favor ingrese un nombre</div>
+        </div>
+    </ng-template>
     <div empty-state class="empty-state text-center">
         <img src="../../../assets/empty-state/etiqueta-changed.png" alt="">
         <h4 class="text-black-50 mt-4">Próximamente...</h4>
