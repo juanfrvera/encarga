@@ -2,7 +2,7 @@
 <div id="detalle-pedido" class="card">
     <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
-            <h1 class="card-title align-self-center fw-bold fs-3">Mi Pedido</h1>
+            <h1 class="card-title align-self-center fs-3"><strong>Mi pedido</strong></h1>
         </div>
 
             <div class="list-group list-group-flush px-2">
@@ -25,7 +25,7 @@
                     </div>
                     <div class="derecha align-self-center d-flex flex-column align-items-end">
                         <p class="mb-0 text-muted subtotal">Subtotal:</p>
-                        <p class=" fw-bold mb-0">${{(item.precio ?? 0) * item.cantidad}}</p>
+                        <p class="mb-0"><strong>${{(item.precio ?? 0) * item.cantidad}}</strong></p>
                     </div>
 
                 </div>
@@ -33,7 +33,7 @@
                 <div class="d-flex justify-content-between">
                     <div class="total">
                         <h3 class="fw-light fs-4">Total:</h3>
-                        <h3 class="fw-bold fs-3"> ${{this.total}}</h3>
+                        <h3 class="fs-3"><strong>${{this.total}}</strong></h3>
                     </div>
                     <button class="btn btn-outline-primary btn-sm boton align-self-center" routerLink="/pedido">Seguir
                         comprando</button>
@@ -47,7 +47,7 @@
 <app-formulario>
     <div id="detalle-entrega" class="card">
         <div class="card-body">
-            <h2 class="card-title mb-4 fw-bold fs-3">Mis Datos</h2>
+            <h2 class="card-title mb-4 fs-3"><strong>Mis Datos</strong></h2>
 
                 <div class="row g-3 px-2">
                     <div class="col-12">
@@ -87,7 +87,7 @@
 
     <div id="demo" class="card">
         <div class="card-body">
-            <h2 class="card-title mb-4 fw-bold fs-3">Probá nuestra Demo</h2>
+            <h2 class="card-title mb-4 fs-3"><strong>Probá nuestra Demo</strong></h2>
                 <div class="px-2">
                     <label for="telefono" class="form-label">Ingresá un número de teléfono válido dentro de
                         Argentina</label>
@@ -101,9 +101,9 @@
     </app-formulario>
 
     <div class="text-center m-4">
-        <button (click)="clickFinalizar()" class="btn btn-primary btn-lg fw-bold text-white">
+        <button (click)="clickFinalizar()" class="btn btn-primary btn-lg bg-gradient text-white">
             <i class="fab fa-whatsapp"></i>
-            Enviar pedido
+           <strong>Enviar pedido</strong> 
         </button>
     </div>
 </div>

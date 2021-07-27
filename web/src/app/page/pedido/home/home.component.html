@@ -3,7 +3,7 @@
     <div *ngFor="let categoria of Categorias; first as esPrimera" class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
-                <h1 class="card-title align-self-center fw-bold fs-3">{{categoria.titulo}}</h1>
+                <h1 class="card-title align-self-center fs-3"><strong>{{categoria.titulo}}</strong></h1>
                 <button *ngIf="esPrimera" (click)="limpiar()" class="btn btn-link text-muted">Limpiar</button>
             </div>
             <div class="list-group list-group-flush px-2">
@@ -27,7 +27,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="derecha align-self-center fw-bold fs-5 mb-0">${{itemConCantidad.precio}}</div>
+                    <div class="derecha align-self-center fs-5 mb-0"><strong>${{itemConCantidad.precio}}</strong></div>
                 </div>
             </div>
         </div>
@@ -37,9 +37,10 @@
         <div #toast class="toast text-white bg-primary bg-gradient" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-autohide="false">
             <div class="toast-body">
-                <span class="precio fw-bold fs-5">${{Total}}</span>
-                <button (click)="continuar()" type="button" class="btn btn-primary continuar fw-bold border-white">Ver
-                    mi pedido</button>
+                <span class="precio fs-5"><strong>${{Total}}</strong></span>
+                <button (click)="continuar()" type="button" class="btn btn-primary continuar border-white">
+                    <strong>Ver mi pedido</strong>
+                </button>
             </div>
         </div>
     </div>
