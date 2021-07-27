@@ -1,2 +1,3 @@
 
 *.cache
+api/ormconfig.json

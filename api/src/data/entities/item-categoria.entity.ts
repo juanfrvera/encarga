@@ -6,7 +6,7 @@ import { Column, Entity, ManyToOne } from "typeorm";
 /** Relaciona un item con una categoría, manteniendo el orden del item en esa categoría */
 @Entity()
 export class ItemCategoria extends Base {
-    @Column()
+    @Column({ type: 'int' })
     orden: number;
 
     @ManyToOne(() => Item, item => item.itemCategorias)
