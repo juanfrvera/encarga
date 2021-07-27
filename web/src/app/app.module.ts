@@ -16,6 +16,7 @@ import { ListaComponent } from './component/lista/lista.component';
 import { CrudComponent } from './component/crud/crud.component';
 import { CategoriaComponent } from './page/admin/categoria/categoria.component';
 import { LandingComponent } from './page/landing/landing.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { LandingComponent } from './page/landing/landing.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
