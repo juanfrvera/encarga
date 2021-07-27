@@ -16,6 +16,12 @@
             <label for="descripcion" class="form-label">Descripción</label>
             <textarea [(ngModel)]="item.descripcion" class="form-control" id="descripcion" rows="3"></textarea>
         </div>
+        <div class="mb-3">
+            <label for="categorias" class="form-label">Categorías</label>
+            <ng-select id="categorias" [(ngModel)]="selectedCar" [multiple]="true" [loadingText]="'Cargando...'">
+                <ng-option *ngFor="let cat of Categorias | async" [value]="cat.id">{{cat.nombre}}</ng-option>
+            </ng-select>
+        </div>
     </ng-template>
     <ng-template #templateLista let-itemlista>
         <!-- here we can use item -->
