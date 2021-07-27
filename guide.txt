@@ -5,3 +5,15 @@ git subtree push --prefix api heroku master
 Deploy web
 ionic build --prod
 firebase deploy
+
+Api migration https://medium.com/@gausmann.simon/nestjs-typeorm-and-postgresql-full-example-development-and-project-setup-working-with-database-c1a2b1b11b8f
+En caso de no tener bien configurado el ormconfig o no tener el archivo creado,
+ asegurarse que en .env estén las credenciales de heroku, al crear un migration, el ormconfig se creará si no existe 
+
+Para crear una migration se corre este script dentro de la carpeta api:
+npm run typeorm:migration:generate -- migration
+donde "migration" puede ser reemplazado por el nombre que quieramos
+
+Para correr la migration (que se aplique a nuestra api) corremos el siguiente script:
+npm run typeorm:migration:run
+

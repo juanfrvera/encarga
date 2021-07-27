@@ -9,10 +9,10 @@ export class Item {
     @Column({ type: 'varchar' })
     titulo: string;
 
-    @Column({ type: 'real' })
+    @Column({ type: 'real', nullable: true })
     precio?: number;
 
-    @Column({ type: 'varchar' })
+    @Column({ type: 'varchar', nullable: true })
     descripcion?: string;
 
     /** Categorías en las que está este item, junto con el orden de este en dicha categoría */
