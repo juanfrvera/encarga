@@ -18,7 +18,7 @@
     </ng-container>
     <ng-container ngProjectAs="[footer]">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button (click)="guardar()" type="button" class="btn btn-primary text-white">Guardar</button>
+        <button (click)="guardar()" type="button" class="btn btn-primary bg-gradient text-white"><strong>Guardar</strong></button>
     </ng-container>
 </app-modal>
 
@@ -27,8 +27,8 @@
         <!-- Hay Items y cargó -->
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
-                <h1 class="card-title align-self-center fw-bold fs-3">{{Titulo}}s</h1>
-                <button (click)="agregar()" type="button" class="btn btn-primary btn-sm text-white">Agregar</button>
+                <h1 class="card-title align-self-center fs-3"><strong>{{Titulo}}s</strong></h1>
+                <button (click)="agregar()" type="button" class="btn btn-primary bg-gradient btn-sm text-white"><strong>Agregar</strong></button>
             </div>
             <div class="container-full">
                 <app-lista [items]="items" (itemClick)="editar($event)">

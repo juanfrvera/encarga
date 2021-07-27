@@ -4,9 +4,9 @@
     <!-- El componente crud busca el primer ng-template que encuentra y lo mete dentro del formulario del modal -->
     <ng-template #templateFormulario let-item>
         <div class="mb-3">
-            <label for="titulo" class="form-label">Título</label>
+            <label for="titulo" class="form-label">Nombre</label>
             <input [(ngModel)]="item.titulo" id="titulo" type="text" class="form-control" required>
-            <div class="invalid-feedback">Por favor ingrese un título</div>
+            <div class="invalid-feedback">Por favor ingrese un nombre</div>
         </div>
         <div class="mb-3">
             <label for="precio" class="form-label">Precio</label>
@@ -24,7 +24,7 @@
                 <h5 class="mb-1 fs-6">{{itemlista.titulo}}</h5>
                 <p class="mb-2 text-muted desc">{{itemlista.descripcion}}</p>
             </div>
-            <div class="derecha align-self-center fw-bold fs-5 mb-0">$ {{itemlista.precio}}</div>
+            <div class="derecha align-self-center fs-5 mb-0"><strong>${{itemlista.precio}}</strong></div>
         </div>
     </ng-template>
     <div empty-state class="d-flex justify-content-center align-items-center w-100 h-100">

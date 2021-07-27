@@ -4,30 +4,30 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-white rounded shadow">
             <div class="container-fluid px-4 px-lg-5">
                 <a class="navbar-brand" href="#"><strong>encarga.shop</strong></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false"
-                    aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+                    aria-controls="navbarToggler" aria-expanded="true" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse flex-grow-0" id="navbarToggler">
-                    <ul class="navbar-nav text-16">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#home">Home</a>
+                    <ul class="navbar-nav text-16 me-auto mb-2 mb-lg-0" data-bs-toggle="collapse"
+                        data-bs-target=".navbar-collapse">
+                        <li class="nav-item" role="button">
+                            <a class="nav-link" onclick="document.getElementById('about').scrollIntoView()">Sobre</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#about">Sobre</a>
+                        <li class="nav-item" role="button">
+                            <a class="nav-link" onclick="document.getElementById('demo').scrollIntoView()">Demo</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#demo">Demo</a>
+                        <li class="nav-item" role="button">
+                            <a class="nav-link"
+                                onclick="document.getElementById('precios').scrollIntoView()">Precios</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#precios">Precios</a>
+                        <li class="nav-item" role="button">
+                            <a class="nav-link"
+                                onclick="document.getElementById('nosotros').scrollIntoView()">Nosotros</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#equipo">Equipo</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#contacto">Contacto</a>
+                        <li class="nav-item" role="button">
+                            <a class="nav-link"
+                                onclick="document.getElementById('contacto').scrollIntoView()">Contacto</a>
                         </li>
                     </ul>
                 </div>
@@ -37,66 +37,71 @@
         <div class="container-lg mt-3 mt-md-5 mb-5 mb-xxl-2">
             <div class="row align-items-center justify-content-center">
                 <div class="col-12 col-md-6 px-sm-5 px-md-0 pb-3 pb-md-0">
-                    <div class="card p-4-lg">
+                    <div class="card p-2 p-lg-4">
                         <div class="card-body">
                             <h2 class="card-title fw-bold">Conectáte con tus clientes rápidamente</h2>
-                            <p class="card-text fs-6">Expandir tu negocio nunca fue tan simple. Nuestra app web te
-                                ofrece una
-                                manera sencilla de vender y llegar a más clientes.</p>
+                            <p class="card-text fs-6">Expandir tu negocio nunca fue tan simple. Nuestra web de pedidos
+                                te ofrece una manera sencilla de vender y llegar a más clientes.</p>
                             <a href="#about" class="btn btn-primary bg-gradient"> <strong>Conocé más</strong> </a>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 text-center">
-                    <img src="../../../assets/phone-frames/phone-frame.png" alt="" class="img-fluid w-50">
+                    <img src="../../../assets/phone-frames/mockup-1.png" alt="" class="img-fluid w-50">
                 </div>
             </div>
 
         </div>
 
         <div class="text-center p-0 p-md-5 p-lg-0">
-            <a href="#about" class="text-white">
+            <a onclick="document.getElementById('about').scrollIntoView()" class="text-white" role="button">
                 <i class="fas fa-chevron-down fs-2 "></i>
             </a>
         </div>
     </section>
 
     <!-- ABOUT -->
-    <section id="about" class="min-vh-100 p-4 bg-primary">
+    <section id="about" class="min-vh-100 p-4 bg-primary ir-a-seccion">
         <div class="text-center m-5 text-white">
             <h2>
                 <strong>Negocios y clientes conectados</strong>
             </h2>
+            <p class="m-0">Te presentamos los puntos importantes de nuestra app web que te permitirán llegar a mucho
+                más.</p>
         </div>
 
         <div class="container text-white py-3 py-lg-5">
             <div class="row p-lg-4 px-5 px-lg-3">
                 <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
                     <i class="fas fa-clipboard-list fs-1 mb-3"></i>
-                    <h5>ADMINISTRÁ TUS PRODUCTOS</h5>
-                    <p>Nuestro panel administrativo te permite agregar, actualizar y quitar ítems sencillamente.</p>
+                    <h5>100% AUTOGESTIONABLE</h5>
+                    <p class="text-14">Nuestro panel administrativo te permite agregar, actualizar y quitar ítems
+                        sencillamente.</p>
                 </div>
                 <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
                     <i class="fab fa-whatsapp fs-1 mb-3"></i>
                     <h5>WHATSAPP INTEGRADO</h5>
-                    <p>Incorporamos tu número de Whatsapp para que tus clientes puedan contactarse fácilmente.</p>
+                    <p class="text-14">Incorporamos tu número de Whatsapp para que tus pedidos lleguen claramente en un
+                        sólo mensaje.
+                    </p>
                 </div>
                 <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
                     <i class="fas fa-mobile-alt fs-1 mb-3"></i>
                     <h5>PLATAFORMA FLEXIBLE</h5>
-                    <p>Nuestra interfaz se adapta completamente a los distintos dispositivos.</p>
+                    <p class="text-14">Nuestra interfaz se adapta completamente a los distintos dispositivos.</p>
                 </div>
             </div>
             <div class="row p-lg-4 px-5 px-lg-3">
                 <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
                     <i class="fas fa-palette fs-1 mb-3"></i>
                     <h5>DISEÑO CREATIVO</h5>
-                    <p>Optamos por ofrecer una buena experiencia de usuario, al pensar en cada detalle.</p>
+                    <p class="text-14">Optamos por ofrecer una buena experiencia de usuario, al pensar en cada detalle.
+                    </p>
                 </div>
                 <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
                     <i class="far fa-grin-wink fs-1 mb-3"></i>
                     <h5>FÁCIL USO</h5>
-                    <p>Apuntamos a diseñar una interfaz amigable y sencilla, fácil de
+                    <p class="text-14">Apuntamos a diseñar una interfaz amigable y sencilla, fácil de
                         seguir para cualquier persona.</p>
                 </div>
                 <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
@@ -107,16 +112,11 @@
                 </div>
             </div>
         </div>
-        <div class="text-center ">
-            <a href="#demo" class="text-white">
-                <i class="fas fa-chevron-down fs-2 "></i>
-            </a>
-        </div>
     </section>
 
 
     <!-- DEMO -->
-    <section id="demo" class="min-vh-100 p-4">
+    <section id="demo" class="min-vh-100 p-4 ir-a-seccion">
         <div class="text-center m-5">
             <h2>
                 <strong>Un vistazo a nuestra interfaz</strong>
@@ -137,15 +137,15 @@
                         </div>
                         <div class="carousel-inner pb-5">
                             <div class="carousel-item active">
-                                <img src="../../../assets/phone-frames/phone-frame.png" class="d-block w-25 m-auto"
+                                <img src="../../../assets/phone-frames/mockup-1.png" class="d-block w-25 m-auto"
                                     alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="../../../assets/phone-frames/phone-frame.png" class="d-block w-25 m-auto"
+                                <img src="../../../assets/phone-frames/mockup-2.png" class="d-block w-25 m-auto"
                                     alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="../../../assets/phone-frames/phone-frame.png" class="d-block w-25 m-auto"
+                                <img src="../../../assets/phone-frames/mockup-3.png" class="d-block w-25 m-auto"
                                     alt="...">
                             </div>
                         </div>
@@ -167,24 +167,22 @@
                 </div>
                 <div class="col-12 col-md-4 align-self-center pt-5 pt-md-0">
                     <h4>Probá nuestra Demo</h4>
-                    <p>Te invitamos a experimentar nuestra app web completamente <strong>gratis</strong>. Podrás
-                        interactuar en tiempo real con las funcionalidades que tenemos para ofrecerte.</p>
+                    <p class="text-14">Te invitamos a experimentar nuestra app web completamente
+                        <strong>gratis</strong>. Podrás
+                        interactuar en tiempo real con las funcionalidades que tenemos para ofrecerte.
+                    </p>
                     <a href="/pedido" class="btn btn-primary bg-gradient"><strong>Probálo aquí</strong></a>
                 </div>
 
             </div>
 
         </div>
-        <div class="text-center py-5 py-xl-3">
-            <a href="#precios">
-                <i class="fas fa-chevron-down fs-2 "></i>
-            </a>
-        </div>
+
     </section>
 
 
     <!-- PRECIOS -->
-    <section id="precios" class="min-vh-100 p-4 bg-primary">
+    <section id="precios" class="min-vh-100 p-4 bg-primary ir-a-seccion">
         <div class="text-center m-5 text-white">
             <h2>
                 <strong>Precios</strong>
@@ -197,18 +195,29 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="text-center mb-3">
-                                <h4 class="card-title">Plan 1</h4>
-                                <p>Lorem ipsum dolor, sit amet consectetur.</p>
+                                <h4 class="card-title">Plan Base</h4>
+                                <p class="text-primary text-14"><strong>PRUEBA GRATIS POR 15 DÍAS</strong></p>
                                 <h2 class="mb-3"><strong><span class="fs-6">AR$</span>1000,00<span
                                             class="fs-6">/mes</span></strong></h2>
-                                <button class="btn btn-primary bg-gradient"><strong>Seleccionar</strong></button>
+                                <a class="btn btn-primary bg-gradient" href="#contacto"><strong>Contáctanos</strong></a>
                             </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">An item</li>
-                                <li class="list-group-item">A second item</li>
-                                <li class="list-group-item">A third item</li>
-                                <li class="list-group-item">A fourth item</li>
-                                <li class="list-group-item">And a fifth one</li>
+                            <ul class="list-group list-group-flush text-14">
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-primary"></i>
+                                    Todas las funcionalidades
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-primary"></i>
+                                    Hasta 15 ítems
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-primary"></i>
+                                    Panel administrativo 100% autogestionable
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-primary"></i>
+                                    Acceso a vídeo-tutoriales y soporte
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -217,18 +226,29 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="text-center mb-3">
-                                <h4 class="card-title">Plan 2</h4>
-                                <p>Lorem ipsum dolor, sit amet consectetur.</p>
+                                <h4 class="card-title">Plan Estándar</h4>
+                                <p class="text-primary text-14"><strong>PRUEBA GRATIS POR 15 DÍAS</strong></p>
                                 <h2 class="mb-3"><strong><span class="fs-6">AR$</span>1500,00<span
                                             class="fs-6">/mes</span></strong></h2>
-                                <button class="btn btn-primary bg-gradient"><strong>Seleccionar</strong></button>
+                                <a class="btn btn-primary bg-gradient" href="#contacto"><strong>Contáctanos</strong></a>
                             </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">An item</li>
-                                <li class="list-group-item">A second item</li>
-                                <li class="list-group-item">A third item</li>
-                                <li class="list-group-item">A fourth item</li>
-                                <li class="list-group-item">And a fifth one</li>
+                            <ul class="list-group list-group-flush text-14">
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-primary"></i>
+                                    Todas las funcionalidades
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-primary"></i>
+                                    Hasta 30 ítems
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-primary"></i>
+                                    Panel administrativo 100% autogestionable
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-primary"></i>
+                                    Acceso a vídeo-tutoriales y soporte
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -237,18 +257,29 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="text-center mb-3">
-                                <h4 class="card-title">Plan 3</h4>
-                                <p>Lorem ipsum dolor, sit amet consectetur.</p>
+                                <h4 class="card-title">Plan Full</h4>
+                                <p class="text-primary text-14"><strong>PRUEBA GRATIS POR 15 DÍAS</strong></p>
                                 <h2 class="mb-3"><strong><span class="fs-6">AR$</span>2000,00<span
                                             class="fs-6">/mes</span></strong></h2>
-                                <button class="btn btn-primary bg-gradient"><strong>Seleccionar</strong></button>
+                                <a class="btn btn-primary bg-gradient" href="#contacto"><strong>Contáctanos</strong></a>
                             </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">An item</li>
-                                <li class="list-group-item">A second item</li>
-                                <li class="list-group-item">A third item</li>
-                                <li class="list-group-item">A fourth item</li>
-                                <li class="list-group-item">And a fifth one</li>
+                            <ul class="list-group list-group-flush text-14">
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-primary"></i>
+                                    Todas las funcionalidades
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-primary"></i>
+                                    Más de 50 ítems
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-primary"></i>
+                                    Panel administrativo 100% autogestionable
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-primary"></i>
+                                    Acceso a vídeo-tutoriales y soporte
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -256,56 +287,55 @@
             </div>
 
         </div>
-        <div class="text-center ">
-            <a href="#equipo" class="text-white">
-                <i class="fas fa-chevron-down fs-2 "></i>
-            </a>
-        </div>
+
     </section>
 
 
     <!-- EQUIPO -->
-    <section id="equipo" class="min-vh-100 p-4">
+    <section id="nosotros" class="min-vh-100 p-4 ir-a-seccion">
         <div class="text-center m-5">
             <h2>
                 <strong>Nuestro equipo</strong>
             </h2>
+            <p class="fs-6">¡Hola, somos <strong>MIXIN</strong>!</p>
+            <p class="m-0 text-14">Somos un equipo de diseño y desarrollo web oriundos de Entre Ríos. Buscamos cubrir
+                las necesidades de los pequeños negocios de la región ofreciendo soluciones web adecuadas.</p>
         </div>
 
         <div class="container">
             <div class="row px-0 px-lg-5">
                 <div class="col-12 col-md-6 text-center">
                     <div class="card">
-                        <div class="card-body p-sm-4 p-md-3 p-lg-5">
+                        <div class="card-body p-sm-4 p-md-3 p-lg-4">
                             <img src="../../../assets/empty-state/caja-changed.png" alt=""
                                 class="rounded-circle w-25 mb-4">
                             <h4 class="text-primary"><strong>JUAN VERA</strong></h4>
                             <h6 class="text-muted">APP DEVELOPER</h6>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque optio veritatis
-                                perspiciatis eligendi vero est voluptatem sed? Reiciendis dolor.</p>
+                            <p class="m-0 text-14">Apasionado por el desarrollo</p>
+                            <p class="text-14"><i class="fas fa-map-marker-alt text-primary me-2"></i>Concepción del
+                                Uruguay, Entre Ríos</p>
                             <div class="d-flex justify-content-evenly fs-5 text-primary pt-3">
-                                <i class="far fa-envelope"></i>
-                                <i class="fab fa-gitlab"></i>
-                                <i class="fab fa-instagram"></i>
-
+                                <a href="mailto:juanfrvera@gmail.com"><i class="far fa-envelope"></i></a>
+                                <a href="https://juan-vera.web.app" target="blank"><i class="fas fa-link"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 text-center">
                     <div class="card">
-                        <div class="card-body p-sm-4 p-md-3 p-lg-5">
+                        <div class="card-body p-sm-4 p-md-3 p-lg-4">
                             <img src="../../../assets/empty-state/caja-changed.png" alt=""
                                 class="rounded-circle w-25 mb-4">
                             <h4 class="text-primary"><strong>VICTORIA DERUDDER</strong></h4>
                             <h6 class="text-muted">APP DEVELOPER</h6>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque optio veritatis
-                                perspiciatis eligendi vero est voluptatem sed? Reiciendis dolor.</p>
+                            <p class="m-0 text-14">Enfocada en buenos diseños</p>
+                            <p class="text-14"><i class="fas fa-map-marker-alt text-primary me-2"></i>Concepción del
+                                Uruguay, Entre Ríos</p>
+                            <p></p>
                             <div class="d-flex justify-content-evenly fs-5 text-primary pt-3">
-                                <i class="far fa-envelope"></i>
-                                <i class="fab fa-gitlab"></i>
-                                <i class="fab fa-instagram"></i>
-
+                                <a href="mailto:victoria.derudder@gmail.com"><i class="far fa-envelope"></i></a>
+                                <a href="https://victoria-derudder.web.app" target="blank"><i
+                                        class="fas fa-link"></i></a>
                             </div>
                         </div>
                     </div>
@@ -317,29 +347,30 @@
 
     <!-- FOOTER -->
     <footer id="footer" class="bg-dark p-4 text-white">
-        <div class="container-lg py-2 px-4 py-lg-0">
+        <div class="container-lg py-2 py-lg-0 px-lg-4">
             <div class="row p-0 p-lg-4 w-100 w-lg-75 m-auto">
-                <div class="col-12 col-md-6 px-5 mb-3 mb-md-0">
+                <div class="col-12 col-md-6 px-sm-5 mb-3 mb-md-0">
                     <h4><strong>encarga.shop</strong></h4>
-                    <p class="text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                    <p class="text-light">Tu solución para un contacto inmediato con clientes</p>
                 </div>
-                <div id="contacto" class="col-12 col-md-6 px-5">
+                <div id="contacto" class="col-12 col-md-6 px-sm-5">
                     <h5>Contáctanos</h5>
                     <a class="link-light fs-6" href="mailto:hola@encargashop.com">
                         <i class="far fa-envelope"></i>
                         hola@encargashop.com</a>
                     <div class="fs-5 mt-3 social-icons">
-                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.facebook.com/encarga.shop/" target="blank" class="social-icon"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/encarga.shop/" target="blank" class="social-icon"><i
+                                class="fab fa-instagram"></i></a>
+                        <a class="social-icon"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
         </div>
 
 
-        <div class="text-center px-5">
+        <div class="text-center px-lg-5">
             <hr>
             <p class="m-0"><i class="far fa-copyright"></i> Copyright 2021. MIXIN. Todos los derechos reservados.</p>
         </div>
