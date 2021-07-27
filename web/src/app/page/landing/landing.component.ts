@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss']
 })
-export class LandingComponent implements OnInit {  
+export class LandingComponent implements OnInit {
 
   constructor() { }
 
@@ -24,25 +25,26 @@ export class LandingComponent implements OnInit {
         document.documentElement.scrollTop > 20
       ) {
         if (mybutton != null)
-        mybutton.style.display = "block";
+          mybutton.style.display = "block";
       } else {
         if (mybutton != null)
-        mybutton.style.display = "none";
+          mybutton.style.display = "none";
       }
     }
     // When the user clicks on the button, scroll to the top of the document
     if (mybutton != null)
-    mybutton.addEventListener("click", backToTop);
+      mybutton.addEventListener("click", backToTop);
 
     function backToTop() {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
     }
+
+
   }
 
-  
 
-  
+
 
 
 }

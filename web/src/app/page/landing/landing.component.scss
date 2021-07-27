@@ -23,6 +23,10 @@ main {
     font-size: 1rem;
 }
 
+.text-14 {
+    font-size: 14px;
+}
+
 #btn-back-to-top {
     position: fixed;
     bottom  : 25px;
@@ -30,14 +34,13 @@ main {
     display : none;
 }
 
-
 .social-icons .social-icon {
     display         : inline-flex;
     align-items     : center;
     justify-content : center;
     height          : 3rem;
     width           : 3rem;
-    background-color: #6c757d ;
+    background-color: #6c757d;
     color           : #fdfcfa;
     border-radius   : 100%;
     font-size       : 1.2rem;
@@ -54,4 +57,14 @@ main {
 
 #contacto a {
     text-decoration: none;
+}
+
+.link-light:hover {
+    color: #fc453c;
+}
+
+@media (max-width: 991.98px) {
+    .ir-a-seccion {
+        scroll-margin-top: 170px;
+    }
 }
