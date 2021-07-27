@@ -25,7 +25,7 @@ export class ApiService<ConId> {
     return this.http.get<ConId>(this.url + this.route + id);
   }
   public updateById(id: string, data: Omit<ConId, 'id'>) {
-    return this.http.put<ConId>(this.url + this.route + id, data)
+    return this.http.patch<ConId>(this.url + this.route + id, data)
       // Esto se hace ya que nos suscribimos más de una vez
       // Más información: https://blog.angular-university.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/
       .pipe(
