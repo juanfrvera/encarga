@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public get Categorias() {
     return this.categorias;
   }
+  
   public get Total() {
     return this.total;
   }
@@ -106,44 +107,29 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.pedidoService.remove(item);
   }
 
+  /** Limpia el carrito */
   public limpiar() {
     this.pedidoService.eliminarTodasLineas();
     this.reflejarPedido();
     this.ocultarToast();
   }
 
+  /** Continua a la pagina de detalle */
   public continuar() {
     this.router.navigate(['detalle'], { relativeTo: this.route });
   }
 
-  /** Crea el toast */
-  // private async presentToastWithOptions() {
-  //   const toast = await this.toastController.create({
-  //     cssClass: 'toastCustom',
-  //     header: 'Total',
-  //     message: '$' + this.total.toString(),
-  //     position: 'bottom',
-  //     color: 'tertiary',
-  //     buttons: [
-  //       {
-  //         text: 'Continuar',
-  //         role: 'submit',
-  //         handler: () => {
-  //           this.navCtrl.navigateForward('/detalle');
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   await toast.present();
-  // }
-
+  /** Devuelve true si el total es mayor que 0 */
   private hayPedido() {
     return this.total > 0;
   }
 
+  /** Muestra el toast */
   private mostrarToast() {
     this.toast.show();
   }
+
+  /** Oculta el toast */
   private ocultarToast() {
     this.toast.hide();
   }

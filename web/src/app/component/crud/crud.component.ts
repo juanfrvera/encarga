@@ -29,9 +29,11 @@ export class CrudComponent<ConId extends ObjetoConId> implements OnInit {
   public get Item() {
     return this.item;
   }
+
   public get Items() {
     return this.service.Items;
   }
+
   public get Titulo() {
     return this.titulo;
   }
@@ -54,6 +56,7 @@ export class CrudComponent<ConId extends ObjetoConId> implements OnInit {
     this.abrir();
   }
 
+  /** Muestra alerta de eliminar */
   public eliminar() {
     this.swalService.fire({
       icon: 'warning',
@@ -80,6 +83,7 @@ export class CrudComponent<ConId extends ObjetoConId> implements OnInit {
     });
   }
 
+  /** Guarda lo que se ha hecho en el modal */
   public guardar() {
     if (this.formulario.esValido()) {
       if (this.Item.id) {

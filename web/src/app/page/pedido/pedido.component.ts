@@ -13,9 +13,11 @@ export class PedidoComponent implements AfterViewInit, OnDestroy {
   private offcanvas: Offcanvas;
 
   constructor() { }
+
   ngAfterViewInit(): void {
     this.offcanvas = new Offcanvas(this.offcanvasElement.nativeElement);
   }
+  
   ngOnDestroy(): void {
     // Ocultarlo para que no haya problemas con el scroll
     this.offcanvas.hide();

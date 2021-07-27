@@ -19,6 +19,7 @@ export class PedidoService {
     return pedido;
   }
 
+  /** Agrega un item al carrito y guarda cambios en el local storage */
   public add(item: Item) {
     const pedido = this.get();
 
@@ -40,6 +41,7 @@ export class PedidoService {
     this.save(pedido);
   }
 
+  /** Quita un item del carrito y guarda cambios en el local storage */
   public remove(item: Item) {
     const pedido = this.get();
 
@@ -61,6 +63,7 @@ export class PedidoService {
     }
   }
 
+  /** Quita un item con sus cantidades del carrito y guarda cambios en el local storage */
   public eliminarLinea(linea: LineaPedido) {
     const pedido = this.get();
     // Se busca por id ya que el objeto pasado puede ser diferente al objeto traido del localstorage
@@ -70,6 +73,7 @@ export class PedidoService {
     this.save(pedido);
   }
 
+  /** Elimina todos los items con sus cantidades y guarda cambios en el local storage */
   public eliminarTodasLineas(){
     const pedido = this.get();
 
@@ -78,7 +82,7 @@ export class PedidoService {
     this.save(pedido);
   }
 
-  /** Save to localStorage */
+  /** Guarda cambios en el localStorage */
   private save(pedido: Pedido) {
     localStorage.setItem(PedidoService.storageKey, JSON.stringify(pedido));
   }

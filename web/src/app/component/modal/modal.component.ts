@@ -19,9 +19,12 @@ export class ModalComponent implements AfterViewInit {
     this.modal = new Modal(this.element.nativeElement);
   }
 
+  /** Abre el modal */
   public abrir() {
     this.modal.show();
   }
+
+  /** Cierra el modal */
   public cerrar() {
     this.modal.hide();
   }

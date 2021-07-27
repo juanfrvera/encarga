@@ -4,9 +4,7 @@ import { ItemService } from '../../../service/item.service';;
 import { Location } from '@angular/common';
 import { ItemConCantidad } from '../../../data/item/item-con-cantidad';
 import { FormularioComponent } from '../../../component/formulario/formulario.component';
-import { Router } from '@angular/router';
 import { Util } from '../../../util';
-import { SwalService } from 'src/app/service/swal.service';
 
 @Component({
   selector: 'app-detalle',
@@ -27,9 +25,7 @@ export class DetalleComponent implements OnInit {
   constructor(
     private pedidoService: PedidoService,
     private itemService: ItemService,
-    private swalService: SwalService,
-    private location: Location,
-    private router: Router
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -57,6 +53,7 @@ export class DetalleComponent implements OnInit {
     });
   }
 
+  /** Agrega un item al carrito */
   public agregarItem(item: ItemConCantidad) {
     item.cantidad++;
     this.pedidoService.add(item);
@@ -64,6 +61,7 @@ export class DetalleComponent implements OnInit {
     this.total += item.precio ?? 0;
   }
 
+  /** Quita un item al carrito */
   public quitarItem(item: ItemConCantidad) {
     item.cantidad--;
     this.pedidoService.remove(item);
