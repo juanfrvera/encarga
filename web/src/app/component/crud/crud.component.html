@@ -1,18 +1,18 @@
 <app-modal>
     <ng-container ngProjectAs="[header]">
         <div *ngIf="Item.id; else headerCrear" #headerEditar class="w-100 d-flex justify-content-between">
-            <h5 class="modal-title align-self-center" id="modalLabel">Editar ítem</h5>
+            <h5 class="modal-title align-self-center" id="modalLabel">Editar {{Titulo}}</h5>
             <button (click)="eliminar()" class="btn">
                 <i class="far fa-trash-alt"></i>
             </button>
         </div>
         <ng-template #headerCrear>
-            <h5 class="modal-title" id="modalLabel">Agregar ítem</h5>
+            <h5 class="modal-title" id="modalLabel">Agregar {{Titulo}}</h5>
         </ng-template>
     </ng-container>
     <ng-container ngProjectAs="[body]">
         <app-formulario>
-            <ng-template [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: Item}">
+            <ng-template [ngTemplateOutlet]="templateFormulario" [ngTemplateOutletContext]="{$implicit: Item}">
             </ng-template>
         </app-formulario>
     </ng-container>
@@ -27,20 +27,17 @@
         <!-- Hay Items y cargó -->
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
-                <h1 class="card-title align-self-center fw-bold fs-3">Items</h1>
+                <h1 class="card-title align-self-center fw-bold fs-3">{{Titulo}}s</h1>
                 <button (click)="agregar()" type="button" class="btn btn-primary btn-sm text-white">Agregar</button>
             </div>
             <div class="container-full">
                 <app-lista [items]="items" (itemClick)="editar($event)">
-                    <ng-template let-item>
-                        <!-- here we can use item -->
-                        <div class="d-flex w-100 justify-content-between p-2 rounded cursor-pointer hover">
-                            <div class="izquierda">
-                                <h5 class="mb-1 fs-6">{{item.titulo}}</h5>
-                                <p class="mb-2 text-muted desc">{{item.descripcion}}</p>
-                            </div>
-                            <div class="derecha align-self-center fw-bold fs-5 mb-0">$ {{item.precio}}</div>
-                        </div>
+                    <!-- Se saca el item de la lista y se envía hacia arriba, dandoseló al #templateLista 
+                    dentro de este componente CRUD -->
+                    <ng-template let-itemlista>
+                        <ng-template [ngTemplateOutlet]="templateLista"
+                            [ngTemplateOutletContext]="{$implicit: itemlista}">
+                        </ng-template>
                     </ng-template>
                 </app-lista>
             </div>

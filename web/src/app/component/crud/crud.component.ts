@@ -14,12 +14,14 @@ import { ModalComponent } from '../modal/modal.component';
 })
 export class CrudComponent<ConId extends ObjetoConId> implements OnInit {
   @Input() service: CrudService<ConId>;
+  @Input() titulo: string;
 
   @ViewChild(FormularioComponent) formulario: FormularioComponent;
   @ViewChild(ModalComponent) modal: ModalComponent;
 
   // Utilizado para obtener el template que irá dentro del formulario del modal y poblarlo con el item actual
-  @ContentChild(TemplateRef) templateRef: TemplateRef<any>;
+  @ContentChild('templateFormulario') templateFormulario: TemplateRef<any>;
+  @ContentChild('templateLista') templateLista: TemplateRef<any>;
 
   /** Item en modal */
   private item: ConId = {} as ConId;
@@ -29,6 +31,9 @@ export class CrudComponent<ConId extends ObjetoConId> implements OnInit {
   }
   public get Items() {
     return this.service.Items;
+  }
+  public get Titulo() {
+    return this.titulo;
   }
 
 
