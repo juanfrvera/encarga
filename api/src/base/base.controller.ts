@@ -14,8 +14,9 @@ export abstract class BaseController<Entity extends Base, CreateDto extends Crea
   }
 
   @Get()
-  findAll() {
-    return this.service.findAll();
+  async findAll() {
+    const list = await this.service.findAll();
+    return list.map(e => e.toListDto());
   }
 
   @Get(':id')
