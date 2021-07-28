@@ -1,6 +1,6 @@
 <main>
     <!-- HOME -->
-    <section id="home" class="min-vh-100 bg-primary p-2 p-md-3 p-lg-4">
+    <section id="home" class="min-vh-100 bg-g p-2 p-md-3 p-lg-4">
         <nav class="navbar navbar-expand-lg navbar-light bg-white rounded shadow">
             <div class="container-fluid px-4 px-lg-5">
                 <a class="navbar-brand" href="#"><strong>encarga.shop</strong></a>
@@ -12,21 +12,23 @@
                     <ul class="navbar-nav text-16 me-auto mb-2 mb-lg-0" data-bs-toggle="collapse"
                         data-bs-target=".navbar-collapse">
                         <li class="nav-item" role="button">
-                            <a class="nav-link" onclick="document.getElementById('about').scrollIntoView()">Sobre</a>
+                            <a class="nav-link font-lato"
+                                onclick="document.getElementById('about').scrollIntoView()">Sobre</a>
                         </li>
                         <li class="nav-item" role="button">
-                            <a class="nav-link" onclick="document.getElementById('demo').scrollIntoView()">Demo</a>
+                            <a class="nav-link font-lato"
+                                onclick="document.getElementById('demo').scrollIntoView()">Demo</a>
                         </li>
                         <li class="nav-item" role="button">
-                            <a class="nav-link"
+                            <a class="nav-link font-lato"
                                 onclick="document.getElementById('precios').scrollIntoView()">Precios</a>
                         </li>
                         <li class="nav-item" role="button">
-                            <a class="nav-link"
+                            <a class="nav-link font-lato"
                                 onclick="document.getElementById('nosotros').scrollIntoView()">Nosotros</a>
                         </li>
                         <li class="nav-item" role="button">
-                            <a class="nav-link"
+                            <a class="nav-link font-lato"
                                 onclick="document.getElementById('contacto').scrollIntoView()">Contacto</a>
                         </li>
                     </ul>
@@ -39,10 +41,11 @@
                 <div class="col-12 col-md-6 px-sm-5 px-md-0 pb-3 pb-md-0">
                     <div class="card p-2 p-lg-4">
                         <div class="card-body">
-                            <h2 class="card-title fw-bold">Conectáte con tus clientes rápidamente</h2>
-                            <p class="card-text fs-6">Expandir tu negocio nunca fue tan simple. Nuestra web de pedidos
-                                te ofrece una manera sencilla de vender y llegar a más clientes.</p>
-                            <a href="#about" class="btn btn-primary bg-gradient"> <strong>Conocé más</strong> </a>
+                            <h2 class="card-title fw-bold">Tus pedidos en un sólo mensaje de Whatsapp</h2>
+                            <p class="card-text">Te ofrecemos una manera sencilla de expandir tu negocio y llegar a
+                                más clientes.</p>
+                            <a onclick="document.getElementById('precios').scrollIntoView()"
+                                class="btn btn-primary btn-lg bg-gradient"><strong>Comenzá gratis</strong></a>
                         </div>
                     </div>
                 </div>
@@ -61,7 +64,7 @@
     </section>
 
     <!-- ABOUT -->
-    <section id="about" class="min-vh-100 p-4 bg-primary ir-a-seccion">
+    <section id="about" class="min-vh-100 p-4 bg-g-inverse ir-a-seccion">
         <div class="text-center m-5 text-white">
             <h2>
                 <strong>Negocios y clientes conectados</strong>
@@ -86,23 +89,23 @@
                     </p>
                 </div>
                 <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
-                    <i class="fas fa-mobile-alt fs-1 mb-3"></i>
-                    <h5>PLATAFORMA FLEXIBLE</h5>
-                    <p class="text-14">Nuestra interfaz se adapta completamente a los distintos dispositivos.</p>
+                    <i class="fas fa-store fs-1 mb-3"></i>
+                    <h5>VERSÁTIL</h5>
+                    <p class="text-14">Nuestra web de pedidos está preparada para cualquier tipo de negocio.
+                    </p>
                 </div>
             </div>
             <div class="row p-lg-4 px-5 px-lg-3">
-                <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
-                    <i class="fas fa-palette fs-1 mb-3"></i>
-                    <h5>DISEÑO CREATIVO</h5>
-                    <p class="text-14">Optamos por ofrecer una buena experiencia de usuario, al pensar en cada detalle.
-                    </p>
-                </div>
                 <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
                     <i class="far fa-grin-wink fs-1 mb-3"></i>
                     <h5>FÁCIL USO</h5>
                     <p class="text-14">Apuntamos a diseñar una interfaz amigable y sencilla, fácil de
                         seguir para cualquier persona.</p>
+                </div>
+                <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
+                    <i class="fas fa-mobile-alt fs-1 mb-3"></i>
+                    <h5>PLATAFORMA FLEXIBLE</h5>
+                    <p class="text-14">Nuestra interfaz se adapta completamente a los distintos dispositivos.</p>
                 </div>
                 <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
                     <i class="far fa-clock fs-1 mb-3"></i>
@@ -182,7 +185,7 @@
 
 
     <!-- PRECIOS -->
-    <section id="precios" class="min-vh-100 p-4 bg-primary ir-a-seccion">
+    <section id="precios" class="min-vh-100 p-4 bg-g ir-a-seccion">
         <div class="text-center m-5 text-white">
             <h2>
                 <strong>Precios</strong>
@@ -297,7 +300,7 @@
             <h2>
                 <strong>Nuestro equipo</strong>
             </h2>
-            <p class="fs-6">¡Hola, somos <strong>MIXIN</strong>!</p>
+            <p>¡Hola, somos <strong>MIXIN</strong>!</p>
             <p class="m-0 text-14">Somos un equipo de diseño y desarrollo web oriundos de Entre Ríos. Buscamos cubrir
                 las necesidades de los pequeños negocios de la región ofreciendo soluciones web adecuadas.</p>
         </div>
@@ -351,11 +354,11 @@
             <div class="row p-0 p-lg-4 w-100 w-lg-75 m-auto">
                 <div class="col-12 col-md-6 px-sm-5 mb-3 mb-md-0">
                     <h4><strong>encarga.shop</strong></h4>
-                    <p class="text-light">Tu solución para un contacto inmediato con clientes</p>
+                    <p class="text-light">Tus pedidos en un sólo mensaje de Whatsapp</p>
                 </div>
                 <div id="contacto" class="col-12 col-md-6 px-sm-5">
                     <h5>Contáctanos</h5>
-                    <a class="link-light fs-6" href="mailto:hola@encargashop.com">
+                    <a class="link-light font-lato" href="mailto:hola@encargashop.com">
                         <i class="far fa-envelope"></i>
                         hola@encargashop.com</a>
                     <div class="fs-5 mt-3 social-icons">

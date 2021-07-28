@@ -1,8 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap');
 
-main {
+main h1,
+h2,
+h3,
+h4,
+h5,
+a {
     font-family: 'Poppins', sans-serif;
-    font-size  : 12px;
+}
+
+main p, li {
+    font-family: 'Lato', sans-serif;
+}
+
+.font-lato {
+    font-family: 'Lato', sans-serif;
+}
+
+.bg-g {
+    background: linear-gradient(to bottom, #eb3349, #f45c43);
+}
+
+.bg-g-inverse {
+    background: linear-gradient(to top, #eb3349, #f45c43);
 }
 
 .w-fixed {
