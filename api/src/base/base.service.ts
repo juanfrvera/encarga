@@ -7,7 +7,7 @@ import { Base } from './entities/base.entity';
 @Injectable()
 export class BaseService<Entity extends Base, CreateDto extends CreateBaseDto, UpdateDto extends UpdateBaseDto> {
 
-  constructor(private readonly repo: Repository<Entity>) { }
+  constructor(protected readonly repo: Repository<Entity>) { }
 
   create(createDto: CreateDto) {
     return this.repo.save(createDto);
