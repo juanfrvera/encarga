@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.toast = new Toast(this.toastElement.nativeElement, { autohide: false });
 
-    this.itemService.Items.subscribe(items => {
+    this.itemService.Lista.subscribe(items => {
       if (items) {
         // TODO: cambiar este código temporal
         // Código temporal hasta que tengamos categorias

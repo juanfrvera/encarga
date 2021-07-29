@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { shareReplay } from 'rxjs/operators';
 
-export class ApiService<ConId> {
+export class ApiService<Dto, ListDto> {
 
   private readonly url: string = 'https://encargarpedido.herokuapp.com/';
   private readonly route: string;
@@ -10,8 +10,8 @@ export class ApiService<ConId> {
     this.route = route;
   }
 
-  public create(data: Omit<ConId, 'id'>) {
-    return this.http.post<ConId>(this.url + this.route, data)
+  public create(data: Omit<Dto, 'id'>) {
+    return this.http.post<ListDto>(this.url + this.route, data)
       // Esto se hace ya que nos suscribimos más de una vez
       // Más información: https://blog.angular-university.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/
       .pipe(
@@ -19,13 +19,13 @@ export class ApiService<ConId> {
       );
   }
   public getAll() {
-    return this.http.get<ConId[]>(this.url + this.route);
+    return this.http.get<ListDto[]>(this.url + this.route);
   }
   public getById(id: string) {
-    return this.http.get<ConId>(this.url + this.route + id);
+    return this.http.get<Dto>(this.url + this.route + id);
   }
-  public updateById(id: string, data: Omit<ConId, 'id'>) {
-    return this.http.patch<ConId>(this.url + this.route + id, data)
+  public updateById(id: string, data: Omit<Dto, 'id'>) {
+    return this.http.patch<ListDto>(this.url + this.route + id, data)
       // Esto se hace ya que nos suscribimos más de una vez
       // Más información: https://blog.angular-university.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/
       .pipe(
@@ -33,7 +33,7 @@ export class ApiService<ConId> {
       );
   }
   public deleteById(id: string) {
-    return this.http.delete<ConId>(this.url + this.route + id)
+    return this.http.delete<ListDto>(this.url + this.route + id)
       // Esto se hace ya que nos suscribimos más de una vez
       // Más información: https://blog.angular-university.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/
       .pipe(
@@ -41,6 +41,6 @@ export class ApiService<ConId> {
       );
   }
   public getWithFilter(filter: any) {
-    return this.http.post<ConId[]>(this.url + this.route + 'filter', filter);
+    return this.http.post<ListDto[]>(this.url + this.route + 'filter', filter);
   }
 }

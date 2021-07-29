@@ -12,8 +12,8 @@ import { ModalComponent } from '../modal/modal.component';
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.scss']
 })
-export class CrudComponent<ConId extends ObjetoConId> implements OnInit {
-  @Input() service: CrudService<ConId>;
+export class CrudComponent<ConId extends ObjetoConId, ListDto extends ObjetoConId> implements OnInit {
+  @Input() service: CrudService<ConId, ListDto>;
   @Input() titulo: string;
 
   @ViewChild(FormularioComponent) formulario: FormularioComponent;
@@ -30,8 +30,8 @@ export class CrudComponent<ConId extends ObjetoConId> implements OnInit {
     return this.item;
   }
 
-  public get Items() {
-    return this.service.Items;
+  public get Lista() {
+    return this.service.Lista;
   }
 
   public get Titulo() {
@@ -51,9 +51,12 @@ export class CrudComponent<ConId extends ObjetoConId> implements OnInit {
   }
 
   /** Muestra el modal en modo edicion */
-  public editar(item: ConId) {
-    this.item = Util.copiaProfunda(item);
-    this.abrir();
+  public editar(item: ListDto) {
+    // TODO: mostrar "cargando"
+    this.service.getById(item.id).subscribe(item => {
+      this.item = item;
+      this.abrir();
+    });
   }
 
   /** Muestra alerta de eliminar */

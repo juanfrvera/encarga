@@ -1,8 +1,7 @@
 import { ObjetoConId } from "../objeto-con-id";
 
-export interface Item extends ObjetoConId {
+export interface ItemList extends ObjetoConId {
     titulo: string;
     precio?: number;
     descripcion?: string;
-    idsCategorias?: [];
 }

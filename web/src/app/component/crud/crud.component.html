@@ -18,20 +18,22 @@
     </ng-container>
     <ng-container ngProjectAs="[footer]">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button (click)="guardar()" type="button" class="btn btn-primary bg-gradient text-white"><strong>Guardar</strong></button>
+        <button (click)="guardar()" type="button"
+            class="btn btn-primary bg-gradient text-white"><strong>Guardar</strong></button>
     </ng-container>
 </app-modal>
 
-<div *ngIf="Items | async as items; else cargando">
-    <div *ngIf="items.length; else empty" class="card">
+<div *ngIf="Lista | async as lista; else cargando">
+    <div *ngIf="lista.length; else empty" class="card">
         <!-- Hay Items y cargó -->
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
                 <h1 class="card-title align-self-center fs-3"><strong>{{Titulo}}s</strong></h1>
-                <button (click)="agregar()" type="button" class="btn btn-primary bg-gradient btn-sm text-white"><strong>Agregar</strong></button>
+                <button (click)="agregar()" type="button"
+                    class="btn btn-primary bg-gradient btn-sm text-white"><strong>Agregar</strong></button>
             </div>
             <div class="container-full">
-                <app-lista [items]="items" (itemClick)="editar($event)">
+                <app-lista [items]="lista" (itemClick)="editar($event)">
                     <!-- Se saca el item de la lista y se envía hacia arriba, dandoseló al #templateLista 
                     dentro de este componente CRUD -->
                     <ng-template let-itemlista>

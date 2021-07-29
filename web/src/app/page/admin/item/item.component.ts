@@ -13,7 +13,7 @@ export class ItemComponent {
   }
 
   public get Categorias() {
-    return this.categoriaService.Items;
+    return this.categoriaService.Lista;
   }
 
   constructor(private itemService: ItemService, private categoriaService: CategoriaService) { }
