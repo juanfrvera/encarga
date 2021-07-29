@@ -40,7 +40,14 @@ export class LandingComponent implements OnInit {
       document.documentElement.scrollTop = 0;
     }
 
+  }
 
+  public irA(tag : string, offset : number = 0){
+    const element = document.getElementById(tag);
+    
+    if(element){
+      window.scrollTo(window.scrollX, element.offsetTop + offset);
+    }
   }
 
 
