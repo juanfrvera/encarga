@@ -15,10 +15,10 @@ export class ItemService extends CrudService<Item, ItemList>{
 
   /**
    * Devuelve los items cuyos ids coincidan
-   * @param listaIds Lista de ids de items requeridos
+   * @param ids Lista de ids de items requeridos
    * @returns Items que coincidan
    */
-  public getItemsByIds(listaIds: string[]) {
-    return this.api.getWithFilter({ listaIds });
+  public getItemsByIds(ids: string[]) {
+    return this.api.getWithFilter({ ids });
   }
 }

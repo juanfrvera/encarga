@@ -1,12 +1,13 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { BaseService } from './base.service';
+import { BaseFilter } from './data/base-filter';
 import { CreateBaseDto } from './dto/create-base.dto';
 import { UpdateBaseDto } from './dto/update-base.dto';
 import { Base } from './entities/base.entity';
 
 @Controller('base')
-export abstract class BaseController<Entity extends Base, CreateDto extends CreateBaseDto, UpdateDto extends UpdateBaseDto> {
-  constructor(protected readonly service: BaseService<Entity, CreateDto, UpdateDto>) { }
+export abstract class BaseController<Entity extends Base, CreateDto extends CreateBaseDto, UpdateDto extends UpdateBaseDto, Filter extends BaseFilter> {
+  constructor(protected readonly service: BaseService<Entity, CreateDto, UpdateDto, Filter>) { }
 
   @Post()
   async create(@Body() createDto: CreateDto) {
@@ -34,7 +35,7 @@ export abstract class BaseController<Entity extends Base, CreateDto extends Crea
   }
 
   @Post('filter')
-  async findAllWithFilter(@Body() filter: any) {
+  async findAllWithFilter(@Body() filter: Filter) {
     return (await this.service.findAllWithFilter(filter)).map(e => e.toListDto());
   }
 }

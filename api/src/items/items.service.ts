@@ -4,12 +4,13 @@ import { BaseService } from 'src/base/base.service';
 import { CategoriasService } from 'src/categorias/categorias.service';
 import { ItemCategoriaService } from 'src/item-categoria/item-categoria.service';
 import { Repository } from 'typeorm';
+import { ItemFilter } from './data/item-filter';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { Item } from './entities/item.entity';
 
 @Injectable()
-export class ItemsService extends BaseService<Item, CreateItemDto, UpdateItemDto> {
+export class ItemsService extends BaseService<Item, CreateItemDto, UpdateItemDto, ItemFilter> {
   constructor(@InjectRepository(Item) readonly itemsRepository: Repository<Item>,
     private readonly categoriasService: CategoriasService,
     private readonly itemCategoriaService: ItemCategoriaService) {
@@ -29,7 +30,7 @@ export class ItemsService extends BaseService<Item, CreateItemDto, UpdateItemDto
 
     if (updateDto.idsCategorias) {
       const categoriasViejas = original.itemCategorias?.map(i => i.categoria);
-      const categorias = await this.categoriasService.findAllWithFilter({ listaIds: updateDto.idsCategorias });
+      const categorias = await this.categoriasService.findAllWithFilter({ ids: updateDto.idsCategorias });
 
       // Categorías viejas que se mantienen
       const categoriasMantenidas =

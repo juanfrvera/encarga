@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { BaseFilter } from 'src/base/data/base-filter';
 import { Repository } from 'typeorm';
 import { CreateBaseDto } from './dto/create-base.dto';
 import { UpdateBaseDto } from './dto/update-base.dto';
 import { Base } from './entities/base.entity';
 
 @Injectable()
-export abstract class BaseService<Entity extends Base, CreateDto extends CreateBaseDto, UpdateDto extends UpdateBaseDto> {
+export abstract class BaseService<Entity extends Base, CreateDto extends CreateBaseDto, UpdateDto extends UpdateBaseDto, Filter extends BaseFilter> {
 
   constructor(protected readonly repo: Repository<Entity>) { }
 
@@ -18,7 +19,7 @@ export abstract class BaseService<Entity extends Base, CreateDto extends CreateB
   }
 
   findOne(id: number, relations?: string[]) {
-    return this.repo.findOne(id, {relations});
+    return this.repo.findOne(id, { relations });
   }
 
   abstract update(id: number, updateDto: UpdateDto);
@@ -30,7 +31,7 @@ export abstract class BaseService<Entity extends Base, CreateDto extends CreateB
     return entity;
   }
 
-  findAllWithFilter(filter: { listaIds: number[] }) {
-    return this.repo.findByIds(filter.listaIds);
+  findAllWithFilter(filter: Filter) {
+    return this.repo.findByIds(filter.ids);
   }
 }
