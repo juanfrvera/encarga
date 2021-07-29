@@ -33,4 +33,15 @@ export class ItemCategoriaService {
     delete(itemCategoria: ItemCategoria) {
         this.repo.remove(itemCategoria);
     }
+
+    findByCategorias(idsCategorias: number[]) {
+        return this.repo
+            .createQueryBuilder('itemCategoria')
+            .select()
+            .leftJoinAndSelect('itemCategoria.item', 'item')
+            .leftJoinAndSelect('itemCategoria.categoria', 'categoria')
+            .where('categoria.id IN (:...idsCategorias)', { idsCategorias })
+            .orderBy('itemCategoria.orden')
+            .getMany();
+    }
 }

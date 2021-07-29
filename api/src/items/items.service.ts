@@ -64,4 +64,21 @@ export class ItemsService extends BaseService<Item, CreateItemDto, UpdateItemDto
 
     return original;
   }
+
+
+  async findAllWithFilter(filter: ItemFilter) {
+    let list: Item[] = [];
+
+    if (filter.ids) {
+      list = await super.findAllWithFilter(filter);
+    }
+
+    if (filter.idsCategorias) {
+      const itemCategorias = await this.itemCategoriaService.findByCategorias(filter.idsCategorias);
+
+      list = [...list, ...itemCategorias.map(ic => ic.item)];
+    }
+
+    return list;
+  }
 }
