@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
+
+// FUENTES 
 main h1,
 h2,
 h3,
@@ -10,36 +12,16 @@ a {
     font-family: 'Poppins', sans-serif;
 }
 
-main p, li {
-    font-family: 'Lato', sans-serif;
+main p,
+li {
+    font-family: 'Inter', sans-serif;
 }
 
 .font-lato {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
-.bg-g {
-    background: linear-gradient(to bottom, #eb3349, #f45c43);
-}
-
-.bg-g-inverse {
-    background: linear-gradient(to top, #eb3349, #f45c43);
-}
-
-.w-fixed {
-    max-width: 400px;
-    margin   : auto;
-}
-
-.carousel-indicators button {
-    background-color: #fc453c;
-}
-
-.list-group-item {
-    border          : none;
-    background-color: transparent;
-}
-
+// TAMAÑO TEXTO
 .text-16 li {
     font-size: 1rem;
 }
@@ -48,6 +30,18 @@ main p, li {
     font-size: 14px;
 }
 
+
+// FONDOS
+.bg-g {
+    background: linear-gradient(to bottom, #eb3349, #f45c43);
+}
+
+.bg-g-inverse {
+    background: linear-gradient(to top, #eb3349, #f45c43);
+}
+
+
+// BOTON DE IR HACIA ARRIBA
 #btn-back-to-top {
     position: fixed;
     bottom  : 25px;
@@ -55,13 +49,86 @@ main p, li {
     display : none;
 }
 
+// ANCHO
+.width-profile {
+    max-width: 200px;
+    margin   : auto;
+}
+
+//ANCHO IMAGEN PRINCIPAL
+.width-img {
+    max-width: 75%;
+}
+
+// // Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+    .width-img {
+        max-width: 55%;
+    }
+}
+
+// // X-Large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+    .width-img {
+        max-width: 45%;
+    }
+}
+
+
+//ANCHO IMAGENES SLIDES
+.width-slides {
+    max-width: 70%;
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+    .width-slides {
+        max-width: 50%;
+    }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+    .width-slides {
+        max-width: 40%;
+    }
+}
+
+// X-Large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+    .width-slides {
+        max-width: 35%;
+    }
+}
+
+// XX-Large devices (larger desktops, 1400px and up)
+@media (min-width: 1400px) {
+    .width-slides {
+        max-width: 30%;
+    }
+}
+
+
+// color a las flechas de slide
+.carousel-indicators button {
+    background-color: #fc453c;
+}
+
+// quita el fondo y el borde en la lista de items
+.list-group-item {
+    border          : none;
+    background-color: transparent;
+}
+
+
+// ICONOS DE REDES SOCIALES
 .social-icons .social-icon {
     display         : inline-flex;
     align-items     : center;
     justify-content : center;
     height          : 3rem;
     width           : 3rem;
-    background-color: #6c757d;
+    background-color: #5b5b5b;
     color           : #fdfcfa;
     border-radius   : 100%;
     font-size       : 1.2rem;
@@ -76,6 +143,7 @@ main p, li {
     background-color: #fc453c;
 }
 
+// QUITA SUBRAYADO EN EL MAIL DE CONTACTO
 #contacto a {
     text-decoration: none;
 }
@@ -84,6 +152,13 @@ main p, li {
     color: #fc453c;
 }
 
+// MARGEN A ICONOS AL LADO DE CARACTERISTICAS EN PRECIOS
+.check-icon i {
+    margin-right: 0.5rem;
+}
+
+
+// VA A LA SECCION - PARA EL MENU QUE SE ROMPE SINO
 @media (max-width: 991.98px) {
     .ir-a-seccion {
         scroll-margin-top: 170px;
