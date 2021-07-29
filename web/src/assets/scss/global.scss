@@ -35,3 +35,7 @@
     margin: 1rem;
   }
 }
+
+.carousel-indicators [data-bs-target] {
+  height: 5px;
+}
