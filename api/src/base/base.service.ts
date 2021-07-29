@@ -5,7 +5,7 @@ import { UpdateBaseDto } from './dto/update-base.dto';
 import { Base } from './entities/base.entity';
 
 @Injectable()
-export class BaseService<Entity extends Base, CreateDto extends CreateBaseDto, UpdateDto extends UpdateBaseDto> {
+export abstract class BaseService<Entity extends Base, CreateDto extends CreateBaseDto, UpdateDto extends UpdateBaseDto> {
 
   constructor(protected readonly repo: Repository<Entity>) { }
 
@@ -21,18 +21,7 @@ export class BaseService<Entity extends Base, CreateDto extends CreateBaseDto, U
     return this.repo.findOne(id);
   }
 
-  async update(id: number, updateDto: UpdateDto) {
-    const original = await this.repo.findOne(id);
-
-    const updated = {
-      ...original,
-      ...updateDto
-    };
-
-    await this.repo.save(updated);
-
-    return updated;
-  }
+  abstract update(id: number, updateDto: UpdateDto);
 
   remove(id: number) {
     const entity = this.repo.findOne(id);

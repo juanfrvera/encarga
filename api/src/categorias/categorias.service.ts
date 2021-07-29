@@ -13,4 +13,14 @@ export class CategoriasService extends BaseService<Categoria, CreateCategoriaDto
         private readonly categoriasRepository: Repository<Categoria>) {
         super(categoriasRepository);
     }
+
+    async update(id: number, updateDto: UpdateCategoriaDto) {
+        const original = await this.repo.findOne(id);
+
+        original.nombre = updateDto.nombre ?? original.nombre;
+
+        await this.repo.save(original);
+
+        return original;
+    }
 }

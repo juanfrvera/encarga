@@ -1,7 +1,8 @@
 import { Base } from "src/base/entities/base.entity";
-import { ItemCategoria } from "src/data/entities/item-categoria.entity";
+import { ItemCategoria } from "src/item-categoria/entities/item-categoria.entity";
 import { Column, Entity, OneToMany } from "typeorm";
 import { CategoriaListDto } from "../dto/categoria-list.dto";
+import { CategoriaDto } from "../dto/categoria.dto";
 
 @Entity()
 export class Categoria extends Base {
@@ -12,7 +13,17 @@ export class Categoria extends Base {
     @OneToMany(() => ItemCategoria, itemCategoria => itemCategoria.categoria)
     itemCategorias: ItemCategoria[];
 
-    toListDto() {
-        return { id: this.id, nombre: this.nombre } as CategoriaListDto;
+    toDto(): CategoriaDto {
+        return {
+            id: this.id,
+            nombre: this.nombre,
+            items: this.itemCategorias?.map(i => {
+                return { id: i.item.id, orden: i.orden } as { id: number, orden: number };
+            })
+        };
+    }
+
+    toListDto(): CategoriaListDto {
+        return { id: this.id, nombre: this.nombre };
     }
 }
