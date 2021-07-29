@@ -16,8 +16,12 @@ export class ItemsService extends BaseService<Item, CreateItemDto, UpdateItemDto
     super(itemsRepository);
   }
 
+  findOne(id: number, relations?: string[]) {
+    return super.findOne(id, relations ?? ['itemCategorias']);
+  }
+
   async update(id: number, updateDto: UpdateItemDto) {
-    const original = await this.repo.findOne(id);
+    const original = await this.findOne(id);
 
     original.titulo = updateDto.titulo ?? original.titulo;
     original.descripcion = updateDto.descripcion ?? original.descripcion;
@@ -37,11 +41,20 @@ export class ItemsService extends BaseService<Item, CreateItemDto, UpdateItemDto
       // Todas las categorías que no están en la lista de viejas
       const categoriasNuevas = categoriasViejas ? categorias.filter(c =>
         categoriasViejas.findIndex(vieja => c.id == vieja.id) == -1) : categorias;
-      
-        // Se crean itemCategorias nuevas
+
+      // Se crean itemCategorias nuevas
       const itemCategoriasNuevas = await Promise.all(categoriasNuevas.map(async c => {
         return (await this.itemCategoriaService.create(original, c));
       }));
+
+      // ItemCategorias viejas que no son mantenidas serán eliminadas
+      const itemCategoriasEliminar = original.itemCategorias.filter(i =>
+        categoriasMantenidas.findIndex(m => m.id == i.categoria.id) == -1);
+
+      // Eliminar item categorias no mantenidas
+      for (const itemCat of itemCategoriasEliminar) {
+        await this.itemCategoriaService.delete(itemCat);
+      }
 
       original.itemCategorias = [...itemCategoriasMantenidas, ...itemCategoriasNuevas];
     }

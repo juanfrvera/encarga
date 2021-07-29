@@ -29,4 +29,8 @@ export class ItemCategoriaService {
             return 0;
         }
     }
+
+    delete(itemCategoria: ItemCategoria) {
+        this.repo.remove(itemCategoria);
+    }
 }

@@ -17,8 +17,8 @@ export abstract class BaseService<Entity extends Base, CreateDto extends CreateB
     return this.repo.find();
   }
 
-  findOne(id: number) {
-    return this.repo.findOne(id);
+  findOne(id: number, relations?: string[]) {
+    return this.repo.findOne(id, {relations});
   }
 
   abstract update(id: number, updateDto: UpdateDto);
