@@ -3,7 +3,8 @@
     <section id="home" class="min-vh-100 bg-g p-2 p-md-3 p-lg-4">
         <nav class="navbar navbar-expand-lg navbar-light bg-white rounded shadow">
             <div class="container-fluid px-4 px-lg-5">
-                <a class="navbar-brand" href="#"><strong>encarga.shop</strong></a>
+                <!-- <a class="navbar-brand" href="#"><strong>encarga.shop</strong></a> -->
+                <a href="#" class="navbar-brand"><img src="../../../assets/logo/logo1.svg" width="150" height="auto" class="px-2 pt-2" alt=""></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                     aria-controls="navbarToggler" aria-expanded="true" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -50,14 +51,14 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-6 text-center">
-                    <img src="../../../assets/phone-frames/mockup-1.png" alt="" class="img-fluid w-50">
+                    <img src="../../../assets/phone-frames/mockup-1.png" alt="mockup-web" class="width-img">
                 </div>
             </div>
 
         </div>
 
         <div class="text-center p-0 p-md-5 p-lg-0">
-            <a onclick="document.getElementById('about').scrollIntoView()" class="text-white" role="button">
+            <a (click)="irA('about')" class="text-white" role="button">
                 <i class="fas fa-chevron-down fs-2 "></i>
             </a>
         </div>
@@ -90,8 +91,8 @@
                 </div>
                 <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
                     <i class="fas fa-store fs-1 mb-3"></i>
-                    <h5>VERSÁTIL</h5>
-                    <p class="text-14">Nuestra web de pedidos está preparada para cualquier tipo de negocio.
+                    <h5>VERSATILIDAD</h5>
+                    <p class="text-14">Nuestra web de pedidos está preparada para cualquier rubro comercial.
                     </p>
                 </div>
             </div>
@@ -110,7 +111,7 @@
                 <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
                     <i class="far fa-clock fs-1 mb-3"></i>
                     <h5>AHORRO DE TIEMPO</h5>
-                    <p>Priorizamos tu negocio al ofrecerte un contacto inmediato con tus
+                    <p class="text-14">Priorizamos tu negocio al ofrecerte un contacto inmediato con tus
                         clientes.</p>
                 </div>
             </div>
@@ -140,16 +141,16 @@
                         </div>
                         <div class="carousel-inner pb-5">
                             <div class="carousel-item active">
-                                <img src="../../../assets/phone-frames/mockup-1.png" class="d-block w-25 m-auto"
-                                    alt="...">
+                                <img src="../../../assets/phone-frames/mockup-1.png" class="d-block width-slides m-auto"
+                                    alt="mockup-inicio">
                             </div>
                             <div class="carousel-item">
-                                <img src="../../../assets/phone-frames/mockup-2.png" class="d-block w-25 m-auto"
-                                    alt="...">
+                                <img src="../../../assets/phone-frames/mockup-2.png" class="d-block width-slides m-auto"
+                                    alt="mockup-carrito">
                             </div>
                             <div class="carousel-item">
-                                <img src="../../../assets/phone-frames/mockup-3.png" class="d-block w-25 m-auto"
-                                    alt="...">
+                                <img src="../../../assets/phone-frames/mockup-3.png" class="d-block width-slides m-auto"
+                                    alt="mockup-carrito">
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
@@ -157,14 +158,14 @@
                             <span class="text-primary fs-4" aria-hidden="true">
                                 <i class="fas fa-chevron-left"></i>
                             </span>
-                            <span class="visually-hidden">Previous</span>
+                            <span class="visually-hidden">Anterior</span>
                         </button>
                         <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
                             data-bs-slide="next">
                             <span class="text-primary fs-4" aria-hidden="true">
                                 <i class="fas fa-chevron-right"></i>
                             </span>
-                            <span class="visually-hidden">Next</span>
+                            <span class="visually-hidden">Siguiente</span>
                         </button>
                     </div>
                 </div>
@@ -200,19 +201,20 @@
                             <div class="text-center mb-3">
                                 <h4 class="card-title">Plan Base</h4>
                                 <p class="text-primary text-14"><strong>PRUEBA GRATIS POR 15 DÍAS</strong></p>
-                                <h2 class="mb-3"><strong><span class="fs-6">AR$</span>1000,00<span
+                                <h2 class="mb-3"><strong><span class="fs-5">AR$</span>1000,00<span
                                             class="fs-6">/mes</span></strong></h2>
                                 <a class="btn btn-primary bg-gradient" href="#contacto"><strong>Contáctanos</strong></a>
                             </div>
-                            <ul class="list-group list-group-flush text-14">
+                            <ul class="list-group list-group-flush text-14 check-icon">
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-primary"></i>
+                                    <strong> Hasta 20 ítems</strong>
+                                </li>
                                 <li class="list-group-item">
                                     <i class="fas fa-check text-primary"></i>
                                     Todas las funcionalidades
                                 </li>
-                                <li class="list-group-item">
-                                    <i class="fas fa-check text-primary"></i>
-                                    Hasta 15 ítems
-                                </li>
+                                
                                 <li class="list-group-item">
                                     <i class="fas fa-check text-primary"></i>
                                     Panel administrativo 100% autogestionable
@@ -231,19 +233,20 @@
                             <div class="text-center mb-3">
                                 <h4 class="card-title">Plan Estándar</h4>
                                 <p class="text-primary text-14"><strong>PRUEBA GRATIS POR 15 DÍAS</strong></p>
-                                <h2 class="mb-3"><strong><span class="fs-6">AR$</span>1500,00<span
+                                <h2 class="mb-3"><strong><span class="fs-5">AR$</span>1500,00<span
                                             class="fs-6">/mes</span></strong></h2>
                                 <a class="btn btn-primary bg-gradient" href="#contacto"><strong>Contáctanos</strong></a>
                             </div>
-                            <ul class="list-group list-group-flush text-14">
+                            <ul class="list-group list-group-flush text-14 check-icon">
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-primary"></i>
+                                    <strong> Hasta 50 ítems</strong>
+                                </li>
                                 <li class="list-group-item">
                                     <i class="fas fa-check text-primary"></i>
                                     Todas las funcionalidades
                                 </li>
-                                <li class="list-group-item">
-                                    <i class="fas fa-check text-primary"></i>
-                                    Hasta 30 ítems
-                                </li>
+                                
                                 <li class="list-group-item">
                                     <i class="fas fa-check text-primary"></i>
                                     Panel administrativo 100% autogestionable
@@ -262,18 +265,18 @@
                             <div class="text-center mb-3">
                                 <h4 class="card-title">Plan Full</h4>
                                 <p class="text-primary text-14"><strong>PRUEBA GRATIS POR 15 DÍAS</strong></p>
-                                <h2 class="mb-3"><strong><span class="fs-6">AR$</span>2000,00<span
+                                <h2 class="mb-3"><strong><span class="fs-5">AR$</span>2000,00<span
                                             class="fs-6">/mes</span></strong></h2>
                                 <a class="btn btn-primary bg-gradient" href="#contacto"><strong>Contáctanos</strong></a>
                             </div>
-                            <ul class="list-group list-group-flush text-14">
+                            <ul class="list-group list-group-flush text-14 check-icon">
                                 <li class="list-group-item">
                                     <i class="fas fa-check text-primary"></i>
-                                    Todas las funcionalidades
+                                    <strong> Más de 50 ítems</strong>
                                 </li>
                                 <li class="list-group-item">
                                     <i class="fas fa-check text-primary"></i>
-                                    Más de 50 ítems
+                                    Todas las funcionalidades
                                 </li>
                                 <li class="list-group-item">
                                     <i class="fas fa-check text-primary"></i>
@@ -310,8 +313,8 @@
                 <div class="col-12 col-md-6 text-center">
                     <div class="card">
                         <div class="card-body p-sm-4 p-md-3 p-lg-4">
-                            <img src="../../../assets/empty-state/caja-changed.png" alt=""
-                                class="rounded-circle w-25 mb-4">
+                            <img src="../../../assets/profile-pics/profile2.jpg"
+                                class="card-img-top rounded-circle mb-4 width-profile" alt="...">
                             <h4 class="text-primary"><strong>JUAN VERA</strong></h4>
                             <h6 class="text-muted">APP DEVELOPER</h6>
                             <p class="m-0 text-14">Apasionado por el desarrollo</p>
@@ -327,8 +330,8 @@
                 <div class="col-12 col-md-6 text-center">
                     <div class="card">
                         <div class="card-body p-sm-4 p-md-3 p-lg-4">
-                            <img src="../../../assets/empty-state/caja-changed.png" alt=""
-                                class="rounded-circle w-25 mb-4">
+                            <img src="../../../assets/profile-pics/profile1.JPG"
+                                class="card-img-top rounded-circle mb-4 width-profile" alt="...">
                             <h4 class="text-primary"><strong>VICTORIA DERUDDER</strong></h4>
                             <h6 class="text-muted">APP DEVELOPER</h6>
                             <p class="m-0 text-14">Enfocada en buenos diseños</p>
@@ -353,7 +356,7 @@
         <div class="container-lg py-2 py-lg-0 px-lg-4">
             <div class="row p-0 p-lg-4 w-100 w-lg-75 m-auto">
                 <div class="col-12 col-md-6 px-sm-5 mb-3 mb-md-0">
-                    <h4><strong>encarga.shop</strong></h4>
+                    <a href="#"><img src="../../../assets/logo/logo2.svg" width="150" height="auto" class="py-2" alt=""></a>
                     <p class="text-light">Tus pedidos en un sólo mensaje de Whatsapp</p>
                 </div>
                 <div id="contacto" class="col-12 col-md-6 px-sm-5">
