@@ -1,65 +1,68 @@
-<div class="card container">
-    <div class="card-body">
-        <div class="accordion" id="accordionCategorias">
-            <div *ngFor="let cat of Categorias | async; first as esPrimera" class="accordion-item">
-                <h2 class="accordion-header" id="heading{{cat.id}}">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        [attr.data-bs-target]="'#collapse' + cat.id" aria-expanded="false"
-                        [attr.aria-controls]="'collapse'+cat.id">
-                        {{cat.nombre}}
-                    </button>
-                </h2>
-                <div id="collapse{{cat.id}}" class="accordion-collapse collapse"
-                    [attr.aria-labelledby]="'heading'+cat.id" data-bs-parent="#accordionCategorias">
-                    <div class="accordion-body">
-                        <div *ngIf="cat.Items | async as lista; else cargando">
-                            <div class="list-group list-group-flush px-2">
-                                <!-- Item -->
-                                <div *ngFor="let item of lista;" class="item d-flex w-100 justify-content-between mb-4">
-                                    <div class="izquierda">
-                                        <h5 class="mb-1 fs-6">{{item.titulo}}</h5>
-                                        <p class="mb-2 text-muted desc">{{item.descripcion}}</p>
-                                        <div class="d-flex">
-                                            <button (click)="agregarItem(item)" type="button"
-                                                class="btn btn-outline-primary btn-sm rounded-circle">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                            <div *ngIf="cantidadDe(item)" class="d-flex">
-                                                <p class="m-auto px-3">{{cantidadDe(item)}}</p>
-                                                <button (click)="quitarItem(item)" type="button"
+<div class="container">
+    <div class="card m-auto mt-4">
+        <div class="card-body p-0 ">
+            <div class="accordion w-100" id="accordionCategorias">
+                <div *ngFor="let cat of Categorias | async; first as esPrimera" class="accordion-item">
+                    <h2 class="accordion-header" id="heading{{cat.id}}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            [attr.data-bs-target]="'#collapse' + cat.id" aria-expanded="false"
+                            [attr.aria-controls]="'collapse'+cat.id">
+                            <strong>{{cat.nombre}}</strong>
+                        </button>
+                    </h2>
+                    <div id="collapse{{cat.id}}" class="accordion-collapse collapse"
+                        [attr.aria-labelledby]="'heading'+cat.id" data-bs-parent="#accordionCategorias">
+                        <div class="accordion-body">
+                            <div *ngIf="cat.Items | async as lista; else cargando">
+                                <div class="list-group list-group-flush px-2">
+                                    <!-- Item -->
+                                    <div *ngFor="let item of lista;"
+                                        class="item d-flex w-100 justify-content-between mb-4">
+                                        <div class="izquierda">
+                                            <h5 class="mb-1 fs-6">{{item.titulo}}</h5>
+                                            <p class="mb-2 text-muted desc">{{item.descripcion}}</p>
+                                            <div class="d-flex">
+                                                <button (click)="agregarItem(item)" type="button"
                                                     class="btn btn-outline-primary btn-sm rounded-circle">
-                                                    <i class="fas fa-minus"></i>
+                                                    <i class="fas fa-plus"></i>
                                                 </button>
+                                                <div *ngIf="cantidadDe(item)" class="d-flex">
+                                                    <p class="m-auto px-3">{{cantidadDe(item)}}</p>
+                                                    <button (click)="quitarItem(item)" type="button"
+                                                        class="btn btn-outline-primary btn-sm rounded-circle">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="derecha align-self-center fs-5 mb-0">
-                                        <strong>${{item.precio}}</strong>
+                                        <div class="derecha align-self-center fs-5 mb-0">
+                                            <strong>${{item.precio}}</strong>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <ng-template #cargando>
+                                <div class="d-flex flex-column justify-content-center align-items-center vh-100">
+                                    <div class="spinner-border text-primary" role="status"></div>
+                                    <span class="mt-3">Cargando...</span>
+                                </div>
+                            </ng-template>
                         </div>
-                        <ng-template #cargando>
-                            <div class="d-flex flex-column justify-content-center align-items-center vh-100">
-                                <div class="spinner-border text-primary" role="status"></div>
-                                <span class="mt-3">Cargando...</span>
-                            </div>
-                        </ng-template>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Toast -->
-    <div class="position-sticky p-3 bottom-0" style="z-index: 11">
-        <div #toast class="toast text-white bg-primary bg-gradient" role="alert" aria-live="assertive"
-            aria-atomic="true" data-bs-autohide="false">
-            <div class="toast-body">
-                <span class="precio fs-5"><strong>${{Total}}</strong></span>
-                <button (click)="continuar()" type="button" class="btn btn-primary continuar border-white">
-                    <strong>Ver mi pedido</strong>
-                </button>
+        <!-- Toast -->
+        <div class="position-sticky p-3 bottom-0" style="z-index: 11">
+            <div #toast class="toast text-white bg-primary bg-gradient" role="alert" aria-live="assertive"
+                aria-atomic="true" data-bs-autohide="false">
+                <div class="toast-body">
+                    <span class="precio fs-5"><strong>${{Total}}</strong></span>
+                    <button (click)="continuar()" type="button" class="btn btn-primary continuar border-white">
+                        <strong>Ver mi pedido</strong>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
