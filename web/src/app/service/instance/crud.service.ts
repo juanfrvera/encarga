@@ -1,9 +1,10 @@
 import { BehaviorSubject, Observable } from "rxjs";
+import { BaseFilter } from "src/app/data/base/base-filter";
 import { ObjetoConId } from "../../data/objeto-con-id";
 import { ApiService } from "../api.service";
 
-export abstract class CrudService<Dto extends ObjetoConId, ListDto extends ObjetoConId> {
-    protected readonly api: ApiService<Dto, ListDto>;
+export abstract class CrudService<Dto extends ObjetoConId, ListDto extends ObjetoConId, Filter extends BaseFilter> {
+    protected readonly api: ApiService<Dto, ListDto, Filter>;
 
     protected lista: BehaviorSubject<ListDto[] | null> = new BehaviorSubject<ListDto[] | null>(null);
     protected listaObservable?: Observable<ListDto[] | null>;
@@ -20,7 +21,7 @@ export abstract class CrudService<Dto extends ObjetoConId, ListDto extends Objet
         return this.listaObservable;
     }
 
-    constructor(api: ApiService<Dto, ListDto>) {
+    constructor(api: ApiService<Dto, ListDto, Filter>) {
         this.api = api;
     }
 
@@ -99,6 +100,10 @@ export abstract class CrudService<Dto extends ObjetoConId, ListDto extends Objet
 
         // Devolver observable para que donde se use se pueda esperar y reaccionar ante el server
         return obs;
+    }
+
+    public getWithFilter(filter: Filter) {
+        return this.api.getWithFilter(filter);
     }
 
     protected getAll() {

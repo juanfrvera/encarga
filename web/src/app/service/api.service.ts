@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { shareReplay } from 'rxjs/operators';
 
-export class ApiService<Dto, ListDto> {
+export class ApiService<Dto, ListDto, Filter> {
 
   private readonly url: string = 'https://encargarpedido.herokuapp.com/';
   private readonly route: string;
@@ -40,7 +40,7 @@ export class ApiService<Dto, ListDto> {
         shareReplay()
       );
   }
-  public getWithFilter(filter: any) {
+  public getWithFilter(filter: Filter) {
     return this.http.post<ListDto[]>(this.url + this.route + 'filter', filter);
   }
 }

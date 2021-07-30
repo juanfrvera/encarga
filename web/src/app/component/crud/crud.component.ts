@@ -1,4 +1,5 @@
 import { Component, ContentChild, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { BaseFilter } from 'src/app/data/base/base-filter';
 import Swal from 'sweetalert2';
 import { ObjetoConId } from '../../data/objeto-con-id';
 import { CrudService } from '../../service/instance/crud.service';
@@ -12,8 +13,8 @@ import { ModalComponent } from '../modal/modal.component';
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.scss']
 })
-export class CrudComponent<ConId extends ObjetoConId, ListDto extends ObjetoConId> implements OnInit {
-  @Input() service: CrudService<ConId, ListDto>;
+export class CrudComponent<ConId extends ObjetoConId, ListDto extends ObjetoConId, Filter extends BaseFilter> implements OnInit {
+  @Input() service: CrudService<ConId, ListDto, Filter>;
   @Input() titulo: string;
 
   @ViewChild(FormularioComponent) formulario: FormularioComponent;
