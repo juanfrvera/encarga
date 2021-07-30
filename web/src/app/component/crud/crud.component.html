@@ -1,13 +1,13 @@
 <app-modal>
     <ng-container ngProjectAs="[header]">
         <div *ngIf="Item.id; else headerCrear" #headerEditar class="w-100 d-flex justify-content-between">
-            <h5 class="modal-title align-self-center" id="modalLabel">Editar {{Titulo}}</h5>
+            <h5 class="modal-title align-self-center" id="modalLabel"><strong>Editar {{Titulo}}</strong></h5>
             <button (click)="eliminar()" class="btn">
                 <i class="far fa-trash-alt"></i>
             </button>
         </div>
         <ng-template #headerCrear>
-            <h5 class="modal-title" id="modalLabel">Agregar {{Titulo}}</h5>
+            <h5 class="modal-title" id="modalLabel"><strong>Agregar {{Titulo}}</strong></h5>
         </ng-template>
     </ng-container>
     <ng-container ngProjectAs="[body]">
