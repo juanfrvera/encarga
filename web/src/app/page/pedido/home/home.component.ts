@@ -1,11 +1,11 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PedidoService } from '../../../service/pedido.service';
 import { ItemService } from '../../../service/item.service';
-import { ItemConCantidad } from '../../../data/item/item-con-cantidad';
-import { CategoriaConItemsConCantidad } from '../../../data/categoria/categoria-con-items';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Toast } from 'bootstrap';
+import { CategoriaService } from 'src/app/service/categoria.service';
+import { Item } from 'src/app/data/item/item';
 
 @Component({
   selector: 'app-home',
@@ -14,15 +14,15 @@ import { Toast } from 'bootstrap';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('toast', { static: true }) toastElement: ElementRef;
-  private toast: Toast;
 
-  private categorias: CategoriaConItemsConCantidad[] = [];
+  private cantidades: { idItem: string, cantidad: number }[];
+  private toast: Toast;
   private total = 0;
 
   public get Categorias() {
-    return this.categorias;
+    return this.categoriaService.Lista;
   }
-  
+
   public get Total() {
     return this.total;
   }
@@ -31,42 +31,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private itemService: ItemService,
-    private pedidoService: PedidoService
+    private pedidoService: PedidoService,
+    private categoriaService: CategoriaService
   ) { }
 
   ngOnInit() {
     this.toast = new Toast(this.toastElement.nativeElement, { autohide: false });
 
-    this.itemService.Lista.subscribe(items => {
-      if (items) {
-        // TODO: cambiar este código temporal
-        // Código temporal hasta que tengamos categorias
-        const categoria: CategoriaConItemsConCantidad = { id: '0', nombre: 'Todos', items: [] };
-
-        categoria.items = items.map(item => {
-          // Convierte un item a item con cantidad
-          // Descomponiendo las propiedades de item y agregandole cantidad
-          return { ...item, cantidad: 0 };
-        });
-
-        this.categorias = [categoria];
-
-        // Esta suscripción es llamada al iniciar y puede no tener items del server aún (vacía por defecto)
-        if (items.length) {
-          this.reflejarPedido();
-        }
-
-        // Solo mostrar el total cuando hay pedido y estamos en home
-        if (this.hayPedido() && this.router.url == '/pedido') {
-          this.mostrarToast();
-        }
-      }
-    }, error => {
-      console.error(error);
-    });
-
-    if (this.hayPedido()) {
-      this.mostrarToast();
+    if (this.pedidoService.hayPedido()) {
+      this.reflejarPedido();
     }
   }
 
@@ -74,9 +47,34 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.ocultarToast();
   }
 
+  private crearObjetoCantidad(item: Item, cantidad: number = 0) {
+    const objetoCantidad = { idItem: item.id, cantidad: cantidad };
+
+    // Inicializar lista en caso de que no se haya hecho antes
+    if (!this.cantidades) {
+      this.cantidades = [];
+    }
+
+    this.cantidades.push(objetoCantidad);
+
+    return objetoCantidad;
+  }
+
+  public objetoCantidadDe(item: Item) {
+    return this.cantidades?.find(c => c.idItem == item.id);
+  }
+
+  public cantidadDe(item: Item) {
+    return this.objetoCantidadDe(item)?.cantidad ?? 0;
+  }
+
   /** Agrega el producto al pedido, sumandolo al total */
-  public agregarItem(item: ItemConCantidad) {
-    item.cantidad += 1;
+  public agregarItem(item: Item) {
+    const objetoCantidad: { idItem: string, cantidad: number } =
+      this.objetoCantidadDe(item) ??
+      this.crearObjetoCantidad(item);
+
+    objetoCantidad.cantidad++;
 
     this.total += item.precio ?? 0;
     this.mostrarToast();
@@ -85,11 +83,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   /** Quita el producto al pedido, restandolo del total */
-  public quitarItem(item: ItemConCantidad) {
+  public quitarItem(item: Item) {
+    const objetoCantidad = this.objetoCantidadDe(item);
     // Se fija que la cantidad este en 0 para no pasar a nros negativos
-    if (item.cantidad <= 0) return;
+    if (!objetoCantidad || objetoCantidad.cantidad <= 0) return;
 
-    item.cantidad--;
+    objetoCantidad.cantidad--;
 
     // Resta el producto del total
     this.total -= item.precio ?? 0;
@@ -138,26 +137,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   private reflejarPedido() {
     this.total = 0;
 
-    // Aplanar los items para recorrerlos más facilmente
-    const itemsAplanados = this.categorias.map(cat => cat.items).flat();
-
-    // Primero limpiar todas las cantidades que pueden estar guardadas en memoria
-    itemsAplanados.forEach(itemConCantidad => {
-      itemConCantidad.cantidad = 0;
-    });
-
     const pedido = this.pedidoService.get();
-    if (pedido && pedido.lineas) {
+
+    const idsItems = pedido.lineas.map(l => l.idItem);
+    this.itemService.getWithFilter({ ids: idsItems }).subscribe(items => {
       pedido.lineas.forEach(linea => {
         // Buscar el item correspondiente a la linea y asignarle la cantidad pedida
-        const itemConCantidad = itemsAplanados.find((item: ItemConCantidad) => item.id === linea.idItem);
+        const item = items.find(i => i.id === linea.idItem);
         // El item puede haber sido eliminado de la base de datos mientras estaba guardado en el pedido de un cliente
         // Este chequeo es para que no haya un error de referencia
-        if (itemConCantidad) {
-          itemConCantidad.cantidad = linea.cantidad;
+        if (item) {
+          const cantidad = linea.cantidad;
+          this.crearObjetoCantidad(item, cantidad);
 
-          if (itemConCantidad.precio) {
-            this.total += itemConCantidad.precio * itemConCantidad.cantidad;
+          if (item.precio) {
+            this.total += item.precio * cantidad;
           }
         }
         else {
@@ -166,6 +160,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           console.log('Se eliminó el item \'' + linea.idItem + '\' porque ya no existe en el catálogo');
         }
       });
-    }
+
+      this.mostrarToast();
+    });
   }
 }

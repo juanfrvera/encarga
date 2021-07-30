@@ -1,13 +1,14 @@
 import { BehaviorSubject, Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { BaseFilter } from "src/app/data/base/base-filter";
 import { ObjetoConId } from "../../data/objeto-con-id";
 import { ApiService } from "../api.service";
 
-export abstract class CrudService<Dto extends ObjetoConId, ListDto extends ObjetoConId, Filter extends BaseFilter> {
+export abstract class CrudService<Entity extends ObjetoConId, Dto extends ObjetoConId, ListDto extends ObjetoConId, Filter extends BaseFilter> {
     protected readonly api: ApiService<Dto, ListDto, Filter>;
 
-    protected lista: BehaviorSubject<ListDto[] | null> = new BehaviorSubject<ListDto[] | null>(null);
-    protected listaObservable?: Observable<ListDto[] | null>;
+    protected lista: BehaviorSubject<Entity[] | null> = new BehaviorSubject<Entity[] | null>(null);
+    protected listaObservable?: Observable<Entity[] | null>;
 
     public get Lista() {
         // La primera vez, items va a ser null
@@ -26,7 +27,9 @@ export abstract class CrudService<Dto extends ObjetoConId, ListDto extends Objet
     }
 
     /** Crea un nuevo item */
-    public create(itemSinId: Omit<Dto, 'id'>) {
+    public create(entity: Entity) {
+        const itemSinId: Omit<Dto, 'id'> = this.toDto(entity);
+
         // Crear en server y guardar la instancia del observable
         const obs = this.api.create(itemSinId);
 
@@ -34,7 +37,7 @@ export abstract class CrudService<Dto extends ObjetoConId, ListDto extends Objet
             // Obtener lista actual, si es null hacer una lista vacía
             const lista = this.lista.getValue() ?? [];
             // Agregar elemento al principio de la lista
-            lista.unshift(itemServer);
+            lista.unshift(this.fromListDto(itemServer));
 
             // Informar nueva lista a los suscriptores
             this.lista.next(lista);
@@ -48,15 +51,17 @@ export abstract class CrudService<Dto extends ObjetoConId, ListDto extends Objet
 
     /** Devuelve un dto fresco (traido del servidor) y es de tipo completo, no liviano */
     public getById(id: string) {
-        return this.api.getById(id);
+        return this.api.getById(id)
+            .pipe(map(dto => this.fromDto(dto)));
     }
 
     /** Edita un item */
-    public edit(item: Dto) {
-        const { id, ...sinId } = item;
+    public edit(entity: Entity) {
+        const dto = this.toDto(entity);
+        const { id, ...sinId } = dto;
 
         // Actualizar en server y guardar la instancia del observable
-        const obs = this.api.updateById(item.id, sinId);
+        const obs = this.api.updateById(entity.id, sinId);
 
         obs.subscribe((itemLista) => {
             // Obtener lista actual
@@ -64,8 +69,8 @@ export abstract class CrudService<Dto extends ObjetoConId, ListDto extends Objet
 
             if (lista) {
                 // Actualizar localmente el elemento
-                const index = lista.findIndex(i => i.id === item.id);
-                lista[index] = itemLista;
+                const index = lista.findIndex(i => i.id === entity.id);
+                lista[index] = this.fromListDto(itemLista);
 
                 this.lista.next(lista);
             }
@@ -78,7 +83,7 @@ export abstract class CrudService<Dto extends ObjetoConId, ListDto extends Objet
     }
 
     /** Elimina un item */
-    public delete(item: Dto) {
+    public delete(item: Entity) {
         // Eliminar en server y guardar la instancia del observable
         const obs = this.api.deleteById(item.id);
 
@@ -106,7 +111,15 @@ export abstract class CrudService<Dto extends ObjetoConId, ListDto extends Objet
         return this.api.getWithFilter(filter);
     }
 
+    protected abstract fromListDto(listDto: ListDto): Entity;
+    protected abstract fromDto(dto: Dto): Entity;
+    protected abstract toDto(Entity: Entity): Dto;
+
     protected getAll() {
-        return this.api.getAll();
+        // Obtiene la lista de todos y la convierte a una lista dentidades
+        return this.api.getAll()
+            .pipe(
+                map(lista => lista.map(dto => this.fromListDto(dto)))
+            );
     }
 }

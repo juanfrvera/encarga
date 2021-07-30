@@ -4,7 +4,6 @@ import Swal from 'sweetalert2';
 import { ObjetoConId } from '../../data/objeto-con-id';
 import { CrudService } from '../../service/instance/crud.service';
 import { SwalService } from '../../service/swal.service';
-import { Util } from '../../util';
 import { FormularioComponent } from '../formulario/formulario.component';
 import { ModalComponent } from '../modal/modal.component';
 
@@ -13,8 +12,8 @@ import { ModalComponent } from '../modal/modal.component';
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.scss']
 })
-export class CrudComponent<ConId extends ObjetoConId, ListDto extends ObjetoConId, Filter extends BaseFilter> implements OnInit {
-  @Input() service: CrudService<ConId, ListDto, Filter>;
+export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, ListDto extends ObjetoConId, Filter extends BaseFilter> implements OnInit {
+  @Input() service: CrudService<Entity, Dto, ListDto, Filter>;
   @Input() titulo: string;
 
   @ViewChild(FormularioComponent) formulario: FormularioComponent;
@@ -25,7 +24,7 @@ export class CrudComponent<ConId extends ObjetoConId, ListDto extends ObjetoConI
   @ContentChild('templateLista') templateLista: TemplateRef<any>;
 
   /** Item en modal */
-  private item: ConId = {} as ConId;
+  private item: Entity = {} as Entity;
 
   public get Item() {
     return this.item;
@@ -52,9 +51,9 @@ export class CrudComponent<ConId extends ObjetoConId, ListDto extends ObjetoConI
   }
 
   /** Muestra el modal en modo edicion */
-  public editar(item: ListDto) {
+  public editar(entity: Entity) {
     // TODO: mostrar "cargando"
-    this.service.getById(item.id).subscribe(item => {
+    this.service.getById(entity.id).subscribe(item => {
       this.item = item;
       this.abrir();
     });
@@ -117,7 +116,7 @@ export class CrudComponent<ConId extends ObjetoConId, ListDto extends ObjetoConI
   }
 
   private limpiarItem() {
-    this.item = {} as ConId;
+    this.item = {} as Entity;
   }
 
 }

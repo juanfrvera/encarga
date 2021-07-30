@@ -1,5 +1,5 @@
-import { Item } from './item';
+import { IItem } from './item.dto';
 
-export interface ItemConCantidad extends Item {
+export interface ItemConCantidad extends IItem {
     cantidad: number;
 }

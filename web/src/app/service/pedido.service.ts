@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Util } from '../util';
-import { Item } from '../data/item/item';
+import { IItem } from '../data/item/item.dto';
 import { LineaPedido } from '../data/linea-pedido';
 import { Pedido } from '../data/pedido';
 
@@ -19,8 +19,13 @@ export class PedidoService {
     return pedido;
   }
 
+  public hayPedido() {
+    const pedido = this.get();
+    return pedido && pedido.lineas && pedido.lineas.length;
+  }
+
   /** Agrega un item al carrito y guarda cambios en el local storage */
-  public add(item: Item) {
+  public add(item: IItem) {
     const pedido = this.get();
 
     // Si no hay array de lineas, se pondrá en null
@@ -42,7 +47,7 @@ export class PedidoService {
   }
 
   /** Quita un item del carrito y guarda cambios en el local storage */
-  public remove(item: Item) {
+  public remove(item: IItem) {
     const pedido = this.get();
 
     const lineaPedido = pedido.lineas?.find(p => p.idItem === item.id);
@@ -58,7 +63,7 @@ export class PedidoService {
 
       this.save(pedido);
     }
-    else{
+    else {
       throw "No se encontró la línea a remover";
     }
   }
@@ -74,7 +79,7 @@ export class PedidoService {
   }
 
   /** Elimina todos los items con sus cantidades y guarda cambios en el local storage */
-  public eliminarTodasLineas(){
+  public eliminarTodasLineas() {
     const pedido = this.get();
 
     pedido.lineas = [];
