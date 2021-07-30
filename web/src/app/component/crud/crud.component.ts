@@ -64,6 +64,7 @@ export class CrudComponent<ConId extends ObjetoConId, ListDto extends ObjetoConI
   public eliminar() {
     this.swalService.fire({
       icon: 'warning',
+      iconColor: '#fc453c',
       title: '¿Estás seguro?',
       showCancelButton: true,
       cancelButtonText: 'Cancelar',

@@ -9,7 +9,7 @@ export class SwalService {
     buttonsStyling: false,
     customClass: {
       cancelButton: 'btn btn-outline-secondary m-1 cancel-button',
-      confirmButton: 'btn btn-primary text-white m-1 confirm-button',
+      confirmButton: 'btn btn-primary bg-gradient text-white fw-bold m-1 confirm-button',
     },
     reverseButtons: true,
   };
