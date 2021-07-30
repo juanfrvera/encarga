@@ -8,6 +8,7 @@ import { DetalleComponent } from './page/pedido/detalle/detalle.component';
 import { AdminComponent } from './page/admin/admin.component';
 import { ItemComponent } from './page/admin/item/item.component';
 import { CategoriaComponent } from './page/admin/categoria/categoria.component';
+import { DashboardComponent } from './page/admin/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -26,9 +27,9 @@ const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     children: [
-      { path: '', component: ItemComponent },
+      { path: '', component: DashboardComponent },
       { path: 'categoria', component: CategoriaComponent },
-      { path: 'item', redirectTo: '' }
+      { path: 'item', component: ItemComponent }
     ]
   }
 
