@@ -13,16 +13,24 @@ import { Item } from 'src/app/data/item/item';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  @ViewChild('accordion', { static: true }) accordionElement: ElementRef;
   @ViewChild('toast', { static: true }) toastElement: ElementRef;
 
-  private cantidades: { idItem: string, cantidad: number }[];
   private toast: Toast;
+
+  /** Categoría actual en accordion */
+  private categoriaActual?: number;
+
+  private cantidades: { idItem: string, cantidad: number }[];
   private total = 0;
+
+  public get CategoriaActual() {
+    return this.categoriaActual;
+  }
 
   public get Categorias() {
     return this.categoriaService.Lista;
   }
-
   public get Total() {
     return this.total;
   }
@@ -46,6 +54,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ocultarToast();
   }
+
+  // Cuando una categoría será mostrada (todavía no se hizo la animación de abrir accordion)
+  categoriaWillShow(index: number) {
+    this.categoriaActual = index;
+  }
+
+  // Cuando una categoría fue ocultada (la animación de ocultar accordion ya terminó)
+  categoriaHidden(index: number) {
+  }
+
 
   private crearObjetoCantidad(item: Item, cantidad: number = 0) {
     const objetoCantidad = { idItem: item.id, cantidad: cantidad };
