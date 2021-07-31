@@ -1,10 +1,13 @@
 {
   "hosting": {
     "public": "dist/web",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "redirects": [
+      {
+        "source": "/home",
+        "destination": "/",
+        "type": 301
+      }
     ],
     "rewrites": [
       {
