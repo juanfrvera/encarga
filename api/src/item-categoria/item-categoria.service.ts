@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Categoria } from 'src/categorias/entities/categoria.entity';
 import { Item } from 'src/items/entities/item.entity';
-import { EntityManager, Repository } from 'typeorm';
+import { EntityManager, FindConditions, ObjectID, Repository } from 'typeorm';
 import { ItemCategoria } from './entities/item-categoria.entity';
 
 @Injectable()
@@ -59,14 +59,16 @@ export class ItemCategoriaService {
      * @param manager used for transactions 
      */
     removeByItemId(itemId: number, manager?: EntityManager) {
-        if (manager) {
-            // Keep in mind that BeforeRemove/AfterRemove are not triggered with delete method
-            return manager.delete<ItemCategoria>(this.repo.target, { item: { id: itemId } });
-        }
-        else {
-            // Keep in mind that BeforeRemove/AfterRemove are not triggered with delete method
-            return this.repo.delete({ item: { id: itemId } });
-        }
+        return this.removeBy({ item: { id: itemId } }, manager);
+    }
+
+    /**
+     * 
+     * @param itemId 
+     * @param manager used for transactions 
+     */
+    removeByCategoriaId(categoriaId: number, manager?: EntityManager) {
+        return this.removeBy({ categoria: { id: categoriaId } }, manager);
     }
 
     findByCategorias(idsCategorias: number[]) {
@@ -79,4 +81,17 @@ export class ItemCategoriaService {
             .orderBy('itemCategoria.orden')
             .getMany();
     }
+
+    private removeBy(criteria: string | string[] | number | number[] | Date | Date[] | ObjectID | ObjectID[] | FindConditions<ItemCategoria>,
+        manager?: EntityManager) {
+        if (manager) {
+            // Keep in mind that BeforeRemove/AfterRemove are not triggered with delete method
+            return manager.delete<ItemCategoria>(this.repo.target, criteria);
+        }
+        else {
+            // Keep in mind that BeforeRemove/AfterRemove are not triggered with delete method
+            return this.repo.delete(criteria);
+        }
+    }
+
 }
