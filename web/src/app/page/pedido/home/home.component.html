@@ -1,5 +1,5 @@
-<div class="container">
-    <div class="card m-auto mt-4">
+
+    <div class="card mt-4">
         <div class="card-body p-0 ">
             <div *ngIf="Categorias | async as categorias; else cargandoTodo">
                 <div #accordion class="accordion w-100" id="accordionCategorias">
@@ -31,7 +31,7 @@
                                                         <i class="fas fa-plus"></i>
                                                     </button>
                                                     <div *ngIf="cantidadDe(item)" class="d-flex">
-                                                        <p class="m-auto px-3">{{cantidadDe(item)}}</p>
+                                                        <p class="m-auto px-3"><strong>{{cantidadDe(item)}}</strong></p>
                                                         <button (click)="quitarItem(item)" type="button"
                                                             class="btn btn-outline-primary btn-sm rounded-circle">
                                                             <i class="fas fa-minus"></i>
@@ -79,4 +79,3 @@
             </div>
         </ng-template>
     </div>
-</div>
