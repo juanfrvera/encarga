@@ -35,11 +35,23 @@ export abstract class BaseService<Entity extends Base, CreateDto extends CreateB
 
   abstract update(id: number, updateDto: Partial<CreateDto>);
 
-  remove(id: number) {
-    const entity = this.repo.findOne(id);
-    this.repo.delete(id);
-
-    return entity;
+  /**
+   * 
+   * @param id 
+   * @param manager used in transactions
+   * @returns 
+   */
+  async remove(id: number, manager?: EntityManager) {
+    if (manager) {
+      const entity = await manager.findOne<Entity>(this.repo.target, id);
+      await manager.remove(entity);
+      return entity;
+    }
+    else {
+      const entity = await this.repo.findOne(id);
+      await this.repo.remove(entity);
+      return entity;
+    }
   }
 
   /**

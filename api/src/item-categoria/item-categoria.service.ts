@@ -44,12 +44,28 @@ export class ItemCategoriaService {
      * @param itemCategoria 
      * @param manager usado en caso de transacciones
      */
-    delete(itemCategoria: ItemCategoria, manager?: EntityManager) {
+    remove(itemCategoria: ItemCategoria, manager?: EntityManager) {
         if (manager) {
             return manager.remove(itemCategoria);
         }
         else {
             return this.repo.remove(itemCategoria);
+        }
+    }
+
+    /**
+     * 
+     * @param itemId 
+     * @param manager used for transactions 
+     */
+    removeByItemId(itemId: number, manager?: EntityManager) {
+        if (manager) {
+            // Keep in mind that BeforeRemove/AfterRemove are not triggered with delete method
+            return manager.delete<ItemCategoria>(this.repo.target, { item: { id: itemId } });
+        }
+        else {
+            // Keep in mind that BeforeRemove/AfterRemove are not triggered with delete method
+            return this.repo.delete({ item: { id: itemId } });
         }
     }
 

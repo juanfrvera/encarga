@@ -112,10 +112,25 @@ export class ItemsService extends BaseService<Item, CreateItemDto, ItemFilter> {
     if (itemCategoriasEliminar) {
       // Eliminar item categorias no mantenidas
       for (const itemCat of itemCategoriasEliminar) {
-        await this.itemCategoriaService.delete(itemCat, manager);
+        await this.itemCategoriaService.remove(itemCat, manager);
       }
     }
 
     item.itemCategorias = [...itemCategoriasMantenidas, ...itemCategoriasNuevas];
+  }
+
+  async remove(id: number, manager?: EntityManager) {
+    if (manager) {
+      // Eliminar clases de asociación
+      await this.itemCategoriaService.removeByItemId(id, manager);
+      return super.remove(id, manager);
+    }
+    else {
+      return this.repo.manager.transaction(async newManager => {
+        // Eliminar clases de asociación
+        await this.itemCategoriaService.removeByItemId(id, newManager);
+        return super.remove(id, newManager);
+      });
+    }
   }
 }
