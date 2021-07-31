@@ -37,7 +37,7 @@ export abstract class CrudService<Entity extends ObjetoConId, Dto extends Objeto
             // Obtener lista actual, si es null hacer una lista vacía
             const lista = this.lista.getValue() ?? [];
             // Agregar elemento al principio de la lista
-            lista.unshift(this.fromListDto(itemServer));
+            lista.unshift(this.fromDto(itemServer));
 
             // Informar nueva lista a los suscriptores
             this.lista.next(lista);
@@ -70,7 +70,7 @@ export abstract class CrudService<Entity extends ObjetoConId, Dto extends Objeto
             if (lista) {
                 // Actualizar localmente el elemento
                 const index = lista.findIndex(i => i.id === entity.id);
-                lista[index] = this.fromListDto(itemLista);
+                lista[index] = this.fromDto(itemLista);
 
                 this.lista.next(lista);
             }

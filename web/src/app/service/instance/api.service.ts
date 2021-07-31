@@ -11,7 +11,7 @@ export class ApiService<Dto, ListDto, Filter> {
   }
 
   public create(data: Omit<Dto, 'id'>) {
-    return this.http.post<ListDto>(this.url + this.route, data)
+    return this.http.post<Dto>(this.url + this.route, data)
       // Esto se hace ya que nos suscribimos más de una vez
       // Más información: https://blog.angular-university.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/
       .pipe(
@@ -25,7 +25,7 @@ export class ApiService<Dto, ListDto, Filter> {
     return this.http.get<Dto>(this.url + this.route + id);
   }
   public updateById(id: string, data: Omit<Dto, 'id'>) {
-    return this.http.patch<ListDto>(this.url + this.route + id, data)
+    return this.http.patch<Dto>(this.url + this.route + id, data)
       // Esto se hace ya que nos suscribimos más de una vez
       // Más información: https://blog.angular-university.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/
       .pipe(
@@ -33,7 +33,7 @@ export class ApiService<Dto, ListDto, Filter> {
       );
   }
   public deleteById(id: string) {
-    return this.http.delete<ListDto>(this.url + this.route + id)
+    return this.http.delete<Dto>(this.url + this.route + id)
       // Esto se hace ya que nos suscribimos más de una vez
       // Más información: https://blog.angular-university.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/
       .pipe(
