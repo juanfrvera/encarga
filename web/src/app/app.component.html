@@ -1,1 +1,4 @@
-<router-outlet></router-outlet>
+<div [hidden]="!Fouc">
+    <router-outlet></router-outlet>
+</div>
+<div *ngIf="!Fouc">Cargando...</div>
