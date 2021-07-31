@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CategoriaFilter } from '../data/categoria/categoria-filter';
 import { CategoriaList } from '../data/categoria/categoria-list';
-import { ApiService } from './api.service';
+import { ApiService } from './instance/api.service';
 import { CrudService } from './instance/crud.service';
 import { Categoria } from '../data/categoria/categoria';
 import { ICategoria } from '../data/categoria/categoria.dto';

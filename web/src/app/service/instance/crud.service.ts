@@ -2,7 +2,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { BaseFilter } from "src/app/data/base/base-filter";
 import { ObjetoConId } from "../../data/objeto-con-id";
-import { ApiService } from "../api.service";
+import { ApiService } from "./api.service";
 
 export abstract class CrudService<Entity extends ObjetoConId, Dto extends ObjetoConId, ListDto extends ObjetoConId, Filter extends BaseFilter> {
     protected readonly api: ApiService<Dto, ListDto, Filter>;
