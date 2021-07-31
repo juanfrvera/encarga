@@ -73,6 +73,12 @@ export class DetalleComponent implements OnInit {
     }
   }
 
+  /** Limpia el carrito */
+  public limpiar() {
+    this.pedidoService.eliminarTodasLineas();
+    this.itemsConCantidad = [];
+  }
+
   /** Vuelve a la pagina anterior */
   public clickVolver() {
     this.location.back();

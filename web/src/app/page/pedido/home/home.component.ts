@@ -124,13 +124,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.pedidoService.remove(item);
   }
 
-  /** Limpia el carrito */
-  public limpiar() {
-    this.pedidoService.eliminarTodasLineas();
-    this.reflejarPedido();
-    this.ocultarToast();
-  }
-
   /** Continua a la pagina de detalle */
   public continuar() {
     this.router.navigate(['detalle'], { relativeTo: this.route });
