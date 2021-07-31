@@ -1,7 +1,7 @@
 <div class="container">
     <div class="card m-auto mt-4">
         <div class="card-body p-0 ">
-            <div *ngIf="Categorias | async as categorias; else cargando">
+            <div *ngIf="Categorias | async as categorias; else cargandoTodo">
                 <div #accordion class="accordion w-100" id="accordionCategorias">
                     <!-- Categoria -->
                     <div *ngFor="let cat of categorias; index as i; first as esPrimera;" class="accordion-item"
@@ -10,7 +10,7 @@
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 [attr.data-bs-target]="'#collapse' + cat.id" aria-expanded="false"
                                 [attr.aria-controls]="'collapse'+cat.id">
-                                <strong>{{cat.nombre}}</strong>
+                                <strong class="fs-5">{{cat.nombre}}</strong>
                             </button>
                         </h2>
                         <div id="collapse{{cat.id}}" class="accordion-collapse collapse"
@@ -65,8 +65,15 @@
             </div>
         </div>
 
-        <ng-template #cargando>
+        <ng-template #cargandoTodo>
             <div class="d-flex flex-column justify-content-center align-items-center vh-100">
+                <div class="spinner-border text-primary" role="status"></div>
+                <span class="mt-3">Cargando...</span>
+            </div>
+        </ng-template>
+
+        <ng-template #cargando>
+            <div class="d-flex flex-column justify-content-center align-items-center">
                 <div class="spinner-border text-primary" role="status"></div>
                 <span class="mt-3">Cargando...</span>
             </div>
