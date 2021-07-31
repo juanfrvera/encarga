@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { BaseFilter } from 'src/base/data/base-filter';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { CreateBaseDto } from './dto/create-base.dto';
-import { UpdateBaseDto } from './dto/update-base.dto';
 import { Base } from './entities/base.entity';
 
 @Injectable()
-export abstract class BaseService<Entity extends Base, CreateDto extends CreateBaseDto, UpdateDto extends UpdateBaseDto, Filter extends BaseFilter> {
+export abstract class BaseService<Entity extends Base, CreateDto extends CreateBaseDto, Filter extends BaseFilter> {
 
   constructor(protected readonly repo: Repository<Entity>) { }
 
@@ -18,11 +17,23 @@ export abstract class BaseService<Entity extends Base, CreateDto extends CreateB
     return this.repo.find();
   }
 
-  findOne(id: number, relations?: string[]) {
-    return this.repo.findOne(id, { relations });
+  /**
+   * 
+   * @param id id de entidad a cargar
+   * @param relations relaciones a cargar
+   * @param manager usado en transacciones
+   * @returns 
+   */
+  findOne(id: number, relations?: string[], manager?: EntityManager) {
+    if (manager) {
+      return manager.findOne<Entity>(this.repo.target, id, { relations });
+    }
+    else {
+      return this.repo.findOne(id, { relations });
+    }
   }
 
-  abstract update(id: number, updateDto: UpdateDto);
+  abstract update(id: number, updateDto: Partial<CreateDto>);
 
   remove(id: number) {
     const entity = this.repo.findOne(id);
@@ -31,7 +42,18 @@ export abstract class BaseService<Entity extends Base, CreateDto extends CreateB
     return entity;
   }
 
-  findAllWithFilter(filter: Filter) {
-    return this.repo.findByIds(filter.ids);
+  /**
+   * 
+   * @param filter 
+   * @param manager usado en transacciones 
+   * @returns 
+   */
+  findAllWithFilter(filter: Filter, manager?: EntityManager) {
+    if (manager) {
+      return manager.findByIds<Entity>(this.repo.target, filter.ids);
+    }
+    else {
+      return this.repo.findByIds(filter.ids);
+    }
   }
 }

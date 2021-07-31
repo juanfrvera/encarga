@@ -1,5 +1,6 @@
 import { ItemCategoria } from "src/item-categoria/entities/item-categoria.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { CreateItemDto } from "../dto/create-item.dto";
 import { ItemListDto } from "../dto/item-list.dto";
 import { ItemDto } from "../dto/item.dto";
 
@@ -18,25 +19,26 @@ export class Item {
     descripcion?: string;
 
     /** Categorías en las que está este item, junto con el orden de este en dicha categoría */
-    @OneToMany(() => ItemCategoria, itemCategoria => itemCategoria.item)
-    itemCategorias: ItemCategoria[];
+    @OneToMany(() => ItemCategoria, itemCategoria => itemCategoria.item, { nullable: true })
+    itemCategorias?: ItemCategoria[];
 
-    toDto(): ItemDto {
+    static toListDto(e: Item): ItemListDto {
         return {
-            id: this.id,
-            titulo: this.titulo,
-            precio: this.precio,
-            descripcion: this.descripcion,
-            idsCategorias: this.itemCategorias?.map(i => i.categoria.id)
+            id: e.id,
+            titulo: e.titulo,
+            precio: e.precio ?? undefined,
+            descripcion: e.descripcion ?? undefined
         }
     }
 
-    toListDto(): ItemListDto {
+    static toDto(e: CreateItemDto & Item | Item) {
         return {
-            id: this.id,
-            titulo: this.titulo,
-            precio: this.precio,
-            descripcion: this.descripcion
-        }
+            id: e.id,
+            titulo: e.titulo,
+            precio: e.precio ?? undefined,
+            descripcion: e.descripcion ?? undefined,
+            idsCategorias: e.itemCategorias && e.itemCategorias.length ?
+                e.itemCategorias.map(i => i.categoria.id) : undefined
+        } as ItemDto
     }
 }

@@ -13,4 +13,10 @@ export class ItemCategoria {
 
     @ManyToOne(() => Categoria, categoria => categoria.itemCategorias, { primary: true, eager: true })
     categoria: Categoria;
+
+    constructor(item: Item, categoria: Categoria, orden: number) {
+        this.item = item;
+        this.categoria = categoria;
+        this.orden = orden;
+    }
 }

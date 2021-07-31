@@ -2,23 +2,31 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Categoria } from 'src/categorias/entities/categoria.entity';
 import { Item } from 'src/items/entities/item.entity';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { ItemCategoria } from './entities/item-categoria.entity';
 
 @Injectable()
 export class ItemCategoriaService {
     constructor(@InjectRepository(ItemCategoria) private readonly repo: Repository<ItemCategoria>) { }
 
-    create(item: Item, categoria: Categoria) {
-        const entity = {
-            item: item,
-            categoria: categoria,
-            // TODO: asegurar que no sea una operación "dirty"
-            // es decir que si se hace desde dos lugares a la vez, que no queden mal los ordenes (duplicados)    
-            orden: this.maximoOrden(categoria) + 1
-        } as ItemCategoria;
+    /**
+     * 
+     * @param item 
+     * @param categoria 
+     * @param manager Usado en caso de que se esté en una transacción
+     * @returns 
+     */
+    create(item: Item, categoria: Categoria, manager?: EntityManager) {
+        // TODO: asegurar que el obtener el orden no sea una operación "dirty"
+        // es decir que si se hace desde dos lugares a la vez, que no queden mal los ordenes (duplicados)    
+        const entity = new ItemCategoria(item, categoria, this.maximoOrden(categoria) + 1);
 
-        return this.repo.save(entity);
+        if (manager) {
+            return manager.save(entity);
+        }
+        else {
+            return this.repo.save(entity);
+        }
     }
 
     maximoOrden(categoria: Categoria) {
@@ -30,8 +38,19 @@ export class ItemCategoriaService {
         }
     }
 
-    delete(itemCategoria: ItemCategoria) {
-        this.repo.remove(itemCategoria);
+
+    /**
+     * 
+     * @param itemCategoria 
+     * @param manager usado en caso de transacciones
+     */
+    delete(itemCategoria: ItemCategoria, manager?: EntityManager) {
+        if (manager) {
+            return manager.remove(itemCategoria);
+        }
+        else {
+            return this.repo.remove(itemCategoria);
+        }
     }
 
     findByCategorias(idsCategorias: number[]) {

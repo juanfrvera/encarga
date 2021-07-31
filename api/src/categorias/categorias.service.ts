@@ -8,10 +8,10 @@ import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { Categoria } from './entities/categoria.entity';
 
 @Injectable()
-export class CategoriasService extends BaseService<Categoria, CreateCategoriaDto, UpdateCategoriaDto, CategoriaFilter> {
+export class CategoriasService extends BaseService<Categoria, CreateCategoriaDto, CategoriaFilter> {
     constructor(
         @InjectRepository(Categoria)
-        private readonly categoriasRepository: Repository<Categoria>) {
+        readonly categoriasRepository: Repository<Categoria>) {
         super(categoriasRepository);
     }
 
