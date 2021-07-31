@@ -31,7 +31,8 @@ const routes: Routes = [
       { path: 'categoria', component: CategoriaComponent },
       { path: 'item', component: ItemComponent }
     ]
-  }
+  },
+  { path: '**', redirectTo: '/' }
 
 
 ];
