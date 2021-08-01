@@ -14,12 +14,17 @@ import { Util } from '../../../util';
 export class DetalleComponent implements OnInit {
   @ViewChild(FormularioComponent) formulario: FormularioComponent;
 
+  private itemsConCantidad?: ItemConCantidad[];
+
   /** Datos de formulario */
   public datos: { nombre?: string, entrega?: string, direccion?: string, comentarios?: string, telPrueba?: string } =
     { nombre: '', entrega: 'Envio a domicilio', direccion: '', comentarios: '', telPrueba: '' };
-  public itemsConCantidad: ItemConCantidad[] = [];
   public finalizado = false;
   public total = 0;
+
+  public get ItemsConCantidad() {
+    return this.itemsConCantidad;
+  }
 
 
   constructor(
@@ -30,27 +35,34 @@ export class DetalleComponent implements OnInit {
 
   ngOnInit() {
     const pedido = this.pedidoService.get();
-    // Obtiene los id de los items
-    const itemIds = pedido.lineas?.map(lp => lp.idItem);
-    // Pedir items para esos ids y guardarlos con su cantidad
-    this.itemService.getItemsByIds(itemIds).subscribe(items => {
-      this.itemsConCantidad = items.map(item => {
-        // Linea correspondiente a este item mapeado
-        const lineaPedido = pedido.lineas.find(linea => linea.idItem === item.id) ?? { cantidad: 0 };
 
-        // Aprovecho para calcular el total
-        if (item.precio) {
-          this.total += item.precio * lineaPedido.cantidad;
-        }
+    if (pedido && pedido.HayItems) {
+      // Obtiene los id de los items
+      const itemIds = pedido.lineas?.map(lp => lp.idItem);
+      // Pedir items para esos ids y guardarlos con su cantidad
+      this.itemService.getByIds(itemIds).subscribe(items => {
+        this.itemsConCantidad = items.map(item => {
+          // Linea correspondiente a este item mapeado
+          const lineaPedido = pedido.lineas.find(linea => linea.idItem === item.id) ?? { cantidad: 0 };
 
-        // Convierte un item a item con cantidad
-        // Descomponiendo las propiedades de item y agregandole cantidad
-        return {
-          ...item,
-          cantidad: lineaPedido.cantidad,
-        };
+          // Aprovecho para calcular el total
+          if (item.precio) {
+            this.total += item.precio * lineaPedido.cantidad;
+          }
+
+          // Convierte un item a item con cantidad
+          // Descomponiendo las propiedades de item y agregandole cantidad
+          return {
+            ...item,
+            cantidad: lineaPedido.cantidad,
+          };
+        });
       });
-    });
+    }
+    else {
+      // La lista vacía significa que el carrito está vacío y muestra el #emptyState
+      this.itemsConCantidad = [];
+    }
   }
 
   /** Agrega un item al carrito */
@@ -68,7 +80,7 @@ export class DetalleComponent implements OnInit {
 
     this.total -= item.precio ?? 0;
 
-    if (item.cantidad <= 0) {
+    if (item.cantidad <= 0 && this.itemsConCantidad) {
       Util.eliminarItem(this.itemsConCantidad, item);
     }
   }
@@ -91,7 +103,7 @@ export class DetalleComponent implements OnInit {
     /** Datos del formulario */
     const d = this.datos;
     // Chequea si el form es valido
-    if (this.formulario.esValido() && (d.entrega !== 'Envio a domicilio' || d.direccion)) {
+    if (this.formulario.esValido() && (d.entrega !== 'Envio a domicilio' || d.direccion) && this.itemsConCantidad) {
       console.log('ok');
       // Agrega al cuerpo del mensaje a enviar info de la entrega
       let cuerpo = `*DETALLE DE ENTREGA*\nNombre y Apellido:\n_${d.nombre}_\nForma de entrega:\n_${d.entrega} / ${d.direccion}_\nComentarios:\n_${d.comentarios}_\n\n*DETALLE DE PEDIDO*\n`;

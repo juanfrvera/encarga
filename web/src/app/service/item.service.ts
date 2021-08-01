@@ -15,15 +15,6 @@ export class ItemService extends CrudService<Item, IItem, ItemList, ItemFilter>{
     super(new ApiService(http, 'items/'));
   }
 
-  /**
-   * Devuelve los items cuyos ids coincidan
-   * @param ids Lista de ids de items requeridos
-   * @returns Items que coincidan
-   */
-  public getItemsByIds(ids: string[]) {
-    return this.api.getWithFilter({ ids } as ItemFilter);
-  }
-
   protected fromDto(dto: IItem) {
     return Item.fromDto(dto);
   }

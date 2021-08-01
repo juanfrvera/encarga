@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Util } from '../util';
 import { IItem } from '../data/item/item.dto';
-import { LineaPedido } from '../data/linea-pedido';
-import { Pedido } from '../data/pedido';
+import { LineaPedido } from '../data/pedido/linea-pedido';
+import { Pedido } from '../data/pedido/pedido';
+import { PedidoDto } from '../data/pedido/pedido.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +14,8 @@ export class PedidoService {
 
   constructor() { }
 
-  public get() {
-    const pedidoJson = localStorage.getItem(PedidoService.storageKey);
-    const pedido = pedidoJson ? JSON.parse(pedidoJson) as Pedido : {} as Pedido;
-    return pedido;
-  }
-
   public hayPedido() {
-    const pedido = this.get();
-    return pedido && pedido.lineas && pedido.lineas.length;
+    return this.get()?.HayItems ?? false;
   }
 
   /** Agrega un item al carrito y guarda cambios en el local storage */
@@ -87,8 +81,21 @@ export class PedidoService {
     this.save(pedido);
   }
 
+  public get() {
+    const pedidoJson = localStorage.getItem(PedidoService.storageKey);
+
+    // El Json obtenido es de un dto ya que este es serializable
+    const dto = pedidoJson ? JSON.parse(pedidoJson) as PedidoDto : {} as PedidoDto;
+
+    // Convertir a clase para poder usar funciones y propiedades
+    return Pedido.fromDto(dto);
+  }
+
   /** Guarda cambios en el localStorage */
   private save(pedido: Pedido) {
-    localStorage.setItem(PedidoService.storageKey, JSON.stringify(pedido));
+    const dto = Pedido.toDto(pedido);
+
+    // Se guarda el dto porque es serializable
+    localStorage.setItem(PedidoService.storageKey, JSON.stringify(dto));
   }
 }

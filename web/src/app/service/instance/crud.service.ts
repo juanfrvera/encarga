@@ -1,5 +1,5 @@
-import { BehaviorSubject, Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { BehaviorSubject, Observable, of } from "rxjs";
+import { map, tap } from "rxjs/operators";
 import { BaseFilter } from "src/app/data/base/base-filter";
 import { ObjetoConId } from "../../data/objeto-con-id";
 import { ApiService } from "./api.service";
@@ -105,6 +105,43 @@ export abstract class CrudService<Entity extends ObjetoConId, Dto extends Objeto
 
         // Devolver observable para que donde se use se pueda esperar y reaccionar ante el server
         return obs;
+    }
+
+    /**
+     * Devuelve la lista de entidades que coinciden, busca localmente y en el server en caso de no encontrar
+     * Puede devolver una mescla de entidades que se encontraron localmente con entidades traidas del server
+     * @param ids ids a buscar
+     * @returns Entidades con los ids correspondientes
+     */
+    public getByIds(ids: string[]) {
+        // Ids a traer del server
+        let idsABuscar = ids;
+        // Elementods locales que se pueden reutilizar sin llamar al server
+        let locales: Entity[] = [];
+
+        const lista = this.lista.value;
+
+        // Tratar de buscar localmente las entidades con los ids buscados
+        if (lista) {
+            locales = lista.filter(e => ids.includes(e.id));
+
+            // Se buscarán los ids que no estan localmente
+            idsABuscar = ids.filter(id => locales.findIndex(e => e.id == id) == -1);
+        }
+
+        if (idsABuscar) {
+            return this.getWithFilter({ ids: idsABuscar } as Filter).pipe(
+                // Primero convertir a una lista de entidades
+                map(listaServer => listaServer.map(listDto => this.fromListDto(listDto))),
+                // Luego agregarle las encontradas localmente
+                tap(listaServer => {
+                    listaServer.push(...locales);
+                })
+            );
+        }
+        else {
+            return of(locales);
+        }
     }
 
     public getWithFilter(filter: Filter) {

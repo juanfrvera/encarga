@@ -1,5 +1,5 @@
 import { LineaPedido } from './linea-pedido';
 
-export interface Pedido {
+export class PedidoDto {
     lineas: LineaPedido[];
 }
