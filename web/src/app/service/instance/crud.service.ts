@@ -55,30 +55,42 @@ export abstract class CrudService<Entity extends ObjetoConId, Dto extends Objeto
             .pipe(map(dto => this.fromDto(dto)));
     }
 
-    /** Edita un item */
+    /**
+     * Edita una entidad
+     * @param entity 
+     * @returns Observable que puede ser suscripto varias veces sin problemas (sin volver a llamar a la edición)
+     */
     public edit(entity: Entity) {
         const dto = this.toDto(entity);
         const { id, ...sinId } = dto;
 
         // Actualizar en server y guardar la instancia del observable
-        const obs = this.api.updateById(entity.id, sinId);
+        const obs = this.api.updateById(entity.id, sinId).pipe(
+            map(itemServer => {
+                return this.fromDto(itemServer);
+            }),
+            tap({
+                next: itemServer => {
+                    // Obtener lista actual
+                    const lista = this.lista.getValue();
 
-        obs.subscribe((itemLista) => {
-            // Obtener lista actual
-            const lista = this.lista.getValue();
+                    if (lista) {
+                        // Actualizar localmente el elemento
+                        const index = lista.findIndex(i => i.id === entity.id);
+                        lista[index] = itemServer;
 
-            if (lista) {
-                // Actualizar localmente el elemento
-                const index = lista.findIndex(i => i.id === entity.id);
-                lista[index] = this.fromDto(itemLista);
+                        this.lista.next(lista);
+                    }
+                },
+                error: err => {
+                    console.error(err);
+                }
+            })
+        );
 
-                this.lista.next(lista);
-            }
-        }, (error: any) => {
-            console.error(error);
-        });
+        // TODO: sacar. Se deja por ahora para que se ejecute la llamada
+        obs.subscribe();
 
-        // Devolver observable para que donde se use se pueda esperar y reaccionar ante el server
         return obs;
     }
 

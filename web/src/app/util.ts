@@ -18,4 +18,32 @@ export class Util {
             this.eliminarEn(arreglo, indice);
         }
     }
+
+    /**
+     * Verdadero si en ambos arrays están los mismos valores, sin importar el orden
+     * @param array1 
+     * @param array2 
+     * @returns 
+     */
+    public static tienenLosMimosValores(array1: any[], array2: any[]) {
+        if (
+            !Array.isArray(array1)
+            || !Array.isArray(array2)
+            || array1.length !== array2.length
+        ) {
+            return false;
+        }
+
+        // .concat() to not mutate arguments
+        const arr1 = array1.concat().sort();
+        const arr2 = array2.concat().sort();
+
+        for (let i = 0; i < arr1.length; i++) {
+            if (arr1[i] !== arr2[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

@@ -24,6 +24,13 @@ export class ApiService<Dto, ListDto, Filter> {
   public getById(id: string) {
     return this.http.get<Dto>(this.url + this.route + id);
   }
+
+  /**
+   * 
+   * @param id 
+   * @param data 
+   * @returns Observable que puede ser subscribido varias veces sin problemas (sin volver a ejecutarse el update)
+   */
   public updateById(id: string, data: Omit<Dto, 'id'>) {
     return this.http.patch<Dto>(this.url + this.route + id, data)
       // Esto se hace ya que nos suscribimos más de una vez
