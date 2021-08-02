@@ -15,7 +15,7 @@ import { Item } from '../data/item/item';
 export class CategoriaService extends CrudService<Categoria, ICategoria, CategoriaList, CategoriaFilter> {
   constructor(http: HttpClient, private itemService: ItemService) {
     super(new ApiService(http, 'categorias/'));
-    
+
     // Suscribirse a la actualización de un item para cambiar las categorías localmente
     itemService.OnItemUpdate.subscribe(datos => {
       this.aplicarCambioDeCategorias(datos.nuevo, datos.viejo);
@@ -47,7 +47,7 @@ export class CategoriaService extends CrudService<Categoria, ICategoria, Categor
     const guardadas = nuevo.idsCategorias;
 
     const eliminadas = viejas?.filter(v => !guardadas?.find(g => g == v));
-    const nuevas = guardadas?.filter(g => !eliminadas?.find(e => e == g));
+    const nuevas = guardadas?.filter(g => !viejas?.find(v => v == g));
 
     if (eliminadas || nuevas) {
       this.itemCambioCategorias(nuevo, nuevas, eliminadas);

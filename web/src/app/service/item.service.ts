@@ -15,12 +15,10 @@ import { Observable, Subject } from 'rxjs';
 export class ItemService extends CrudService<Item, IItem, ItemList, ItemFilter>{
   private onItemUpdate = new Subject<{ nuevo: Item, viejo?: Item }>();
   private onItemUpdateObservable?: Observable<{ nuevo: Item, viejo?: Item }>;
-
   public get OnItemUpdate() {
     if (!this.onItemUpdateObservable) {
       this.onItemUpdateObservable = this.onItemUpdate.asObservable();
     }
-
     return this.onItemUpdateObservable;
   }
 

@@ -1,5 +1,6 @@
 import { Component, ContentChild, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BaseFilter } from 'src/app/data/base/base-filter';
+import { Util } from 'src/app/util';
 import Swal from 'sweetalert2';
 import { ObjetoConId } from '../../data/objeto-con-id';
 import { CrudService } from '../../service/instance/crud.service';
@@ -54,7 +55,8 @@ export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, 
   public editar(entity: Entity) {
     // TODO: mostrar "cargando"
     this.service.getById(entity.id).subscribe(item => {
-      this.item = item;
+      // Hacer una copia profunda para no modificar el original
+      this.item = Util.copiaProfunda(item);
       this.abrir();
     });
   }

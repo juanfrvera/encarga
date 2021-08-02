@@ -52,7 +52,19 @@ export abstract class CrudService<Entity extends ObjetoConId, Dto extends Objeto
     /** Devuelve un dto fresco (traido del servidor) y es de tipo completo, no liviano */
     public getById(id: string) {
         return this.api.getById(id)
-            .pipe(map(dto => this.fromDto(dto)));
+            .pipe(
+                map(dto => this.fromDto(dto)),
+                tap(entity => {
+                    const lista = this.lista.value;
+                    if (lista) {
+                        const index = lista.findIndex(e => e.id == entity.id);
+                        // Refrescar viejo con datos nuevos
+                        lista[index] = entity;
+
+                        this.lista.next(lista);
+                    }
+                })
+            );
     }
 
     /**
@@ -160,10 +172,6 @@ export abstract class CrudService<Entity extends ObjetoConId, Dto extends Objeto
         return this.api.getWithFilter(filter);
     }
 
-    protected abstract fromListDto(listDto: ListDto): Entity;
-    protected abstract fromDto(dto: Dto): Entity;
-    protected abstract toDto(Entity: Entity): Dto;
-
     protected getAll() {
         // Obtiene la lista de todos y la convierte a una lista dentidades
         return this.api.getAll()
@@ -171,4 +179,8 @@ export abstract class CrudService<Entity extends ObjetoConId, Dto extends Objeto
                 map(lista => lista.map(dto => this.fromListDto(dto)))
             );
     }
+
+    protected abstract fromListDto(listDto: ListDto): Entity;
+    protected abstract fromDto(dto: Dto): Entity;
+    protected abstract toDto(Entity: Entity): Dto;
 }
