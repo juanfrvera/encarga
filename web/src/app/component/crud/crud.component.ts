@@ -51,6 +51,10 @@ export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, 
     this.abrir();
   }
 
+  public cancelar() {
+    this.cerrar();
+  }
+
   /** Muestra el modal en modo edicion */
   public editar(entity: Entity) {
     // TODO: mostrar "cargando"
@@ -72,15 +76,13 @@ export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, 
       confirmButtonText: 'Sí, eliminar',
       showLoaderOnConfirm: true,
       preConfirm: () => {
-        return this.service.delete(this.item).toPromise().then(deletedItem => {
-          return deletedItem;
-        },
+        return this.service.delete(this.item).toPromise().catch(
           () => {
             Swal.showValidationMessage('Ocurrió un error al intentar eliminar');
           });
       },
       // Sirve para que al apretar Escape no se cierre el modal
-      target: this.modal.Element.nativeElement
+      keydownListenerCapture: true
     }).then(result => {
       // Si se eliminó sin errores
       if (result.isConfirmed) {

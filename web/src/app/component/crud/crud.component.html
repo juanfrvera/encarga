@@ -17,7 +17,7 @@
         </app-formulario>
     </ng-container>
     <ng-container ngProjectAs="[footer]">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button (click)="cancelar()" type="button" class="btn btn-outline-secondary">Cancelar</button>
         <button (click)="guardar()" type="button"
             class="btn btn-primary bg-gradient text-white"><strong>Guardar</strong></button>
     </ng-container>
