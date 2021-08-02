@@ -1,6 +1,7 @@
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { BaseFilter } from "src/app/data/base/base-filter";
+import { Util } from "src/app/util";
 import { ObjetoConId } from "../../data/objeto-con-id";
 import { ApiService } from "./api.service";
 
@@ -118,7 +119,7 @@ export abstract class CrudService<Entity extends ObjetoConId, Dto extends Objeto
             if (lista) {
                 // Eliminar elemento localmente
                 const index = lista.findIndex(i => i.id === item.id);
-                lista.splice(index, 1);
+                Util.eliminarEn(lista, index);
 
                 // Informar nueva lista a los suscriptores
                 this.lista.next(lista);

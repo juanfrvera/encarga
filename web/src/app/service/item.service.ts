@@ -8,6 +8,7 @@ import { CrudService } from './instance/crud.service';
 import { Item } from '../data/item/item';
 import { Util } from '../util';
 import { Observable, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,15 @@ export class ItemService extends CrudService<Item, IItem, ItemList, ItemFilter>{
       this.onItemUpdateObservable = this.onItemUpdate.asObservable();
     }
     return this.onItemUpdateObservable;
+  }
+
+  private onItemDeleted = new Subject<Item>();
+  private onItemDeletedObservable?: Observable<Item>;
+  public get OnItemDeleted() {
+    if (!this.onItemDeletedObservable) {
+      this.onItemDeletedObservable = this.onItemDeleted.asObservable();
+    }
+    return this.onItemDeletedObservable;
   }
 
   constructor(http: HttpClient) {
@@ -37,6 +47,7 @@ export class ItemService extends CrudService<Item, IItem, ItemList, ItemFilter>{
 
   public edit(entity: Item) {
     // Valor viejo del item (sin edicion)
+    // Se hace una copia profunda para mantener los datos viejos aunque se edite
     const viejo = Util.copiaProfunda(this.lista.value?.find(i => i.id == entity.id));
 
     const obs = super.edit(entity);
@@ -46,6 +57,16 @@ export class ItemService extends CrudService<Item, IItem, ItemList, ItemFilter>{
     });
 
     return obs;
+  }
+
+  public delete(item: Item) {
+    const lista = this.lista.value;
+    const itemEliminado = lista ? Util.copiaProfunda(lista.find(i => i.id == item.id)) : item;
+    return super.delete(item).pipe(
+      // Informar que se eliminó el item a los suscriptores
+      // usar el original y sino existe, usar el pasado como parametro
+      tap(() => this.onItemDeleted.next(itemEliminado))
+    );
   }
 
   protected fromDto(dto: IItem) {

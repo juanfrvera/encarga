@@ -40,7 +40,7 @@ export class ApiService<Dto, ListDto, Filter> {
       );
   }
   public deleteById(id: string) {
-    return this.http.delete<Dto>(this.url + this.route + id)
+    return this.http.delete(this.url + this.route + id)
       // Esto se hace ya que nos suscribimos más de una vez
       // Más información: https://blog.angular-university.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/
       .pipe(

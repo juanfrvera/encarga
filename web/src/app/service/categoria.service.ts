@@ -20,6 +20,8 @@ export class CategoriaService extends CrudService<Categoria, ICategoria, Categor
     itemService.OnItemUpdate.subscribe(datos => {
       this.aplicarCambioDeCategorias(datos.nuevo, datos.viejo);
     });
+
+    itemService.OnItemDeleted.subscribe(item => this.itemEliminado(item));
   }
 
   /**
@@ -66,5 +68,9 @@ export class CategoriaService extends CrudService<Categoria, ICategoria, Categor
       // Agregar item a categorías nuevas localmente
       lista.filter(cat => !!idsNuevas?.find(n => n == cat.id)).forEach(cat => cat.nuevoItem(item));
     }
+  }
+
+  private itemEliminado(item: Item) {
+    this.lista.value?.forEach(cat => cat.itemEliminado(item));
   }
 }

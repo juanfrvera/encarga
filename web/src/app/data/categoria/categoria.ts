@@ -61,6 +61,7 @@ export class Categoria implements ICategoria {
         if (lista) {
             const indice = lista.findIndex(i => i.id == item.id);
 
+            // Solo eliminar el item si existe en la lista
             if (indice != -1) {
                 Util.eliminarEn(lista, indice);
 
