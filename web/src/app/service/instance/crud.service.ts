@@ -32,13 +32,21 @@ export abstract class CrudService<Entity extends ObjetoConId, Dto extends Objeto
         const itemSinId: Omit<Dto, 'id'> = this.toDto(entity);
 
         // Crear en server y guardar la instancia del observable
-        const obs = this.api.create(itemSinId);
+        const obs = this.api.create(itemSinId).pipe(
+            // Convertir de dto a entidad
+            map(itemServer => {
+                return this.fromDto(itemServer);
+            })
+        );
 
+        // TODO: Por ahora es necesario usar suscripcion, ya que los que llaman no se suscriben
+        // En un futuro cuando los que llamen se suscriban, sería mejor usar pipe acá y sacar el 
+        // multicasting que se usa en api (usado para poder repetir suscripciones sin problemas)
         obs.subscribe((itemServer) => {
             // Obtener lista actual, si es null hacer una lista vacía
             const lista = this.lista.getValue() ?? [];
             // Agregar elemento al principio de la lista
-            lista.unshift(this.fromDto(itemServer));
+            lista.unshift(itemServer);
 
             // Informar nueva lista a los suscriptores
             this.lista.next(lista);

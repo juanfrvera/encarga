@@ -14,6 +14,15 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ItemService extends CrudService<Item, IItem, ItemList, ItemFilter>{
+  private onItemCreated = new Subject<Item>();
+  private onItemCreatedObservable?: Observable<Item>;
+  public get OnItemCreated() {
+    if (!this.onItemCreatedObservable) {
+      this.onItemCreatedObservable = this.onItemCreated.asObservable();
+    }
+    return this.onItemCreatedObservable;
+  }
+
   private onItemUpdate = new Subject<{ nuevo: Item, viejo?: Item }>();
   private onItemUpdateObservable?: Observable<{ nuevo: Item, viejo?: Item }>;
   public get OnItemUpdate() {
@@ -39,8 +48,10 @@ export class ItemService extends CrudService<Item, IItem, ItemList, ItemFilter>{
   public create(entity: Item) {
     const obs = super.create(entity);
 
-    obs.subscribe(itemEnServer => {
-    })
+    obs.subscribe(itemServer => {
+      // Informar que un item fue creado
+      this.onItemCreated.next(itemServer);
+    });
 
     return obs;
   }

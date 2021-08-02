@@ -16,11 +16,10 @@ export class CategoriaService extends CrudService<Categoria, ICategoria, Categor
   constructor(http: HttpClient, private itemService: ItemService) {
     super(new ApiService(http, 'categorias/'));
 
+    itemService.OnItemCreated.subscribe(item => this.itemCreado(item));
     // Suscribirse a la actualización de un item para cambiar las categorías localmente
-    itemService.OnItemUpdate.subscribe(datos => {
-      this.aplicarCambioDeCategorias(datos.nuevo, datos.viejo);
-    });
-
+    itemService.OnItemUpdate.subscribe(datos => this.aplicarCambioDeCategorias(datos.nuevo, datos.viejo));
+    // Eliminar item de categorias en las que está localmente cuando es eliminado
     itemService.OnItemDeleted.subscribe(item => this.itemEliminado(item));
   }
 
@@ -53,6 +52,14 @@ export class CategoriaService extends CrudService<Categoria, ICategoria, Categor
 
     if (eliminadas || nuevas) {
       this.itemCambioCategorias(nuevo, nuevas, eliminadas);
+    }
+  }
+
+  private itemCreado(item: Item) {
+    const lista = this.lista.value;
+    if (lista) {
+      // Agregar item a categorias correspondientes
+      lista.filter(cat => !!item.idsCategorias?.find(n => n == cat.id)).forEach(cat => cat.nuevoItem(item));
     }
   }
 
