@@ -7,6 +7,11 @@
         "source": "/home",
         "destination": "/",
         "type": 301
+      },
+      {
+        "source": "home",
+        "desitnation": "",
+        "type": 301
       }
     ],
     "rewrites": [
