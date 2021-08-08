@@ -117,6 +117,9 @@ export class PedidoService {
 
 
   // -------------- ITEMS -----------------
+  getItemsByIds(ids: string[]) {
+    return this.itemService.getByIds(ids);
+  }
   getItemsWithFilter(filter: ItemFilter) {
     return this.itemService.getWithFilter(filter);
   }

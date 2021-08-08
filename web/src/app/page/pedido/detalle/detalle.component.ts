@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PedidoService } from '../../../service/pedido.service';
-import { ItemService } from '../../../service/item.service';;
 import { Location } from '@angular/common';
 import { ItemConCantidad } from '../../../data/item/item-con-cantidad';
 import { FormularioComponent } from '../../../component/formulario/formulario.component';
@@ -27,11 +26,7 @@ export class DetalleComponent implements OnInit {
   }
 
 
-  constructor(
-    private pedidoService: PedidoService,
-    private itemService: ItemService,
-    private location: Location
-  ) { }
+  constructor(private location: Location, private pedidoService: PedidoService) { }
 
   ngOnInit() {
     const pedido = this.pedidoService.get();
@@ -40,7 +35,7 @@ export class DetalleComponent implements OnInit {
       // Obtiene los id de los items
       const itemIds = pedido.lineas?.map(lp => lp.idItem);
       // Pedir items para esos ids y guardarlos con su cantidad
-      this.itemService.getByIds(itemIds).subscribe(items => {
+      this.pedidoService.getItemsByIds(itemIds).subscribe(items => {
         this.itemsConCantidad = items.map(item => {
           // Linea correspondiente a este item mapeado
           const lineaPedido = pedido.lineas.find(linea => linea.idItem === item.id) ?? { cantidad: 0 };
