@@ -4,13 +4,24 @@ import { IItem } from '../data/item/item.dto';
 import { LineaPedido } from '../data/pedido/linea-pedido';
 import { Pedido } from '../data/pedido/pedido';
 import { PedidoDto } from '../data/pedido/pedido.dto';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PedidoService {
-
   private static readonly storageKey = 'pedido';
+  private urlComercio = new BehaviorSubject<string | null>(null);
+  private urlComercioObs: Observable<string | null>;
+
+  /** Url del comercio actual */
+  public get UrlComercio() {
+    if (!this.urlComercioObs) {
+      this.urlComercioObs = this.urlComercio.asObservable();
+    }
+
+    return this.urlComercioObs;
+  }
 
   constructor() { }
 
@@ -89,6 +100,10 @@ export class PedidoService {
 
     // Convertir a clase para poder usar funciones y propiedades
     return Pedido.fromDto(dto);
+  }
+
+  public setUrlComercio(url: string | null) {
+    this.urlComercio.next(url);
   }
 
   /** Guarda cambios en el localStorage */

@@ -15,6 +15,7 @@ const routes: Routes = [
     path: '',
     component: LandingComponent
   },
+  // Demo
   {
     path: 'pedido',
     component: PedidoComponent,
@@ -32,13 +33,22 @@ const routes: Routes = [
       { path: 'item', component: ItemComponent }
     ]
   },
+  // Para comercio real
+  {
+    path: ':comercio',
+    component: PedidoComponent,
+    children: [
+      { path: '', component: HomeComponent },
+      { path: 'detalle', component: DetalleComponent }
+    ]
+  },
   { path: '**', redirectTo: '/' }
 
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
