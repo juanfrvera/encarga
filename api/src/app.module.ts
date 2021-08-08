@@ -6,6 +6,7 @@ import { configService } from './config/config.service';
 import { ItemsModule } from './items/items.module';
 import { CategoriasModule } from './categorias/categorias.module';
 import { ItemCategoriaModule } from './item-categoria/item-categoria.module';
+import { ComerciosModule } from './comercios/comercios.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ItemCategoriaModule } from './item-categoria/item-categoria.module';
     ItemsModule,
     CategoriasModule,
     ItemCategoriaModule,
+    ComerciosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

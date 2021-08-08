@@ -1,14 +1,12 @@
+import { Base } from "src/base/entities/base.entity";
 import { ItemCategoria } from "src/item-categoria/entities/item-categoria.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import { CreateItemDto } from "../dto/create-item.dto";
 import { ItemListDto } from "../dto/item-list.dto";
 import { ItemDto } from "../dto/item.dto";
 
 @Entity({ name: 'item' })
-export class Item {
-    @PrimaryGeneratedColumn('increment')
-    id: number;
-
+export class Item extends Base{
     @Column({ type: 'varchar' })
     titulo: string;
 

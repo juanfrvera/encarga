@@ -39,4 +39,25 @@ export class CategoriasService extends BaseService<Categoria, CreateCategoriaDto
             });
         }
     }
+
+    /**
+     * 
+     * @param filter 
+     * @param manager usado en transacciones 
+     */
+    findAllWithFilter(filter: CategoriaFilter, manager?: EntityManager) {
+        const query = this.repo.createQueryBuilder('categoria')
+            .select();
+
+        if (filter.ids) {
+            query.andWhereInIds(filter.ids);
+        }
+
+        if (filter.urlComercio) {
+            query.leftJoin('categoria.comercio', 'comercio')
+                .andWhere('comercio.url = :urlComercio', { urlComercio: filter.urlComercio });
+        }
+
+        return query.getMany();
+    }
 }
