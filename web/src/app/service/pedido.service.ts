@@ -5,6 +5,9 @@ import { LineaPedido } from '../data/pedido/linea-pedido';
 import { Pedido } from '../data/pedido/pedido';
 import { PedidoDto } from '../data/pedido/pedido.dto';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { CategoriaService } from './categoria.service';
+import { ItemService } from './item.service';
+import { ItemFilter } from '../data/item/item-filter';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +16,10 @@ export class PedidoService {
   private static readonly storageKey = 'pedido';
   private urlComercio = new BehaviorSubject<string | null>(null);
   private urlComercioObs: Observable<string | null>;
+
+  public get ListaCategorias() {
+    return this.categoriaService.Lista;
+  }
 
   /** Url del comercio actual */
   public get UrlComercio() {
@@ -23,7 +30,7 @@ export class PedidoService {
     return this.urlComercioObs;
   }
 
-  constructor() { }
+  constructor(private categoriaService: CategoriaService, private itemService: ItemService) { }
 
   public hayPedido() {
     return this.get()?.HayItems ?? false;
@@ -105,6 +112,17 @@ export class PedidoService {
   public setUrlComercio(url: string | null) {
     this.urlComercio.next(url);
   }
+
+  // --------------- Categorias -----------
+
+
+  // -------------- ITEMS -----------------
+  getItemsWithFilter(filter: ItemFilter) {
+    return this.itemService.getWithFilter(filter);
+  }
+
+
+  // ------------- PRIVADOS --------------
 
   /** Guarda cambios en el localStorage */
   private save(pedido: Pedido) {
