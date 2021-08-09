@@ -9,6 +9,7 @@ import { AdminComponent } from './page/admin/admin.component';
 import { ItemComponent } from './page/admin/item/item.component';
 import { CategoriaComponent } from './page/admin/categoria/categoria.component';
 import { DashboardComponent } from './page/admin/dashboard/dashboard.component';
+import { LoginComponent } from './page/login/login.component';
 
 const routes: Routes = [
   {
@@ -33,7 +34,11 @@ const routes: Routes = [
       { path: 'item', component: ItemComponent }
     ]
   },
-  // Para comercio real
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  // Para comercio real (ponerlo debajo para que no haya conflictos con paths estáticos)
   {
     path: ':comercio',
     component: PedidoComponent,

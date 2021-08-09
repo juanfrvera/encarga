@@ -18,6 +18,7 @@ import { CategoriaComponent } from './page/admin/categoria/categoria.component';
 import { LandingComponent } from './page/landing/landing.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DashboardComponent } from './page/admin/dashboard/dashboard.component';
+import { LoginComponent } from './page/login/login.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { DashboardComponent } from './page/admin/dashboard/dashboard.component';
     ModalComponent,
     ListaComponent,
     CrudComponent,
-    DashboardComponent
+    DashboardComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
