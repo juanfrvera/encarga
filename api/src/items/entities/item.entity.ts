@@ -5,7 +5,7 @@ import { CreateItemDto } from "../dto/create-item.dto";
 import { ItemListDto } from "../dto/item-list.dto";
 import { ItemDto } from "../dto/item.dto";
 
-@Entity({ name: 'item' })
+@Entity()
 export class Item extends Base{
     @Column({ type: 'varchar' })
     titulo: string;

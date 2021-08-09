@@ -7,6 +7,8 @@ import { ItemsModule } from './items/items.module';
 import { CategoriasModule } from './categorias/categorias.module';
 import { ItemCategoriaModule } from './item-categoria/item-categoria.module';
 import { ComerciosModule } from './comercios/comercios.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
+import { UsuarioComercioModule } from './usuario-comercio/usuario-comercio.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { ComerciosModule } from './comercios/comercios.module';
     CategoriasModule,
     ItemCategoriaModule,
     ComerciosModule,
+    UsuariosModule,
+    UsuarioComercioModule,
   ],
   controllers: [AppController],
   providers: [AppService],
