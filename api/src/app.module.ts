@@ -9,6 +9,7 @@ import { ItemCategoriaModule } from './item-categoria/item-categoria.module';
 import { ComerciosModule } from './comercios/comercios.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { UsuarioComercioModule } from './usuario-comercio/usuario-comercio.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { UsuarioComercioModule } from './usuario-comercio/usuario-comercio.modul
     ComerciosModule,
     UsuariosModule,
     UsuarioComercioModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
