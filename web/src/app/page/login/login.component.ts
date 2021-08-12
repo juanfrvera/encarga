@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormularioComponent } from 'src/app/component/formulario/formulario.component';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -25,14 +26,18 @@ export class LoginComponent implements OnInit {
     this.password = value;
   }
 
-  constructor() { }
+  constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
   }
 
   public ingresar() {
     if (this.formulario.esValido()) {
-      console.log("ingresar");
+      console.log("ingresando...");
+      this.auth.login(this.Mail, this.Password)
+        .subscribe(() => {
+          
+        });
     }
     else {
       console.log("invalido");
