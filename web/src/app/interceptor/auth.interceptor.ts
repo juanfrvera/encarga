@@ -3,17 +3,22 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../service/auth.service';
+import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private readonly auth: AuthService) { }
+  constructor(private readonly auth: AuthService, private readonly router: Router) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    let req = request;
+
     if (this.auth.isLogged()) {
       // Token no es null ya que el usuario está logeado
       const token = this.auth.getToken()!;
@@ -23,10 +28,18 @@ export class AuthInterceptor implements HttpInterceptor {
         headers: request.headers.set("Authorization", "Bearer " + token)
       });
 
-      return next.handle(cloned);
+      req = cloned;
     }
-    else {
-      return next.handle(request);
-    }
+
+    return next.handle(req).pipe(
+      tap({
+        error: err => {
+          // Si hay un error de falta de autorización, redirigir al login
+          if (err instanceof HttpErrorResponse && err.status === 401) {
+            this.router.navigateByUrl('login');
+          }
+        }
+      })
+    );
   }
 }
