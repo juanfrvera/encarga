@@ -75,6 +75,7 @@ export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, 
       cancelButtonText: 'Cancelar',
       confirmButtonText: 'Sí, eliminar',
       showLoaderOnConfirm: true,
+      target: this.modal.Element.nativeElement,
       preConfirm: () => {
         return this.service.delete(this.item).toPromise().catch(
           () => {
