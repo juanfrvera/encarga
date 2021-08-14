@@ -10,6 +10,7 @@ import { ItemComponent } from './page/admin/item/item.component';
 import { CategoriaComponent } from './page/admin/categoria/categoria.component';
 import { DashboardComponent } from './page/admin/dashboard/dashboard.component';
 import { LoginComponent } from './page/login/login.component';
+import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
   {
@@ -28,6 +29,8 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
       { path: '', component: DashboardComponent },
       { path: 'categoria', component: CategoriaComponent },

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormularioComponent } from 'src/app/component/formulario/formulario.component';
 import { AuthService } from 'src/app/service/auth.service';
 
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit {
     this.password = value;
   }
 
-  constructor(private auth: AuthService) { }
+  constructor(private readonly auth: AuthService, private readonly router: Router) { }
 
   ngOnInit(): void {
   }
@@ -36,7 +37,7 @@ export class LoginComponent implements OnInit {
       console.log("ingresando...");
       this.auth.login(this.Mail, this.Password)
         .subscribe(() => {
-          
+          this.router.navigateByUrl('admin');
         });
     }
     else {
