@@ -1,0 +1,14 @@
+.width-img {
+    max-width: 250px;
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+    .width-img {
+        max-width: 400px;
+    }
+}
+
+.width-form {
+    max-width: 400px;
+}
