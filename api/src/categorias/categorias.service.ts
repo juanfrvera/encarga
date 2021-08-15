@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/base/base.service';
 import { ItemCategoriaService } from 'src/item-categoria/item-categoria.service';
-import { EntityManager, Repository } from 'typeorm';
+import { EntityManager, In, Repository } from 'typeorm';
 import { CategoriaFilter } from './data/categoria-filter';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
@@ -66,5 +66,20 @@ export class CategoriasService extends BaseService<Categoria, CreateCategoriaDto
         cat.nombre = dto.nombre;
 
         return cat;
+    }
+
+    async existenYSonDeComercio(idsCategorias: number[], idComercio: number) {
+        // Cuenta las categorias encontradas que cumplen
+        const cantidadValidas = await this.repo.count({
+            where:
+            {
+                id: In(idsCategorias),
+                comercio: { id: idComercio }
+            }
+        });
+
+        console.log(cantidadValidas);
+
+        return cantidadValidas == idsCategorias.length;
     }
 }

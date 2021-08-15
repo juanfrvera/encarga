@@ -5,9 +5,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Item } from './entities/item.entity';
 import { CategoriasModule } from 'src/categorias/categorias.module';
 import { ItemCategoriaModule } from 'src/item-categoria/item-categoria.module';
+import { UsuariosModule } from 'src/usuarios/usuarios.module';
+import { ComerciosModule } from 'src/comercios/comercios.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Item]), CategoriasModule, ItemCategoriaModule],
+  imports: [
+    TypeOrmModule.forFeature([Item]),
+    CategoriasModule,
+    ComerciosModule,
+    ItemCategoriaModule,
+    UsuariosModule,
+  ],
   controllers: [ItemsController],
   providers: [ItemsService]
 })

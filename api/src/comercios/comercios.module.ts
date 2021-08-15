@@ -8,6 +8,7 @@ import { CategoriasModule } from 'src/categorias/categorias.module';
 @Module({
   imports: [TypeOrmModule.forFeature([Comercio]), CategoriasModule],
   controllers: [ComerciosController],
-  providers: [ComerciosService]
+  providers: [ComerciosService],
+  exports: [ComerciosService]
 })
 export class ComerciosModule { }

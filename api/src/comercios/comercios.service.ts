@@ -1,15 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { BaseService } from 'src/base/base.service';
+import { BaseFilter } from 'src/base/data/base-filter';
 import { CategoriasService } from 'src/categorias/categorias.service';
 import { EntityManager, Repository } from 'typeorm';
 import { CreateComercioDto } from './dto/create-comercio.dto';
 import { Comercio } from './entities/comercio.entity';
 
 @Injectable()
-export class ComerciosService {
+export class ComerciosService extends BaseService<Comercio, CreateComercioDto, BaseFilter> {
     constructor(
-        @InjectRepository(Comercio) private readonly comercioRepository: Repository<Comercio>,
-        private readonly categoriaService: CategoriasService) { }
+        @InjectRepository(Comercio) readonly comercioRepository: Repository<Comercio>,
+        private readonly categoriaService: CategoriasService) {
+        super(comercioRepository);
+    }
 
     /**
      * Crea un comercio junto con su categoría por defecto
@@ -31,9 +35,16 @@ export class ComerciosService {
             return _create(manager);
         }
         else {
-            return this.comercioRepository.manager.transaction(myManager => {
+            return this.repo.manager.transaction(myManager => {
                 return _create(myManager);
             });
         }
+    }
+
+    update(id: number, updateDto: Partial<CreateComercioDto>) {
+        throw new Error('Method not implemented.');
+    }
+    fromCreateDto(dto: CreateComercioDto): Comercio {
+        throw new Error('Method not implemented.');
     }
 }
