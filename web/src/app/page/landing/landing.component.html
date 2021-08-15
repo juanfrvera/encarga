@@ -9,33 +9,31 @@
                     aria-controls="navbarToggler" aria-expanded="true" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse flex-grow-0" id="navbarToggler">
+                <div class="collapse navbar-collapse" id="navbarToggler">
                     <ul class="navbar-nav text-16 me-auto mb-2 mb-lg-0" data-bs-toggle="collapse"
                         data-bs-target=".navbar-collapse">
                         <li class="nav-item" role="button">
-                            <a class="nav-link font-lato"
+                            <a class="nav-link font-inter"
                                 onclick="document.getElementById('about').scrollIntoView()">Sobre</a>
                         </li>
                         <li class="nav-item" role="button">
-                            <a class="nav-link font-lato"
+                            <a class="nav-link font-inter"
                                 onclick="document.getElementById('demo').scrollIntoView()">Demo</a>
                         </li>
                         <li class="nav-item" role="button">
-                            <a class="nav-link font-lato"
+                            <a class="nav-link font-inter"
                                 onclick="document.getElementById('precios').scrollIntoView()">Precios</a>
                         </li>
                         <li class="nav-item" role="button">
-                            <a class="nav-link font-lato"
+                            <a class="nav-link font-inter"
                                 onclick="document.getElementById('nosotros').scrollIntoView()">Nosotros</a>
                         </li>
                         <li class="nav-item" role="button">
-                            <a class="nav-link font-lato"
+                            <a class="nav-link font-inter"
                                 onclick="document.getElementById('contacto').scrollIntoView()">Contacto</a>
                         </li>
-                        <li class="nav-item" role="button">
-                            <a class="nav-link font-lato" routerLink="login">Ingresar</a>
-                        </li>
                     </ul>
+                    <a class="btn btn-outline-primary bg-gradient" routerLink='login'><strong>Ingresar</strong></a>
                 </div>
             </div>
         </nav>
@@ -384,7 +382,7 @@
                 </div>
                 <div id="contacto" class="col-12 col-md-6 px-sm-5">
                     <h5>Contáctanos</h5>
-                    <a class="link-light font-lato" href="mailto:hola@encargashop.com">
+                    <a class="link-light font-inter" href="mailto:hola@encargashop.com">
                         <i class="far fa-envelope"></i>
                         hola@encargashop.com</a>
                     <div class="fs-5 mt-3 social-icons">
