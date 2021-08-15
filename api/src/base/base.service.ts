@@ -9,8 +9,15 @@ export abstract class BaseService<Entity extends Base, CreateDto extends CreateB
 
   constructor(protected readonly repo: Repository<Entity>) { }
 
-  create(createDto: CreateDto) {
-    return this.repo.save(createDto);
+  create(createDto: CreateDto, manager?: EntityManager) {
+    const entity = this.fromCreateDto(createDto);
+
+    if (manager) {
+      return manager.save(entity);
+    }
+    else {
+      return this.repo.save(entity as any) as Promise<Entity>;
+    }
   }
 
   findAll() {
@@ -68,4 +75,6 @@ export abstract class BaseService<Entity extends Base, CreateDto extends CreateB
       return this.repo.findByIds(filter.ids);
     }
   }
+
+  abstract fromCreateDto(dto: CreateDto): Entity;
 }

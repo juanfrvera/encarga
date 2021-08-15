@@ -28,24 +28,34 @@ export class ItemsService extends BaseService<Item, CreateItemDto, ItemFilter> {
     return super.findOne(id, relations ?? ['itemCategorias'], manager);
   }
 
-  async create(createDto: CreateItemDto) {
-    // Se corre dentro de una transaccion ya que estamos preguardando y puede fallar luego
-    // Si falla, se cancela la transaccion y no queda guardado el item
-    return this.repo.manager.transaction(async manager => {
+  async create(createDto: CreateItemDto, manager?: EntityManager) {
+    const _create = async (mng: EntityManager) => {
       const preItem = new Item();
       preItem.titulo = createDto.titulo;
       preItem.precio = createDto.precio;
       preItem.descripcion = createDto.descripcion;
 
       // Guardar para obtener un id
-      const item = await manager.save(preItem);
+      const item = await mng.save(preItem);
 
       if (createDto.idsCategorias) {
-        await this.asignarCategorias(item, createDto.idsCategorias, manager);
+        await this.asignarCategorias(item, createDto.idsCategorias, mng);
       }
 
-      return manager.save(item);
-    });
+      return mng.save(item);
+    };
+
+
+    if (manager) {
+      return _create(manager);
+    }
+    else {
+      // Se corre dentro de una transaccion ya que estamos preguardando y puede fallar luego
+      // Si falla, se cancela la transaccion y no queda guardado el item
+      return this.repo.manager.transaction(myManager => {
+        return _create(myManager);
+      });
+    }
   }
 
   async update(id: number, updateDto: UpdateItemDto) {
@@ -132,5 +142,9 @@ export class ItemsService extends BaseService<Item, CreateItemDto, ItemFilter> {
         return super.remove(id, newManager);
       });
     }
+  }
+
+  fromCreateDto(dto: CreateItemDto): Item {
+    throw new Error('Method not implemented.');
   }
 }

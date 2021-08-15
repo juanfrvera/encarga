@@ -19,4 +19,8 @@ export class UsuariosService extends BaseService<Usuario, CreateBaseDto, BaseFil
     update(id: number, updateDto: Partial<CreateBaseDto>) {
         throw new Error('Method not implemented.');
     }
+
+    fromCreateDto(dto: CreateBaseDto): Usuario {
+        throw new Error('Method not implemented.');
+    }
 }

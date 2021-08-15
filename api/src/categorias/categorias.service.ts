@@ -60,4 +60,11 @@ export class CategoriasService extends BaseService<Categoria, CreateCategoriaDto
 
         return query.getMany();
     }
+
+    fromCreateDto(dto: CreateCategoriaDto) {
+        const cat = new Categoria();
+        cat.nombre = dto.nombre;
+
+        return cat;
+    }
 }
