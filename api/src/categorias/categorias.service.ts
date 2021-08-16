@@ -78,8 +78,6 @@ export class CategoriasService extends BaseService<Categoria, CreateCategoriaDto
             }
         });
 
-        console.log(cantidadValidas);
-
         return cantidadValidas == idsCategorias.length;
     }
 }

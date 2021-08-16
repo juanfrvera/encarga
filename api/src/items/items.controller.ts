@@ -7,6 +7,8 @@ import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { ComerciosService } from 'src/comercios/comercios.service';
 import { CategoriasService } from 'src/categorias/categorias.service';
+import { Util } from 'src/util';
+import { EntityNotFoundError } from 'typeorm';
 
 @Controller('items')
 export class ItemsController {
@@ -20,16 +22,17 @@ export class ItemsController {
   @Post()
   async create(@Body() createDto: CreateItemDto, @Request() req) {
     const idComercio = await this.getIdComercio(req);
+    const idCategoriaDefecto = await this.getIdCategoriaDefecto(idComercio)
 
-    if (createDto.idsCategorias && createDto.idsCategorias.length) {
-      await this.validarCategorias(idComercio, createDto.idsCategorias);
-    }
-    // Si no se pasaron idsCategorias, usar la categoría por defecto del comercio
-    else {
-      createDto.idsCategorias = [await this.getIdCategoriaDefecto(idComercio)];
-    }
+    createDto.idsCategorias = await this.validarYCalcularCategorias(
+      idComercio, createDto.idsCategorias, idCategoriaDefecto);
 
-    return this.toDto(await this.service.create(createDto));
+    const entidad = await this.service.create(createDto);
+
+    // Se saca la categoría por defecto ya que es transparente para los clientes
+    this.sacarCategoriaDefecto(entidad, idCategoriaDefecto);
+
+    return this.toDto(entidad);
   }
 
   @Get()
@@ -46,21 +49,29 @@ export class ItemsController {
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateDto: Partial<CreateItemDto>, @Request() req) {
     const idComercio = await this.getIdComercio(req);
+    const idCategoriaDefecto = await this.getIdCategoriaDefecto(idComercio);
 
+    // Solo se retocan las categorías si el patch las trata
     if (updateDto.idsCategorias) {
-      // Si se pasaron ids, validarlos
-      if (updateDto.idsCategorias.length) {
-        await this.validarCategorias(idComercio, updateDto.idsCategorias);
+      updateDto.idsCategorias = await this.validarYCalcularCategorias(
+        idComercio, updateDto.idsCategorias, idCategoriaDefecto);
+    }
+
+    try {
+      const entidad = await this.service.update(+id, updateDto);
+      // Se saca la categoría por defecto ya que es transparente para los clientes
+      this.sacarCategoriaDefecto(entidad, idCategoriaDefecto);
+
+      return this.toDto(entidad);
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) {
+        throw new HttpException('El item que quiere editar no existe', HttpStatus.NOT_FOUND);
       }
-      // Si se pasó una lista vacía es porque se quieren eliminar todas
       else {
-        // Dejar la categoría por defecto
-        updateDto.idsCategorias = [await this.getIdCategoriaDefecto(idComercio)];
+        throw error;
       }
     }
 
-
-    return this.toDto(await this.service.update(+id, updateDto));
   }
 
   @UseGuards(JwtAuthGuard)
@@ -96,14 +107,45 @@ export class ItemsController {
     return comercio.categoriaDefecto.id;
   }
 
-  /** Tira excepción si hay categorías inválidas */
-  private async validarCategorias(idComercio: number, idsCategorias: number[]) {
-    const validas = await this.categoriasService.existenYSonDeComercio(
-      idsCategorias,
-      idComercio);
+  private sacarCategoriaDefecto(entidad: Item, idCategoriaDefecto) {
+    if (entidad.itemCategorias) {
+      // Si hay más categorías
+      if (entidad.itemCategorias.length > 1) {
+        const indexDefecto = entidad.itemCategorias.findIndex(ic => ic.categoria.id == idCategoriaDefecto);
+
+        if (indexDefecto != -1) {
+          Util.eliminarEn(entidad.itemCategorias, indexDefecto);
+        }
+      }
+      // Solo tiene la categoría por defecto
+      else {
+        entidad.itemCategorias = undefined;
+      }
+    }
+
+  }
+
+  /**
+   * Valida que las categorías sean correctas
+   * @param idComercio 
+   * @param idsCategorias 
+   * @param idCategoriaDefecto 
+   * @returns Categorías + categoría por defecto
+   */
+  private async validarYCalcularCategorias(idComercio: number, idsCategorias: number[], idCategoriaDefecto: number) {
+    const cats: number[] = [];
+
+    if (idsCategorias) {
+      cats.push(...idsCategorias);
+    }
+    if (!cats.includes(idCategoriaDefecto)) {
+      cats.push(idCategoriaDefecto);
+    }
+
+    const validas = await this.categoriasService.existenYSonDeComercio(cats, idComercio);
 
     if (validas) {
-      return idsCategorias;
+      return cats;
     }
     // Si hay categorías que no son de este comercio, se tira excepción
     else {

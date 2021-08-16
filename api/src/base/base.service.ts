@@ -40,6 +40,22 @@ export abstract class BaseService<Entity extends Base, CreateDto extends CreateB
     }
   }
 
+  /**
+   * 
+   * @param id id de entidad a cargar
+   * @param relations relaciones a cargar
+   * @param manager usado en transacciones
+   * @returns 
+   */
+  findOneOrFail(id: number, relations?: string[], manager?: EntityManager) {
+    if (manager) {
+      return manager.findOneOrFail<Entity>(this.repo.target, id, { relations });
+    }
+    else {
+      return this.repo.findOneOrFail(id, { relations });
+    }
+  }
+
   abstract update(id: number, updateDto: Partial<CreateDto>);
 
   /**
