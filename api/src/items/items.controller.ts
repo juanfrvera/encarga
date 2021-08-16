@@ -24,8 +24,13 @@ export class ItemsController {
     const idComercio = await this.getIdComercio(req);
     const idCategoriaDefecto = await this.getIdCategoriaDefecto(idComercio)
 
-    createDto.idsCategorias = await this.validarYCalcularCategorias(
-      idComercio, createDto.idsCategorias, idCategoriaDefecto);
+    if (createDto.idsCategorias && createDto.idsCategorias.length) {
+      await this.validarCategorias(idComercio, createDto.idsCategorias, idCategoriaDefecto);
+    }
+    else {
+      // Si queda huerfano, agregarlo a la categoría defecto
+      createDto.idsCategorias = [idCategoriaDefecto];
+    }
 
     const entidad = await this.service.create(createDto);
 
@@ -53,8 +58,13 @@ export class ItemsController {
 
     // Solo se retocan las categorías si el patch las trata
     if (updateDto.idsCategorias) {
-      updateDto.idsCategorias = await this.validarYCalcularCategorias(
-        idComercio, updateDto.idsCategorias, idCategoriaDefecto);
+      if (updateDto.idsCategorias.length) {
+        await this.validarCategorias(idComercio, updateDto.idsCategorias, idCategoriaDefecto);
+      }
+      // Si se quieren eliminar todas las categorías, dejarlo con la categoría defecto
+      else {
+        updateDto.idsCategorias = [idCategoriaDefecto];
+      }
     }
 
     try {
@@ -109,20 +119,19 @@ export class ItemsController {
 
   private sacarCategoriaDefecto(entidad: Item, idCategoriaDefecto) {
     if (entidad.itemCategorias) {
-      // Si hay más categorías
-      if (entidad.itemCategorias.length > 1) {
-        const indexDefecto = entidad.itemCategorias.findIndex(ic => ic.categoria.id == idCategoriaDefecto);
+      const indexDefecto = entidad.itemCategorias.findIndex(
+        ic => ic.categoria.id == idCategoriaDefecto);
 
-        if (indexDefecto != -1) {
-          Util.eliminarEn(entidad.itemCategorias, indexDefecto);
-        }
-      }
-      // Solo tiene la categoría por defecto
-      else {
-        entidad.itemCategorias = undefined;
+      // Eliminar la categoría por defecto solo si está en la lista
+      if (indexDefecto != -1) {
+        Util.eliminarEn(entidad.itemCategorias, indexDefecto);
       }
     }
 
+    // No devolver lista si no tiene nada
+    if (entidad.itemCategorias && !entidad.itemCategorias.length) {
+      entidad.itemCategorias = undefined;
+    }
   }
 
   /**
@@ -132,23 +141,16 @@ export class ItemsController {
    * @param idCategoriaDefecto 
    * @returns Categorías + categoría por defecto
    */
-  private async validarYCalcularCategorias(idComercio: number, idsCategorias: number[], idCategoriaDefecto: number) {
-    const cats: number[] = [];
-
-    if (idsCategorias) {
-      cats.push(...idsCategorias);
-    }
-    if (!cats.includes(idCategoriaDefecto)) {
-      cats.push(idCategoriaDefecto);
+  private async validarCategorias(idComercio: number, idsCategorias: number[], idCategoriaDefecto: number) {
+    if (idsCategorias.includes(idCategoriaDefecto)) {
+      throw new HttpException('No puede elegir la categoría por defecto', HttpStatus.NOT_ACCEPTABLE);
     }
 
-    const validas = await this.categoriasService.existenYSonDeComercio(cats, idComercio);
 
-    if (validas) {
-      return cats;
-    }
-    // Si hay categorías que no son de este comercio, se tira excepción
-    else {
+    const validas = await this.categoriasService.existenYSonDeComercio(idsCategorias, idComercio);
+
+    if (!validas) {
+      // Si hay categorías que no son de este comercio, se tira excepción
       throw new HttpException('Categoría desconocida', HttpStatus.NOT_ACCEPTABLE);
     }
   }
