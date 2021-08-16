@@ -18,7 +18,7 @@ export class CategoriasService extends BaseService<Categoria, CreateCategoriaDto
     }
 
     async update(id: number, updateDto: UpdateCategoriaDto) {
-        const original = await this.repo.findOne(id);
+        const original = await this.repo.findOneOrFail(id);
 
         original.nombre = updateDto.nombre ?? original.nombre;
 

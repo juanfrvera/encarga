@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpException, HttpStatus } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { EntityNotFoundError } from 'typeorm';
 import { BaseService } from './base.service';
 import { BaseFilter } from './data/base-filter';
 import { BaseListDto } from './dto/base-list.dto';
@@ -32,7 +33,16 @@ export abstract class BaseController<
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateDto: Partial<CreateDto>) {
-    return this.toDto(await this.service.update(+id, updateDto));
+    try {
+      return this.toDto(await this.service.update(+id, updateDto));
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) {
+        throw new HttpException('El elemento a editar no existe', HttpStatus.NOT_FOUND);
+      }
+      else {
+        throw error;
+      }
+    }
   }
 
   @UseGuards(JwtAuthGuard)
