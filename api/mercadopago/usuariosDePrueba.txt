@@ -1,0 +1,15 @@
+https://www.mercadopago.com.ar/developers/es/guides/online-payments/checkout-pro/test-integration
+{
+    "id": 814179707,
+    "nickname": "TESTYPUUHJVL",
+    "password": "qatest6891",
+    "site_status": "active",
+    "email": "test_user_87344370@testuser.com"
+}
+{
+    "id": 814177944,
+    "nickname": "TETE9210765",
+    "password": "qatest1115",
+    "site_status": "active",
+    "email": "test_user_60232991@testuser.com"
+}
