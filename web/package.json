@@ -34,6 +34,7 @@
     "@angular/compiler-cli": "~12.1.2",
     "@types/bootstrap": "^5.0.17",
     "@types/jasmine": "~3.6.0",
+    "@types/mercadopago": "^1.5.4",
     "@types/node": "^12.11.1",
     "@types/scriptjs": "0.0.2",
     "jasmine-core": "~3.6.0",
