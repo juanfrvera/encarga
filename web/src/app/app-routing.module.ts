@@ -11,11 +11,21 @@ import { CategoriaComponent } from './page/admin/categoria/categoria.component';
 import { DashboardComponent } from './page/admin/dashboard/dashboard.component';
 import { LoginComponent } from './page/login/login.component';
 import { AuthGuard } from './guard/auth.guard';
+import { ComenzarComponent } from './page/comenzar/comenzar.component';
+import { PagarComponent } from './page/pagar/pagar.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LandingComponent
+  },
+  {
+    path: 'comenzar',
+    component: ComenzarComponent
+  },
+  {
+    path: 'pagar',
+    component: PagarComponent
   },
   // Demo
   {

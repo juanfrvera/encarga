@@ -20,6 +20,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DashboardComponent } from './page/admin/dashboard/dashboard.component';
 import { LoginComponent } from './page/login/login.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { ComenzarComponent } from './page/comenzar/comenzar.component';
+import { PagarComponent } from './page/pagar/pagar.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
     ListaComponent,
     CrudComponent,
     DashboardComponent,
-    LoginComponent
+    LoginComponent,
+    ComenzarComponent,
+    PagarComponent
   ],
   imports: [
     BrowserModule,
