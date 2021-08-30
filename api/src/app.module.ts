@@ -10,6 +10,7 @@ import { ComerciosModule } from './comercios/comercios.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { UsuarioComercioModule } from './usuario-comercio/usuario-comercio.module';
 import { AuthModule } from './auth/auth.module';
+import { PagosController } from './pagos/pagos.controller';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { AuthModule } from './auth/auth.module';
     UsuarioComercioModule,
     AuthModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, PagosController],
   providers: [AppService],
 })
 export class AppModule { }
