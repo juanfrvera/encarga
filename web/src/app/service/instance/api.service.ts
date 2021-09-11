@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { shareReplay } from 'rxjs/operators';
+import { ApiBaseService } from './api-base.service';
 
-export class ApiService<Dto, ListDto, Filter> {
-
-  private static readonly url: string = 'https://encargarpedido.herokuapp.com/';
+export class ApiService<Dto, ListDto, Filter> extends ApiBaseService {
   private readonly route: string;
 
   public static get Url() {
@@ -11,6 +10,7 @@ export class ApiService<Dto, ListDto, Filter> {
   }
 
   constructor(private http: HttpClient, route: string) {
+    super();
     this.route = route;
   }
 

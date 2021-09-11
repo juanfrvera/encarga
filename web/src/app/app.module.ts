@@ -22,6 +22,7 @@ import { LoginComponent } from './page/login/login.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { ComenzarComponent } from './page/comenzar/comenzar.component';
 import { PagarComponent } from './page/pagar/pagar.component';
+import { PagadoComponent } from './page/pagar/pagado/pagado.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { PagarComponent } from './page/pagar/pagar.component';
     DashboardComponent,
     LoginComponent,
     ComenzarComponent,
-    PagarComponent
+    PagarComponent,
+    PagadoComponent
   ],
   imports: [
     BrowserModule,

@@ -13,6 +13,7 @@ import { LoginComponent } from './page/login/login.component';
 import { AuthGuard } from './guard/auth.guard';
 import { ComenzarComponent } from './page/comenzar/comenzar.component';
 import { PagarComponent } from './page/pagar/pagar.component';
+import { PagadoComponent } from './page/pagar/pagado/pagado.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'pagar',
     component: PagarComponent
+  },
+  {
+    path: 'pagado',
+    component: PagadoComponent
   },
   // Demo
   {
