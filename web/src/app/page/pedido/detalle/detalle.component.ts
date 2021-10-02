@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { ItemConCantidad } from '../../../data/item/item-con-cantidad';
 import { FormularioComponent } from '../../../component/formulario/formulario.component';
 import { Util } from '../../../util';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-detalle',
@@ -26,7 +27,10 @@ export class DetalleComponent implements OnInit {
   }
 
 
-  constructor(private location: Location, private pedidoService: PedidoService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private pedidoService: PedidoService) { }
 
   ngOnInit() {
     const pedido = this.pedidoService.get();
@@ -86,9 +90,9 @@ export class DetalleComponent implements OnInit {
     this.itemsConCantidad = [];
   }
 
-  /** Vuelve a la pagina anterior */
   public clickVolver() {
-    this.location.back();
+    // Ir hacia la ruta padre
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   /** Chequea que el formulario de info de entrega este correcto y envia el arma el mensaje de whatsapp */
