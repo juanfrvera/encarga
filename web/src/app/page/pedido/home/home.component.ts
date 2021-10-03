@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Toast } from 'bootstrap';
 import { Item } from 'src/app/data/item/item';
+import { CategoriaService } from 'src/app/service/categoria.service';
 
 @Component({
   selector: 'app-home',
@@ -27,7 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public get Categorias() {
-    return this.pedidoService.ListaCategorias;
+    return this.categoriaService.Lista;
   }
   public get Total() {
     return this.total;
@@ -36,7 +37,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private pedidoService: PedidoService,
+    private readonly categoriaService: CategoriaService,
+    private readonly pedidoService: PedidoService,
   ) { }
 
   ngOnInit() {

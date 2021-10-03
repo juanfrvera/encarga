@@ -17,12 +17,16 @@ export class PedidoService {
   private urlComercio = new BehaviorSubject<string | null>(null);
   private urlComercioObs: Observable<string | null>;
 
-  public get ListaCategorias() {
-    return this.categoriaService.Lista;
-  }
-
   /** Url del comercio actual */
   public get UrlComercio() {
+    return this.urlComercio.value;
+  }
+
+  public set UrlComercio(url: string | null) {
+    this.urlComercio.next(url);
+  }
+
+  public get UrlComercioObservable() {
     if (!this.urlComercioObs) {
       this.urlComercioObs = this.urlComercio.asObservable();
     }
@@ -30,7 +34,7 @@ export class PedidoService {
     return this.urlComercioObs;
   }
 
-  constructor(private categoriaService: CategoriaService, private itemService: ItemService) { }
+  constructor(private itemService: ItemService) { }
 
   public hayPedido() {
     return this.get()?.HayItems ?? false;
@@ -107,10 +111,6 @@ export class PedidoService {
 
     // Convertir a clase para poder usar funciones y propiedades
     return Pedido.fromDto(dto);
-  }
-
-  public setUrlComercio(url: string | null) {
-    this.urlComercio.next(url);
   }
 
   // --------------- Categorias -----------

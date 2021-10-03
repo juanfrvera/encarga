@@ -29,7 +29,7 @@ export class PedidoComponent implements OnInit, AfterViewInit, OnDestroy {
       takeUntil(this.destroy)
     )
       // E informar al servicio de pedido cuando este parametro cambia
-      .subscribe(urlComercio => this.pedido.setUrlComercio(urlComercio));
+      .subscribe(urlComercio => this.pedido.UrlComercio = urlComercio);
   }
 
   ngAfterViewInit(): void {
@@ -44,7 +44,7 @@ export class PedidoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.destroy.next();
     this.destroy.complete();
     // Poner la url en null
-    this.pedido.setUrlComercio(null);
+    this.pedido.UrlComercio = null;
   }
 
   public abrirMenu() {
