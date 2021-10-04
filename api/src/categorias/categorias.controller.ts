@@ -1,6 +1,9 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Request, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { BaseController } from 'src/base/base.controller';
 import { ComerciosService } from 'src/comercios/comercios.service';
+import { UsuarioComercioService } from 'src/usuario-comercio/usuario-comercio.service';
+import { Util } from 'src/util';
 import { CategoriasService } from './categorias.service';
 import { CategoriaFilter } from './data/categoria-filter';
 import { CategoriaListDto } from './dto/categoria-list.dto';
@@ -13,15 +16,28 @@ export class CategoriasController extends BaseController<
 Categoria, CreateCategoriaDto, CategoriaDto, CategoriaListDto, CategoriaFilter> {
   constructor(
     readonly categoriasService: CategoriasService,
-    private readonly comercioService: ComerciosService) {
+    private readonly comercioService: ComerciosService,
+    private readonly usuarioComercioService: UsuarioComercioService) {
     super(categoriasService);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async findAll(@Request() req) {
+    const idUsuario = req.user.userId;
+    const comercio = await this.usuarioComercioService.getComercioDeUsuario(idUsuario);
+
+    const lista = await this._getByUrlComercio(comercio.url);
+
+    // Eliminar la categoría por defecto
+    Util.eliminarItem(lista, lista.find(c => c.id == comercio.categoriaDefecto.id));
+
+    return lista;
   }
 
   @Get('urlComercio/:url')
   async getByComercio(@Param('url') urlComercio: string) {
-    const lista = await this.service.findAllWithFilter({ urlComercio });
-
-    const listaDtos = lista.map(c => this.toListDto(c));
+    const listaDtos = await this._getByUrlComercio(urlComercio);
 
     if (listaDtos && listaDtos.length) {
       // Cambiar el nombre de la categoría por defecto a "Otros" cuando hay más de una
@@ -47,5 +63,10 @@ Categoria, CreateCategoriaDto, CategoriaDto, CategoriaListDto, CategoriaFilter> 
   }
   toListDto(entity: Categoria) {
     return Categoria.toListDto(entity);
+  }
+
+  private async _getByUrlComercio(urlComercio: string) {
+    const lista = await this.service.findAllWithFilter({ urlComercio });
+    return lista.map(c => this.toListDto(c));
   }
 }

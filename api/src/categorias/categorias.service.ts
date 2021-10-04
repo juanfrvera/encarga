@@ -46,7 +46,8 @@ export class CategoriasService extends BaseService<Categoria, CreateCategoriaDto
      * @param manager usado en transacciones 
      */
     findAllWithFilter(filter: CategoriaFilter, manager?: EntityManager) {
-        const query = this.repo.createQueryBuilder('categoria')
+        const query = (manager ? manager.createQueryBuilder<Categoria>(this.repo.target, 'categoria') :
+            this.repo.createQueryBuilder('categoria'))
             .select();
 
         if (filter.ids) {

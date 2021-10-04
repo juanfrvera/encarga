@@ -9,7 +9,7 @@ export class Comercio extends Base {
     url: string;
 
     /** Categoría a donde van a parar los items sin categoria */
-    @OneToOne(() => Categoria) @JoinColumn()
+    @OneToOne(() => Categoria, { eager: true }) @JoinColumn()
     categoriaDefecto: Categoria;
 
     @OneToMany(() => Categoria, categoria => categoria.comercio)

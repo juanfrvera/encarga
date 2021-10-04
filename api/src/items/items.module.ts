@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Item } from './entities/item.entity';
 import { CategoriasModule } from 'src/categorias/categorias.module';
 import { ItemCategoriaModule } from 'src/item-categoria/item-categoria.module';
-import { UsuariosModule } from 'src/usuarios/usuarios.module';
 import { ComerciosModule } from 'src/comercios/comercios.module';
+import { UsuarioComercioModule } from 'src/usuario-comercio/usuario-comercio.module';
 
 @Module({
   imports: [
@@ -14,7 +14,7 @@ import { ComerciosModule } from 'src/comercios/comercios.module';
     CategoriasModule,
     ComerciosModule,
     ItemCategoriaModule,
-    UsuariosModule,
+    UsuarioComercioModule,
   ],
   controllers: [ItemsController],
   providers: [ItemsService]

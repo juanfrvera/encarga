@@ -4,11 +4,11 @@ import { CreateItemDto } from './dto/create-item.dto';
 import { Item } from './entities/item.entity';
 import { ItemFilter } from './data/item-filter';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
-import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { ComerciosService } from 'src/comercios/comercios.service';
 import { CategoriasService } from 'src/categorias/categorias.service';
 import { Util } from 'src/util';
 import { EntityNotFoundError } from 'typeorm';
+import { UsuarioComercioService } from 'src/usuario-comercio/usuario-comercio.service';
 
 @Controller('items')
 export class ItemsController {
@@ -16,16 +16,17 @@ export class ItemsController {
     private readonly service: ItemsService,
     private readonly categoriasService: CategoriasService,
     private readonly comerciosService: ComerciosService,
-    private readonly usuariosService: UsuariosService) { }
+    private readonly usuarioComercioService: UsuarioComercioService) { }
 
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createDto: CreateItemDto, @Request() req) {
-    const idComercio = await this.getIdComercio(req);
-    const idCategoriaDefecto = await this.getIdCategoriaDefecto(idComercio)
+    const idUsuario = req.user.userId;
+    const comercio = await this.usuarioComercioService.getComercioDeUsuario(idUsuario);
+    const idCategoriaDefecto = comercio.categoriaDefecto.id;
 
     if (createDto.idsCategorias && createDto.idsCategorias.length) {
-      await this.validarCategorias(idComercio, createDto.idsCategorias, idCategoriaDefecto);
+      await this.validarCategorias(comercio.id, createDto.idsCategorias, idCategoriaDefecto);
     }
     else {
       // Si queda huerfano, agregarlo a la categoría defecto
@@ -53,13 +54,14 @@ export class ItemsController {
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateDto: Partial<CreateItemDto>, @Request() req) {
-    const idComercio = await this.getIdComercio(req);
-    const idCategoriaDefecto = await this.getIdCategoriaDefecto(idComercio);
+    const idUsuario = req.user.userId;
+    const comercio = await this.usuarioComercioService.getComercioDeUsuario(idUsuario);
+    const idCategoriaDefecto = comercio.categoriaDefecto.id;
 
     // Solo se retocan las categorías si el patch las trata
     if (updateDto.idsCategorias) {
       if (updateDto.idsCategorias.length) {
-        await this.validarCategorias(idComercio, updateDto.idsCategorias, idCategoriaDefecto);
+        await this.validarCategorias(comercio.id, updateDto.idsCategorias, idCategoriaDefecto);
       }
       // Si se quieren eliminar todas las categorías, dejarlo con la categoría defecto
       else {
@@ -100,16 +102,6 @@ export class ItemsController {
   }
   toListDto(entity: Item) {
     return Item.toListDto(entity);
-  }
-
-  private async getIdComercio(@Request() req) {
-    const userId = req.user.userId;
-
-    // Cargar el usuario junto con las relaciones de usuarioComercio
-    const usuario = await this.usuariosService.findOne(userId, ['usuarioComercios']);
-
-    // Por ahora solo tendrá un comercio
-    return usuario.usuarioComercios[0].comercio.id;
   }
 
   private async getIdCategoriaDefecto(idComercio: number) {
