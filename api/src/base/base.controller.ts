@@ -20,11 +20,6 @@ export abstract class BaseController<
     return this.toDto(await this.service.create(createDto));
   }
 
-  @Get()
-  async findAll() {
-    return (await this.service.findAll()).map(e => this.toListDto(e));
-  }
-
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.toDto(await this.service.findOne(+id));
