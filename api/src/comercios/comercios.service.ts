@@ -41,9 +41,14 @@ export class ComerciosService extends BaseService<Comercio, CreateComercioDto, B
         }
     }
 
+    findOneByUrl(url: string, relations?: string[]) {
+        return this.repo.findOne({ where: { url }, relations });
+    }
+
     update(id: number, updateDto: Partial<CreateComercioDto>) {
         throw new Error('Method not implemented.');
     }
+
     fromCreateDto(dto: CreateComercioDto): Comercio {
         throw new Error('Method not implemented.');
     }
