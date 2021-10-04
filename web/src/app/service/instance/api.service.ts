@@ -1,6 +1,8 @@
+import { environment } from "src/environments/environment";
+
 export class ApiService<Dto, ListDto, Filter> {
 
-  private static readonly url: string = 'https://encargarpedido.herokuapp.com/';
+  private static readonly url: string = environment.apiUrl;
 
   public static get Url() {
     return ApiService.url;
