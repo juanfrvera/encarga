@@ -36,7 +36,7 @@ export class CategoriaService extends CrudService<Categoria, ICategoria, Categor
     })
   }
 
-  public getAll(urlComercio?: string | null) {
+  public getAll(urlComercio: string | null = this.pedidoService.UrlComercio) {
     let path = ApiService.Url + this.Route;
 
     if (urlComercio) {
