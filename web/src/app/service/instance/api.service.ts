@@ -1,6 +1,6 @@
 import { environment } from "src/environments/environment";
 
-export class ApiService<Dto, ListDto, Filter> {
+export class ApiService {
 
   private static readonly url: string = environment.apiUrl;
 

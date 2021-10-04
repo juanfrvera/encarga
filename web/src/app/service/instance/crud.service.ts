@@ -8,7 +8,7 @@ import { ApiService } from "./api.service";
 
 export abstract class CrudService
     <Entity extends ObjetoConId, Dto extends ObjetoConId, ListDto extends ObjetoConId, Filter extends BaseFilter>
-    extends ApiService<Dto, ListDto, Filter> {
+    extends ApiService {
 
     protected lista: BehaviorSubject<Entity[] | null> = new BehaviorSubject<Entity[] | null>(null);
     protected listaObservable?: Observable<Entity[] | null>;
