@@ -36,7 +36,10 @@ export class AuthInterceptor implements HttpInterceptor {
         error: err => {
           // Si hay un error de falta de autorización, redirigir al login
           if (err instanceof HttpErrorResponse && err.status === 401) {
-            this.router.navigateByUrl('login');
+            // Solo redireccionar cuando se está en la parte de administrador
+            if (this.router.url.includes('/admin')) {
+              this.router.navigateByUrl('login');
+            }
           }
         }
       })
