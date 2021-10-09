@@ -5,7 +5,6 @@ import { LineaPedido } from '../data/pedido/linea-pedido';
 import { Pedido } from '../data/pedido/pedido';
 import { PedidoDto } from '../data/pedido/pedido.dto';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { CategoriaService } from './categoria.service';
 import { ItemService } from './item.service';
 import { ItemFilter } from '../data/item/item-filter';
 
@@ -13,7 +12,7 @@ import { ItemFilter } from '../data/item/item-filter';
   providedIn: 'root'
 })
 export class PedidoService {
-  private static readonly storageKey = 'pedido';
+  private static readonly storageKey = 'pedidos';
   private urlComercio = new BehaviorSubject<string | null>(null);
   private urlComercioObs: Observable<string | null>;
 
@@ -104,13 +103,18 @@ export class PedidoService {
   }
 
   public get() {
-    const pedidoJson = localStorage.getItem(PedidoService.storageKey);
+    const listaDtos = this.getListaPedidos();
 
-    // El Json obtenido es de un dto ya que este es serializable
-    const dto = pedidoJson ? JSON.parse(pedidoJson) as PedidoDto : {} as PedidoDto;
+    const dto = listaDtos.find(p => p.urlComercio == this.UrlComercio);
 
-    // Convertir a clase para poder usar funciones y propiedades
-    return Pedido.fromDto(dto);
+    if (dto) {
+      // Convertir a clase para poder usar funciones y propiedades
+      return Pedido.fromDto(dto);
+    }
+    else {
+      // Crear una nueva instancia
+      return new Pedido([], this.UrlComercio);
+    }
   }
 
   // --------------- Categorias -----------
@@ -126,12 +130,32 @@ export class PedidoService {
 
 
   // ------------- PRIVADOS --------------
+  private getListaPedidos() {
+    const pedidosJson = localStorage.getItem(PedidoService.storageKey);
+
+    // El Json obtenido es de una lista de dtos serializables
+    return (pedidosJson ? JSON.parse(pedidosJson) : []) as PedidoDto[];
+  }
 
   /** Guarda cambios en el localStorage */
   private save(pedido: Pedido) {
     const dto = Pedido.toDto(pedido);
 
+    const listaDtosGuardados = this.getListaPedidos();
+
+    // Buscar si hay un pedido guardado con la misma urlComercio
+    const index = listaDtosGuardados.findIndex(p => p.urlComercio == dto.urlComercio);
+
+    if (index >= 0) {
+      // Si se encontró, reemplazar el viejo
+      listaDtosGuardados[index] = dto;
+    }
+    else {
+      // Si no se encontró agregarlo
+      listaDtosGuardados.push(dto);
+    }
+
     // Se guarda el dto porque es serializable
-    localStorage.setItem(PedidoService.storageKey, JSON.stringify(dto));
+    localStorage.setItem(PedidoService.storageKey, JSON.stringify(listaDtosGuardados));
   }
 }
