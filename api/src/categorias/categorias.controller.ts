@@ -1,7 +1,8 @@
-import { Controller, Get, Param, Request, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { Controller, Get, NotFoundException, Param, Request, UseGuards } from '@nestjs/common';
+import { ComercioOVisitaGuard } from 'src/auth/guard/comerciante-o-usuario.guard';
 import { BaseController } from 'src/base/base.controller';
 import { ComerciosService } from 'src/comercios/comercios.service';
+import { Comercio } from 'src/comercios/entities/comercio.entity';
 import { UsuarioComercioService } from 'src/usuario-comercio/usuario-comercio.service';
 import { Util } from 'src/util';
 import { CategoriasService } from './categorias.service';
@@ -21,18 +22,30 @@ Categoria, CreateCategoriaDto, CategoriaDto, CategoriaListDto, CategoriaFilter> 
     super(categoriasService);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(ComercioOVisitaGuard)
   @Get()
   async findAll(@Request() req) {
-    const idUsuario = req.user.userId;
-    const comercio = await this.usuarioComercioService.getComercioDeUsuario(idUsuario);
+    const reqData = req.user;
 
-    const lista = await this._getByUrlComercio(comercio.url);
+    let comercio: Comercio;
 
-    // Eliminar la categoría por defecto
-    Util.eliminarItem(lista, lista.find(c => c.id == comercio.categoriaDefecto.id));
+    if (reqData.urlComercio) {
+      comercio = await this.comercioService.findOneByUrl(reqData.urlComercio);
 
-    return lista;
+      if (!comercio) throw new NotFoundException('Comercio no encontrado con la URL indicada');
+    }
+    else {
+      comercio = await this.usuarioComercioService.getComercioDeUsuario(reqData.userId);
+
+      if (!comercio) throw new NotFoundException('No se encontró un comercio para este usuario');
+    }
+
+    return this._getByUrlComercio(comercio.url);
+  }
+
+  @Get()
+  async findAllUrl() {
+    console.log("find all url");
   }
 
   @Get('urlComercio/:url')

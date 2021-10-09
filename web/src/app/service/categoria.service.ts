@@ -39,10 +39,6 @@ export class CategoriaService extends CrudService<Categoria, ICategoria, Categor
   public getAll(urlComercio: string | null = this.pedidoService.UrlComercio) {
     let path = ApiService.Url + this.Route;
 
-    if (urlComercio) {
-      path += 'urlComercio/' + urlComercio;
-    }
-
     return this.http.get<CategoriaList[]>(path).pipe(
       map(lista => lista.map(listDto => this.fromListDto(listDto)))
     )

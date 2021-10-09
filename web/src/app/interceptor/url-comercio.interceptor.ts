@@ -13,7 +13,7 @@ export class UrlComercioInterceptor implements HttpInterceptor {
         const url = this.pedidoService.UrlComercio;
         if (url) {
             const cloned = request.clone({
-                headers: request.headers.set("UrlComercio", url)
+                headers: request.headers.set("url-comercio", url)
             });
 
             req = cloned;
