@@ -20,6 +20,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DashboardComponent } from './page/admin/dashboard/dashboard.component';
 import { LoginComponent } from './page/login/login.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { UrlComercioInterceptor } from './interceptor/url-comercio.interceptor';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,12 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UrlComercioInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent]
 })
