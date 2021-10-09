@@ -8,8 +8,7 @@ import { Categoria } from '../data/categoria/categoria';
 import { ICategoria } from '../data/categoria/categoria.dto';
 import { ItemService } from './item.service';
 import { Item } from '../data/item/item';
-import { PedidoService } from './pedido.service';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +16,7 @@ import { map, tap } from 'rxjs/operators';
 export class CategoriaService extends CrudService<Categoria, ICategoria, CategoriaList, CategoriaFilter> {
   constructor(
     readonly http: HttpClient,
-    private readonly itemService: ItemService,
-    readonly pedidoService: PedidoService) {
+    private readonly itemService: ItemService) {
     super(http, 'categorias/');
 
     itemService.OnItemCreated.subscribe(item => this.itemCreado(item));
@@ -26,17 +24,9 @@ export class CategoriaService extends CrudService<Categoria, ICategoria, Categor
     itemService.OnItemUpdate.subscribe(datos => this.aplicarCambioDeCategorias(datos.nuevo, datos.viejo));
     // Eliminar item de categorias en las que está localmente cuando es eliminado
     itemService.OnItemDeleted.subscribe(item => this.itemEliminado(item));
-
-    pedidoService.UrlComercioObservable.subscribe(url => {
-      this.getAll(url).pipe(
-        tap(lista => {
-          this.lista.next(lista);
-        })
-      )
-    })
   }
 
-  public getAll(urlComercio: string | null = this.pedidoService.UrlComercio) {
+  public getAll() {
     let path = ApiService.Url + this.Route;
 
     return this.http.get<CategoriaList[]>(path).pipe(
