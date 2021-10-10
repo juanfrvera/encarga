@@ -4,10 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Toast } from 'bootstrap';
 import { Item } from 'src/app/data/item/item';
-import { CategoriaService } from 'src/app/service/categoria.service';
-import { Categoria } from 'src/app/data/categoria/categoria';
-import { Observable } from 'rxjs';
-import { CategoriaListDto } from 'src/app/data/categoria/categoria-list.dto';
+import { CategoriaVisitaService } from 'src/app/service/categoria-visita.service';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +17,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private toast: Toast;
 
-  private categorias: Categoria[];
   /** Categoría actual en accordion */
   private categoriaActual?: number;
 
@@ -32,7 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public get Categorias() {
-    return this.categorias;
+    return this.categoriaService.Lista;
   }
   public get Total() {
     return this.total;
@@ -41,15 +37,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private readonly categoriaService: CategoriaService,
+    private readonly categoriaService: CategoriaVisitaService,
     private readonly pedidoService: PedidoService,
   ) { }
 
   ngOnInit() {
-    this.categoriaService.getWithFilter({ vacias: false }).subscribe(lista => {
-      this.categorias = lista;
-    });
-
     this.toast = new Toast(this.toastElement.nativeElement, { autohide: false });
 
     if (this.pedidoService.hayPedido()) {
