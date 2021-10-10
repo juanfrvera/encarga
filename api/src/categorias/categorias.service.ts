@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/base/base.service';
+import { ItemCategoria } from 'src/item-categoria/entities/item-categoria.entity';
 import { ItemCategoriaService } from 'src/item-categoria/item-categoria.service';
 import { EntityManager, In, Repository } from 'typeorm';
 import { CategoriaFilter } from './data/categoria-filter';
@@ -57,6 +58,17 @@ export class CategoriasService extends BaseService<Categoria, CreateCategoriaDto
         if (filter.urlComercio) {
             query.leftJoin('categoria.comercio', 'comercio')
                 .andWhere('comercio.url = :urlComercio', { urlComercio: filter.urlComercio });
+        }
+
+        if (filter.vacias !== undefined) {
+            if (filter.vacias) {
+                query.leftJoin('categoria.itemCategorias', 'itemcategoria')
+                    .andWhere('itemcategoria IS NULL');
+            }
+            else {
+                query.leftJoin('categoria.itemCategorias', 'itemcategoria')
+                    .andWhere('itemcategoria IS NOT NULL');
+            }
         }
 
         return query.getMany();

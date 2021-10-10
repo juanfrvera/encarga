@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CategoriaFilter } from '../data/categoria/categoria-filter';
-import { CategoriaList } from '../data/categoria/categoria-list';
+import { CategoriaListDto } from '../data/categoria/categoria-list.dto';
 import { ApiService } from './instance/api.service';
 import { CrudService } from './instance/crud.service';
 import { Categoria } from '../data/categoria/categoria';
@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriaService extends CrudService<Categoria, ICategoria, CategoriaList, CategoriaFilter> {
+export class CategoriaService extends CrudService<Categoria, ICategoria, CategoriaListDto, CategoriaFilter> {
   constructor(
     readonly http: HttpClient,
     private readonly itemService: ItemService) {
@@ -29,9 +29,17 @@ export class CategoriaService extends CrudService<Categoria, ICategoria, Categor
   public getAll() {
     let path = ApiService.Url + this.Route;
 
-    return this.http.get<CategoriaList[]>(path).pipe(
+    return this.http.get<CategoriaListDto[]>(path).pipe(
       map(lista => lista.map(listDto => this.fromListDto(listDto)))
     )
+  }
+
+  public getWithFilter(filter: CategoriaFilter) {
+    let path = ApiService.Url + this.Route + 'filter';
+
+    return this.http.post<CategoriaListDto[]>(path, filter).pipe(
+      map(lista => lista.map(listDto => this.fromListDto(listDto)))
+    );
   }
 
   /**
@@ -46,7 +54,7 @@ export class CategoriaService extends CrudService<Categoria, ICategoria, Categor
   protected fromDto(dto: ICategoria) {
     return Categoria.fromDto(dto, this);
   }
-  protected fromListDto(dto: CategoriaList) {
+  protected fromListDto(dto: CategoriaListDto) {
     return Categoria.fromListDto(dto, this);
   }
   protected toDto(entity: Categoria) {

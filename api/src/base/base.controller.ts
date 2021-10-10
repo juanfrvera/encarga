@@ -46,11 +46,6 @@ export abstract class BaseController<
     return this.toDto(await this.service.remove(+id));
   }
 
-  @Post('filter')
-  async findAllWithFilter(@Body() filter: Filter) {
-    return (await this.service.findAllWithFilter(filter)).map(e => this.toListDto(e));
-  }
-
   abstract toDto(entity: CreateDto & Entity | Entity): Dto;
   abstract toListDto(entity: Entity): ListDto;
 }

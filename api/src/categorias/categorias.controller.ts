@@ -1,10 +1,9 @@
-import { Controller, Get, NotFoundException, Param, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Post, Request, UseGuards } from '@nestjs/common';
 import { ComercioOVisitaGuard } from 'src/auth/guard/comerciante-o-usuario.guard';
 import { BaseController } from 'src/base/base.controller';
 import { ComerciosService } from 'src/comercios/comercios.service';
 import { Comercio } from 'src/comercios/entities/comercio.entity';
 import { UsuarioComercioService } from 'src/usuario-comercio/usuario-comercio.service';
-import { Util } from 'src/util';
 import { CategoriasService } from './categorias.service';
 import { CategoriaFilter } from './data/categoria-filter';
 import { CategoriaListDto } from './dto/categoria-list.dto';
@@ -25,8 +24,30 @@ Categoria, CreateCategoriaDto, CategoriaDto, CategoriaListDto, CategoriaFilter> 
   @UseGuards(ComercioOVisitaGuard)
   @Get()
   async findAll(@Request() req) {
-    const reqData = req.user;
+    const comercio = await this._getComercio(req);
 
+    return this._get({ urlComercio: comercio.url });
+  }
+
+  @UseGuards(ComercioOVisitaGuard)
+  @Post('filter')
+  async findAllWithFilter(@Body() filter: CategoriaFilter, @Request() req) {
+    const comercio = await this._getComercio(req);
+
+    filter.urlComercio = comercio.url;
+
+    return this._get(filter);
+  }
+
+  toDto(entity: CreateCategoriaDto & Categoria | Categoria) {
+    return Categoria.toDto(entity);
+  }
+  toListDto(entity: Categoria) {
+    return Categoria.toListDto(entity);
+  }
+
+  private async _getComercio(req) {
+    const reqData = req.user;
     let comercio: Comercio;
 
     if (reqData.urlComercio) {
@@ -40,46 +61,11 @@ Categoria, CreateCategoriaDto, CategoriaDto, CategoriaListDto, CategoriaFilter> 
       if (!comercio) throw new NotFoundException('No se encontró un comercio para este usuario');
     }
 
-    return this._getByUrlComercio(comercio.url);
+    return comercio;
   }
 
-  @Get()
-  async findAllUrl() {
-    console.log("find all url");
-  }
-
-  @Get('urlComercio/:url')
-  async getByComercio(@Param('url') urlComercio: string) {
-    const listaDtos = await this._getByUrlComercio(urlComercio);
-
-    if (listaDtos && listaDtos.length) {
-      // Cambiar el nombre de la categoría por defecto a "Otros" cuando hay más de una
-      if (listaDtos.length > 1) {
-        // Cargamos el comercio para saber cual es la categoría por defecto
-        const comercio = await this.comercioService.findOneByUrl(urlComercio, ['categoriaDefecto']);
-
-        const categoriaDefecto = listaDtos.find(c => c.id == comercio.categoriaDefecto.id);
-
-        categoriaDefecto.nombre = 'Otros';
-      }
-      else {
-        // La única categoría es la por defecto
-        listaDtos[0].nombre = 'Todos';
-      }
-    }
-
-    return listaDtos;
-  }
-
-  toDto(entity: CreateCategoriaDto & Categoria | Categoria) {
-    return Categoria.toDto(entity);
-  }
-  toListDto(entity: Categoria) {
-    return Categoria.toListDto(entity);
-  }
-
-  private async _getByUrlComercio(urlComercio: string) {
-    const lista = await this.service.findAllWithFilter({ urlComercio });
+  private async _get(filter?: CategoriaFilter) {
+    const lista = await this.service.findAllWithFilter(filter);
     return lista.map(c => this.toListDto(c));
   }
 }
