@@ -14,6 +14,9 @@ import { Router } from '@angular/router';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
+  public static readonly HeaderName = "Authorization";
+
+
   constructor(private readonly auth: AuthService, private readonly router: Router) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -25,7 +28,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
       // Insertar la header del bearer token
       const cloned = request.clone({
-        headers: request.headers.set("Authorization", "Bearer " + token)
+        headers: request.headers.set(AuthInterceptor.HeaderName, "Bearer " + token)
       });
 
       req = cloned;

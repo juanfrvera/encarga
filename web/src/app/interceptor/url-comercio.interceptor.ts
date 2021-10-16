@@ -5,6 +5,8 @@ import { PedidoService } from "../service/pedido.service";
 
 @Injectable()
 export class UrlComercioInterceptor implements HttpInterceptor {
+    public static readonly HeaderName = "url-comercio";
+
     constructor(private pedidoService: PedidoService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -13,7 +15,7 @@ export class UrlComercioInterceptor implements HttpInterceptor {
         const url = this.pedidoService.UrlComercio;
         if (url) {
             const cloned = request.clone({
-                headers: request.headers.set("url-comercio", url)
+                headers: request.headers.set(UrlComercioInterceptor.HeaderName, url)
             });
 
             req = cloned;

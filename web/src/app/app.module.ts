@@ -21,6 +21,7 @@ import { DashboardComponent } from './page/admin/dashboard/dashboard.component';
 import { LoginComponent } from './page/login/login.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { UrlComercioInterceptor } from './interceptor/url-comercio.interceptor';
+import { mockInterceptorProvider } from './interceptor/mock.interceptor';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { UrlComercioInterceptor } from './interceptor/url-comercio.interceptor';
       useClass: UrlComercioInterceptor,
       multi: true
     },
+    mockInterceptorProvider
   ],
   bootstrap: [AppComponent]
 })
