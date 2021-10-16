@@ -23,7 +23,10 @@ export class MockInterceptor implements HttpInterceptor {
 
         if (req.method === "POST") {
             if (req.url.endsWith('/categorias/filter')) {
-                return of(new HttpResponse({ status: 200, body: this.mockService.getWithFilter(req.body) }));
+                return of(new HttpResponse({ status: 200, body: this.mockService.getCategoriasWithFilter(req.body) }));
+            }
+            if (req.url.endsWith('/items/filter')) {
+                return of(new HttpResponse({ status: 200, body: this.mockService.getItemsWithFilter(req.body) }));
             }
         }
 
