@@ -3,7 +3,7 @@ Para hacer deploy de la api a heroku hay que correr el siguiente comando desde l
 git subtree push --prefix api heroku master
 
 Deploy web
-ionic build --prod
+ng build --prod
 firebase deploy
 
 Guía para conectar pgAdmin a heroku:
