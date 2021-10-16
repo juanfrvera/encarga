@@ -9,6 +9,7 @@ import { CategoriasService } from 'src/categorias/categorias.service';
 import { Util } from 'src/util';
 import { EntityNotFoundError } from 'typeorm';
 import { UsuarioComercioService } from 'src/usuario-comercio/usuario-comercio.service';
+import { ComercioOVisitaGuard } from 'src/auth/guard/comerciante-o-usuario.guard';
 
 @Controller('items')
 export class ItemsController {
@@ -92,6 +93,7 @@ export class ItemsController {
     return this.toDto(await this.service.remove(+id));
   }
 
+  @UseGuards(ComercioOVisitaGuard)
   @Post('filter')
   async findAllWithFilter(@Body() filter: ItemFilter) {
     return (await this.service.findAllWithFilter(filter)).map(e => this.toListDto(e));
