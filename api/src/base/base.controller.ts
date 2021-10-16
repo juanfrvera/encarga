@@ -1,4 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpException, HttpStatus } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { EntityNotFoundError } from 'typeorm';
 import { BaseService } from './base.service';
 import { BaseFilter } from './data/base-filter';
 import { BaseListDto } from './dto/base-list.dto';
@@ -12,14 +14,10 @@ export abstract class BaseController<
   Dto extends BaseDto, ListDto extends BaseListDto, Filter extends BaseFilter> {
   constructor(protected readonly service: BaseService<Entity, CreateDto, Filter>) { }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createDto: CreateDto) {
     return this.toDto(await this.service.create(createDto));
-  }
-
-  @Get()
-  async findAll() {
-    return (await this.service.findAll()).map(e => this.toListDto(e));
   }
 
   @Get(':id')
@@ -27,19 +25,25 @@ export abstract class BaseController<
     return this.toDto(await this.service.findOne(+id));
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateDto: Partial<CreateDto>) {
-    return this.toDto(await this.service.update(+id, updateDto));
+    try {
+      return this.toDto(await this.service.update(+id, updateDto));
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) {
+        throw new HttpException('El elemento a editar no existe', HttpStatus.NOT_FOUND);
+      }
+      else {
+        throw error;
+      }
+    }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return this.toDto(await this.service.remove(+id));
-  }
-
-  @Post('filter')
-  async findAllWithFilter(@Body() filter: Filter) {
-    return (await this.service.findAllWithFilter(filter)).map(e => this.toListDto(e));
   }
 
   abstract toDto(entity: CreateDto & Entity | Entity): Dto;

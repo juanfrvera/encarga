@@ -17,6 +17,36 @@ export class ItemsService extends BaseService<Item, CreateItemDto, ItemFilter> {
     super(itemsRepository);
   }
 
+  async create(createDto: CreateItemDto, manager?: EntityManager) {
+    const _create = async (mng: EntityManager) => {
+      const preItem = new Item();
+      preItem.titulo = createDto.titulo;
+      preItem.precio = createDto.precio;
+      preItem.descripcion = createDto.descripcion;
+
+      // Guardar para obtener un id
+      const item = await mng.save(preItem);
+
+      if (createDto.idsCategorias) {
+        await this.asignarCategorias(item, createDto.idsCategorias, mng);
+      }
+
+      return mng.save(item);
+    };
+
+
+    if (manager) {
+      return _create(manager);
+    }
+    else {
+      // Se corre dentro de una transaccion ya que estamos preguardando y puede fallar luego
+      // Si falla, se cancela la transaccion y no queda guardado el item
+      return this.repo.manager.transaction(myManager => {
+        return _create(myManager);
+      });
+    }
+  }
+
   /**
    * 
    * @param id de entidad buscada
@@ -28,31 +58,22 @@ export class ItemsService extends BaseService<Item, CreateItemDto, ItemFilter> {
     return super.findOne(id, relations ?? ['itemCategorias'], manager);
   }
 
-  async create(createDto: CreateItemDto) {
-    // Se corre dentro de una transaccion ya que estamos preguardando y puede fallar luego
-    // Si falla, se cancela la transaccion y no queda guardado el item
-    return this.repo.manager.transaction(async manager => {
-      const preItem = new Item();
-      preItem.titulo = createDto.titulo;
-      preItem.precio = createDto.precio;
-      preItem.descripcion = createDto.descripcion;
-
-      // Guardar para obtener un id
-      const item = await manager.save(preItem);
-
-      if (createDto.idsCategorias) {
-        await this.asignarCategorias(item, createDto.idsCategorias, manager);
-      }
-
-      return manager.save(item);
-    });
+  /**
+   * 
+   * @param id de entidad buscada
+   * @param relations Relaciones a cargar
+   * @param manager Usado en transacciones
+   * @returns 
+   */
+  findOneOrFail(id: number, relations?: string[], manager?: EntityManager) {
+    return super.findOneOrFail(id, relations ?? ['itemCategorias'], manager);
   }
 
   async update(id: number, updateDto: UpdateItemDto) {
     // Se corre dentro de una transaccion ya que estamos preguardando y puede fallar luego
     // Si falla, se cancela la transaccion y no queda guardado el item
     return this.repo.manager.transaction(async manager => {
-      const original = await this.findOne(id, undefined, manager);
+      const original = await this.findOneOrFail(id, undefined, manager);
 
       original.titulo = updateDto.titulo ?? original.titulo;
       original.descripcion = updateDto.descripcion ?? original.descripcion;
@@ -92,6 +113,7 @@ export class ItemsService extends BaseService<Item, CreateItemDto, ItemFilter> {
     // Categorías viejas que se mantienen
     const categoriasMantenidas =
       categoriasViejas?.filter(actual => categorias.findIndex(nueva => nueva.id == actual.id) != -1);
+
     // ItemCategoria viejas que se mantienen
     const itemCategoriasMantenidas = categoriasMantenidas ? item.itemCategorias.filter(i =>
       categoriasMantenidas.findIndex(c => c.id == i.categoria.id) != -1) : [];
@@ -132,5 +154,9 @@ export class ItemsService extends BaseService<Item, CreateItemDto, ItemFilter> {
         return super.remove(id, newManager);
       });
     }
+  }
+
+  fromCreateDto(dto: CreateItemDto): Item {
+    throw new Error('Method not implemented.');
   }
 }

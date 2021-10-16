@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PedidoService } from '../../../service/pedido.service';
-import { ItemService } from '../../../service/item.service';;
 import { Location } from '@angular/common';
 import { ItemConCantidad } from '../../../data/item/item-con-cantidad';
 import { FormularioComponent } from '../../../component/formulario/formulario.component';
 import { Util } from '../../../util';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-detalle',
@@ -28,10 +28,9 @@ export class DetalleComponent implements OnInit {
 
 
   constructor(
-    private pedidoService: PedidoService,
-    private itemService: ItemService,
-    private location: Location
-  ) { }
+    private route: ActivatedRoute,
+    private router: Router,
+    private pedidoService: PedidoService) { }
 
   ngOnInit() {
     const pedido = this.pedidoService.get();
@@ -40,7 +39,7 @@ export class DetalleComponent implements OnInit {
       // Obtiene los id de los items
       const itemIds = pedido.lineas?.map(lp => lp.idItem);
       // Pedir items para esos ids y guardarlos con su cantidad
-      this.itemService.getByIds(itemIds).subscribe(items => {
+      this.pedidoService.getItemsByIds(itemIds).subscribe(items => {
         this.itemsConCantidad = items.map(item => {
           // Linea correspondiente a este item mapeado
           const lineaPedido = pedido.lineas.find(linea => linea.idItem === item.id) ?? { cantidad: 0 };
@@ -91,9 +90,9 @@ export class DetalleComponent implements OnInit {
     this.itemsConCantidad = [];
   }
 
-  /** Vuelve a la pagina anterior */
   public clickVolver() {
-    this.location.back();
+    // Ir hacia la ruta padre
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   /** Chequea que el formulario de info de entrega este correcto y envia el arma el mensaje de whatsapp */

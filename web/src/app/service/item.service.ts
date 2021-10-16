@@ -42,18 +42,16 @@ export class ItemService extends CrudService<Item, IItem, ItemList, ItemFilter>{
   }
 
   constructor(http: HttpClient) {
-    super(new ApiService(http, 'items/'));
+    super(http, 'items/');
   }
 
   public create(entity: Item) {
-    const obs = super.create(entity);
-
-    obs.subscribe(itemServer => {
-      // Informar que un item fue creado
-      this.onItemCreated.next(itemServer);
-    });
-
-    return obs;
+    return super.create(entity).pipe(
+      tap(itemServer => {
+        // Informar que un item fue creado
+        this.onItemCreated.next(itemServer);
+      })
+    );
   }
 
   public edit(entity: Item) {
@@ -61,19 +59,17 @@ export class ItemService extends CrudService<Item, IItem, ItemList, ItemFilter>{
     // Se hace una copia profunda para mantener los datos viejos aunque se edite
     const viejo = Util.copiaProfunda(this.lista.value?.find(i => i.id == entity.id));
 
-    const obs = super.edit(entity);
-
-    obs.subscribe(itemEnServer => {
-      this.onItemUpdate.next({ nuevo: itemEnServer, viejo: viejo });
-    });
-
-    return obs;
+    return super.edit(entity).pipe(
+      tap(itemEnServer => {
+        this.onItemUpdate.next({ nuevo: itemEnServer, viejo: viejo });
+      })
+    );
   }
 
-  public delete(item: Item) {
+  public delete(itemId: string) {
     const lista = this.lista.value;
-    const itemEliminado = lista ? Util.copiaProfunda(lista.find(i => i.id == item.id)) : item;
-    return super.delete(item).pipe(
+    const itemEliminado = lista ? Util.copiaProfunda(lista.find(i => i.id == itemId)) : undefined;
+    return super.delete(itemId).pipe(
       // Informar que se eliminó el item a los suscriptores
       // usar el original y sino existe, usar el pasado como parametro
       tap(() => this.onItemDeleted.next(itemEliminado))

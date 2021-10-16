@@ -9,12 +9,15 @@ import { AdminComponent } from './page/admin/admin.component';
 import { ItemComponent } from './page/admin/item/item.component';
 import { CategoriaComponent } from './page/admin/categoria/categoria.component';
 import { DashboardComponent } from './page/admin/dashboard/dashboard.component';
+import { LoginComponent } from './page/login/login.component';
+import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: LandingComponent
   },
+  // Demo
   {
     path: 'pedido',
     component: PedidoComponent,
@@ -26,10 +29,25 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
       { path: '', component: DashboardComponent },
       { path: 'categoria', component: CategoriaComponent },
       { path: 'item', component: ItemComponent }
+    ]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  // Para comercio real (ponerlo debajo para que no haya conflictos con paths estáticos)
+  {
+    path: ':comercio',
+    component: PedidoComponent,
+    children: [
+      { path: '', component: HomeComponent },
+      { path: 'detalle', component: DetalleComponent }
     ]
   },
   { path: '**', redirectTo: '/' }
@@ -38,7 +56,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

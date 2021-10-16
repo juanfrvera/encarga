@@ -25,7 +25,7 @@ export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, 
   @ContentChild('templateLista') templateLista: TemplateRef<any>;
 
   /** Item en modal */
-  private item: Entity = {} as Entity;
+  private item: Dto = {} as Dto;
 
   public get Item() {
     return this.item;
@@ -75,8 +75,11 @@ export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, 
       cancelButtonText: 'Cancelar',
       confirmButtonText: 'Sí, eliminar',
       showLoaderOnConfirm: true,
+      target: this.modal.Element.nativeElement,
       preConfirm: () => {
-        return this.service.delete(this.item).toPromise().catch(
+        return this.service.delete(this.item.id).toPromise().then(() => {
+          console.log("Eliminado");
+        }).catch(
           () => {
             Swal.showValidationMessage('Ocurrió un error al intentar eliminar');
           });
@@ -96,11 +99,15 @@ export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, 
     if (this.formulario.esValido()) {
       if (this.Item.id) {
         // Editando
-        this.service.edit(this.Item);
+        this.service.edit(this.Item).subscribe(itemServer => {
+          console.log("Item editado");
+        })
       }
       else {
         // Creando
-        this.service.create(this.Item);
+        this.service.create(this.Item).subscribe(itemCreado => {
+          console.log("Creado");
+        });
       }
 
       this.cerrar();
@@ -120,7 +127,7 @@ export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, 
   }
 
   private limpiarItem() {
-    this.item = {} as Entity;
+    this.item = {} as Dto;
   }
 
 }

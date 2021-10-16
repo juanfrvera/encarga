@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="text-center text-primary">
+        <img src="../../../assets/login.svg" alt="imagen-login illustration-by-storyset" class="width-img">
+        <h2><strong>¡Bienvenido!</strong></h2>
+    </div>
+
+    <div class="width-form mx-auto">
+        <app-formulario>
+            <div class="row g-3 px-2 mt-4">
+                <!-- Email -->
+                <div class="col-12">
+                    <label for="mail" class="form-label">Email</label>
+                    <input [(ngModel)]="Mail" id="mail" name="mail" class="form-control" type="email" required>
+                    <div class="invalid-feedback">Por favor, ingresa un email válido.</div>
+                </div>
+                <!-- Password -->
+                <div class="col-12">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input [(ngModel)]="Password" id="password" name="password" class="form-control" type="password"
+                        required>
+                    <div class="invalid-feedback">Por favor, ingresa una contraseña.</div>
+                </div>
+            </div>
+            <div class="text-center m-4">
+                <button (click)="ingresar()" class="btn btn-primary btn-lg bg-gradient text-white">
+                    <strong>Ingresar</strong>
+                </button>
+            </div>
+        </app-formulario>
+
+        <hr>
+        <div class="text-center">
+            <a routerLink="" class="text-muted">Volver</a>
+        </div>
+    </div>
+
+
+</div>

@@ -1,11 +1,10 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PedidoService } from '../../../service/pedido.service';
-import { ItemService } from '../../../service/item.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Toast } from 'bootstrap';
-import { CategoriaService } from 'src/app/service/categoria.service';
 import { Item } from 'src/app/data/item/item';
+import { CategoriaVisitaService } from 'src/app/service/categoria-visita.service';
 
 @Component({
   selector: 'app-home',
@@ -38,9 +37,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private itemService: ItemService,
-    private pedidoService: PedidoService,
-    private categoriaService: CategoriaService
+    private readonly categoriaService: CategoriaVisitaService,
+    private readonly pedidoService: PedidoService,
   ) { }
 
   ngOnInit() {
@@ -151,7 +149,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const pedido = this.pedidoService.get();
 
     const idsItems = pedido.lineas.map(l => l.idItem);
-    this.itemService.getWithFilter({ ids: idsItems }).subscribe(items => {
+    this.pedidoService.getItemsWithFilter({ ids: idsItems }).subscribe(items => {
       pedido.lineas.forEach(linea => {
         // Buscar el item correspondiente a la linea y asignarle la cantidad pedida
         const item = items.find(i => i.id === linea.idItem);

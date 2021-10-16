@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Modal } from 'bootstrap';
 
 @Component({
@@ -6,7 +6,7 @@ import { Modal } from 'bootstrap';
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })
-export class ModalComponent implements AfterViewInit {
+export class ModalComponent implements AfterViewInit, OnDestroy {
   @ViewChild('modal', { static: true }) element: ElementRef;
   private modal: Modal;
 
@@ -17,6 +17,9 @@ export class ModalComponent implements AfterViewInit {
   constructor() { }
   ngAfterViewInit(): void {
     this.modal = new Modal(this.element.nativeElement);
+  }
+  ngOnDestroy(): void {
+    this.cerrar();
   }
 
   /** Abre el modal */

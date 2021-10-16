@@ -3,7 +3,7 @@ import { CategoriaService } from "src/app/service/categoria.service";
 import { Util } from "src/app/util";
 import { Item } from "../item/item";
 import { IItem } from "../item/item.dto";
-import { CategoriaList } from "./categoria-list";
+import { CategoriaListDto } from "./categoria-list.dto";
 import { ICategoria } from "./categoria.dto";
 
 export class Categoria implements ICategoria {
@@ -34,7 +34,7 @@ export class Categoria implements ICategoria {
     static fromDto(dto: ICategoria, categoriaService: CategoriaService) {
         return new Categoria(dto.id, dto.nombre, categoriaService);
     }
-    static fromListDto(dto: CategoriaList, categoriaService: CategoriaService) {
+    static fromListDto(dto: CategoriaListDto, categoriaService: CategoriaService) {
         return new Categoria(dto.id, dto.nombre, categoriaService);
     }
     static toDto(c: Categoria) {

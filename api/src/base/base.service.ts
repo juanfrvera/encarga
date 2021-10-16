@@ -9,8 +9,15 @@ export abstract class BaseService<Entity extends Base, CreateDto extends CreateB
 
   constructor(protected readonly repo: Repository<Entity>) { }
 
-  create(createDto: CreateDto) {
-    return this.repo.save(createDto);
+  create(createDto: CreateDto, manager?: EntityManager) {
+    const entity = this.fromCreateDto(createDto);
+
+    if (manager) {
+      return manager.save(entity);
+    }
+    else {
+      return this.repo.save(entity as any) as Promise<Entity>;
+    }
   }
 
   findAll() {
@@ -30,6 +37,22 @@ export abstract class BaseService<Entity extends Base, CreateDto extends CreateB
     }
     else {
       return this.repo.findOne(id, { relations });
+    }
+  }
+
+  /**
+   * 
+   * @param id id de entidad a cargar
+   * @param relations relaciones a cargar
+   * @param manager usado en transacciones
+   * @returns 
+   */
+  findOneOrFail(id: number, relations?: string[], manager?: EntityManager) {
+    if (manager) {
+      return manager.findOneOrFail<Entity>(this.repo.target, id, { relations });
+    }
+    else {
+      return this.repo.findOneOrFail(id, { relations });
     }
   }
 
@@ -68,4 +91,6 @@ export abstract class BaseService<Entity extends Base, CreateDto extends CreateB
       return this.repo.findByIds(filter.ids);
     }
   }
+
+  abstract fromCreateDto(dto: CreateDto): Entity;
 }

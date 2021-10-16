@@ -6,6 +6,9 @@ Deploy web
 ionic build --prod
 firebase deploy
 
+Guía para conectar pgAdmin a heroku:
+https://medium.com/@vapurrmaid/getting-started-with-heroku-postgres-and-pgadmin-run-on-part-2-90d9499ed8fb
+
 Api migration https://medium.com/@gausmann.simon/nestjs-typeorm-and-postgresql-full-example-development-and-project-setup-working-with-database-c1a2b1b11b8f
 En caso de no tener bien configurado el ormconfig o no tener el archivo creado,
  asegurarse que en .env estén las credenciales de heroku, al crear un migration, el ormconfig se creará si no existe 
