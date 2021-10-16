@@ -26,14 +26,14 @@ export class MockService {
     private readonly items: Item[] = [
         {
             id: '1',
-            titulo: 'Muzzarella',
+            titulo: 'Pizza muzzarella',
             precio: 250,
             descripcion: 'Masa, salsa, queso muzzarella y orégano',
             idsCategorias: ['1']
         },
         {
             id: '2',
-            titulo: 'Especial',
+            titulo: 'Pizza especial',
             precio: 350,
             descripcion: 'Masa, salsa, queso muzzarella, jamón, aceitunas verdes y morrón',
             idsCategorias: ['1']
@@ -65,17 +65,18 @@ export class MockService {
         let lista = this.categorias;
 
         if (filter.ids) {
-            lista = lista.filter(c => c.id in filter.ids!);
+            lista = lista.filter(c => filter.ids?.find(fId => c.id === fId));
         }
 
         return lista;
     }
 
     getItemsWithFilter(filter: ItemFilter) {
+        console.log('Mock de items con el filtro: ' + JSON.stringify(filter));
         let lista = this.items;
 
         if (filter.ids) {
-            lista = lista.filter(i => i.id in filter.ids!);
+            lista = lista.filter(i => filter.ids?.find(fId => i.id === fId));
         }
 
         if (filter.idsCategorias) {
@@ -91,6 +92,8 @@ export class MockService {
                 return false;
             });
         }
+
+        console.log('Respuesta: ' + JSON.stringify(lista.map(i => i.titulo)));
 
         return lista;
     }
