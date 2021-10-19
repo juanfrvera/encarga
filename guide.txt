@@ -2,6 +2,16 @@ Deploy api
 Para hacer deploy de la api a heroku hay que correr el siguiente comando desde la raiz del proyecto:
 git subtree push --prefix api heroku master
 
+
+En caso de que haya problemas con el comando anterior, (ejemplo "the tip of your branch is behind remote branch")
+{
+    1. git subtree split --prefix api master
+
+    2. Cuando termine ese comando devuelve un token, copiarlo y pegarlo en donde dice "token" del punto 3.
+
+    3. git push heroku token:master --force
+}
+
 Deploy web
 ng build --prod
 firebase deploy
