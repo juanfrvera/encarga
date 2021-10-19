@@ -22,8 +22,15 @@
                 </div>
             </div>
             <div class="text-center m-4">
-                <button (click)="ingresar()" class="btn btn-primary btn-lg bg-gradient text-white">
-                    <strong>Ingresar</strong>
+                <button (click)="ingresar()" [disabled]="Ingresando"
+                    class="btn btn-primary btn-lg bg-gradient text-white">
+                    <strong *ngIf="!Ingresando; else templateIngresando">Ingresar</strong>
+                    <ng-template #templateIngresando>
+                        <div class="spinner-border spinner-border-sm me-2" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span>Ingresando...</span>
+                    </ng-template>
                 </button>
             </div>
         </app-formulario>
