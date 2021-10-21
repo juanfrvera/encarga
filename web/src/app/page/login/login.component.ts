@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormularioComponent } from 'src/app/component/formulario/formulario.component';
 import { AuthService } from 'src/app/service/auth.service';
+import { SwalService } from 'src/app/service/swal.service';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +32,10 @@ export class LoginComponent implements OnInit {
     this.password = value;
   }
 
-  constructor(private readonly auth: AuthService, private readonly router: Router) { }
+  constructor(
+    private readonly auth: AuthService,
+    private readonly router: Router,
+    private readonly swalService: SwalService) { }
 
   ngOnInit(): void {
   }
@@ -48,6 +52,13 @@ export class LoginComponent implements OnInit {
           // Error  
           () => {
             this.ingresando = false;
+
+            this.swalService.fire({
+              icon: 'error',
+              iconColor: SwalService.errorColor,
+              title: 'Ocurrió un error',
+              confirmButtonText: 'Aceptar',
+            });
           });
     }
     else {

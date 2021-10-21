@@ -14,7 +14,7 @@ export class SwalService {
     reverseButtons: true,
   };
 
-  constructor() { }
+  public static readonly errorColor = 'red';
 
   /**
   * Function to display a SweetAlert2 popup, with an object of options, all being optional.

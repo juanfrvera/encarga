@@ -4,10 +4,9 @@
             <button (click)="abrirMenu()" class="btn btn-link" type="button">
                 <i class="fas fa-bars"></i>
             </button>
-            <span class="navbar-brand mb-0 ms-3 h1"><strong>encarga.shop</strong></span>
+            <a routerLink="/" class="navbar-brand mb-0 ms-3 h1"><strong>encarga.shop</strong></a>
         </div>
     </nav>
-
 
     <div #offcanvas class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasPedido"
         aria-labelledby="offcanvasPedidoLabel">
@@ -19,7 +18,7 @@
         </div>
         <div class="offcanvas-body">
             <div class="list-group list-group-flush">
-                <button type="button" class="list-group-item list-group-item-action">Todos</button>
+                <button routerLink="admin" type="button" class="list-group-item list-group-item-action">Administrar</button>
             </div>
         </div>
     </div>
