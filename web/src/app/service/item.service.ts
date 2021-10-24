@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IItem } from '../data/item/item.dto';
+import { ItemDto } from '../data/item/item.dto';
 import { ItemFilter } from '../data/item/item-filter';
-import { ItemList } from '../data/item/item-list';
 import { CrudService } from './instance/crud.service';
 import { Item } from '../data/item/item';
 import { Util } from '../util';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { ItemListDto } from '../data/item/item-list.dto';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ItemService extends CrudService<Item, IItem, ItemList, ItemFilter>{
+export class ItemService extends CrudService<Item, ItemDto, ItemListDto, ItemFilter>{
   private onItemCreated = new Subject<Item>();
   private onItemCreatedObservable?: Observable<Item>;
   public get OnItemCreated() {
@@ -75,13 +75,25 @@ export class ItemService extends CrudService<Item, IItem, ItemList, ItemFilter>{
     );
   }
 
-  protected fromDto(dto: IItem) {
-    return Item.fromDto(dto);
+  protected fromDto(dto: ItemDto) {
+    return {
+      id: dto.id,
+      titulo: dto.titulo,
+      precio: dto.precio,
+      descripcion: dto.descripcion,
+      idsCategorias: dto.idsCategorias
+    } as Item;
   }
-  protected fromListDto(dto: ItemList) {
-    return Item.fromListDto(dto);
+  protected fromListDto(dto: ItemListDto) {
+    return { id: dto.id, titulo: dto.titulo, precio: dto.precio, descripcion: dto.descripcion } as Item;
   }
   protected toDto(entity: Item) {
-    return Item.toDto(entity);
+    return {
+      id: entity.id,
+      titulo: entity.titulo,
+      precio: entity.precio,
+      descripcion: entity.descripcion,
+      idsCategorias: entity.idsCategorias
+    } as ItemDto;
   }
 }

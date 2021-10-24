@@ -17,10 +17,6 @@ export class ItemsService extends BaseService<Item, CreateItemDto, ItemFilter> {
     super(itemsRepository);
   }
 
-  count(filter?: ItemFilter) {
-    return this.getQuery(filter).getCount();
-  }
-
   async create(createDto: CreateItemDto, manager?: EntityManager) {
     const _create = async (mng: EntityManager) => {
       const preItem = new Item();

@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpException, HttpStatus } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { ComercianteAuthGuard } from 'src/auth/guard/comerciante-auth.guard';
 import { EntityNotFoundError } from 'typeorm';
 import { BaseService } from './base.service';
 import { BaseFilterDto } from './dto/base-filter.dto';
@@ -14,7 +14,7 @@ export abstract class BaseController<
   Dto extends BaseDto, ListDto extends BaseListDto, Filter extends BaseFilterDto> {
   constructor(protected readonly service: BaseService<Entity, CreateDto, Filter>) { }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(ComercianteAuthGuard)
   @Post()
   async create(@Body() createDto: CreateDto) {
     return this.toDto(await this.service.create(createDto));
@@ -25,7 +25,7 @@ export abstract class BaseController<
     return this.toDto(await this.service.findOne(+id));
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(ComercianteAuthGuard)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateDto: Partial<CreateDto>) {
     try {
@@ -40,7 +40,7 @@ export abstract class BaseController<
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(ComercianteAuthGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return this.toDto(await this.service.remove(+id));

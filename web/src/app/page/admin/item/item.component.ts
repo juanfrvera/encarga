@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CategoriaService } from 'src/app/service/categoria.service';
-import { ItemService } from '../../../service/item.service';
+import { ItemAdminService } from 'src/app/service/item-admin.service';
 
 @Component({
   selector: 'app-item',
@@ -16,5 +16,5 @@ export class ItemComponent {
     return this.categoriaService.Lista;
   }
 
-  constructor(private itemService: ItemService, private categoriaService: CategoriaService) { }
+  constructor(private itemService: ItemAdminService, private categoriaService: CategoriaService) { }
 }

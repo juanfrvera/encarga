@@ -3,7 +3,7 @@ import { ItemsService } from './items.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { Item } from './entities/item.entity';
 import { ItemFilterDto } from './dto/item-filter.dto';
-import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { ComercianteAuthGuard } from 'src/auth/guard/comerciante-auth.guard';
 import { ComerciosService } from 'src/comercios/comercios.service';
 import { CategoriasService } from 'src/categorias/categorias.service';
 import { Util } from 'src/util';
@@ -19,7 +19,7 @@ export class ItemsController {
     private readonly comerciosService: ComerciosService,
     private readonly usuarioComercioService: UsuarioComercioService) { }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(ComercianteAuthGuard)
   @Post()
   async create(@Body() createDto: CreateItemDto, @Request() req) {
     const idUsuario = req.user.userId;
@@ -43,18 +43,9 @@ export class ItemsController {
   }
 
   @Get()
+  @UseGuards(ComercioOVisitaGuard)
   async findAll() {
     return (await this.service.findAll()).map(e => this.toListDto(e));
-  }
-
-  @Get('count')
-  @UseGuards(JwtAuthGuard)
-  async count(@Request() req) {
-    const comercio = await this.getComercio(req);
-
-    if (!comercio) throw new NotAcceptableException('No hay comercio');
-
-    return this.service.count({ urlComercio: comercio.url });
   }
 
   @Get(':id')
@@ -62,7 +53,7 @@ export class ItemsController {
     return this.toDto(await this.service.findOne(+id));
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(ComercianteAuthGuard)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateDto: Partial<CreateItemDto>, @Request() req) {
     const idUsuario = req.user.userId;
@@ -97,7 +88,7 @@ export class ItemsController {
 
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(ComercianteAuthGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return this.toDto(await this.service.remove(+id));

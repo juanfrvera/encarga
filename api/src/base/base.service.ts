@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { BaseFilterDto } from 'src/base/dto/base-filter.dto';
 import { EntityManager, Repository } from 'typeorm';
 import { BaseFilter } from './data/base.filter';
 import { CreateBaseDto } from './dto/create-base.dto';
@@ -9,8 +8,6 @@ import { Base } from './entities/base.entity';
 export abstract class BaseService<Entity extends Base, CreateDto extends CreateBaseDto, Filter extends BaseFilter> {
 
   constructor(protected readonly repo: Repository<Entity>) { }
-
-  abstract count(filter?: Filter);
 
   create(createDto: CreateDto, manager?: EntityManager) {
     const entity = this.fromCreateDto(createDto);

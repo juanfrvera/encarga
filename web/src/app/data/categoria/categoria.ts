@@ -2,7 +2,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { CategoriaService } from "src/app/service/categoria.service";
 import { Util } from "src/app/util";
 import { Item } from "../item/item";
-import { IItem } from "../item/item.dto";
+import { ItemDto } from "../item/item.dto";
 import { CategoriaListDto } from "./categoria-list.dto";
 import { ICategoria } from "./categoria.dto";
 
@@ -10,8 +10,8 @@ export class Categoria implements ICategoria {
     id: string;
     nombre: string;
 
-    private items: BehaviorSubject<IItem[] | null> = new BehaviorSubject<IItem[] | null>(null);
-    private itemsObservable?: Observable<IItem[] | null>;
+    private items: BehaviorSubject<ItemDto[] | null> = new BehaviorSubject<ItemDto[] | null>(null);
+    private itemsObservable?: Observable<ItemDto[] | null>;
 
     public get Items() {
         // La primera vez, items va a ser null
