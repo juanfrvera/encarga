@@ -2,7 +2,7 @@ import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 @Injectable()
-export class ComercioOVisitaGuard extends AuthGuard('jwt') {
+export class ComercioOVisitaGuard extends AuthGuard('comerciante') {
     canActivate(context: ExecutionContext) {
         const req = context.switchToHttp().getRequest();
 
