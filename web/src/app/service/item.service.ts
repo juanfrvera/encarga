@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { IItem } from '../data/item/item.dto';
 import { ItemFilter } from '../data/item/item-filter';
 import { ItemList } from '../data/item/item-list';
-import { ApiService } from './instance/api.service';
 import { CrudService } from './instance/crud.service';
 import { Item } from '../data/item/item';
 import { Util } from '../util';
@@ -41,7 +40,7 @@ export class ItemService extends CrudService<Item, IItem, ItemList, ItemFilter>{
     return this.onItemDeletedObservable;
   }
 
-  constructor(http: HttpClient) {
+  constructor(readonly http: HttpClient) {
     super(http, 'items/');
   }
 

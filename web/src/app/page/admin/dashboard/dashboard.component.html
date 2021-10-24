@@ -5,6 +5,27 @@
 </div>
 <div class="container">
     <div class="row justify-content-center">
+        <!-- Items -->
+        <div class="col-12 col-md-6 width-card">
+            <div class="card">
+                <div class="card-body ps-5 pt-4">
+                    <h5 class="text-muted">
+                        <i class="fas fa-list pe-2"></i>
+                        Ítems
+                    </h5>
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-4">
+                            <span class="font-number text-primary"><strong>{{ItemCount}}</strong></span>
+                        </div>
+                        <div class="col-8 text-center">
+                            <button routerLink='item'
+                                class="btn btn-outline-primary"><strong>Administrar</strong></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Categorías -->
         <div class="col-12 col-md-6 width-card">
             <div class="card">
                 <div class="card-body ps-5 pt-4">
@@ -17,26 +38,8 @@
                             <span class="font-number text-primary"><strong>6</strong></span>
                         </div>
                         <div class="col-8">
-                            <button routerLink='categoria' class="btn btn-outline-primary"><strong>Administrar</strong></button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 width-card">
-            <div class="card">
-                <div class="card-body ps-5 pt-4">
-                    <h5 class="text-muted">
-                        <i class="fas fa-list pe-2"></i>
-                        Ítems
-                    </h5>
-                    <div class="row justify-content-center align-items-center">
-                        <div class="col-4">
-                            <span class="font-number text-primary"><strong>25</strong></span>
-                        </div>
-                        <div class="col-8 text-center">
-                            <button routerLink='item' class="btn btn-outline-primary"><strong>Administrar</strong></button>
+                            <button routerLink='categoria'
+                                class="btn btn-outline-primary"><strong>Administrar</strong></button>
                         </div>
                     </div>
 
