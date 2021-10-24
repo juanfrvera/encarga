@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/base/base.service';
-import { BaseFilter } from 'src/base/data/base-filter';
+import { BaseFilterDto } from 'src/base/dto/base-filter.dto';
 import { CategoriasService } from 'src/categorias/categorias.service';
 import { EntityManager, Repository } from 'typeorm';
 import { CreateComercioDto } from './dto/create-comercio.dto';
 import { Comercio } from './entities/comercio.entity';
 
 @Injectable()
-export class ComerciosService extends BaseService<Comercio, CreateComercioDto, BaseFilter> {
+export class ComerciosService extends BaseService<Comercio, CreateComercioDto, BaseFilterDto> {
+    count(filter?: BaseFilterDto) {
+        throw new Error('Method not implemented.');
+    }
     constructor(
         @InjectRepository(Comercio) readonly comercioRepository: Repository<Comercio>,
         private readonly categoriaService: CategoriasService) {

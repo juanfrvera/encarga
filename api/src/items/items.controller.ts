@@ -1,8 +1,8 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, NotAcceptableException, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { Item } from './entities/item.entity';
-import { ItemFilter } from './data/item-filter';
+import { ItemFilterDto } from './dto/item-filter.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { ComerciosService } from 'src/comercios/comercios.service';
 import { CategoriasService } from 'src/categorias/categorias.service';
@@ -45,6 +45,16 @@ export class ItemsController {
   @Get()
   async findAll() {
     return (await this.service.findAll()).map(e => this.toListDto(e));
+  }
+
+  @Get('count')
+  @UseGuards(JwtAuthGuard)
+  async count(@Request() req) {
+    const comercio = await this.getComercio(req);
+
+    if (!comercio) throw new NotAcceptableException('No hay comercio');
+
+    return this.service.count({ urlComercio: comercio.url });
   }
 
   @Get(':id')
@@ -95,7 +105,7 @@ export class ItemsController {
 
   @UseGuards(ComercioOVisitaGuard)
   @Post('filter')
-  async findAllWithFilter(@Body() filter: ItemFilter) {
+  async findAllWithFilter(@Body() filter: ItemFilterDto) {
     return (await this.service.findAllWithFilter(filter)).map(e => this.toListDto(e));
   }
 
@@ -104,6 +114,11 @@ export class ItemsController {
   }
   toListDto(entity: Item) {
     return Item.toListDto(entity);
+  }
+
+  private getComercio(@Request() req) {
+    const idUsuario = req.user.userId;
+    return this.usuarioComercioService.getComercioDeUsuario(idUsuario);
   }
 
   private async getIdCategoriaDefecto(idComercio: number) {

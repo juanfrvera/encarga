@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/base/base.service';
-import { BaseFilter } from 'src/base/data/base-filter';
+import { BaseFilterDto } from 'src/base/dto/base-filter.dto';
 import { CreateBaseDto } from 'src/base/dto/create-base.dto';
 import { Repository } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
 
 @Injectable()
-export class UsuariosService extends BaseService<Usuario, CreateBaseDto, BaseFilter> {
+export class UsuariosService extends BaseService<Usuario, CreateBaseDto, BaseFilterDto> {
+    count(filter?: BaseFilterDto) {
+        throw new Error('Method not implemented.');
+    }
     constructor(@InjectRepository(Usuario) readonly repo: Repository<Usuario>) {
         super(repo);
     }

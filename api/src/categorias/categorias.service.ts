@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/base/base.service';
-import { ItemCategoria } from 'src/item-categoria/entities/item-categoria.entity';
 import { ItemCategoriaService } from 'src/item-categoria/item-categoria.service';
 import { EntityManager, In, Repository } from 'typeorm';
 import { CategoriaFilter } from './data/categoria-filter';
@@ -11,6 +10,9 @@ import { Categoria } from './entities/categoria.entity';
 
 @Injectable()
 export class CategoriasService extends BaseService<Categoria, CreateCategoriaDto, CategoriaFilter> {
+    count(filter?: CategoriaFilter) {
+        throw new Error('Method not implemented.');
+    }
     constructor(
         @InjectRepository(Categoria)
         readonly categoriasRepository: Repository<Categoria>,

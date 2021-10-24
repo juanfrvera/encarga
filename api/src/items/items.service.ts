@@ -4,10 +4,10 @@ import { BaseService } from 'src/base/base.service';
 import { CategoriasService } from 'src/categorias/categorias.service';
 import { ItemCategoriaService } from 'src/item-categoria/item-categoria.service';
 import { EntityManager, Repository } from 'typeorm';
-import { ItemFilter } from './data/item-filter';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { Item } from './entities/item.entity';
+import { ItemFilter } from './data/item.filter';
 
 @Injectable()
 export class ItemsService extends BaseService<Item, CreateItemDto, ItemFilter> {
@@ -15,6 +15,10 @@ export class ItemsService extends BaseService<Item, CreateItemDto, ItemFilter> {
     private readonly categoriasService: CategoriasService,
     private readonly itemCategoriaService: ItemCategoriaService) {
     super(itemsRepository);
+  }
+
+  count(filter?: ItemFilter) {
+    return this.getQuery(filter).getCount();
   }
 
   async create(createDto: CreateItemDto, manager?: EntityManager) {
@@ -158,5 +162,20 @@ export class ItemsService extends BaseService<Item, CreateItemDto, ItemFilter> {
 
   fromCreateDto(dto: CreateItemDto): Item {
     throw new Error('Method not implemented.');
+  }
+
+  private getQuery(filter?: ItemFilter) {
+    const query = this.repo.createQueryBuilder('item');
+
+    if (filter) {
+      if (filter.urlComercio) {
+        query.leftJoin('item.itemCategorias', 'itemCategoria')
+          .leftJoin('itemCategoria.categoria', 'categoria')
+          .leftJoin('categoria.comercio', 'comercio')
+          .andWhere('comercio.url = :urlComercio', { urlComercio: filter.urlComercio });
+      }
+    }
+
+    return query;
   }
 }

@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpExcep
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { EntityNotFoundError } from 'typeorm';
 import { BaseService } from './base.service';
-import { BaseFilter } from './data/base-filter';
+import { BaseFilterDto } from './dto/base-filter.dto';
 import { BaseListDto } from './dto/base-list.dto';
 import { BaseDto } from './dto/base.dto';
 import { CreateBaseDto } from './dto/create-base.dto';
@@ -11,7 +11,7 @@ import { Base } from './entities/base.entity';
 @Controller('base')
 export abstract class BaseController<
   Entity extends Base, CreateDto extends CreateBaseDto,
-  Dto extends BaseDto, ListDto extends BaseListDto, Filter extends BaseFilter> {
+  Dto extends BaseDto, ListDto extends BaseListDto, Filter extends BaseFilterDto> {
   constructor(protected readonly service: BaseService<Entity, CreateDto, Filter>) { }
 
   @UseGuards(JwtAuthGuard)
