@@ -24,14 +24,15 @@
 </app-modal>
 
 <div *ngIf="Lista | async as lista; else cargando">
-    <div *ngIf="lista.length; else empty" class="card">
-        <!-- Hay Items y cargó -->
-        <div class="card-body">
-            <div class="d-flex justify-content-between mb-3">
-                <h1 class="card-title align-self-center fs-3"><strong>{{Titulo}}s</strong></h1>
-                <button (click)="agregar()" type="button"
-                    class="btn btn-primary bg-gradient btn-sm text-white"><strong>Agregar</strong></button>
-            </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-between mb-3">
+            <h1 class="card-title align-self-center fs-3"><strong>{{Titulo}}s</strong></h1>
+            <button (click)="agregar()" type="button"
+                class="btn btn-primary bg-gradient btn-sm text-white"><strong>Agregar</strong></button>
+        </div>
+        <div *ngIf="lista.length; else empty" class="card">
+            <!-- Hay Items y cargó -->
+
             <div class="container-full">
                 <app-lista [items]="lista" (itemClick)="editar($event)">
                     <!-- Se saca el item de la lista y se envía hacia arriba, dandoseló al #templateLista 
