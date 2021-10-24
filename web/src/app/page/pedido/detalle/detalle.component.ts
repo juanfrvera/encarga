@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PedidoService } from '../../../service/pedido.service';
-import { Location } from '@angular/common';
 import { ItemConCantidad } from '../../../data/item/item-con-cantidad';
 import { FormularioComponent } from '../../../component/formulario/formulario.component';
 import { Util } from '../../../util';
@@ -105,7 +104,7 @@ export class DetalleComponent implements OnInit {
     if (this.formulario.esValido() && (d.entrega !== 'Envio a domicilio' || d.direccion) && this.itemsConCantidad) {
       console.log('ok');
       // Agrega al cuerpo del mensaje a enviar info de la entrega
-      let cuerpo = `*DETALLE DE ENTREGA*\nNombre y Apellido:\n_${d.nombre}_\nForma de entrega:\n_${d.entrega} / ${d.direccion}_\nComentarios:\n_${d.comentarios}_\n\n*DETALLE DE PEDIDO*\n`;
+      let cuerpo = `*DETALLE DE ENTREGA*\nNombre y Apellido:\n_${d.nombre}_\nForma de entrega:\n_${d.entrega}${d.entrega == 'Envio a domicilio' ? ' / ' + d.direccion : ''}_\nComentarios:\n_${d.comentarios}_\n\n*DETALLE DE PEDIDO*\n`;
 
       // Agrega al cuerpo los items del pedido con su cantidad y subtotal
       for (const e of this.itemsConCantidad) {
@@ -114,12 +113,8 @@ export class DetalleComponent implements OnInit {
       // Agrega al cuerpo el total
       cuerpo += `\n*TOTAL*\n$${this.total}`;
 
-      // Crea el link de whatsapp con el telefono y cuerpo a enviar 
-      const a = document.createElement('a');
-      a.href = `https://wa.me/549${d.telPrueba}/?text=` + encodeURI(cuerpo);
-      a.target = '_blank';
-      a.click();
-
+      const url = `https://wa.me/${d.telPrueba}/?text=` + encodeURI(cuerpo);
+      window.open(url, '_blank');
     }
     else {
       console.log('invalid');

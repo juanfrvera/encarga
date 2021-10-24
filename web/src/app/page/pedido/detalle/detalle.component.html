@@ -37,8 +37,8 @@
                             <h3 class="fw-light fs-4">Total:</h3>
                             <h3 class="fs-3"><strong>${{this.total}}</strong></h3>
                         </div>
-                        <button (click)="clickVolver()" class="btn btn-outline-primary btn-sm boton align-self-center"
-                            >Seguir
+                        <button (click)="clickVolver()"
+                            class="btn btn-outline-primary btn-sm boton align-self-center">Seguir
                             comprando</button>
                     </div>
 
@@ -92,11 +92,10 @@
                 <div class="card-body">
                     <h2 class="card-title mb-4 fs-3"><strong>Probá nuestra Demo</strong></h2>
                     <div class="px-2">
-                        <label for="telefono" class="form-label">Ingresá un número de teléfono válido dentro de
-                            Argentina</label>
-                        <p>Sin 0, 15 ni espacios</p>
+                        <label for="telefono" class="form-label">Ingresá un número de teléfono que tenga
+                            WhatsApp</label>
                         <input [(ngModel)]="datos.telPrueba" id="telefono" name="telefono" class="form-control"
-                            type="tel" placeholder="Ej: 3442112233" required>
+                            type="tel" placeholder="Ej: +5493442112233" required>
                         <div class="invalid-feedback">Por favor, ingresa un número de teléfono válido.</div>
                     </div>
                 </div>
@@ -123,7 +122,8 @@
         <div class="text-center px-3">
             <img src="../../../assets/empty-state/bolsa-changed.png" alt="" class="mb-4">
             <p class="text-muted mb-3">Tu carrito está vacío, vuelve para agregar ítems.</p>
-            <button (click)="clickVolver()" class="btn btn-primary bg-gradient text-white"><strong>Volver</strong></button>
+            <button (click)="clickVolver()"
+                class="btn btn-primary bg-gradient text-white"><strong>Volver</strong></button>
         </div>
     </div>
 </ng-template>
