@@ -16,7 +16,7 @@
                         [attr.aria-labelledby]="'heading'+cat.id" data-bs-parent="#accordionCategorias">
                         <div *ngIf="CategoriaActual === i" class="accordion-body">
                             <!-- Items-->
-                            <div *ngIf="cat.Items | async as lista; else cargando">
+                            <div *ngIf="itemsDeCategoria(cat) | async as lista; else cargando">
                                 <div class="list-group list-group-flush px-2">
                                     <!-- Item -->
                                     <div *ngFor="let item of lista;"

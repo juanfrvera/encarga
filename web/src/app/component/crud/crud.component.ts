@@ -1,4 +1,6 @@
 import { Component, ContentChild, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { BaseFilter } from 'src/app/data/base/base-filter';
 import { Util } from 'src/app/util';
 import Swal from 'sweetalert2';
@@ -26,13 +28,21 @@ export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, 
 
   /** Item en modal */
   private item: Dto = {} as Dto;
+  private lista: ListDto[];
 
   public get Item() {
     return this.item;
   }
 
   public get Lista() {
-    return this.service.Lista;
+    if (!this.lista) {
+      return this.service.getAll().pipe(
+        tap(lista => this.lista = lista)
+      );
+    }
+    else {
+      return of(this.lista);
+    }
   }
 
   public get Titulo() {
@@ -56,9 +66,9 @@ export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, 
   }
 
   /** Muestra el modal en modo edicion */
-  public editar(entity: Entity) {
+  public editar(dto: ListDto) {
     // TODO: mostrar "cargando"
-    this.service.getById(entity.id).subscribe(item => {
+    this.service.getById(dto.id).subscribe(item => {
       // Hacer una copia profunda para no modificar el original
       this.item = Util.copiaProfunda(item);
       this.abrir();

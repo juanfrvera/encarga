@@ -5,6 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Toast } from 'bootstrap';
 import { Item } from 'src/app/data/item/item';
 import { CategoriaVisitaService } from 'src/app/service/categoria-visita.service';
+import { CategoriaListDto } from 'src/app/data/categoria/categoria-list.dto';
+import { tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { ItemService } from 'src/app/service/item.service';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   /** Categoría actual en accordion */
   private categoriaActual?: number;
+  private categorias: CategoriaListDto[];
 
   private cantidades: { idItem: string, cantidad: number }[];
   private total = 0;
@@ -28,8 +33,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public get Categorias() {
-    return this.categoriaService.Lista;
+    if (!this.categorias) {
+      return this.categoriaService.getAll().pipe(
+        tap(lista => this.categorias = lista)
+      );
+    }
+    else {
+      return of(this.categorias);
+    }
   }
+
   public get Total() {
     return this.total;
   }
@@ -38,6 +51,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private readonly categoriaService: CategoriaVisitaService,
+    private readonly itemService: ItemService,
     private readonly pedidoService: PedidoService,
   ) { }
 
@@ -53,36 +67,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.ocultarToast();
   }
 
-  // Cuando una categoría será mostrada (todavía no se hizo la animación de abrir accordion)
-  categoriaWillShow(index: number) {
-    this.categoriaActual = index;
-  }
-
-  // Cuando una categoría fue ocultada (la animación de ocultar accordion ya terminó)
-  categoriaHidden(index: number) {
-  }
-
-
-  private crearObjetoCantidad(item: Item, cantidad: number = 0) {
-    const objetoCantidad = { idItem: item.id, cantidad: cantidad };
-
-    // Inicializar lista en caso de que no se haya hecho antes
-    if (!this.cantidades) {
-      this.cantidades = [];
-    }
-
-    this.cantidades.push(objetoCantidad);
-
-    return objetoCantidad;
-  }
-
-  public objetoCantidadDe(item: Item) {
-    return this.cantidades?.find(c => c.idItem == item.id);
-  }
-
-  public cantidadDe(item: Item) {
-    return this.objetoCantidadDe(item)?.cantidad ?? 0;
-  }
 
   /** Agrega el producto al pedido, sumandolo al total */
   public agregarItem(item: Item) {
@@ -96,6 +80,27 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.mostrarToast();
 
     this.pedidoService.add(item);
+  }
+
+  // Cuando una categoría será mostrada (todavía no se hizo la animación de abrir accordion)
+  public categoriaWillShow(index: number) {
+    this.categoriaActual = index;
+  }
+
+  // Cuando una categoría fue ocultada (la animación de ocultar accordion ya terminó)
+  public categoriaHidden(index: number) {
+  }
+
+  public cantidadDe(item: Item) {
+    return this.objetoCantidadDe(item)?.cantidad ?? 0;
+  }
+
+  public itemsDeCategoria(categoria: CategoriaListDto) {
+    return this.itemService.getWithFilter({ idsCategorias: [categoria.id] });
+  }
+
+  public objetoCantidadDe(item: Item) {
+    return this.cantidades?.find(c => c.idItem == item.id);
   }
 
   /** Quita el producto al pedido, restandolo del total */
@@ -125,6 +130,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   /** Continua a la pagina de detalle */
   public continuar() {
     this.router.navigate(['detalle'], { relativeTo: this.route });
+  }
+
+  private crearObjetoCantidad(item: Item, cantidad: number = 0) {
+    const objetoCantidad = { idItem: item.id, cantidad: cantidad };
+
+    // Inicializar lista en caso de que no se haya hecho antes
+    if (!this.cantidades) {
+      this.cantidades = [];
+    }
+
+    this.cantidades.push(objetoCantidad);
+
+    return objetoCantidad;
   }
 
   /** Devuelve true si el total es mayor que 0 */

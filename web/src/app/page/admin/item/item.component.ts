@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { of } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { CategoriaListDto } from 'src/app/data/categoria/categoria-list.dto';
 import { CategoriaService } from 'src/app/service/categoria.service';
 import { ItemAdminService } from 'src/app/service/item-admin.service';
 
@@ -8,13 +11,22 @@ import { ItemAdminService } from 'src/app/service/item-admin.service';
   styleUrls: ['./item.component.scss']
 })
 export class ItemComponent {
-  public get Service() {
-    return this.itemService;
-  }
+  private categorias: CategoriaListDto[];
 
   public get Categorias() {
-    return this.categoriaService.Lista;
+    if (!this.categorias) {
+      return this.categoriaService.getAll().pipe(
+        tap(lista => this.categorias = lista)
+      );
+    }
+    else {
+      return of(this.categorias);
+    }
   }
 
-  constructor(private itemService: ItemAdminService, private categoriaService: CategoriaService) { }
+  public get Service() {
+    return this.service;
+  }
+
+  constructor(private service: ItemAdminService, private categoriaService: CategoriaService) { }
 }

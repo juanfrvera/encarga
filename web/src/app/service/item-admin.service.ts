@@ -13,27 +13,10 @@ import { CrudService } from "./instance/crud.service";
 })
 export class ItemAdminService extends CrudService<Item, ItemDto, ItemListDto, ItemAdminFilterDto> {
     constructor(readonly http: HttpClient) {
-        super(http, 'itemAdmin/');
-    }
-
-    protected fromListDto(listDto: ItemListDto): Item {
-        throw new Error("Method not implemented.");
-    }
-    protected fromDto(dto: ItemDto): Item {
-        throw new Error("Method not implemented.");
-    }
-    protected toDto(Entity: Item): ItemDto {
-        throw new Error("Method not implemented.");
+        super(http, 'admin/item/');
     }
 
     public count() {
-        const listaActual = this.lista.value;
-
-        if (listaActual) {
-            return of(listaActual.length);
-        }
-        else {
-            return this.http.get<number>(ApiService.Url + this.Route + 'count');
-        }
+        return this.http.get<number>(ApiService.Url + this.Route + 'count');
     }
 }
