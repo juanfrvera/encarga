@@ -3,24 +3,22 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { configService } from './config/config.service';
-import { ItemsModule } from './items/items.module';
-import { CategoriasModule } from './categorias/categorias.module';
+import { ItemModule } from './item/item.module';
+import { CategoriaModule } from './categoria/categoria.module';
 import { ItemCategoriaModule } from './item-categoria/item-categoria.module';
-import { ComerciosModule } from './comercios/comercios.module';
-import { UsuariosModule } from './usuarios/usuarios.module';
+import { ComercioModule } from './comercio/comercio.module';
+import { UsuarioModule } from './usuario/usuario.module';
 import { UsuarioComercioModule } from './usuario-comercio/usuario-comercio.module';
 import { AuthModule } from './auth/auth.module';
-import { ItemAdminModule } from './admin/item-admin/item-admin.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
-    ItemsModule,
-    ItemAdminModule,
-    CategoriasModule,
+    ItemModule,
+    CategoriaModule,
     ItemCategoriaModule,
-    ComerciosModule,
-    UsuariosModule,
+    ComercioModule,
+    UsuarioModule,
     UsuarioComercioModule,
     AuthModule,
   ],

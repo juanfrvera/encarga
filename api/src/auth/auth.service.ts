@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UsuariosService } from 'src/usuarios/usuarios.service';
+import { UsuarioService } from 'src/usuario/usuario.service';
 import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
     constructor(
-        private usuariosService: UsuariosService,
+        private usuariosService: UsuarioService,
         private jwtService: JwtService
     ) { }
-
 
     // TODO:
     // Of course in a real application, you wouldn't store a password in plain text.
@@ -19,7 +18,7 @@ export class AuthService {
     // user passwords in plain text. To keep our sample app simple, we violate that absolute
     // mandate and use plain text. Don't do this in your real app!
     async validateUser(mail: string, password: string): Promise<any> {
-        const user = await this.usuariosService.findByMail(mail);
+        const user = await this.usuariosService.getByMail(mail);
         if (user && user.password === password) {
             const { password, ...result } = user;
             return result;

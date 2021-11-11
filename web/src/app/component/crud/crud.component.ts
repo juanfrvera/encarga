@@ -1,5 +1,5 @@
 import { Component, ContentChild, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { BaseFilter } from 'src/app/data/base/base-filter';
 import { Util } from 'src/app/util';
@@ -28,21 +28,14 @@ export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, 
 
   /** Item en modal */
   private item: Dto = {} as Dto;
-  private lista: ListDto[];
+  private lista: Observable<ListDto[]>;
 
   public get Item() {
     return this.item;
   }
 
   public get Lista() {
-    if (!this.lista) {
-      return this.service.getAll().pipe(
-        tap(lista => this.lista = lista)
-      );
-    }
-    else {
-      return of(this.lista);
-    }
+    return this.lista;
   }
 
   public get Titulo() {
@@ -53,6 +46,7 @@ export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, 
   constructor(private swalService: SwalService) { }
 
   ngOnInit(): void {
+    this.lista = this.service.getAll();
   }
 
   /** Muestra el modal en modo creacion */
