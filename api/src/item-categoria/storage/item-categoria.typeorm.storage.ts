@@ -29,16 +29,37 @@ export class ItemCategoriaTypeOrmStorage{
             }
     }
 
-    public removeRaw(model: ItemCategoriaTypeOrmModel, manager?: EntityManager): Promise<void>{
-
+    public async removeRaw(model: ItemCategoriaTypeOrmModel, manager?: EntityManager): Promise<void>{
+        if(manager){
+            await manager.remove(model);
+        }
+        else{
+            await this.repository.remove(model);
+        }
     }
 
-    public removeByCategoria(categoriaId: string, manager?: EntityManager): Promise<void>{
-
+    public async removeByCategoria(categoriaId: string, manager?: EntityManager): Promise<void>{
+        if(manager){
+            const modelList = await manager.find<ItemCategoriaTypeOrmModel>(this.repository.target,
+                 {where: {categoria: {id: categoriaId}}});
+            await manager.remove(modelList);
+        }
+        else{
+            const modelList = await this.repository.find({where: {categoria: {id: categoriaId}}});
+            await this.repository.remove(modelList);
+        }
     }
 
-    public removeByItem(itemId: string, manager?: EntityManager): Promise<void>{
-
+    public async removeByItem(itemId: string, manager?: EntityManager): Promise<void>{
+        if(manager){
+            const modelList = await manager.find<ItemCategoriaTypeOrmModel>(this.repository.target,
+                 {where: {item: {id: itemId}}});
+            await manager.remove(modelList);
+        }
+        else{
+            const modelList = await this.repository.find({where: {item: {id: itemId}}});
+            await this.repository.remove(modelList);
+        }
     }
 
     public toEntity(model: ItemCategoriaTypeOrmModel) : ItemCategoria{

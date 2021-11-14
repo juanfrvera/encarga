@@ -21,7 +21,7 @@ export class ItemService {
 
   public async create(data: ItemCreationData, usuarioId: string) {
     const comercio = await this.usuarioComercioService.getComercioByUsuario(usuarioId);
-    const idCategoriaDefecto = comercio.categoriaDefectoId;
+    const idCategoriaDefecto = comercio.categoriaDefaultId;
 
     if (data.categoriaIdList && data.categoriaIdList.length) {
       await this.validateCategoriaList(comercio.id, data.categoriaIdList, idCategoriaDefecto);
@@ -47,7 +47,7 @@ export class ItemService {
     if(!this.storage.exists(id)) throw new ItemNotFoundError();
 
     const comercio = await this.usuarioComercioService.getComercioByUsuario(usuarioId);
-    const defaultCategoryId = comercio.categoriaDefectoId;
+    const defaultCategoryId = comercio.categoriaDefaultId;
 
     // Solo se retocan las categorías si el patch las trata
     if (data.categoriaIdList) {

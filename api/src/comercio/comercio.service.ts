@@ -1,38 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { CategoriaService } from 'src/categoria/categoria.service';
-import { EntityManager } from 'typeorm';
-import { CreateComercioDto } from './dto/create-comercio.dto';
-import { Comercio } from './entities/comercio.entity';
+import { ComercioCreationData } from './data/comercio.creation.data';
+import { ComercioStorage } from './storage/comercio.storage';
 
 @Injectable()
 export class ComerciosService {
     constructor(
-        private readonly categoriaService: CategoriaService) { }
+        private readonly storage: ComercioStorage,
+        private readonly categoriaService: CategoriaService
+        ){ }
 
-    /**
-     * Crea un comercio junto con su categoría por defecto
-     * @param createDto dto de creación
-     * @param manager En caso de que se esté dentro de una transacción
-     * @returns Comercio creado
-     */
-    async create(createDto: CreateComercioDto, manager?: EntityManager) {
-        const _create = async (mng: EntityManager) => {
-            const comercio = new Comercio();
+    public async create(data: ComercioCreationData) {
+        return this.storage.startTransaction(async transaction => {
+            let entity = await this.storage.create(data, transaction);
 
-            comercio.url = createDto.url;
-            comercio.categoriaDefectoId = await this.categoriaService.create({ nombre: 'default' }, mng);
 
-            return mng.save(comercio);
-        }
+            const categoriaDefault = await this.categoriaService.create(
+                {
+                    nombre: 'default',
+                    comercioId: entity.id
+                },
+                transaction);
 
-        if (manager) {
-            return _create(manager);
-        }
-        else {
-            return this.repo.manager.transaction(myManager => {
-                return _create(myManager);
-            });
-        }
+            entity = await this.storage.setDefaultCategoria(entity, categoriaDefault);
+
+            return entity;
+        });
     }
 
     getByUrl(url: string) {

@@ -9,14 +9,14 @@ export class ComercioTypeOrmModel extends BaseTypeOrmModel {
     url: string;
 
     @OneToMany(() => CategoriaTypeOrmModel, categoria => categoria.comercio)
-    categorias: CategoriaTypeOrmModel[];
+    categoriaListWithoutDefault: CategoriaTypeOrmModel[];
 
     /** Categoría a donde van a parar los items sin categoria */
     @OneToOne(() => CategoriaTypeOrmModel, { eager: true }) @JoinColumn()
-    categoriaDefecto: CategoriaTypeOrmModel;
+    categoriaDefault: CategoriaTypeOrmModel;
 
     /** Usuarios de este comercio */
     @OneToMany(() => UsuarioComercioTypeOrmModel, usuarioComercio => usuarioComercio.comercio,
      { nullable: true })
-    usuarioComercios: UsuarioComercioTypeOrmModel[];
+    usuarioComercioList: UsuarioComercioTypeOrmModel[];
 }

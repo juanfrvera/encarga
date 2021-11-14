@@ -2,6 +2,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { ItemCategoriaTypeOrmStorage } from "src/item-categoria/storage/item-categoria.typeorm.storage";
 import { EntityManager, Repository } from "typeorm";
 import { CategoriaFilter } from "../data/categoria-filter";
+import { CategoriaCreationData } from "../data/categoria.creation.data";
 import { UpdateCategoriaData } from "../data/update-categoria.data";
 import { Categoria } from "../entities/categoria.entity";
 import { CategoriaStorage } from "./categoria.storage";
@@ -16,6 +17,8 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
     ) {
         super();
     }
+
+    public createRaw(data: CategoriaCreationData, comercioModel: ComercioTy)
 
     public getRawListByIdList(idList: string[], manager?:EntityManager): Promise<CategoriaTypeOrmModel[]>{
         if(manager){

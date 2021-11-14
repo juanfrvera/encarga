@@ -11,6 +11,6 @@ export class ItemCategoriaTypeOrmModel extends BaseTypeOrmModel{
     @ManyToOne(() => ItemTypeOrmModel, item => item.itemCategorias, { primary: true, eager: true })
     item: ItemTypeOrmModel;
 
-    @ManyToOne(() => CategoriaTypeOrmModel, categoria => categoria.itemCategorias, { primary: true, eager: true })
+    @ManyToOne(() => CategoriaTypeOrmModel, categoria => categoria.itemCategoriaList, { primary: true, eager: true })
     categoria: CategoriaTypeOrmModel;
 }

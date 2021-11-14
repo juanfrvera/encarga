@@ -10,8 +10,8 @@ export class CategoriaTypeOrmModel extends BaseTypeOrmModel {
 
     /** Items que están en esta categoría, junto con el orden de cada uno de estos */
     @OneToMany(() => ItemCategoriaTypeOrmModel, itemCategoria => itemCategoria.categoria)
-    itemCategorias: ItemCategoriaTypeOrmModel[];
+    itemCategoriaList: ItemCategoriaTypeOrmModel[];
 
-    @ManyToOne(() => ComercioTypeOrmModel, comercio => comercio.categorias)
+    @ManyToOne(() => ComercioTypeOrmModel, comercio => comercio.categoriaListWithoutDefault)
     comercio: ComercioTypeOrmModel;
 }
