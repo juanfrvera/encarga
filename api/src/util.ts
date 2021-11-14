@@ -5,7 +5,7 @@ export class Util {
     }
 
     /** Elimina el item en la posición indicada del arreglo */
-    public static eliminarEn(arreglo: any[], indice: number) {
+    public static deleteAt(arreglo: any[], indice: number) {
         arreglo.splice(indice, 1);
     }
 
@@ -15,7 +15,7 @@ export class Util {
 
         // Si fue encontrado en el arreglo
         if (indice !== -1) {
-            this.eliminarEn(arreglo, indice);
+            this.deleteAt(arreglo, indice);
         }
     }
 

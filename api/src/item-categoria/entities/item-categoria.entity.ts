@@ -1,15 +1,14 @@
-import { Categoria } from "src/categoria/entities/categoria.entity";
-import { Item } from "src/item/entities/item.entity";
-
 /** Relaciona un item con una categoría, manteniendo el orden del item en esa categoría */
 export class ItemCategoria {
+    id: string;
     orden: number;
-    item: Item;
-    categoria: Categoria;
+    itemId: string;
+    categoriaId: string;
 
-    constructor(item: Item, categoria: Categoria, orden: number) {
-        this.item = item;
-        this.categoria = categoria;
+    constructor(id: string, itemId: string, categoriaId: string, orden: number) {
+        this.id = id;
+        this.itemId = itemId;
+        this.categoriaId = categoriaId;
         this.orden = orden;
     }
 }

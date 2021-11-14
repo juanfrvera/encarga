@@ -20,7 +20,7 @@ export class ComerciosService {
             const comercio = new Comercio();
 
             comercio.url = createDto.url;
-            comercio.categoriaDefecto = await this.categoriaService.create({ nombre: 'default' }, mng);
+            comercio.categoriaDefectoId = await this.categoriaService.create({ nombre: 'default' }, mng);
 
             return mng.save(comercio);
         }

@@ -1,15 +1,14 @@
 import { Body, Controller, Get, NotFoundException, Post, Request, UseGuards } from '@nestjs/common';
 import { ComercioOVisitaGuard } from 'src/auth/guard/comerciante-o-usuario.guard';
-import { BaseController } from 'src/base/base.controller';
 import { ComerciosService } from 'src/comercio/comercio.service';
 import { Comercio } from 'src/comercio/entities/comercio.entity';
 import { UsuarioComercioService } from 'src/usuario-comercio/usuario-comercio.service';
 import { CategoriaService } from './categoria.service';
 import { CategoriaFilter } from './data/categoria-filter';
-import { CreateCategoriaDto } from './dto/create-categoria.dto';
+import { CategoriaLightDto } from './dto/categoria-light.dto';
 import { Categoria } from './entities/categoria.entity';
 
-@Controller('categorias')
+@Controller('categoria')
 export class CategoriaController {
   constructor(
     private readonly service: CategoriaService,
@@ -35,11 +34,11 @@ export class CategoriaController {
     return this._get(filter);
   }
 
-  toDto(entity: CreateCategoriaDto & Categoria | Categoria) {
-    return Categoria.toDto(entity);
-  }
-  toListDto(entity: Categoria) {
-    return Categoria.toListDto(entity);
+  private toLightDto(entity: Categoria) : CategoriaLightDto {
+    return {
+      id: entity.id,
+      nombre: entity.nombre
+    };
   }
 
   private async _getComercio(req) {
@@ -47,7 +46,7 @@ export class CategoriaController {
     let comercio: Comercio;
 
     if (reqData.urlComercio) {
-      comercio = await this.comercioService.findOneByUrl(reqData.urlComercio);
+      comercio = await this.comercioService.getByUrl(reqData.urlComercio);
 
       if (!comercio) throw new NotFoundException('Comercio no encontrado con la URL indicada');
     }
@@ -62,6 +61,6 @@ export class CategoriaController {
 
   private async _get(filter?: CategoriaFilter) {
     const lista = await this.service.findAllWithFilter(filter);
-    return lista.map(c => this.toListDto(c));
+    return lista.map(c => this.toLightDto(c));
   }
 }

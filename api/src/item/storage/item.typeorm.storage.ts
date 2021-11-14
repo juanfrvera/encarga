@@ -1,4 +1,6 @@
 import { InjectRepository } from "@nestjs/typeorm";
+import { CategoriaTypeOrmStorage } from "src/categoria/storage/categoria.typeorm.storage";
+import { ItemCategoriaTypeOrmStorage } from "src/item-categoria/storage/item-categoria.typeorm.storage";
 import { EntityManager, Repository } from "typeorm";
 import { ItemCreationData } from "../data/item.creation.data";
 import { ItemUpdateData } from "../data/item.update.data";
@@ -7,14 +9,22 @@ import { ItemStorage } from "./item.storage";
 import { ItemTypeOrmModel } from "./item.typeorm.model";
 
 export class ItemTypeOrmStorage extends ItemStorage {
+    public exists(id: string): Promise<boolean> {
+        throw new Error("Method not implemented.");
+    }
+    public get(id: string): Promise<Item> {
+        throw new Error("Method not implemented.");
+    }
     constructor(
         @InjectRepository(ItemTypeOrmModel)
-        private readonly repository: Repository<ItemTypeOrmModel>
+        private readonly repository: Repository<ItemTypeOrmModel>,
+        private readonly categoriaStorage: CategoriaTypeOrmStorage,
+        private readonly itemCategoriaStorage: ItemCategoriaTypeOrmStorage
     ) {
         super();
     }
 
-    public create(data: ItemCreationData, manager?: EntityManager): Promise<Item> {
+    public async create(data: ItemCreationData, manager?: EntityManager): Promise<Item> {
         const _create = async (mng: EntityManager) => {
             const preItem = new ItemTypeOrmModel();
 
@@ -25,49 +35,71 @@ export class ItemTypeOrmStorage extends ItemStorage {
             // Guardar para obtener un id
             const item = await mng.save(preItem);
 
-            if (data.idsCategorias) {
-                await this.asignarCategorias(item, data.idsCategorias, mng);
+            if (data.categoriaIdList) {
+                await this.asignarCategorias(item, data.categoriaIdList, mng);
             }
 
             return mng.save(item);
         };
 
+        let model : ItemTypeOrmModel;
 
         if (manager) {
-            return _create(manager);
+            model = await _create(manager);
         }
         else {
             // Se corre dentro de una transaccion ya que estamos preguardando y puede fallar luego
             // Si falla, se cancela la transaccion y no queda guardado el item
-            return this.repository.manager.transaction(myManager => {
+            model = await this.repository.manager.transaction(myManager => {
                 return _create(myManager);
             });
         }
+
+        return this.toEntity(model);
     }
 
-    public update(id: string, data: ItemUpdateData) {
+    public async remove(id: string, manager?: EntityManager): Promise<void> {
+        if (manager) {
+            return this._remove(id, manager);
+          }
+          else {
+            return this.repository.manager.transaction(async newManager => {
+                return this._remove(id, manager);
+            });
+          }
+    }
+
+    public async update(id: string, data: ItemUpdateData) : Promise<Item>{
         // Se corre dentro de una transaccion ya que estamos preguardando y puede fallar luego
         // Si falla, se cancela la transaccion y no queda guardado el item
-        return this.repository.manager.transaction(async manager => {
+        const model = await this.repository.manager.transaction(async manager => {
             const original = await manager.findOneOrFail(this.repository.target, id) as ItemTypeOrmModel;
 
             original.titulo = data.titulo ?? original.titulo;
             original.descripcion = data.descripcion ?? original.descripcion;
             original.precio = data.precio ?? original.precio;
 
-            if (data.idsCategorias) {
-                await this.asignarCategorias(original, data.idsCategorias, manager);
+            if (data.categoriaIdList) {
+                await this.asignarCategorias(original, data.categoriaIdList, manager);
             }
 
             await manager.save(original);
 
             return original;
         });
+
+        return this.toEntity(model);
     }
 
-    private async asignarCategorias(item: ItemTypeOrmModel, idsCategorias: string[], manager?: EntityManager) {
+    public toEntity(model: ItemTypeOrmModel) : Item{
+        const itemCategoriaList = model.itemCategorias.map(ic => this.itemCategoriaStorage.toEntity(ic));
+
+        return new Item(model.id.toString(), model.titulo, model.precio, model.descripcion, itemCategoriaList);
+    }
+
+    private async asignarCategorias(item: ItemTypeOrmModel, categoriaIdList: string[], manager?: EntityManager) {
         const categoriasViejas = item.itemCategorias?.map(i => i.categoria);
-        const categorias = await this.categoriaService.findAllWithFilter({ ids: idsCategorias }, manager);
+        const categorias = await this.categoriaStorage.getRawListByIdList(categoriaIdList, manager);
 
         // Categorías viejas que se mantienen
         const categoriasMantenidas =
@@ -83,7 +115,7 @@ export class ItemTypeOrmStorage extends ItemStorage {
 
         // Se crean itemCategorias nuevas
         const itemCategoriasNuevas = await Promise.all(categoriasNuevas.map(async c => {
-            return (await this.itemCategoriaService.create(item, c, manager));
+            return (await this.itemCategoriaStorage.createRaw(item, c, manager));
         }));
 
         // ItemCategorias viejas que no son mantenidas serán eliminadas
@@ -93,10 +125,34 @@ export class ItemTypeOrmStorage extends ItemStorage {
         if (itemCategoriasEliminar) {
             // Eliminar item categorias no mantenidas
             for (const itemCat of itemCategoriasEliminar) {
-                await this.itemCategoriaService.remove(itemCat, manager);
+                await this.itemCategoriaStorage.removeRaw(itemCat, manager);
             }
         }
 
         item.itemCategorias = [...itemCategoriasMantenidas, ...itemCategoriasNuevas];
+    }
+
+    private getQuery(filter?: ItemFilter) {
+        const query = this.repo.createQueryBuilder('item');
+    
+        if (filter) {
+          if (filter.urlComercio) {
+            query.leftJoin('item.itemCategorias', 'itemCategoria')
+              .leftJoin('itemCategoria.categoria', 'categoria')
+              .leftJoin('categoria.comercio', 'comercio')
+              .andWhere('comercio.url = :urlComercio', { urlComercio: filter.urlComercio });
+          }
+        }
+    
+        return query;
+      }
+
+      private async _remove(id: string, manager?: EntityManager){
+        // Eliminar clases de asociación
+        await this.itemCategoriaStorage.removeByItem(id, manager);
+        
+        const model = await manager.findOne(this.repository.target, id);
+
+        await manager.remove(model);
     }
 }

@@ -2,9 +2,13 @@ import { Comercio } from "src/comercio/entities/comercio.entity";
 import { ItemCategoria } from "src/item-categoria/entities/item-categoria.entity";
 
 export class Categoria {
+    id: string;
+    comercioId: string;
     nombre: string;
 
-    /** Items que están en esta categoría, junto con el orden de cada uno de estos */
-    itemCategorias: ItemCategoria[];
-    comercio: Comercio;
+    constructor(id: string, comercioId: string, nombre: string){
+        this.id = id;
+        this.comercioId = comercioId;
+        this.nombre = nombre;
+    }
 }

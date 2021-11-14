@@ -1,84 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { ItemCategoriaService } from 'src/item-categoria/item-categoria.service';
-import { EntityManager, In } from 'typeorm';
-import { CategoriaFilter } from './data/categoria-filter';
-import { CreateCategoriaDto } from './dto/create-categoria.dto';
-import { UpdateCategoriaDto } from './dto/update-categoria.dto';
+import { UpdateCategoriaData } from './data/update-categoria.data';
 import { Categoria } from './entities/categoria.entity';
+import { CategoriaNotFoundError } from './error/categoria-not-found.error';
+import { CategoriaStorage } from './storage/categoria.storage';
 
 @Injectable()
 export class CategoriaService {
     constructor(
-        private readonly itemCategoriaService: ItemCategoriaService
+        private readonly storage: CategoriaStorage
     ) { }
 
-    public async update(id: number, updateDto: UpdateCategoriaDto) {
-        
-    }
-
-    public async remove(id: number, manager?: EntityManager) {
-        if (manager) {
-            await this.itemCategoriaService.removeByCategoriaId(id, manager);
-            return super.remove(id, manager);
+    public async remove(id: string) : Promise<void> {
+        if(await this.storage.exists(id)){
+            await this.storage.remove(id);
         }
-        else {
-            return this.repo.manager.transaction(async newManager => {
-                await this.itemCategoriaService.removeByCategoriaId(id, newManager);
-                return super.remove(id, newManager);
-            });
+        else{
+            throw new CategoriaNotFoundError();
         }
     }
 
-    /**
-     * 
-     * @param filter 
-     * @param manager usado en transacciones 
-     */
-    public findAllWithFilter(filter: CategoriaFilter, manager?: EntityManager) {
-        const query = (manager ? manager.createQueryBuilder<Categoria>(this.repo.target, 'categoria') :
-            this.repo.createQueryBuilder('categoria'))
-            .select();
-
-        if (filter.ids) {
-            query.andWhereInIds(filter.ids);
+    public async update(id: string, data: UpdateCategoriaData): Promise<Categoria> {
+        if(await this.storage.exists(id)){
+            return this.storage.update(id, data);
         }
-
-        if (filter.urlComercio) {
-            query.leftJoin('categoria.comercio', 'comercio')
-                .andWhere('comercio.url = :urlComercio', { urlComercio: filter.urlComercio });
+        else{
+            throw new CategoriaNotFoundError();
         }
+    }
 
-        if (filter.vacias !== undefined) {
-            if (filter.vacias) {
-                query.leftJoin('categoria.itemCategorias', 'itemcategoria')
-                    .andWhere('itemcategoria IS NULL');
+    public async listExistAndBelongsToComercio(categoriaIdList: string[], comercioId: string) {
+        for (const categoriaId of categoriaIdList) {
+            if(!await this.storage.exists(categoriaId)){
+                return false;
             }
-            else {
-                query.leftJoin('categoria.itemCategorias', 'itemcategoria')
-                    .andWhere('itemcategoria IS NOT NULL');
+
+            if(!await this.storage.isFromComercio(categoriaId, comercioId)){
+                return false;
             }
         }
 
-        return query.getMany();
-    }
-
-    public fromCreateDto(dto: CreateCategoriaDto) {
-        const cat = new Categoria();
-        cat.nombre = dto.nombre;
-
-        return cat;
-    }
-
-    public async existenYSonDeComercio(idsCategorias: number[], idComercio: number) {
-        // Cuenta las categorias encontradas que cumplen
-        const cantidadValidas = await this.repo.count({
-            where:
-            {
-                id: In(idsCategorias),
-                comercio: { id: idComercio }
-            }
-        });
-
-        return cantidadValidas == idsCategorias.length;
+        return true;
     }
 }

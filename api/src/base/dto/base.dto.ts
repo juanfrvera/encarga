@@ -1,3 +1,3 @@
 export class BaseDto {
-    id: number;
+    id: string;
 }
