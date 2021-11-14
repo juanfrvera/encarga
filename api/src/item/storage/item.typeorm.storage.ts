@@ -1,4 +1,5 @@
 import { InjectRepository } from "@nestjs/typeorm";
+import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { CategoriaTypeOrmStorage } from "src/categoria/storage/categoria.typeorm.storage";
 import { ItemCategoriaTypeOrmStorage } from "src/item-categoria/storage/item-categoria.typeorm.storage";
 import { EntityManager, Repository } from "typeorm";
@@ -58,13 +59,22 @@ export class ItemTypeOrmStorage extends ItemStorage {
         return this.toEntity(model);
     }
 
-    public async remove(id: string, manager?: EntityManager): Promise<void> {
-        if (manager) {
-            return this._remove(id, manager);
+    public getModel(id: string, transaction? : TransactionProxy): Promise<ItemTypeOrmModel>{
+        if(transaction){
+            return transaction.findOne(this.repository.target, id);
+        }
+        else{
+            return this.repository.findOne(id);
+        }
+    }
+
+    public async remove(id: string, transaction?: TransactionProxy): Promise<void> {
+        if (transaction) {
+            return this._remove(id, transaction);
           }
           else {
             return this.repository.manager.transaction(async newManager => {
-                return this._remove(id, manager);
+                return this._remove(id, transaction);
             });
           }
     }
@@ -99,7 +109,7 @@ export class ItemTypeOrmStorage extends ItemStorage {
 
     private async asignarCategorias(item: ItemTypeOrmModel, categoriaIdList: string[], manager?: EntityManager) {
         const categoriasViejas = item.itemCategorias?.map(i => i.categoria);
-        const categorias = await this.categoriaStorage.getRawListByIdList(categoriaIdList, manager);
+        const categorias = await this.categoriaStorage.getModelListByIdList(categoriaIdList, manager);
 
         // Categorías viejas que se mantienen
         const categoriasMantenidas =
@@ -115,7 +125,7 @@ export class ItemTypeOrmStorage extends ItemStorage {
 
         // Se crean itemCategorias nuevas
         const itemCategoriasNuevas = await Promise.all(categoriasNuevas.map(async c => {
-            return (await this.itemCategoriaStorage.createRaw(item, c, manager));
+            return (await this.itemCategoriaStorage.createModel(item, c, manager));
         }));
 
         // ItemCategorias viejas que no son mantenidas serán eliminadas
@@ -125,29 +135,14 @@ export class ItemTypeOrmStorage extends ItemStorage {
         if (itemCategoriasEliminar) {
             // Eliminar item categorias no mantenidas
             for (const itemCat of itemCategoriasEliminar) {
-                await this.itemCategoriaStorage.removeRaw(itemCat, manager);
+                await this.itemCategoriaStorage.removeModel(itemCat, manager);
             }
         }
 
         item.itemCategorias = [...itemCategoriasMantenidas, ...itemCategoriasNuevas];
     }
 
-    private getQuery(filter?: ItemFilter) {
-        const query = this.repo.createQueryBuilder('item');
-    
-        if (filter) {
-          if (filter.urlComercio) {
-            query.leftJoin('item.itemCategorias', 'itemCategoria')
-              .leftJoin('itemCategoria.categoria', 'categoria')
-              .leftJoin('categoria.comercio', 'comercio')
-              .andWhere('comercio.url = :urlComercio', { urlComercio: filter.urlComercio });
-          }
-        }
-    
-        return query;
-      }
-
-      private async _remove(id: string, manager?: EntityManager){
+    private async _remove(id: string, manager?: EntityManager){
         // Eliminar clases de asociación
         await this.itemCategoriaStorage.removeByItem(id, manager);
         

@@ -1,6 +1,8 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { BaseTypeOrmStorage } from "src/base/storage/base.typeorm.storage";
+import { Categoria } from "src/categoria/entities/categoria.entity";
+import { CategoriaTypeOrmStorage } from "src/categoria/storage/categoria.typeorm.storage";
 import { Repository } from "typeorm";
 import { ComercioCreationData } from "../data/comercio.creation.data";
 import { Comercio } from "../entities/comercio.entity";
@@ -10,7 +12,8 @@ import { ComercioTypeOrmModel } from "./comercio.typeorm.model";
 export class ComercioTypeOrmStorage extends BaseTypeOrmStorage<ComercioTypeOrmModel> implements ComercioStorage{
     constructor(
         @InjectRepository(ComercioTypeOrmModel)
-        readonly repository: Repository<ComercioTypeOrmModel>
+        readonly repository: Repository<ComercioTypeOrmModel>,
+        private readonly categoriaStorage: CategoriaTypeOrmStorage
     ){
         super(repository);
     }
@@ -29,6 +32,39 @@ export class ComercioTypeOrmStorage extends BaseTypeOrmStorage<ComercioTypeOrmMo
 
         return this.toEntity(model);
     }
+
+    public async getByUrl(url: string): Promise<Comercio> {
+        const model = await this.repository.findOne({where: {url}});
+
+        return this.toEntity(model);
+    }
+
+    public getModel(id: string, transaction?: TransactionProxy): Promise<ComercioTypeOrmModel>{
+        if(transaction){
+            return transaction.findOne<ComercioTypeOrmModel>(this.repository.target, id);
+        }
+        else{
+            return this.repository.findOne(id);
+        }
+    }
+
+    public async setDefaultCategoria(entity: Comercio, categoria : Categoria, transaction? : TransactionProxy)
+    : Promise<Comercio>{
+        let model = await this.getModel(entity.id, transaction);
+        const categoriaModel = await this.categoriaStorage.getModel(categoria.id, transaction);
+
+        model.categoriaDefault = categoriaModel;
+
+        if(transaction){
+            model = await transaction.save(model);
+        }
+        else{
+            model = await this.repository.save(model);
+        }
+
+        return this.toEntity(model);
+    }
+
 
     public toEntity(model: ComercioTypeOrmModel): Comercio{
         return new Comercio(model.id.toString(), model.url);

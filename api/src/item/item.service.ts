@@ -75,7 +75,7 @@ export class ItemService {
     }
 
     if (filter.idsCategorias) {
-      const itemCategorias = await this.itemCategoriaService.findByCategorias(filter.idsCategorias);
+      const itemCategorias = await this.itemCategoriaService.getListByCategoriaIdList(filter.idsCategorias);
 
       list = [...list, ...itemCategorias.map(ic => ic.item)];
     }

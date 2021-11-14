@@ -1,4 +1,6 @@
 import { InjectRepository } from "@nestjs/typeorm";
+import { TransactionProxy } from "src/base/proxy/transaction.proxy";
+import { ComercioTypeOrmStorage } from "src/comercio/storage/comercio.typeorm.storage";
 import { ItemCategoriaTypeOrmStorage } from "src/item-categoria/storage/item-categoria.typeorm.storage";
 import { EntityManager, Repository } from "typeorm";
 import { CategoriaFilter } from "../data/categoria-filter";
@@ -9,20 +11,45 @@ import { CategoriaStorage } from "./categoria.storage";
 import { CategoriaTypeOrmModel } from "./categoria.typeorm.model";
 
 export class CategoriaTypeOrmStorage extends CategoriaStorage {
-    
     constructor(
         @InjectRepository(CategoriaTypeOrmModel)
         private readonly repository: Repository<CategoriaTypeOrmModel>,
+        private readonly comercioStorage: ComercioTypeOrmStorage,
         private readonly itemCategoriaStorage: ItemCategoriaTypeOrmStorage
     ) {
         super();
     }
 
-    public createRaw(data: CategoriaCreationData, comercioModel: ComercioTy)
+    public async create(data: CategoriaCreationData, transaction?: TransactionProxy): Promise<Categoria> {
+        const comercio = await this.comercioStorage.getModel(data.comercioId, transaction);
+        
+        let model = new CategoriaTypeOrmModel();
 
-    public getRawListByIdList(idList: string[], manager?:EntityManager): Promise<CategoriaTypeOrmModel[]>{
-        if(manager){
-            return manager.findByIds(this.repository.target, idList);
+        model.nombre = data.nombre;
+        model.comercio = comercio;
+
+        if(transaction){
+            model = await transaction.save(model);
+        }
+        else{
+            model = await this.repository.save(model);
+        }
+
+        return this.toEntity(model);
+    }
+
+    public getModel(id: string, transaction?: TransactionProxy): Promise<CategoriaTypeOrmModel>{
+        if(transaction){
+            return transaction.findOne(this.repository.target, id);
+        }
+        else{
+            return this.repository.findOne(id);
+        }
+    }
+
+    public getModelListByIdList(idList: string[], transaction?:TransactionProxy): Promise<CategoriaTypeOrmModel[]>{
+        if(transaction){
+            return transaction.findByIds(this.repository.target, idList);
         }
         else{
             return this.repository.findByIds(idList);
@@ -66,17 +93,17 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
         return new Categoria(model.id.toString(), model.comercio.id.toString(), model.nombre);
     }
 
-    private async _remove(id: string, manager: EntityManager){
-        await this.itemCategoriaStorage.removeByCategoria(id, manager);
+    private async _remove(id: string, transaction: TransactionProxy){
+        await this.itemCategoriaStorage.getByCategoria(id, transaction);
         
-        const model = await manager.findOne(this.repository.target, id);
+        const model = await transaction.findOne(this.repository.target, id);
 
-        await manager.remove(model);
+        await transaction.remove(model);
     }
 
-    private findAllWithFilter(filter: CategoriaFilter, manager?: EntityManager) {
-        const query = (manager ? 
-            manager.createQueryBuilder<CategoriaTypeOrmModel>(this.repository.target, 'categoria') :
+    private findAllWithFilter(filter: CategoriaFilter, transaction?: TransactionProxy) {
+        const query = (transaction ? 
+            transaction.createQueryBuilder<CategoriaTypeOrmModel>(this.repository.target, 'categoria') :
             this.repository.createQueryBuilder('categoria'))
             .select();
 

@@ -1,18 +1,48 @@
 import { InjectRepository } from "@nestjs/typeorm";
+import { TransactionProxy } from "src/base/proxy/transaction.proxy";
+import { Categoria } from "src/categoria/entities/categoria.entity";
 import { CategoriaTypeOrmModel } from "src/categoria/storage/categoria.typeorm.model";
+import { CategoriaTypeOrmStorage } from "src/categoria/storage/categoria.typeorm.storage";
+import { Item } from "src/item/entities/item.entity";
 import { ItemTypeOrmModel } from "src/item/storage/item.typeorm.model";
+import { ItemTypeOrmStorage } from "src/item/storage/item.typeorm.storage";
 import { EntityManager, Repository } from "typeorm";
 import { ItemCategoria } from "../entities/item-categoria.entity";
+import { ItemCategoriaStorage } from "./item-categoria.storage";
 import { ItemCategoriaTypeOrmModel } from "./item-categoria.typeorm.model";
 
-export class ItemCategoriaTypeOrmStorage{
-
+export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage{
     constructor(
         @InjectRepository(ItemCategoriaTypeOrmModel)
-        private readonly repository : Repository<ItemCategoriaTypeOrmModel>
-    ){}
+        private readonly repository : Repository<ItemCategoriaTypeOrmModel>,
+        private readonly itemStorage: ItemTypeOrmStorage,
+        private readonly categoriaStorage: CategoriaTypeOrmStorage
+    ){
+        super();
+    }
 
-    public createRaw(
+    public async create(item: Item, categoria: Categoria, transaction?: TransactionProxy): Promise<ItemCategoria>{
+        const itemModel = await this.itemStorage.getModel(item.id, transaction);
+        const categoriaModel = await this.categoriaStorage.getModel(categoria.id, transaction);
+
+        // TODO: asegurar que el obtener el orden no sea una operación "dirty"
+        // es decir que si se hace desde dos lugares a la vez, que no queden mal los ordenes (duplicados)    
+        let model = new ItemCategoriaTypeOrmModel();
+
+        model.item = itemModel;
+        model.categoria = categoriaModel;
+
+        if (transaction) {
+            model = await transaction.save(model);
+        }
+        else {
+            model = await this.repository.save(model);
+        }
+
+        return this.toEntity(model);
+    }
+
+    public createModel(
         itemModel: ItemTypeOrmModel,
         categoriaModel: CategoriaTypeOrmModel,
         manager?: EntityManager): Promise<ItemCategoriaTypeOrmModel>{
@@ -29,36 +59,38 @@ export class ItemCategoriaTypeOrmStorage{
             }
     }
 
-    public async removeRaw(model: ItemCategoriaTypeOrmModel, manager?: EntityManager): Promise<void>{
+    public async getListByCategoriaIdListOrderByOrder(categoriaIdList: string[]): Promise<ItemCategoria[]> {
+        const modelList = await this.repository
+            .createQueryBuilder('itemCategoria')
+            .select()
+            .leftJoinAndSelect('itemCategoria.item', 'item')
+            .leftJoinAndSelect('itemCategoria.categoria', 'categoria')
+            .where('categoria.id IN (:...categoriaIdList)', { categoriaIdList })
+            .orderBy('itemCategoria.orden')
+            .getMany();
+
+        return modelList.map(model => this.toEntity(model));
+    }
+
+    public async remove(id: string, transaction?: TransactionProxy): Promise<void> {
+        if(transaction){
+            const model = await transaction.findOne<ItemCategoriaTypeOrmModel>(this.repository.target, id);
+
+            await transaction.remove(model);
+        }
+        else{
+            const model = await this.repository.findOne(id);
+
+            await this.repository.remove(model);
+        }
+    }
+
+    public async removeModel(model: ItemCategoriaTypeOrmModel, manager?: EntityManager): Promise<void>{
         if(manager){
             await manager.remove(model);
         }
         else{
             await this.repository.remove(model);
-        }
-    }
-
-    public async removeByCategoria(categoriaId: string, manager?: EntityManager): Promise<void>{
-        if(manager){
-            const modelList = await manager.find<ItemCategoriaTypeOrmModel>(this.repository.target,
-                 {where: {categoria: {id: categoriaId}}});
-            await manager.remove(modelList);
-        }
-        else{
-            const modelList = await this.repository.find({where: {categoria: {id: categoriaId}}});
-            await this.repository.remove(modelList);
-        }
-    }
-
-    public async removeByItem(itemId: string, manager?: EntityManager): Promise<void>{
-        if(manager){
-            const modelList = await manager.find<ItemCategoriaTypeOrmModel>(this.repository.target,
-                 {where: {item: {id: itemId}}});
-            await manager.remove(modelList);
-        }
-        else{
-            const modelList = await this.repository.find({where: {item: {id: itemId}}});
-            await this.repository.remove(modelList);
         }
     }
 
