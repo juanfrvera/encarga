@@ -1,14 +1,14 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { Categoria } from "src/categoria/entities/categoria.entity";
-import { CategoriaTypeOrmModel } from "src/categoria/storage/categoria.typeorm.model";
-import { CategoriaTypeOrmStorage } from "src/categoria/storage/categoria.typeorm.storage";
+import { CategoriaTypeOrmModel } from "src/typeorm/categoria/categoria.typeorm.model";
+import { CategoriaTypeOrmStorage } from "src/typeorm/categoria/categoria.typeorm.storage";
 import { Item } from "src/item/entities/item.entity";
-import { ItemTypeOrmModel } from "src/item/storage/item.typeorm.model";
-import { ItemTypeOrmStorage } from "src/item/storage/item.typeorm.storage";
+import { ItemTypeOrmModel } from "src/typeorm/item/item.typeorm.model";
+import { ItemTypeOrmStorage } from "../item/item.typeorm.storage";
 import { EntityManager, Repository } from "typeorm";
-import { ItemCategoria } from "../entities/item-categoria.entity";
-import { ItemCategoriaStorage } from "./item-categoria.storage";
+import { ItemCategoria } from "src/item-categoria/entities/item-categoria.entity";
+import { ItemCategoriaStorage } from "src/item-categoria/item-categoria.storage";
 import { ItemCategoriaTypeOrmModel } from "./item-categoria.typeorm.model";
 
 export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage{
@@ -82,6 +82,34 @@ export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage{
             const model = await this.repository.findOne(id);
 
             await this.repository.remove(model);
+        }
+    }
+
+    public async removeByCategoria(categoriaId: string, transaction?: TransactionProxy): Promise<void> {
+        if(transaction){
+            const list = await transaction.find<ItemCategoriaTypeOrmModel>(this.repository.target,
+                 {where: {categoria: {id: categoriaId}}});
+
+            await transaction.remove(list);
+        }
+        else{
+            const list = await this.repository.find({where:{categoria:{id:categoriaId}}});
+
+            await this.repository.remove(list);
+        }
+    }
+
+    public async removeByItem(itemId: string, transaction?: TransactionProxy): Promise<void>{
+        if(transaction){
+            const list = await transaction.find<ItemCategoriaTypeOrmModel>(this.repository.target,
+                 {where: {item: {id: itemId}}});
+
+            await transaction.remove(list);
+        }
+        else{
+            const list = await this.repository.find({where:{item:{id:itemId}}});
+
+            await this.repository.remove(list);
         }
     }
 

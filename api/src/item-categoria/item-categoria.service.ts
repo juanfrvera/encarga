@@ -3,7 +3,7 @@ import { TransactionProxy } from 'src/base/proxy/transaction.proxy';
 import { Categoria } from 'src/categoria/entities/categoria.entity';
 import { Item } from 'src/item/entities/item.entity';
 import { ItemCategoria } from './entities/item-categoria.entity';
-import { ItemCategoriaStorage } from './storage/item-categoria.storage';
+import { ItemCategoriaStorage } from './item-categoria.storage';
 
 @Injectable()
 export class ItemCategoriaService {
@@ -21,5 +21,13 @@ export class ItemCategoriaService {
 
     public remove(itemCategoria: ItemCategoria, transaction?: TransactionProxy) : Promise<void> {
         return this.storage.remove(itemCategoria.id, transaction);
+    }
+
+    public removeByCategoria(categoriaId: string, transaction?: TransactionProxy): Promise<void>{
+        return this.storage.removeByCategoria(categoriaId, transaction);
+    }
+
+    public removeByItem(itemId: string, transaction?: TransactionProxy): Promise<void>{
+        return this.storage.removeByItem(itemId, transaction);
     }
 }

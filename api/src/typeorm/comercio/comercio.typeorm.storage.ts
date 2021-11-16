@@ -2,11 +2,11 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { BaseTypeOrmStorage } from "src/base/storage/base.typeorm.storage";
 import { Categoria } from "src/categoria/entities/categoria.entity";
-import { CategoriaTypeOrmStorage } from "src/categoria/storage/categoria.typeorm.storage";
+import { CategoriaTypeOrmStorage } from "../categoria/categoria.typeorm.storage";
 import { Repository } from "typeorm";
-import { ComercioCreationData } from "../data/comercio.creation.data";
-import { Comercio } from "../entities/comercio.entity";
-import { ComercioStorage } from "./comercio.storage";
+import { ComercioCreationData } from "src/comercio/data/comercio.creation.data";
+import { Comercio } from "src/comercio/entities/comercio.entity";
+import { ComercioStorage } from "src/comercio/comercio.storage";
 import { ComercioTypeOrmModel } from "./comercio.typeorm.model";
 
 export class ComercioTypeOrmStorage extends BaseTypeOrmStorage<ComercioTypeOrmModel> implements ComercioStorage{

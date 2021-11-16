@@ -1,37 +1,31 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { ItemService } from './item.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { Item } from './entities/item.entity';
-import { ItemFilterDto } from './dto/item-filter.dto';
 import { ComercianteAuthGuard } from 'src/auth/guard/comerciante-auth.guard';
-import { ComerciosService } from 'src/comercio/comercio.service';
-import { CategoriaService } from 'src/categoria/categoria.service';
-import { Util } from 'src/util';
 import { EntityNotFoundError } from 'typeorm';
-import { UsuarioComercioService } from 'src/usuario-comercio/usuario-comercio.service';
-import { ComercioOVisitaGuard } from 'src/auth/guard/comerciante-o-usuario.guard';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { ItemUpdateData } from './data/item.update.data';
 import { ItemLightDto } from './dto/item-light.dto';
 import { ItemDto } from './dto/item.dto';
+import { ItemCreationData } from './data/item.creation.data';
 
 @Controller('item')
 export class ItemController {
   constructor(
-    private readonly service: ItemService,
-    private readonly categoriaService: CategoriaService,
-    private readonly comercioService: ComerciosService,
-    private readonly usuarioComercioService: UsuarioComercioService) { }
+    private readonly service: ItemService
+    ) { }
 
   @UseGuards(ComercianteAuthGuard)
   @Post()
-  async create(@Body() createDto: CreateItemDto, @Request() req) {
-    const idUsuario = req.user.userId;
+  async create(@Body() dto: CreateItemDto) {
+    const creationData : ItemCreationData = {
+      titulo: dto.titulo,
+      precio: dto.precio,
+      descripcion: dto.descripcion
+    };
 
-    const entity = await this.service.create(createDto);
-
-    // Se saca la categoría por defecto ya que es transparente para los clientes
-    this.sacarCategoriaDefecto(entity, idCategoriaDefecto);
+    const entity = await this.service.create(creationData);
 
     return this.toDto(entity);
   }
@@ -45,22 +39,17 @@ export class ItemController {
 
   @UseGuards(ComercianteAuthGuard)
   @Patch(':id')
-  public async update(@Param('id') id: string, @Body() dto: UpdateItemDto, @Request() req) {
-    const usuarioId :string = req.user.userId;
-    
+  public async update(@Param('id') id: string, @Body() dto: UpdateItemDto) {
     const data : ItemUpdateData = {
       titulo: dto.titulo,
       precio: dto.precio,
       descripcion: dto.descripcion,
-      categoriaIdList: dto.categoriaIdList
     };
 
     try {
-    const entity = await this.service.update(id, data, usuarioId);
+      const entity = await this.service.update(id, data);
 
-    return this.toLightDto(entity);
-
-      return this.toDto(entity);
+      return this.toLightDto(entity);
     } catch (error) {
       if (error instanceof EntityNotFoundError) {
         throw new HttpException('El item que quiere editar no existe', HttpStatus.NOT_FOUND);
@@ -73,14 +62,8 @@ export class ItemController {
 
   @UseGuards(ComercianteAuthGuard)
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return this.toDto(await this.service.remove(+id));
-  }
-
-  @UseGuards(ComercioOVisitaGuard)
-  @Post('filter')
-  async findAllWithFilter(@Body() filter: ItemFilterDto) {
-    return (await this.service.findAllWithFilter(filter)).map(e => this.toLightDto(e));
+  public async remove(@Param('id') id: string) {
+    return this.service.remove(id);
   }
 
   private toDto(entity:Item) : ItemDto{
@@ -88,8 +71,7 @@ export class ItemController {
       id: entity.id,
       titulo: entity.titulo,
       precio: entity.precio,
-      descripcion: entity.descripcion,
-      categoriaIdList: entity.itemCategoriaList?.map(ic => ic.categoria.id)
+      descripcion: entity.descripcion
     };
   }
   private toLightDto(entity: Item) : ItemLightDto{
@@ -99,15 +81,5 @@ export class ItemController {
       precio: entity.precio,
       descripcion: entity.descripcion,
     };
-  }
-
-  private getComercio(@Request() req) {
-    const idUsuario = req.user.userId;
-    return this.usuarioComercioService.getComercioByUsuario(idUsuario);
-  }
-
-  private async getIdCategoriaDefecto(idComercio: number) {
-    const comercio = await this.comercioService.findOne(idComercio, ['categoriaDefecto']);
-    return comercio.categoriaDefecto.id;
   }
 }

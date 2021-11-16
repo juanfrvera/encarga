@@ -1,32 +1,25 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
-import { ComercioTypeOrmStorage } from "src/comercio/storage/comercio.typeorm.storage";
-import { ItemCategoriaTypeOrmStorage } from "src/item-categoria/storage/item-categoria.typeorm.storage";
 import { EntityManager, Repository } from "typeorm";
-import { CategoriaFilter } from "../data/categoria-filter";
-import { CategoriaCreationData } from "../data/categoria.creation.data";
-import { UpdateCategoriaData } from "../data/update-categoria.data";
-import { Categoria } from "../entities/categoria.entity";
-import { CategoriaStorage } from "./categoria.storage";
+import { CategoriaFilter } from "../../categoria/data/categoria-filter";
+import { CategoriaCreationData } from "../../categoria/data/categoria.creation.data";
+import { UpdateCategoriaData } from "../../categoria/data/update-categoria.data";
+import { Categoria } from "../../categoria/entities/categoria.entity";
+import { CategoriaStorage } from "../../categoria/categoria.storage";
 import { CategoriaTypeOrmModel } from "./categoria.typeorm.model";
 
 export class CategoriaTypeOrmStorage extends CategoriaStorage {
     constructor(
         @InjectRepository(CategoriaTypeOrmModel)
-        private readonly repository: Repository<CategoriaTypeOrmModel>,
-        private readonly comercioStorage: ComercioTypeOrmStorage,
-        private readonly itemCategoriaStorage: ItemCategoriaTypeOrmStorage
+        private readonly repository: Repository<CategoriaTypeOrmModel>
     ) {
         super();
     }
 
     public async create(data: CategoriaCreationData, transaction?: TransactionProxy): Promise<Categoria> {
-        const comercio = await this.comercioStorage.getModel(data.comercioId, transaction);
-        
         let model = new CategoriaTypeOrmModel();
 
         model.nombre = data.nombre;
-        model.comercio = comercio;
 
         if(transaction){
             model = await transaction.save(model);
@@ -62,12 +55,6 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
         return count > 0;
     }
 
-    public async isFromComercio(id: string, comercioId: string): Promise<boolean> {
-        const model = await this.repository.findOne(id, {relations: ['comercio']});
-
-        return (model.comercio.id.toString() == comercioId);
-    }
-
     public async remove(id: string, manager?:EntityManager): Promise<void> {
         if (manager) {
             return this._remove(id, manager);
@@ -90,12 +77,10 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
     }
 
     public toEntity(model: CategoriaTypeOrmModel): Categoria{
-        return new Categoria(model.id.toString(), model.comercio.id.toString(), model.nombre);
+        return new Categoria(model.id.toString(), model.nombre);
     }
 
-    private async _remove(id: string, transaction: TransactionProxy){
-        await this.itemCategoriaStorage.getByCategoria(id, transaction);
-        
+    private async _remove(id: string, transaction: TransactionProxy){        
         const model = await transaction.findOne(this.repository.target, id);
 
         await transaction.remove(model);

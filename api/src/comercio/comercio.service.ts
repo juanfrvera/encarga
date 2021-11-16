@@ -1,26 +1,27 @@
 import { Injectable } from '@nestjs/common';
+import { BaseStorage } from 'src/base/storage/base.storage';
 import { CategoriaService } from 'src/categoria/categoria.service';
 import { ComercioCreationData } from './data/comercio.creation.data';
 import { Comercio } from './entities/comercio.entity';
-import { ComercioStorage } from './storage/comercio.storage';
+import { ComercioStorage } from './comercio.storage';
 
 @Injectable()
 export class ComerciosService {
     constructor(
         private readonly storage: ComercioStorage,
+        private readonly baseStorage: BaseStorage,
         private readonly categoriaService: CategoriaService
         ){ }
 
     public async create(data: ComercioCreationData) : Promise<Comercio> {
-        return this.storage.startTransaction(async transaction => {
+        return this.baseStorage.startTransaction(async transaction => {
             // Create comercio
             let entity = await this.storage.create(data, transaction);
 
             // Create default category pointing to comercio
             const categoriaDefault = await this.categoriaService.create(
                 {
-                    nombre: 'default',
-                    comercioId: entity.id
+                    nombre: 'default'
                 },
                 transaction);
 

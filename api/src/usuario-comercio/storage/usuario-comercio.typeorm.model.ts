@@ -1,5 +1,5 @@
 import { BaseTypeOrmModel } from "src/base/storage/base.typeorm.model";
-import { ComercioTypeOrmModel } from "src/comercio/storage/comercio.typeorm.model";
+import { ComercioTypeOrmModel } from "src/typeorm/comercio/comercio.typeorm.model";
 import { UsuarioTypeOrmModel } from "src/usuario/storage/usuario.typeorm.model";
 import { Entity, ManyToOne } from "typeorm";
 

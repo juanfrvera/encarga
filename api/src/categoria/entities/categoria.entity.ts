@@ -1,11 +1,13 @@
+import { ItemCategoria } from "src/item-categoria/entities/item-categoria.entity";
+
 export class Categoria {
     id: string;
-    comercioId: string;
     nombre: string;
+    itemList?: ItemCategoria[];
 
-    constructor(id: string, comercioId: string, nombre: string){
+    constructor(id: string, nombre: string, itemList?: ItemCategoria[]){
         this.id = id;
-        this.comercioId = comercioId;
         this.nombre = nombre;
+        this.itemList = itemList;
     }
 }

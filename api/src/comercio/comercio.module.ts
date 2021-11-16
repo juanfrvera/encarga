@@ -1,12 +1,16 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ComerciosService } from './comercio.service';
 import { ComerciosController } from './comercio.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoriaModule } from 'src/categoria/categoria.module';
-import { ComercioTypeOrmModel } from './storage/comercio.typeorm.model';
+import { ComercioTypeOrmModule } from 'src/typeorm/comercio/comercio.typeorm.module';
+import { BaseModule } from 'src/base/base.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ComercioTypeOrmModel]), forwardRef(() => CategoriaModule)],
+  imports: [
+    BaseModule,
+    CategoriaModule,
+    ComercioTypeOrmModule
+  ],
   controllers: [ComerciosController],
   providers: [ComerciosService],
   exports: [ComerciosService]

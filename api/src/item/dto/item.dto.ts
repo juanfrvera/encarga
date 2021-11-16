@@ -4,5 +4,4 @@ export class ItemDto extends BaseDto {
     titulo: string;
     precio?: number;
     descripcion?: string;
-    categoriaIdList?: string[];
 }

@@ -1,5 +1,5 @@
 import { BaseTypeOrmModel } from "src/base/storage/base.typeorm.model";
-import { ItemCategoriaTypeOrmModel } from "src/item-categoria/storage/item-categoria.typeorm.model";
+import { ItemCategoriaTypeOrmModel } from "src/typeorm/item-categoria/item-categoria.typeorm.model";
 import { Column, Entity, OneToMany } from "typeorm";
 
 @Entity('item')
