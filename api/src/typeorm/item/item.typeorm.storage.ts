@@ -6,13 +6,13 @@ import { ItemUpdateData } from "src/item/data/item.update.data";
 import { Item } from "src/item/entities/item.entity";
 import { ItemStorage } from "src/item/item.storage";
 import { ItemTypeOrmModel } from "./item.typeorm.model";
-import { ItemCategoriaTypeOrmStorage } from "../item-categoria/item-categoria.typeorm.storage";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class ItemTypeOrmStorage extends ItemStorage {
     constructor(
         @InjectRepository(ItemTypeOrmModel)
         private readonly repository: Repository<ItemTypeOrmModel>,
-        private readonly itemCategoriaStorage: ItemCategoriaTypeOrmStorage
     ) {
         super();
     }
@@ -105,7 +105,5 @@ export class ItemTypeOrmStorage extends ItemStorage {
         const model = await transaction.findOne(this.repository.target, id);
 
         await transaction.remove(model);
-
-        await this.itemCategoriaStorage.removeByItem(id, transaction);
     }
 }

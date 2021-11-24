@@ -1,4 +1,4 @@
-import { forwardRef, Module } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ComercioStorage } from "src/comercio/comercio.storage";
 import { CategoriaTypeOrmModule } from "../categoria/categoria.typeorm.module";
@@ -8,7 +8,7 @@ import { ComercioTypeOrmStorage } from "./comercio.typeorm.storage";
 @Module({
     imports: [
         TypeOrmModule.forFeature([ComercioTypeOrmModel]),
-        forwardRef(() => CategoriaTypeOrmModule)
+        CategoriaTypeOrmModule
     ],
     providers: [
         {provide: ComercioStorage, useClass: ComercioTypeOrmStorage}

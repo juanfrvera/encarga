@@ -10,7 +10,9 @@ import { EntityManager, Repository } from "typeorm";
 import { ItemCategoria } from "src/item-categoria/entities/item-categoria.entity";
 import { ItemCategoriaStorage } from "src/item-categoria/item-categoria.storage";
 import { ItemCategoriaTypeOrmModel } from "./item-categoria.typeorm.model";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage{
     constructor(
         @InjectRepository(ItemCategoriaTypeOrmModel)

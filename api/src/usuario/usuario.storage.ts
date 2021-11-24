@@ -1,4 +1,4 @@
-import { Usuario } from "../entities/usuario.entity";
+import { Usuario } from "./entities/usuario.entity";
 
 export abstract class UsuarioStorage {
     public abstract getByIdWithUsuarioComercioList(usuarioId: string): Promise<Usuario>;

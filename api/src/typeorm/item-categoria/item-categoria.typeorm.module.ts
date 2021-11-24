@@ -15,5 +15,8 @@ import { ItemCategoriaTypeOrmStorage } from "./item-categoria.typeorm.storage";
     providers: [
         {provide: ItemCategoriaStorage, useClass: ItemCategoriaTypeOrmStorage}
     ],
+    exports:[
+        ItemCategoriaStorage
+    ]
 })
 export class ItemCategoriaTypeOrmModule { }
