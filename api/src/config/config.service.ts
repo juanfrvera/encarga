@@ -37,7 +37,7 @@ class ConfigService {
             ssl: {
                 rejectUnauthorized: false
             },
-            entities: [join(__dirname, '..', '**', '*.entity{.ts,.js}')],
+            entities: [join(__dirname, '..', '**', '*.typeorm.model{.ts,.js}')],
             migrationsTableName: 'migration',
             migrations: [join(__dirname, '../migration/*.{ts,js}')],
             cli: {
