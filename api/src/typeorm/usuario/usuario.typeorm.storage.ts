@@ -12,11 +12,21 @@ export class UsuarioTypeOrmStorage extends UsuarioStorage{
         super();
     }
 
-    public getByIdWithUsuarioComercioList(usuarioId: string): Promise<Usuario> {
+    public get(usuarioId: string): Promise<Usuario> {
         throw new Error("Method not implemented.");
     }
-    public getByMail(mail: string): Promise<Usuario> {
-        throw new Error("Method not implemented.");
+    public async getByMail(mail: string): Promise<Usuario> {
+        const model = await this.repository.findOne({mail});
+
+        return this.toEntity(model);
+    }
+
+    private toEntity(model: UsuarioTypeOrmModel): Usuario{
+        return {
+            id: model.id.toString(),
+            mail: model.mail,
+            password: model.password
+        }
     }
 
 }

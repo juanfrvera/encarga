@@ -1,6 +1,6 @@
 import { BaseTypeOrmModel } from "src/base/storage/base.typeorm.model";
 import { CategoriaTypeOrmModel } from "src/typeorm/categoria/categoria.typeorm.model";
-import { UsuarioComercioTypeOrmModel } from "src/usuario-comercio/storage/usuario-comercio.typeorm.model";
+import { UsuarioComercioTypeOrmModel } from "src/typeorm/usuario-comercio/usuario-comercio.typeorm.model";
 import { Column, Entity, JoinColumn, OneToMany, OneToOne } from "typeorm";
 
 @Entity('comercio')

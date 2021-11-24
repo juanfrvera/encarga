@@ -1,9 +1,5 @@
-import { UsuarioComercio } from "src/usuario-comercio/entities/usuario-comercio.entity";
-
 export class Usuario {
+    id: string;
     mail: string;
     password: string;
-
-    /** Comercios que este usuario puede administrar */
-    usuarioComercios: UsuarioComercio[];
 }

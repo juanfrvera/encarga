@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
 import { UsuarioComercioService } from './usuario-comercio.service';
 import { UsuarioComercioController } from './usuario-comercio.controller';
-import { UsuarioModule } from 'src/usuario/usuario.module';
+import { UsuarioComercioTypeOrmModule } from 'src/typeorm/usuario-comercio/usuario-comercio.typeorm.module';
 
 @Module({
-  imports: [UsuarioModule],
+  imports: [
+    UsuarioComercioTypeOrmModule
+  ],
   controllers: [UsuarioComercioController],
   providers: [UsuarioComercioService],
   exports: [UsuarioComercioService]

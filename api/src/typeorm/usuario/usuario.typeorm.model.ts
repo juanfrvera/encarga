@@ -1,5 +1,5 @@
 import { BaseTypeOrmModel } from "src/base/storage/base.typeorm.model";
-import { UsuarioComercioTypeOrmModel } from "src/usuario-comercio/storage/usuario-comercio.typeorm.model";
+import { UsuarioComercioTypeOrmModel } from "src/typeorm/usuario-comercio/usuario-comercio.typeorm.model";
 import { Column, Entity, OneToMany } from "typeorm";
 
 @Entity('usuario')

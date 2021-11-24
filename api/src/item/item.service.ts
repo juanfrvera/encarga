@@ -12,7 +12,6 @@ export class ItemService {
   ) { }
 
   public async create(data: ItemCreationData) {
-
     return this.storage.create(data);
   }
 

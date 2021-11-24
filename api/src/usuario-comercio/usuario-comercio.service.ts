@@ -1,17 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { UsuarioService } from 'src/usuario/usuario.service';
+import { UsuarioComercio } from './entities/usuario-comercio.entity';
+import { UsuarioComercioStorage } from './usuario-comercio.storage';
 
 @Injectable()
 export class UsuarioComercioService {
     constructor(
-        private readonly usuarioService: UsuarioService
+        private readonly storage: UsuarioComercioStorage
     ) { }
 
-    async getComercioByUsuario(usuarioId: string) {
-        // Cargar el usuario junto con las relaciones de usuarioComercio
-        const usuario = await this.usuarioService.getByIdWithUsuarioComercioList(usuarioId);
-
-        // Por ahora solo tendrá un comercio
-        return usuario.usuarioComercios[0].comercio;
+    public getListByUsuario(usuarioId: string) : Promise<UsuarioComercio[]> {
+        return this.storage.getListByUsuario(usuarioId);
     }
 }
