@@ -22,6 +22,8 @@ import { LoginComponent } from './page/login/login.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { UrlComercioInterceptor } from './interceptor/url-comercio.interceptor';
 import { mockInterceptorProvider } from './interceptor/mock.interceptor';
+import { PagosComponent } from './page/admin/pagos/pagos.component';
+import { PagadoComponent } from './page/admin/pagado/pagado.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { mockInterceptorProvider } from './interceptor/mock.interceptor';
     ListaComponent,
     CrudComponent,
     DashboardComponent,
-    LoginComponent
+    LoginComponent,
+    PagosComponent,
+    PagadoComponent
   ],
   imports: [
     BrowserModule,

@@ -11,6 +11,7 @@ import { CategoriaComponent } from './page/admin/categoria/categoria.component';
 import { DashboardComponent } from './page/admin/dashboard/dashboard.component';
 import { LoginComponent } from './page/login/login.component';
 import { AuthGuard } from './guard/auth.guard';
+import { PagosComponent } from './page/admin/pagos/pagos.component';
 
 const routes: Routes = [
   {
@@ -34,7 +35,8 @@ const routes: Routes = [
     children: [
       { path: '', component: DashboardComponent },
       { path: 'categoria', component: CategoriaComponent },
-      { path: 'item', component: ItemComponent }
+      { path: 'item', component: ItemComponent },
+      { path: 'pagos', component: PagosComponent }
     ]
   },
   {
