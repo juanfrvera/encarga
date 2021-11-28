@@ -5,23 +5,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PedidoComponent } from './page/pedido/pedido.component';
-import { AdminComponent } from './page/admin/admin.component';
-import { ItemComponent } from './page/admin/item/item.component';
 import { HomeComponent } from './page/pedido/home/home.component';
 import { DetalleComponent } from './page/pedido/detalle/detalle.component';
-import { FormularioComponent } from './component/formulario/formulario.component';
 import { FormsModule } from '@angular/forms';
-import { ModalComponent } from './component/modal/modal.component';
-import { ListaComponent } from './component/lista/lista.component';
-import { CrudComponent } from './component/crud/crud.component';
-import { CategoriaComponent } from './page/admin/categoria/categoria.component';
 import { LandingComponent } from './page/landing/landing.component';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { DashboardComponent } from './page/admin/dashboard/dashboard.component';
-import { LoginComponent } from './page/login/login.component';
+import { LoginComponent } from './comerciante/page/login/login.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { UrlComercioInterceptor } from './interceptor/url-comercio.interceptor';
 import { mockInterceptorProvider } from './interceptor/mock.interceptor';
+import { ComercianteModule } from './comerciante/comerciante.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -30,14 +23,6 @@ import { mockInterceptorProvider } from './interceptor/mock.interceptor';
     PedidoComponent,
     HomeComponent,
     DetalleComponent,
-    AdminComponent,
-    ItemComponent,
-    CategoriaComponent,
-    FormularioComponent,
-    ModalComponent,
-    ListaComponent,
-    CrudComponent,
-    DashboardComponent,
     LoginComponent
   ],
   imports: [
@@ -45,7 +30,9 @@ import { mockInterceptorProvider } from './interceptor/mock.interceptor';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgSelectModule
+    // App
+    ComercianteModule,
+    SharedModule
   ],
   providers: [
     {

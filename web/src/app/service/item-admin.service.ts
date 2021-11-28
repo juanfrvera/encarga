@@ -12,7 +12,7 @@ import { CrudService } from "./instance/crud.service";
 })
 export class ItemAdminService extends CrudService<Item, ItemDto, ItemListDto, ItemAdminFilterDto> {
     constructor(readonly http: HttpClient) {
-        super(http, 'itemAdmin/');
+        super(http, 'comerciante/item/');
     }
 
     public count() {

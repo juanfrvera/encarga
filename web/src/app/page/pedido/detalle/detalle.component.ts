@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PedidoService } from '../../../service/pedido.service';
 import { ItemConCantidad } from '../../../data/item/item-con-cantidad';
-import { FormularioComponent } from '../../../component/formulario/formulario.component';
+import { FormularioComponent } from '../../../shared/component/formulario/formulario.component';
 import { Util } from '../../../util';
 import { ActivatedRoute, Router } from '@angular/router';
 

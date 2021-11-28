@@ -1,13 +1,12 @@
 import { Component, ContentChild, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { BaseFilter } from 'src/app/data/base/base-filter';
 import { Util } from 'src/app/util';
 import Swal from 'sweetalert2';
-import { ObjetoConId } from '../../data/objeto-con-id';
-import { CrudService } from '../../service/instance/crud.service';
-import { SwalService } from '../../service/swal.service';
-import { FormularioComponent } from '../formulario/formulario.component';
+import { ObjetoConId } from '../../../data/objeto-con-id';
+import { CrudService } from '../../../service/instance/crud.service';
+import { SwalService } from '../../../service/swal.service';
+import { FormularioComponent } from '../../../shared/component/formulario/formulario.component';
 import { ModalComponent } from '../modal/modal.component';
 
 @Component({

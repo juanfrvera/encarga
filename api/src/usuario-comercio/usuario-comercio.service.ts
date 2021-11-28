@@ -8,7 +8,11 @@ export class UsuarioComercioService {
         private readonly storage: UsuarioComercioStorage
     ) { }
 
-    public getListByUsuario(usuarioId: string) : Promise<UsuarioComercio[]> {
+    public getListByUsuario(usuarioId: string): Promise<UsuarioComercio[]> {
         return this.storage.getListByUsuario(usuarioId);
+    }
+
+    public isUsuarioFromComercio(usuarioId: string, comercioId: string): Promise<boolean> {
+        return this.storage.existWithUsuarioAndComercio(usuarioId, comercioId);
     }
 }

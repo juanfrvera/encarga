@@ -17,6 +17,18 @@ export class ItemTypeOrmStorage extends ItemStorage {
         super();
     }
 
+    public countByComercio(comercioId: string): Promise<number> {
+        const query = this.repository.createQueryBuilder('item').select();
+
+        query.leftJoin('item.itemCategorias', 'itemCategoria');
+        query.leftJoin('itemCategoria.categoria', 'categoria');
+        query.leftJoin('categoria.comercio', 'comercio');
+
+        query.where('comercio.id = :comercioId', { comercioId });
+
+        return query.getCount();
+    }
+
     public async create(data: ItemCreationData, manager?: EntityManager): Promise<Item> {
         const _create = async (mng: EntityManager) => {
             const preItem = new ItemTypeOrmModel();
@@ -31,7 +43,7 @@ export class ItemTypeOrmStorage extends ItemStorage {
             return mng.save(item);
         };
 
-        let model : ItemTypeOrmModel;
+        let model: ItemTypeOrmModel;
 
         if (manager) {
             model = await _create(manager);
@@ -48,7 +60,7 @@ export class ItemTypeOrmStorage extends ItemStorage {
     }
 
     public async exists(id: string): Promise<boolean> {
-        const count = await this.repository.count({id: Number(id)});
+        const count = await this.repository.count({ id: Number(id) });
 
         return count > 0;
     }
@@ -59,11 +71,25 @@ export class ItemTypeOrmStorage extends ItemStorage {
         return this.toEntity(model);
     }
 
-    public getModel(id: string, transaction? : TransactionProxy): Promise<ItemTypeOrmModel>{
-        if(transaction){
+    public async getListByComercio(comercioId: string): Promise<Array<Item>> {
+        const query = this.repository.createQueryBuilder('item').select();
+
+        query.leftJoin('item.itemCategorias', 'itemCategoria');
+        query.leftJoin('itemCategoria.categoria', 'categoria');
+        query.leftJoin('categoria.comercio', 'comercio');
+
+        query.where('comercio.id = :comercioId', { comercioId });
+
+        const modelList = await query.getMany();
+
+        return modelList.map(m => this.toEntity(m));
+    }
+
+    public getModel(id: string, transaction?: TransactionProxy): Promise<ItemTypeOrmModel> {
+        if (transaction) {
             return transaction.findOne(this.repository.target, id);
         }
-        else{
+        else {
             return this.repository.findOne(id);
         }
     }
@@ -71,15 +97,15 @@ export class ItemTypeOrmStorage extends ItemStorage {
     public async remove(id: string, transaction?: TransactionProxy): Promise<void> {
         if (transaction) {
             return this._remove(id, transaction);
-          }
-          else {
+        }
+        else {
             return this.repository.manager.transaction(async newManager => {
                 return this._remove(id, transaction);
             });
-          }
+        }
     }
 
-    public async update(id: string, data: ItemUpdateData) : Promise<Item>{
+    public async update(id: string, data: ItemUpdateData): Promise<Item> {
         // Se corre dentro de una transaccion ya que estamos preguardando y puede fallar luego
         // Si falla, se cancela la transaccion y no queda guardado el item
         const model = await this.repository.manager.transaction(async manager => {
@@ -97,11 +123,11 @@ export class ItemTypeOrmStorage extends ItemStorage {
         return this.toEntity(model);
     }
 
-    public toEntity(model: ItemTypeOrmModel) : Item{
+    public toEntity(model: ItemTypeOrmModel): Item {
         return new Item(model.id.toString(), model.titulo, model.precio, model.descripcion);
     }
 
-    private async _remove(id: string, transaction?: TransactionProxy){
+    private async _remove(id: string, transaction?: TransactionProxy) {
         const model = await transaction.findOne(this.repository.target, id);
 
         await transaction.remove(model);

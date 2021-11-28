@@ -5,12 +5,6 @@ import { LandingComponent } from './page/landing/landing.component';
 import { PedidoComponent } from './page/pedido/pedido.component';
 import { HomeComponent } from './page/pedido/home/home.component';
 import { DetalleComponent } from './page/pedido/detalle/detalle.component';
-import { AdminComponent } from './page/admin/admin.component';
-import { ItemComponent } from './page/admin/item/item.component';
-import { CategoriaComponent } from './page/admin/categoria/categoria.component';
-import { DashboardComponent } from './page/admin/dashboard/dashboard.component';
-import { LoginComponent } from './page/login/login.component';
-import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
   {
@@ -25,21 +19,6 @@ const routes: Routes = [
       { path: '', component: HomeComponent },
       { path: 'detalle', component: DetalleComponent }
     ]
-  },
-  {
-    path: 'admin',
-    component: AdminComponent,
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
-    children: [
-      { path: '', component: DashboardComponent },
-      { path: 'categoria', component: CategoriaComponent },
-      { path: 'item', component: ItemComponent }
-    ]
-  },
-  {
-    path: 'login',
-    component: LoginComponent
   },
   // Para comercio real (ponerlo debajo para que no haya conflictos con paths estáticos)
   {

@@ -19,7 +19,7 @@
         <div class="mb-3">
             <label for="categorias" class="form-label">Categorías</label>
             <ng-select id="categorias" [(ngModel)]="item.idsCategorias" [multiple]="true" [loadingText]="'Cargando...'">
-                <ng-option *ngFor="let cat of Categorias | async" [value]="cat.id">{{cat.nombre}}</ng-option>
+                <ng-option *ngFor="let cat of CategoriaList" [value]="cat.id">{{cat.nombre}}</ng-option>
             </ng-select>
         </div>
     </ng-template>

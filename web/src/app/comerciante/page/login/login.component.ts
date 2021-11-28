@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormularioComponent } from 'src/app/component/formulario/formulario.component';
+import { FormularioComponent } from 'src/app/shared/component/formulario/formulario.component';
 import { AuthService } from 'src/app/service/auth.service';
 import { SwalService } from 'src/app/service/swal.service';
 
