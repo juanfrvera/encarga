@@ -20,6 +20,10 @@ const routes: Routes = [
       { path: 'detalle', component: DetalleComponent }
     ]
   },
+  {
+    path: 'admin',
+    loadChildren: () => import('./comerciante/comerciante.module').then(m => m.ComercianteModule)
+  },
   // Para comercio real (ponerlo debajo para que no haya conflictos con paths estáticos)
   {
     path: ':comercio',
@@ -30,8 +34,6 @@ const routes: Routes = [
     ]
   },
   { path: '**', redirectTo: '/' }
-
-
 ];
 
 @NgModule({

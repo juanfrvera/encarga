@@ -12,10 +12,11 @@ import { CategoriaComponent } from "./page/categoria/categoria.component";
 import { ListaComponent } from "./component/lista/lista.component";
 import { ModalComponent } from "./component/modal/modal.component";
 import { SharedModule } from "../shared/shared.module";
+import { ComercianteRoutingModule } from "./comerciante.routing.module";
 
 @NgModule({
     imports: [
-        AppRoutingModule,
+        ComercianteRoutingModule,
         FormsModule,
         NgSelectModule,
         // App
