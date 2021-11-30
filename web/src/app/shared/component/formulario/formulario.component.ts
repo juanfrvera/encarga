@@ -14,18 +14,18 @@ export class FormularioComponent {
   constructor() { }
 
   /** Devuelve verdadero si el formulario es válido */
-  public esValido() {
+  public isValid() {
     return this.formulario.nativeElement.checkValidity();
   }
 
   /** Muestra feedback sobre inputs faltantes y los que están bien */
-  public mostrarFeedback() {
+  public showFeedback() {
     // Agregar clase para indicar que el formulario fue validado y mostrar feedback
     this.formulario.nativeElement.classList.add(this.claseParaValidarFormulario);
   }
 
   /** Oculta el feedback mostrado */
-  public ocultarFeedback() {
+  public hideFeedback() {
     this.formulario.nativeElement.classList.remove(this.claseParaValidarFormulario);
   }
 

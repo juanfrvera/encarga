@@ -1,75 +1,76 @@
 import { Component, ContentChild, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseFilter } from 'src/app/data/base/base-filter';
 import { Util } from 'src/app/util';
 import Swal from 'sweetalert2';
-import { ObjetoConId } from '../../../data/objeto-con-id';
-import { CrudService } from '../../../service/instance/crud.service';
-import { SwalService } from '../../../service/swal.service';
+import { SwalService } from '../../service/swal.service';
 import { FormularioComponent } from '../../../shared/component/formulario/formulario.component';
+import { ICrudService } from '../../service/interface/crud.service.interface';
 import { ModalComponent } from '../modal/modal.component';
+import { Ideable } from '../../data/ideable.interface';
 
 @Component({
   selector: 'app-crud',
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.scss']
 })
-export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, ListDto extends ObjetoConId, Filter extends BaseFilter> implements OnInit {
-  @Input() service: CrudService<Entity, Dto, ListDto, Filter>;
-  @Input() titulo: string;
+export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implements OnInit {
+  @Input() service: ICrudService;
+  @Input() title: string;
 
-  @ViewChild(FormularioComponent) formulario: FormularioComponent;
+  @ViewChild(FormularioComponent) form: FormularioComponent;
   @ViewChild(ModalComponent) modal: ModalComponent;
 
   // Utilizado para obtener el template que irá dentro del formulario del modal y poblarlo con el item actual
-  @ContentChild('templateFormulario') templateFormulario: TemplateRef<any>;
-  @ContentChild('templateLista') templateLista: TemplateRef<any>;
+  @ContentChild('formTemplate') formTemplate: TemplateRef<any>;
+  @ContentChild('listTemplate') listTemplate: TemplateRef<any>;
 
   /** Item en modal */
   private item: Dto = {} as Dto;
-  private lista: Observable<ListDto[]>;
+  private list: Observable<LightDto[]>;
 
   public get Item() {
     return this.item;
   }
 
-  public get Lista() {
-    return this.lista;
+  public get List() {
+    return this.list;
   }
 
-  public get Titulo() {
-    return this.titulo;
+  public get Title() {
+    return this.title;
   }
 
 
-  constructor(private swalService: SwalService) { }
+  constructor(
+    private readonly swalService: SwalService
+  ) { }
 
   ngOnInit(): void {
-    this.lista = this.service.getAll();
+    this.list = this.service.getList();
   }
 
   /** Muestra el modal en modo creacion */
-  public agregar() {
-    this.limpiarItem();
-    this.abrir();
+  public add() {
+    this.clearItem();
+    this.open();
   }
 
-  public cancelar() {
-    this.cerrar();
+  public cancel() {
+    this.close();
   }
 
   /** Muestra el modal en modo edicion */
-  public editar(dto: ListDto) {
+  public update(dto: LightDto) {
     // TODO: mostrar "cargando"
-    this.service.getById(dto.id).subscribe(item => {
+    this.service.get(dto.id).subscribe(item => {
       // Hacer una copia profunda para no modificar el original
-      this.item = Util.copiaProfunda(item);
-      this.abrir();
+      this.item = Util.deepCopy(item);
+      this.open();
     });
   }
 
   /** Muestra alerta de eliminar */
-  public eliminar() {
+  public delete() {
     this.swalService.fire({
       icon: 'warning',
       iconColor: '#fc453c',
@@ -92,17 +93,17 @@ export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, 
     }).then(result => {
       // Si se eliminó sin errores
       if (result.isConfirmed) {
-        this.cerrar();
+        this.close();
       }
     });
   }
 
   /** Guarda lo que se ha hecho en el modal */
-  public guardar() {
-    if (this.formulario.esValido()) {
+  public save() {
+    if (this.form.isValid()) {
       if (this.Item.id) {
         // Editando
-        this.service.edit(this.Item).subscribe(itemServer => {
+        this.service.update(this.Item).subscribe(itemServer => {
           console.log("Item editado");
         })
       }
@@ -113,23 +114,23 @@ export class CrudComponent<Entity extends ObjetoConId, Dto extends ObjetoConId, 
         });
       }
 
-      this.cerrar();
+      this.close();
     }
     else {
-      this.formulario.mostrarFeedback();
+      this.form.showFeedback();
     }
   }
 
-  private abrir() {
-    this.formulario.ocultarFeedback();
-    this.modal.abrir();
+  private open() {
+    this.form.hideFeedback();
+    this.modal.open();
   }
 
-  private cerrar() {
-    this.modal.cerrar();
+  private close() {
+    this.modal.close();
   }
 
-  private limpiarItem() {
+  private clearItem() {
     this.item = {} as Dto;
   }
 

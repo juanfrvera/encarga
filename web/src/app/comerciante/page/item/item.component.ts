@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ItemAdminService } from 'src/app/service/item-admin.service';
+import { ItemService } from 'src/app/comerciante/service/item.service';
 import { CategoriaLightDto } from '../../dto/categoria.light.dto';
 import { CategoriaService } from '../../service/categoria.service';
 
@@ -19,7 +19,7 @@ export class ItemComponent implements OnInit {
     return this.service;
   }
 
-  constructor(private service: ItemAdminService, private categoriaService: CategoriaService) { }
+  constructor(private service: ItemService, private categoriaService: CategoriaService) { }
 
   ngOnInit(): void {
     this.categoriaService.getList().subscribe(list => {

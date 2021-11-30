@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormularioComponent } from 'src/app/shared/component/formulario/formulario.component';
-import { AuthService } from 'src/app/service/auth.service';
-import { SwalService } from 'src/app/service/swal.service';
+import { AuthService } from 'src/app/comerciante/service/auth.service';
+import { SwalService } from 'src/app/comerciante/service/swal.service';
 
 @Component({
   selector: 'app-login',
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
   }
 
   public ingresar() {
-    if (this.formulario.esValido()) {
+    if (this.formulario.isValid()) {
       this.ingresando = true;
 
       this.auth.login(this.Mail, this.Password)
@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
           });
     }
     else {
-      this.formulario.mostrarFeedback();
+      this.formulario.showFeedback();
     }
   }
 

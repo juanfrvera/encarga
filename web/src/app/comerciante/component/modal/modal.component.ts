@@ -19,16 +19,16 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
     this.modal = new Modal(this.element.nativeElement);
   }
   ngOnDestroy(): void {
-    this.cerrar();
+    this.close();
   }
 
   /** Abre el modal */
-  public abrir() {
+  public open() {
     this.modal.show();
   }
 
   /** Cierra el modal */
-  public cerrar() {
+  public close() {
     this.modal.hide();
   }
 

@@ -1,13 +1,13 @@
 <app-modal>
     <ng-container ngProjectAs="[header]">
         <div *ngIf="Item.id; else headerCrear" #headerEditar class="w-100 d-flex justify-content-between">
-            <h5 class="modal-title align-self-center" id="modalLabel"><strong>Editar {{Titulo}}</strong></h5>
-            <button (click)="eliminar()" class="btn">
+            <h5 class="modal-title align-self-center" id="modalLabel"><strong>Editar {{Title}}</strong></h5>
+            <button (click)="delete()" class="btn">
                 <i class="far fa-trash-alt"></i>
             </button>
         </div>
         <ng-template #headerCrear>
-            <h5 class="modal-title" id="modalLabel"><strong>Agregar {{Titulo}}</strong></h5>
+            <h5 class="modal-title" id="modalLabel"><strong>Agregar {{Title}}</strong></h5>
         </ng-template>
     </ng-container>
     <ng-container ngProjectAs="[body]">
@@ -17,8 +17,8 @@
         </app-formulario>
     </ng-container>
     <ng-container ngProjectAs="[footer]">
-        <button (click)="cancelar()" type="button" class="btn btn-outline-secondary">Cancelar</button>
-        <button (click)="guardar()" type="button"
+        <button (click)="cancel()" type="button" class="btn btn-outline-secondary">Cancelar</button>
+        <button (click)="save()" type="button"
             class="btn btn-primary bg-gradient text-white"><strong>Guardar</strong></button>
     </ng-container>
 </app-modal>
@@ -26,15 +26,15 @@
 <div *ngIf="Lista | async as lista; else cargando">
     <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
-            <h1 class="card-title align-self-center fs-3"><strong>{{Titulo}}s</strong></h1>
-            <button (click)="agregar()" type="button"
+            <h1 class="card-title align-self-center fs-3"><strong>{{Title}}s</strong></h1>
+            <button (click)="add()" type="button"
                 class="btn btn-primary bg-gradient btn-sm text-white"><strong>Agregar</strong></button>
         </div>
         <div *ngIf="lista.length; else empty" class="card">
             <!-- Hay Items y cargó -->
 
             <div class="container-full">
-                <app-lista [items]="lista" (itemClick)="editar($event)">
+                <app-lista [items]="lista" (itemClick)="update($event)">
                     <!-- Se saca el item de la lista y se envía hacia arriba, dandoseló al #templateLista 
                     dentro de este componente CRUD -->
                     <ng-template let-itemlista>

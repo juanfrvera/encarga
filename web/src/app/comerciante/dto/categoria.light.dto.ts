@@ -1,3 +1,3 @@
-export class CategoriaLightDto{
+export interface CategoriaLightDto{
     id: string;
 }
