@@ -35,9 +35,9 @@ import { HttpClientModule } from "@angular/common/http";
         CategoriaService,
         ItemService,
         PedidoService,
-        // Interceptor
+        // Interceptor (order is important)
+        urlComercioInterceptorProvider,
         mockInterceptorProvider,
-        urlComercioInterceptorProvider
     ]
 })
 export class ClienteModule { }

@@ -12,7 +12,12 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('./comerciante/comerciante.module').then(m => m.ComercianteModule)
   },
+  {
+    path: 'pedido',
+    loadChildren: () => import('./cliente/cliente.module').then(m => m.ClienteModule)
+  },
   // Para comercio real (ponerlo debajo para que no haya conflictos con paths estáticos)
+  // Es importante repetir para que funcione
   {
     path: ':urlComercio',
     loadChildren: () => import('./cliente/cliente.module').then(m => m.ClienteModule)

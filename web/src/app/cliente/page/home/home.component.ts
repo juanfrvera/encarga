@@ -243,7 +243,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
       });
 
-      this.showToast();
+      if (this.model.total) {
+        this.showToast();
+      }
     });
   }
 }
