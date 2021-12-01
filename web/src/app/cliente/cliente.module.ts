@@ -12,11 +12,15 @@ import { ItemService } from "./service/item.service";
 import { PedidoService } from "./service/pedido.service";
 import { provider as mockInterceptorProvider } from "./interceptor/mock.interceptor";
 import { provider as urlComercioInterceptorProvider } from "./interceptor/url-comercio.interceptor";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
     imports: [
-        CommonModule,
         ClienteRoutingModule,
+        CommonModule,
+
+        // Its imported here to override other interceptors and inject the interceptors of this module
+        HttpClientModule,
         FormsModule,
         SharedModule
     ],

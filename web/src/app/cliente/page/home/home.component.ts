@@ -4,12 +4,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Toast } from 'bootstrap';
 import { CategoriaService } from 'src/app/cliente/service/categoria.service';
-import { tap } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { CategoriaLightDto } from '../../dto/categoria.light.dto';
 import { ItemService } from '../../service/item.service';
 import { ItemLightDto } from '../../dto/item.light.dto';
 import { ItemData } from '../../data/item.data';
+
+interface CategoriaWithItemsViewModel {
+  categoria: CategoriaLightDto;
+  itemDataList?: Array<ItemData>;
+  itemDataListLoaded: boolean;
+  errorText?: string;
+}
 
 @Component({
   selector: 'app-home',
@@ -24,28 +29,17 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   /** Categoría actual en accordion */
   private currentCategoriaIndex?: number;
-  private categoriaList: CategoriaLightDto[];
 
   private itemDataList: Array<ItemData>;
-  private total = 0;
+
+  public model: {
+    categoriaWithItemsList?: Array<CategoriaWithItemsViewModel>;
+    loadingCategoriaList: boolean;
+    total?: number;
+  };
 
   public get CurrentCategoriaIndex() {
     return this.currentCategoriaIndex;
-  }
-
-  public get CategoriaList() {
-    if (!this.categoriaList) {
-      return this.categoriaService.getList().pipe(
-        tap(list => this.categoriaList = list)
-      );
-    }
-    else {
-      return of(this.categoriaList);
-    }
-  }
-
-  public get Total() {
-    return this.total;
   }
 
   constructor(
@@ -58,6 +52,21 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.toast = new Toast(this.toastElement.nativeElement, { autohide: false });
+
+    this.model = {
+      loadingCategoriaList: true
+    };
+
+    this.categoriaService.getList().subscribe(list => {
+      this.model.categoriaWithItemsList = list.map(c => {
+        return {
+          categoria: c,
+          itemDataListLoaded: false
+        };
+      });
+
+      this.model.loadingCategoriaList = false;
+    });
 
     if (this.pedidoService.hayPedido()) {
       this.reflectPedido();
@@ -77,7 +86,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     itemData.count++;
 
-    this.total += item.price ?? 0;
+    if (!this.model.total) {
+      this.model.total = 0;
+    }
+
+    this.model.total += item.price ?? 0;
     this.showToast();
 
     this.pedidoService.add(item.id);
@@ -85,6 +98,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // Cuando una categoría será mostrada (todavía no se hizo la animación de abrir accordion)
   public categoriaWillShow(index: number) {
+    if (this.model.categoriaWithItemsList) {
+      const categoriaWithItems = this.model.categoriaWithItemsList[index];
+      if (!categoriaWithItems.itemDataListLoaded) {
+        this.loadItemDataListForCategoria(categoriaWithItems);
+      }
+    }
+
     this.currentCategoriaIndex = index;
   }
 
@@ -97,7 +117,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public getListByCategoria(categoriaId: string) {
-    return this.itemService.getListByCategoria(categoriaId);
+    return this.itemService.getListByCategoriaId(categoriaId);
   }
 
   public getItemData(itemId: string) {
@@ -112,8 +132,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     objetoCantidad.count--;
 
-    // Resta el producto del total
-    this.total -= item.price ?? 0;
+    if (this.model.total) {
+      // Resta el producto del total
+      this.model.total -= item.price ?? 0;
+    }
 
     // Si el total esta en 0, no muestra ningun toast con total
     // tslint:disable-next-line: triple-equals
@@ -137,6 +159,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const itemData: ItemData = {
       id: item.id,
       count,
+      description: item.description,
       name: item.name,
       price: item.price
     };
@@ -151,9 +174,27 @@ export class HomeComponent implements OnInit, OnDestroy {
     return itemData;
   }
 
-  /** Devuelve true si el total es mayor que 0 */
   private hasPedido() {
-    return this.total > 0;
+    return this.model.total;
+  }
+
+  private loadItemDataListForCategoria(categoriaWithItems: CategoriaWithItemsViewModel) {
+    this.itemService.getListByCategoriaId(categoriaWithItems.categoria.id).subscribe(list => {
+      categoriaWithItems.itemDataList = list.map(item => {
+        return {
+          id: item.id,
+          count: this.pedidoService.getItemCount(item.id),
+          description: item.description,
+          name: item.name,
+          price: item.price
+        }
+      });
+
+      categoriaWithItems.itemDataListLoaded = true;
+    },
+      error => {
+        categoriaWithItems.errorText = 'Ocurrió un error inesperado';
+      })
   }
 
   /** Muestra el toast */
@@ -168,7 +209,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   /** Carga las cantidades pedidas a los items con cantidad y calcula la variable total */
   private reflectPedido() {
-    this.total = 0;
+    this.model.total = 0;
 
     const pedido = this.pedidoService.get();
 
@@ -184,7 +225,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.createItemData(item, cantidad);
 
           if (item.price) {
-            this.total += item.price * cantidad;
+            this.model.total! += item.price * cantidad;
           }
         }
         else {

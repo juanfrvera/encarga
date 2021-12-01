@@ -30,7 +30,6 @@ export class PedidoService {
   }
 
   constructor(
-    private readonly itemService: ItemService
   ) { }
 
   public hayPedido() {
@@ -57,6 +56,19 @@ export class PedidoService {
     }
 
     this.save(pedido);
+  }
+
+  public getItemCount(itemId: string): number {
+    const pedido = this.get();
+
+    // Si no hay array de lineas, se pondrá en null
+    const lineaPedido = pedido.lines?.find(p => p.itemId === itemId);
+
+    if (lineaPedido) {
+      return lineaPedido.count;
+    }
+
+    return 0;
   }
 
   /** Quita un item del carrito y guarda cambios en el local storage */

@@ -62,6 +62,7 @@ export class DetalleComponent implements OnInit {
           return {
             id: item.id,
             count: pedidoLine.count,
+            description: item.description,
             name: item.name,
             price: item.price
           };

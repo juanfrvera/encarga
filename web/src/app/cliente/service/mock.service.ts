@@ -109,22 +109,18 @@ export class MockService {
         return list;
     }
 
-    public getItemListByCategoriaIdList(categoriaIdList: Array<string>) {
+    public getItemListByCategoriaId(categoriaId: string) {
         let list = this.itemList;
 
-        if (categoriaIdList) {
-            list = list.filter(i => {
-                for (const categoriaId of categoriaIdList) {
-                    for (const itemCategoria of this.itemCategoriaList) {
-                        if (itemCategoria.itemId == i.id && itemCategoria.categoriaId == categoriaId) {
-                            return true;
-                        }
-                    }
+        list = list.filter(i => {
+            for (const itemCategoria of this.itemCategoriaList) {
+                if (itemCategoria.itemId == i.id && itemCategoria.categoriaId == categoriaId) {
+                    return true;
                 }
+            }
 
-                return false;
-            });
-        }
+            return false;
+        });
 
         return list;
     }

@@ -13,9 +13,11 @@ export class ItemService {
         private readonly apiService: ApiService
     ) { }
 
-    public getListByCategoria(categoriaId: string): Observable<Array<ItemLightDto>> {
+    public getListByCategoriaId(categoriaId: string): Observable<Array<ItemLightDto>> {
         return this.httpClient.get<Array<ItemLightDto>>(
-            this.apiService.Url + this.endpoint + 'categoria/' + categoriaId);
+            this.apiService.Url + this.endpoint + 'categoria/', {
+            params: { categoriaId }
+        });
     }
 
     public getListByIdList(idList: Array<string>): Observable<Array<ItemLightDto>> {
