@@ -16,27 +16,31 @@ export class CategoriaService {
         private readonly itemCategoriaService: ItemCategoriaService
     ) { }
 
-    public create(data: CategoriaCreationData, transaction? : TransactionProxy){
+    public create(data: CategoriaCreationData, transaction?: TransactionProxy) {
         return this.storage.create(data, transaction);
     }
 
-    public async remove(id: string) : Promise<void> {
-        if(await this.storage.exists(id)){
+    public getListByComercioIdNotEmpty(comercioId: string): Promise<Array<Categoria>> {
+        return this.storage.getListByComercioIdNotEmpty(comercioId);
+    }
+
+    public async remove(id: string): Promise<void> {
+        if (await this.storage.exists(id)) {
             await this.baseStorage.startTransaction(async transaction => {
                 await this.storage.remove(id, transaction);
                 await this.itemCategoriaService.removeByCategoria(id, transaction);
             });
         }
-        else{
+        else {
             throw new CategoriaNotFoundError();
         }
     }
 
     public async update(id: string, data: UpdateCategoriaData): Promise<Categoria> {
-        if(await this.storage.exists(id)){
+        if (await this.storage.exists(id)) {
             return this.storage.update(id, data);
         }
-        else{
+        else {
             throw new CategoriaNotFoundError();
         }
     }

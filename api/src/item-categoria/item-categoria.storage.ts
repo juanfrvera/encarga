@@ -1,17 +1,17 @@
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
-import { Categoria } from "src/categoria/entities/categoria.entity";
 import { Item } from "src/item/entities/item.entity";
+import { Categoria } from "src/shared/categoria/entities/categoria.entity";
 import { ItemCategoria } from "./entities/item-categoria.entity";
 
-export abstract class ItemCategoriaStorage{
+export abstract class ItemCategoriaStorage {
     public abstract create(item: Item, categoria: Categoria, transaction?: TransactionProxy)
-    :Promise<ItemCategoria>;
+        : Promise<ItemCategoria>;
 
     public abstract getListByCategoriaIdListOrderByOrder(categoriaIdList: string[]): Promise<ItemCategoria[]>;
 
     public abstract remove(id: string, transaction?: TransactionProxy): Promise<void>;
-    
-    public abstract removeByCategoria(categoriaId: string, transaction? : TransactionProxy): Promise<void>;
+
+    public abstract removeByCategoria(categoriaId: string, transaction?: TransactionProxy): Promise<void>;
 
     public abstract removeByItem(itemId: string, transaction?: TransactionProxy): Promise<void>;
 }

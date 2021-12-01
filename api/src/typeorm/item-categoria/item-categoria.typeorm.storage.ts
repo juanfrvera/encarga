@@ -1,6 +1,6 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
-import { Categoria } from "src/categoria/entities/categoria.entity";
+import { Categoria } from "src/shared/categoria/entities/categoria.entity";
 import { CategoriaTypeOrmModel } from "src/typeorm/categoria/categoria.typeorm.model";
 import { CategoriaTypeOrmStorage } from "src/typeorm/categoria/categoria.typeorm.storage";
 import { Item } from "src/item/entities/item.entity";

@@ -1,11 +1,11 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { EntityManager, Repository } from "typeorm";
-import { CategoriaFilter } from "../../categoria/data/categoria-filter";
-import { CategoriaCreationData } from "../../categoria/data/categoria.creation.data";
-import { UpdateCategoriaData } from "../../categoria/data/update-categoria.data";
-import { Categoria } from "../../categoria/entities/categoria.entity";
-import { CategoriaStorage } from "../../categoria/categoria.storage";
+import { CategoriaFilter } from "../../shared/categoria/data/categoria-filter";
+import { CategoriaCreationData } from "../../shared/categoria/data/categoria.creation.data";
+import { UpdateCategoriaData } from "../../shared/categoria/data/update-categoria.data";
+import { Categoria } from "../../shared/categoria/entities/categoria.entity";
+import { CategoriaStorage } from "../../shared/categoria/categoria.storage";
 import { CategoriaTypeOrmModel } from "./categoria.typeorm.model";
 
 export class CategoriaTypeOrmStorage extends CategoriaStorage {
@@ -21,41 +21,55 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
 
         model.nombre = data.nombre;
 
-        if(transaction){
+        if (transaction) {
             model = await transaction.save(model);
         }
-        else{
+        else {
             model = await this.repository.save(model);
         }
 
         return this.toEntity(model);
     }
 
-    public getModel(id: string, transaction?: TransactionProxy): Promise<CategoriaTypeOrmModel>{
-        if(transaction){
+    public async getListByComercioIdNotEmpty(comercioId: string): Promise<Categoria[]> {
+        const query = this.repository.createQueryBuilder('categoria').select();
+
+        query.leftJoin('categoria.itemCategoriaList', 'itemcategoria');
+        query.leftJoin('categoria.comercio', 'comercio');
+
+        query.where('comercio.id = :comercioId', { comercioId });
+        query.andWhere('itemcategoria IS NOT NULL');
+
+        const modelList = await query.getMany();
+
+        return modelList.map(m => this.toEntity(m));
+    }
+
+    public getModel(id: string, transaction?: TransactionProxy): Promise<CategoriaTypeOrmModel> {
+        if (transaction) {
             return transaction.findOne(this.repository.target, id);
         }
-        else{
+        else {
             return this.repository.findOne(id);
         }
     }
 
-    public getModelListByIdList(idList: string[], transaction?:TransactionProxy): Promise<CategoriaTypeOrmModel[]>{
-        if(transaction){
+    public getModelListByIdList(idList: string[], transaction?: TransactionProxy): Promise<CategoriaTypeOrmModel[]> {
+        if (transaction) {
             return transaction.findByIds(this.repository.target, idList);
         }
-        else{
+        else {
             return this.repository.findByIds(idList);
         }
     }
 
     public async exists(id: string): Promise<boolean> {
-        const count = await this.repository.count({id: Number(id)});
+        const count = await this.repository.count({ id: Number(id) });
 
         return count > 0;
     }
 
-    public async remove(id: string, manager?:EntityManager): Promise<void> {
+    public async remove(id: string, manager?: EntityManager): Promise<void> {
         if (manager) {
             return this._remove(id, manager);
         }
@@ -76,18 +90,18 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
         return this.toEntity(model);
     }
 
-    public toEntity(model: CategoriaTypeOrmModel): Categoria{
+    public toEntity(model: CategoriaTypeOrmModel): Categoria {
         return new Categoria(model.id.toString(), model.nombre);
     }
 
-    private async _remove(id: string, transaction: TransactionProxy){        
+    private async _remove(id: string, transaction: TransactionProxy) {
         const model = await transaction.findOne(this.repository.target, id);
 
         await transaction.remove(model);
     }
 
     private findAllWithFilter(filter: CategoriaFilter, transaction?: TransactionProxy) {
-        const query = (transaction ? 
+        const query = (transaction ?
             transaction.createQueryBuilder<CategoriaTypeOrmModel>(this.repository.target, 'categoria') :
             this.repository.createQueryBuilder('categoria'))
             .select();

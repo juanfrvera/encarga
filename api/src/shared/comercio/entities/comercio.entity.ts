@@ -1,4 +1,4 @@
-import { Categoria } from "src/categoria/entities/categoria.entity";
+import { Categoria } from "src/shared/categoria/entities/categoria.entity";
 
 export class Comercio {
     id: string;
@@ -8,7 +8,7 @@ export class Comercio {
     categoriaDefaultId: string;
     categoriaList: Categoria[];
 
-    constructor(id: string,url: string){
+    constructor(id: string, url: string) {
         this.id = id;
         this.url = url;
     }

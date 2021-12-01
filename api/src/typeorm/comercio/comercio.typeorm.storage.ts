@@ -1,20 +1,20 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { BaseTypeOrmStorage } from "src/base/storage/base.typeorm.storage";
-import { Categoria } from "src/categoria/entities/categoria.entity";
+import { Categoria } from "src/shared/categoria/entities/categoria.entity";
 import { CategoriaTypeOrmStorage } from "../categoria/categoria.typeorm.storage";
 import { Repository } from "typeorm";
-import { ComercioCreationData } from "src/comercio/data/comercio.creation.data";
-import { Comercio } from "src/comercio/entities/comercio.entity";
-import { ComercioStorage } from "src/comercio/comercio.storage";
+import { ComercioCreationData } from "src/shared/comercio/data/comercio.creation.data";
+import { Comercio } from "src/shared/comercio/entities/comercio.entity";
+import { ComercioStorage } from "src/shared/comercio/comercio.storage";
 import { ComercioTypeOrmModel } from "./comercio.typeorm.model";
 
-export class ComercioTypeOrmStorage extends BaseTypeOrmStorage<ComercioTypeOrmModel> implements ComercioStorage{
+export class ComercioTypeOrmStorage extends BaseTypeOrmStorage<ComercioTypeOrmModel> implements ComercioStorage {
     constructor(
         @InjectRepository(ComercioTypeOrmModel)
         readonly repository: Repository<ComercioTypeOrmModel>,
         private readonly categoriaStorage: CategoriaTypeOrmStorage
-    ){
+    ) {
         super(repository);
     }
 
@@ -23,10 +23,10 @@ export class ComercioTypeOrmStorage extends BaseTypeOrmStorage<ComercioTypeOrmMo
 
         model.url = data.url;
 
-        if(transaction){
+        if (transaction) {
             model = await transaction.save(model);
         }
-        else{
+        else {
             model = await this.repository.save(model);
         }
 
@@ -34,31 +34,31 @@ export class ComercioTypeOrmStorage extends BaseTypeOrmStorage<ComercioTypeOrmMo
     }
 
     public async getByUrl(url: string): Promise<Comercio> {
-        const model = await this.repository.findOne({where: {url}});
+        const model = await this.repository.findOne({ where: { url } });
 
         return this.toEntity(model);
     }
 
-    public getModel(id: string, transaction?: TransactionProxy): Promise<ComercioTypeOrmModel>{
-        if(transaction){
+    public getModel(id: string, transaction?: TransactionProxy): Promise<ComercioTypeOrmModel> {
+        if (transaction) {
             return transaction.findOne<ComercioTypeOrmModel>(this.repository.target, id);
         }
-        else{
+        else {
             return this.repository.findOne(id);
         }
     }
 
-    public async setDefaultCategoria(entity: Comercio, categoria : Categoria, transaction? : TransactionProxy)
-    : Promise<Comercio>{
+    public async setDefaultCategoria(entity: Comercio, categoria: Categoria, transaction?: TransactionProxy)
+        : Promise<Comercio> {
         let model = await this.getModel(entity.id, transaction);
         const categoriaModel = await this.categoriaStorage.getModel(categoria.id, transaction);
 
         model.categoriaDefault = categoriaModel;
 
-        if(transaction){
+        if (transaction) {
             model = await transaction.save(model);
         }
-        else{
+        else {
             model = await this.repository.save(model);
         }
 
@@ -66,7 +66,7 @@ export class ComercioTypeOrmStorage extends BaseTypeOrmStorage<ComercioTypeOrmMo
     }
 
 
-    public toEntity(model: ComercioTypeOrmModel): Comercio{
+    public toEntity(model: ComercioTypeOrmModel): Comercio {
         return new Comercio(model.id.toString(), model.url);
     }
 }

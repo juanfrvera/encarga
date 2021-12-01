@@ -1,5 +1,5 @@
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
-import { Categoria } from "src/categoria/entities/categoria.entity";
+import { Categoria } from "src/shared/categoria/entities/categoria.entity";
 import { ComercioCreationData } from "./data/comercio.creation.data";
 import { Comercio } from "./entities/comercio.entity";
 
