@@ -22,6 +22,6 @@ export class ItemService {
 
     public getListByIdList(idList: Array<string>): Observable<Array<ItemLightDto>> {
         return this.httpClient.post<Array<ItemLightDto>>(
-            this.apiService.Url + this.endpoint + 'idList/', idList);
+            this.apiService.Url + this.endpoint + 'idList', idList);
     }
 }

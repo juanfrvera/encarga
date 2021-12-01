@@ -30,8 +30,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   /** Categoría actual en accordion */
   private currentCategoriaIndex?: number;
 
-  private itemDataList: Array<ItemData>;
-
   public model: {
     categoriaWithItemsList?: Array<CategoriaWithItemsViewModel>;
     loadingCategoriaList: boolean;
@@ -79,21 +77,24 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 
   /** Agrega el producto al pedido, sumandolo al total */
-  public addItem(item: ItemLightDto) {
-    const itemData: ItemData =
-      this.getItemData(item.id) ??
-      this.createItemData(item);
+  public add(item: ItemLightDto) {
+    const itemData = this.getItemData(item.id);
 
-    itemData.count++;
+    if (itemData) {
+      itemData.count++;
 
-    if (!this.model.total) {
-      this.model.total = 0;
+      if (!this.model.total) {
+        this.model.total = 0;
+      }
+
+      this.model.total += item.price ?? 0;
+      this.showToast();
+
+      this.pedidoService.add(item.id);
     }
-
-    this.model.total += item.price ?? 0;
-    this.showToast();
-
-    this.pedidoService.add(item.id);
+    else {
+      console.error('Ocurrió un error al querer agregar el item');
+    }
   }
 
   // Cuando una categoría será mostrada (todavía no se hizo la animación de abrir accordion)
@@ -121,7 +122,37 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public getItemData(itemId: string) {
-    return this.itemDataList?.find(d => d.id == itemId);
+    let itemData: ItemData | undefined;
+
+    if (this.model.categoriaWithItemsList) {
+      if (this.CurrentCategoriaIndex) {
+        const categoriaWithItems = this.model.categoriaWithItemsList[this.CurrentCategoriaIndex];
+
+        if (categoriaWithItems) {
+          const itemDataList = categoriaWithItems.itemDataList;
+
+          if (itemDataList) {
+            itemData = itemDataList.find(d => d.id == itemId);
+
+            if (itemData) {
+              return itemData;
+            }
+          }
+        }
+      }
+
+      for (const categoriaWithItems of this.model.categoriaWithItemsList) {
+        if (categoriaWithItems.itemDataList) {
+          itemData = categoriaWithItems.itemDataList.find(d => d.id == itemId);
+
+          if (itemData) {
+            return itemData;
+          }
+        }
+      }
+    }
+
+    return null;
   }
 
   /** Quita el producto al pedido, restandolo del total */
@@ -155,25 +186,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.router.navigate(['detalle'], { relativeTo: this.route });
   }
 
-  private createItemData(item: ItemLightDto, count: number = 0) {
-    const itemData: ItemData = {
-      id: item.id,
-      count,
-      description: item.description,
-      name: item.name,
-      price: item.price
-    };
-
-    // Inicializar lista en caso de que no se haya hecho antes
-    if (!this.itemDataList) {
-      this.itemDataList = [];
-    }
-
-    this.itemDataList.push(itemData);
-
-    return itemData;
-  }
-
   private hasPedido() {
     return this.model.total;
   }
@@ -192,7 +204,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       categoriaWithItems.itemDataListLoaded = true;
     },
-      error => {
+      () => {
         categoriaWithItems.errorText = 'Ocurrió un error inesperado';
       })
   }
@@ -215,23 +227,19 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     const itemIdList = pedido.lines.map(l => l.itemId);
     this.itemService.getListByIdList(itemIdList).subscribe(items => {
-      pedido.lines.forEach(linea => {
-        // Buscar el item correspondiente a la linea y asignarle la cantidad pedida
-        const item = items.find(i => i.id === linea.itemId);
+      pedido.lines.forEach(line => {
+        const item = items.find(i => i.id === line.itemId);
         // El item puede haber sido eliminado de la base de datos mientras estaba guardado en el pedido de un cliente
         // Este chequeo es para que no haya un error de referencia
         if (item) {
-          const cantidad = linea.count;
-          this.createItemData(item, cantidad);
-
           if (item.price) {
-            this.model.total! += item.price * cantidad;
+            this.model.total! += item.price * line.count;
           }
         }
         else {
           // Como el item guardado no existe mas, eliminar la linea del pedido
-          this.pedidoService.deleteLine(linea);
-          console.log('Se eliminó el item \'' + linea.itemId + '\' porque ya no existe en el catálogo');
+          this.pedidoService.deleteLine(line);
+          console.log('Se eliminó el item \'' + line.itemId + '\' porque ya no existe en el catálogo');
         }
       });
 
