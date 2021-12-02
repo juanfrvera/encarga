@@ -8,6 +8,7 @@ import { CategoriaLightDto } from '../../dto/categoria.light.dto';
 import { ItemService } from '../../service/item.service';
 import { ItemLightDto } from '../../dto/item.light.dto';
 import { ItemData } from '../../data/item.data';
+import { ComercioService } from '../../service/comercio.service';
 
 interface CategoriaWithItemsViewModel {
   categoria: CategoriaLightDto;
@@ -45,6 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private readonly categoriaService: CategoriaService,
+    private readonly comercioService: ComercioService,
     private readonly itemService: ItemService,
     private readonly pedidoService: PedidoService,
   ) { }
@@ -56,16 +58,28 @@ export class HomeComponent implements OnInit, OnDestroy {
       loadingCategoriaList: true
     };
 
-    this.categoriaService.getList().subscribe(list => {
-      this.model.categoriaWithItemsList = list.map(c => {
-        return {
-          categoria: c,
-          itemDataListLoaded: false,
-          loadingItemDataList: false
-        };
-      });
+    this.comercioService.getDefaultCategoriaId().subscribe(defaultCategoriaId => {
 
-      this.model.loadingCategoriaList = false;
+      this.categoriaService.getList().subscribe(list => {
+        this.model.categoriaWithItemsList = list.map(c => {
+          if (c.id == defaultCategoriaId) {
+            if (list.length == 1) {
+              c.name = 'Todo';
+            }
+            else {
+              c.name = 'Otros';
+            }
+          }
+
+          return {
+            categoria: c,
+            itemDataListLoaded: false,
+            loadingItemDataList: false
+          };
+        });
+
+        this.model.loadingCategoriaList = false;
+      });
     });
 
     if (this.pedidoService.hayPedido()) {

@@ -1,15 +1,13 @@
-import { Categoria } from "src/shared/categoria/entities/categoria.entity";
-
 export class Comercio {
     id: string;
     url: string;
 
     /** Categoría a donde van a parar los items sin categoria */
     categoriaDefaultId: string;
-    categoriaList: Categoria[];
 
-    constructor(id: string, url: string) {
+    constructor(id: string, url: string, categoriaDefaultId: string) {
         this.id = id;
+        this.categoriaDefaultId = categoriaDefaultId;
         this.url = url;
     }
 }

@@ -13,6 +13,7 @@ import { PedidoService } from "./service/pedido.service";
 import { provider as mockInterceptorProvider } from "./interceptor/mock.interceptor";
 import { provider as urlComercioInterceptorProvider } from "./interceptor/url-comercio.interceptor";
 import { HttpClientModule } from "@angular/common/http";
+import { ComercioService } from "./service/comercio.service";
 
 @NgModule({
     imports: [
@@ -33,6 +34,7 @@ import { HttpClientModule } from "@angular/common/http";
     providers: [
         ApiService,
         CategoriaService,
+        ComercioService,
         ItemService,
         PedidoService,
         // Interceptor (order is important)

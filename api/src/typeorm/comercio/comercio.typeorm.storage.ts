@@ -67,6 +67,6 @@ export class ComercioTypeOrmStorage extends BaseTypeOrmStorage<ComercioTypeOrmMo
 
 
     public toEntity(model: ComercioTypeOrmModel): Comercio {
-        return new Comercio(model.id.toString(), model.url);
+        return new Comercio(model.id.toString(), model.url, model.categoriaDefault.id.toString());
     }
 }
