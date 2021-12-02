@@ -6,6 +6,7 @@ import { ItemLightDto } from "../dto/item.light.dto";
     providedIn: 'root'
 })
 export class MockService {
+    private readonly categoriaDefaultId = 'default';
     private readonly categoriaList: Array<CategoriaLightDto> = [
         {
             id: '1',
@@ -97,6 +98,10 @@ export class MockService {
         }
 
         return list;
+    }
+
+    public getComercioDefaultCategoriaId(): string {
+        return this.categoriaDefaultId;
     }
 
     public getItemListByIdList(idList: Array<string>) {

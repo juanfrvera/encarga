@@ -21,7 +21,13 @@ export class MockInterceptor implements HttpInterceptor {
                 return of(new HttpResponse(
                     { status: 200, body: this.mockService.getCategoriaList() }));
             }
-            else if (new RegExp('cliente/item/categoria/').test(req.url)) {
+
+            if (req.url.endsWith('comercio/defaultCategoriaId')) {
+                return of(new HttpResponse(
+                    { status: 200, body: this.mockService.getComercioDefaultCategoriaId() }));
+            }
+
+            if (new RegExp('cliente/item/').test(req.url)) {
                 const categoriaId = req.params.get('categoriaId')!;
 
                 return of(new HttpResponse(
