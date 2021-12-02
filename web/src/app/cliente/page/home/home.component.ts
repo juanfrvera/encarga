@@ -13,6 +13,7 @@ interface CategoriaWithItemsViewModel {
   categoria: CategoriaLightDto;
   itemDataList?: Array<ItemData>;
   itemDataListLoaded: boolean;
+  loadingItemDataList: boolean;
   errorText?: string;
 }
 
@@ -59,7 +60,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.model.categoriaWithItemsList = list.map(c => {
         return {
           categoria: c,
-          itemDataListLoaded: false
+          itemDataListLoaded: false,
+          loadingItemDataList: false
         };
       });
 
@@ -101,7 +103,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public categoriaWillShow(index: number) {
     if (this.model.categoriaWithItemsList) {
       const categoriaWithItems = this.model.categoriaWithItemsList[index];
-      if (!categoriaWithItems.itemDataListLoaded) {
+      if (!categoriaWithItems.itemDataListLoaded && !categoriaWithItems.loadingItemDataList) {
         this.loadItemDataListForCategoria(categoriaWithItems);
       }
     }
@@ -191,6 +193,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private loadItemDataListForCategoria(categoriaWithItems: CategoriaWithItemsViewModel) {
+    categoriaWithItems.loadingItemDataList = true;
+
     this.itemService.getListByCategoriaId(categoriaWithItems.categoria.id).subscribe(list => {
       categoriaWithItems.itemDataList = list.map(item => {
         return {
@@ -203,10 +207,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
 
       categoriaWithItems.itemDataListLoaded = true;
+      categoriaWithItems.loadingItemDataList = false;
     },
       () => {
         categoriaWithItems.errorText = 'Ocurrió un error inesperado';
-      })
+        categoriaWithItems.loadingItemDataList = false;
+      });
   }
 
   /** Muestra el toast */
