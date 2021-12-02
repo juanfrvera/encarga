@@ -4,6 +4,7 @@ import { ItemCreationData } from './data/item.creation.data';
 import { ItemStorage } from './item.storage';
 import { ItemUpdateData } from './data/item.update.data';
 import { ItemNotFoundError } from './error/item-not-found.error';
+import { ItemFilter } from './data/item.filter';
 
 @Injectable()
 export class ItemService {
@@ -28,7 +29,11 @@ export class ItemService {
     }
   }
 
-  public getListByComercio(comercioId: string): Promise<Array<Item>>{
+  public getList(filter: ItemFilter): Promise<Array<Item>> {
+    return this.storage.getList(filter);
+  }
+
+  public getListByComercio(comercioId: string): Promise<Array<Item>> {
     return this.storage.getListByComercio(comercioId);
   }
 

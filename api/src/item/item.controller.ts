@@ -69,17 +69,17 @@ export class ItemController {
   private toDto(entity:Item) : ItemDto{
     return {
       id: entity.id,
-      titulo: entity.titulo,
-      precio: entity.precio,
-      descripcion: entity.descripcion
+      titulo: entity.name,
+      precio: entity.price,
+      descripcion: entity.description
     };
   }
   private toLightDto(entity: Item) : ItemLightDto{
     return {
       id: entity.id,
-      titulo: entity.titulo,
-      precio: entity.precio,
-      descripcion: entity.descripcion,
+      titulo: entity.name,
+      precio: entity.price,
+      descripcion: entity.description,
     };
   }
 }

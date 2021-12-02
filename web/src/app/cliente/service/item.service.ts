@@ -15,7 +15,7 @@ export class ItemService {
 
     public getListByCategoriaId(categoriaId: string): Observable<Array<ItemLightDto>> {
         return this.httpClient.get<Array<ItemLightDto>>(
-            this.apiService.Url + this.endpoint + 'categoria/', {
+            this.apiService.Url + this.endpoint, {
             params: { categoriaId }
         });
     }

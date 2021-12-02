@@ -8,7 +8,7 @@ export class ItemCategoriaTypeOrmModel extends BaseTypeOrmModel{
     @Column({ type: 'int' })
     orden: number;
 
-    @ManyToOne(() => ItemTypeOrmModel, item => item.itemCategorias, { primary: true, eager: true })
+    @ManyToOne(() => ItemTypeOrmModel, item => item.itemCategoriaList, { primary: true, eager: true })
     item: ItemTypeOrmModel;
 
     @ManyToOne(() => CategoriaTypeOrmModel, categoria => categoria.itemCategoriaList, { primary: true, eager: true })

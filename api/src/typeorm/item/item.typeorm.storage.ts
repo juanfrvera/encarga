@@ -7,6 +7,7 @@ import { Item } from "src/item/entities/item.entity";
 import { ItemStorage } from "src/item/item.storage";
 import { ItemTypeOrmModel } from "./item.typeorm.model";
 import { Injectable } from "@nestjs/common";
+import { ItemFilter } from "src/item/data/item.filter";
 
 @Injectable()
 export class ItemTypeOrmStorage extends ItemStorage {
@@ -33,9 +34,9 @@ export class ItemTypeOrmStorage extends ItemStorage {
         const _create = async (mng: EntityManager) => {
             const preItem = new ItemTypeOrmModel();
 
-            preItem.titulo = data.titulo;
-            preItem.precio = data.precio;
-            preItem.descripcion = data.descripcion;
+            preItem.name = data.titulo;
+            preItem.price = data.precio;
+            preItem.description = data.descripcion;
 
             // Guardar para obtener un id
             const item = await mng.save(preItem);
@@ -69,6 +70,26 @@ export class ItemTypeOrmStorage extends ItemStorage {
         const model = await this.getModel(id);
 
         return this.toEntity(model);
+    }
+
+    public async getList(filter: ItemFilter): Promise<Item[]> {
+        const query = this.repository.createQueryBuilder('item').select();
+
+        if (filter) {
+            if (filter.categoriaId) {
+                query.leftJoin('item.itemCategoriaList', 'itemCategoria');
+                query.leftJoin('itemCategoria.categoria', 'categoria');
+
+                query.andWhere('categoria.id = :categoriaId', { categoriaId: filter.categoriaId });
+            }
+            if (filter.idList) {
+                query.andWhere('item.id IN (:...idList)', { idList: filter.idList });
+            }
+        }
+
+        const modelList = await query.getMany();
+
+        return modelList.map(m => this.toEntity(m));
     }
 
     public async getListByComercio(comercioId: string): Promise<Array<Item>> {
@@ -111,9 +132,9 @@ export class ItemTypeOrmStorage extends ItemStorage {
         const model = await this.repository.manager.transaction(async manager => {
             const original = await manager.findOneOrFail(this.repository.target, id) as ItemTypeOrmModel;
 
-            original.titulo = data.titulo ?? original.titulo;
-            original.descripcion = data.descripcion ?? original.descripcion;
-            original.precio = data.precio ?? original.precio;
+            original.name = data.titulo ?? original.name;
+            original.description = data.descripcion ?? original.description;
+            original.price = data.precio ?? original.price;
 
             await manager.save(original);
 
@@ -124,7 +145,7 @@ export class ItemTypeOrmStorage extends ItemStorage {
     }
 
     public toEntity(model: ItemTypeOrmModel): Item {
-        return new Item(model.id.toString(), model.titulo, model.precio, model.descripcion);
+        return new Item(model.id.toString(), model.name, model.price, model.description);
     }
 
     private async _remove(id: string, transaction?: TransactionProxy) {

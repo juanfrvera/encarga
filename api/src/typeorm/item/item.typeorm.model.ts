@@ -5,15 +5,15 @@ import { Column, Entity, OneToMany } from "typeorm";
 @Entity('item')
 export class ItemTypeOrmModel extends BaseTypeOrmModel {
     @Column({ type: 'varchar' })
-    titulo: string;
+    name: string;
 
     @Column({ type: 'real', nullable: true })
-    precio?: number;
+    price?: number;
 
     @Column({ type: 'varchar', nullable: true })
-    descripcion?: string;
+    description?: string;
 
     /** Categorías en las que está este item, junto con el orden de este en dicha categoría */
     @OneToMany(() => ItemCategoriaTypeOrmModel, itemCategoria => itemCategoria.item, { nullable: true })
-    itemCategorias?: ItemCategoriaTypeOrmModel[];
+    itemCategoriaList?: ItemCategoriaTypeOrmModel[];
 }
