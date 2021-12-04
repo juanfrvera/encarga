@@ -1,8 +1,9 @@
-import { Controller, Get, Query } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { ItemClienteFilter } from "./item.cliente.filter";
-import { ItemClienteLightDto } from "./item.cliente.light.dto";
+import { ItemClienteLightDto } from "./dto/item.cliente.light.dto";
 import { ItemClienteModel } from "./item.cliente.model";
 import { ItemClienteService } from "./item.cliente.service";
+import { ItemClienteFilterDto } from "./dto/item.cliente.filter.dto";
 
 @Controller('cliente/item')
 export class ItemClienteController {
@@ -11,12 +12,20 @@ export class ItemClienteController {
     ) { }
 
     @Get()
-    public async getList(
-        @Query('categoriaId') categoriaId: string,
-        @Query('idList') idList: Array<string>): Promise<Array<ItemClienteLightDto>> {
+    public async getList(@Query('categoriaId') categoriaId: string): Promise<Array<ItemClienteLightDto>> {
         const filter: ItemClienteFilter = {
             categoriaId,
-            idList
+        };
+
+        const entityList = await this.service.getList(filter);
+
+        return entityList.map(e => this.toLightDto(e));
+    }
+
+    @Post('filter')
+    public async getListWithFilter(@Body() filterDto: ItemClienteFilterDto) {
+        const filter: ItemClienteFilter = {
+            idList: filterDto.idList
         };
 
         const entityList = await this.service.getList(filter);

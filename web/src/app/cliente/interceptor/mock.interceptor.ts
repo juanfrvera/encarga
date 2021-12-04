@@ -40,7 +40,7 @@ export class MockInterceptor implements HttpInterceptor {
                 return of(new HttpResponse(
                     { status: 200, body: this.mockService.getCategoriaListByIdList(req.body) }));
             }
-            else if (req.url.endsWith('/item/idList')) {
+            else if (req.url.endsWith('/item/filter')) {
                 return of(new HttpResponse({ status: 200, body: this.mockService.getItemListByIdList(req.body) }));
             }
         }

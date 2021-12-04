@@ -104,7 +104,8 @@ export class MockService {
         return this.categoriaDefaultId;
     }
 
-    public getItemListByIdList(idList: Array<string>) {
+    public getItemListByIdList(filterDto: { idList: Array<string> }) {
+        const idList = filterDto.idList;
         let list = this.itemList;
 
         if (idList) {
