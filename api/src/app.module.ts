@@ -6,7 +6,6 @@ import { configService } from './config/config.service';
 import { ItemModule } from './item/item.module';
 import { ItemCategoriaModule } from './item-categoria/item-categoria.module';
 import { UsuarioModule } from './usuario/usuario.module';
-import { UsuarioComercioModule } from './usuario-comercio/usuario-comercio.module';
 import { ComercianteModule } from './comerciante/comerciante.module';
 import { SharedModule } from './shared/shared.module';
 import { ClienteModule } from './cliente/cliente.module';
@@ -20,7 +19,6 @@ import { ClienteModule } from './cliente/cliente.module';
     ItemModule,
     ItemCategoriaModule,
     UsuarioModule,
-    UsuarioComercioModule,
   ],
   controllers: [AppController],
   providers: [AppService],

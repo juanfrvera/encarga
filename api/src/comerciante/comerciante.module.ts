@@ -4,12 +4,14 @@ import { AuthModule } from "./auth/auth.module";
 import { ComercioComercianteModule } from "./comercio/comercio.comerciante.module";
 import { ItemComercianteController } from "./item/item.comerciante.controller";
 import { ItemComercianteService } from "./item/item.comerciante.service";
+import { UsuarioComercioModule } from "./usuario-comercio/usuario-comercio.module";
 
 @Module({
     imports: [
         AuthModule,
         ComercioComercianteModule,
-        ItemModule
+        ItemModule,
+        UsuarioComercioModule,
     ],
     controllers: [ItemComercianteController],
     providers: [ItemComercianteService]

@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { jwtConstants } from '../constants';
 import { ComercianteWithComercioData } from 'src/comerciante/data/comerciante-with-comercio.data';
 import { NoComercioError } from 'src/comerciante/error/no-comercio.error';
-import { UsuarioComercioService } from 'src/usuario-comercio/usuario-comercio.service';
+import { UsuarioComercioService } from 'src/comerciante/usuario-comercio/usuario-comercio.service';
 import { ComercioNotValidError } from 'src/comerciante/error/comercio-not-valid.error';
 
 @Injectable()

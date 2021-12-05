@@ -1,6 +1,6 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { UsuarioComercio } from "src/usuario-comercio/entities/usuario-comercio.entity";
-import { UsuarioComercioStorage } from "src/usuario-comercio/usuario-comercio.storage";
+import { UsuarioComercio } from "src/comerciante/usuario-comercio/entities/usuario-comercio.entity";
+import { UsuarioComercioStorage } from "src/comerciante/usuario-comercio/usuario-comercio.storage";
 import { Repository } from "typeorm";
 import { UsuarioComercioTypeOrmModel } from "./usuario-comercio.typeorm.model";
 

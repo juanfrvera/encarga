@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { UsuarioComercioModule } from 'src/usuario-comercio/usuario-comercio.module';
+import { UsuarioComercioModule } from 'src/comerciante/usuario-comercio/usuario-comercio.module';
 import { UsuarioModule } from 'src/usuario/usuario.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';

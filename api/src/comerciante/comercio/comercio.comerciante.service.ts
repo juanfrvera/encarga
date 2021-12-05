@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ComercioService } from "src/shared/comercio/comercio.service";
 import { Comercio } from "src/shared/comercio/entities/comercio.entity";
-import { UsuarioComercioService } from "src/usuario-comercio/usuario-comercio.service";
+import { UsuarioComercioService } from "src/comerciante/usuario-comercio/usuario-comercio.service";
 import { ComercioComercianteModel } from "./data/comercio.comerciante.model";
 
 @Injectable()

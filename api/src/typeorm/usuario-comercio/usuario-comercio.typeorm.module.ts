@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { UsuarioComercioStorage } from "src/usuario-comercio/usuario-comercio.storage";
+import { UsuarioComercioStorage } from "src/comerciante/usuario-comercio/usuario-comercio.storage";
 import { UsuarioComercioTypeOrmModel } from "./usuario-comercio.typeorm.model";
 import { UsuarioComercioTypeOrmStorage } from "./usuario-comercio.typeorm.storage";
 
