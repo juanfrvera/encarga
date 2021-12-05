@@ -20,6 +20,10 @@ export class CategoriaService {
         return this.storage.create(data, transaction);
     }
 
+    public getListByComercioId(comercioId: string): Promise<Array<Categoria>> {
+        return this.storage.getListByComercioId(comercioId);
+    }
+
     public getListByComercioIdNotEmpty(comercioId: string): Promise<Array<Categoria>> {
         return this.storage.getListByComercioIdNotEmpty(comercioId);
     }

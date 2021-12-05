@@ -31,6 +31,19 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
         return this.toEntity(model);
     }
 
+    public async getListByComercioId(comercioId: string): Promise<Categoria[]> {
+        const query = this.repository.createQueryBuilder('categoria').select();
+
+        query.leftJoin('categoria.comercio', 'comercio');
+
+        query.where('comercio.id = :comercioId', { comercioId });
+
+        const modelList = await query.getMany();
+
+        return modelList.map(m => this.toEntity(m));
+    }
+
+
     public async getListByComercioIdNotEmpty(comercioId: string): Promise<Categoria[]> {
         const query = this.repository.createQueryBuilder('categoria').select();
 
