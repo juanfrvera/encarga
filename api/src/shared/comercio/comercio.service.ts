@@ -52,4 +52,8 @@ export class ComercioService {
             throw new ComercioNotFoundError();
         }
     }
+
+    public getListByIdList(idList: Array<string>): Promise<Array<Comercio>> {
+        return this.storage.getListByIdList(idList);
+    }
 }

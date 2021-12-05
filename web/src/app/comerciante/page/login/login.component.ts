@@ -44,22 +44,22 @@ export class LoginComponent implements OnInit {
     if (this.formulario.isValid()) {
       this.ingresando = true;
 
-      this.auth.login(this.Mail, this.Password)
-        .subscribe(() => {
-          this.router.navigateByUrl('admin');
-          this.ingresando = false;
+      this.auth.login(this.Mail, this.Password).subscribe(
+        () => {
+          this.router.navigateByUrl('admin/elegirComercio');
         },
-          // Error  
-          () => {
-            this.ingresando = false;
-
-            this.swalService.fire({
-              icon: 'error',
-              iconColor: SwalService.errorColor,
-              title: 'Ocurrió un error',
-              confirmButtonText: 'Aceptar',
-            });
+        // Error  
+        () => {
+          this.swalService.fire({
+            icon: 'error',
+            iconColor: SwalService.errorColor,
+            title: 'Ocurrió un error',
+            confirmButtonText: 'Aceptar',
           });
+        },
+        () => {
+          this.ingresando = false;
+        });
     }
     else {
       this.formulario.showFeedback();

@@ -6,6 +6,7 @@ import { UsuarioModule } from 'src/usuario/usuario.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { jwtConstants } from './constants';
+import { ComercianteWithComercioStrategy } from './strategy/comerciante-with-comercio.strategy';
 import { ComercianteStrategy } from './strategy/comerciante.strategy';
 import { LocalStrategy } from './strategy/local.strategy';
 
@@ -20,6 +21,6 @@ import { LocalStrategy } from './strategy/local.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, ComercianteStrategy]
+  providers: [AuthService, LocalStrategy, ComercianteStrategy, ComercianteWithComercioStrategy]
 })
 export class AuthModule { }

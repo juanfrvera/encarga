@@ -39,6 +39,12 @@ export class ComercioTypeOrmStorage extends BaseTypeOrmStorage<ComercioTypeOrmMo
         return this.toEntity(model);
     }
 
+    public async getListByIdList(idList: Array<string>): Promise<Array<Comercio>> {
+        const modelList = await this.repository.findByIds(idList);
+
+        return modelList.map(m => this.toEntity(m));
+    }
+
     public getModel(id: string, transaction?: TransactionProxy): Promise<ComercioTypeOrmModel> {
         if (transaction) {
             return transaction.findOne<ComercioTypeOrmModel>(this.repository.target, id);

@@ -8,9 +8,7 @@ import { ItemLightDto } from "../dto/item.light.dto";
 import { ApiService } from "./api.service";
 import { ICrudService } from "./interface/crud.service.interface";
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class ItemService implements ICrudService {
     private readonly endpoint = 'item/';
 

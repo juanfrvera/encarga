@@ -1,4 +1,4 @@
-export class ComercianteInputData{
+export class ComercianteWithComercioData{
     comercioId: string;
     usuarioId: string;
 }

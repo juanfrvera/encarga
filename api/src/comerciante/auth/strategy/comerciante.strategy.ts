@@ -2,40 +2,23 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { jwtConstants } from '../constants';
-import { ComercianteInputData } from 'src/comerciante/data/comerciante.input.data';
-import { NoComercioError } from 'src/comerciante/error/no-comercio.error';
-import { UsuarioComercioService } from 'src/usuario-comercio/usuario-comercio.service';
-import { ComercioNotValidError } from 'src/comerciante/error/comercio-not-valid.error';
+import { ComercianteData } from 'src/comerciante/data/comerciante.data';
 
 @Injectable()
 export class ComercianteStrategy extends PassportStrategy(Strategy, 'comerciante') {
-    constructor(
-        private readonly usuarioComercioService: UsuarioComercioService
-    ) {
+    constructor() {
         super({
             ignoreExpiration: false,
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            passReqToCallback: true,
             secretOrKey: jwtConstants.secret,
         });
     }
 
     // Passport will build a user object based on the return value of our validate() method,
     // and attach it as a property on the Request object.
-    async validate(req: Request, payload): Promise<ComercianteInputData> {
-        const comercioId: string = req.headers['comercio_id'];
+    async validate(payload): Promise<ComercianteData> {
         const usuarioId: string = payload.sub;
 
-        if (comercioId) {
-            if (await this.usuarioComercioService.isUsuarioFromComercio(usuarioId, comercioId)) {
-                return { comercioId, usuarioId };
-            }
-            else {
-                throw new ComercioNotValidError();
-            }
-        }
-        else {
-            throw new NoComercioError();
-        }
+        return { usuarioId };
     }
 }

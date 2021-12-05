@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
-import { ComercioService } from "./service/comercio.service";
+import { ComercioApi } from "./comercio/comercio.api";
+import { provider as authInterceptorProvider } from './interceptor/auth.interceptor';
 import { provider as comercioInterceptorProvider } from './interceptor/comercio.interceptor';
 import { AdminComponent } from "./page/admin.component";
 import { DashboardComponent } from "./page/dashboard/dashboard.component";
@@ -17,20 +18,31 @@ import { ApiService } from "./service/api.service";
 import { LoginComponent } from "./page/login/login.component";
 import { AuthService } from "./service/auth.service";
 import { CommonModule } from "@angular/common";
+import { AuthGuard } from "./guard/auth.guard";
+import { ItemService } from "./service/item.service";
+import { HttpClientModule } from "@angular/common/http";
+import { ComercioModule } from "./comercio/comercio.module";
+import { ComercioSelectorComponent } from "./page/comercio-selector/comercio-selector.component";
 
 @NgModule({
     imports: [
         ComercianteRoutingModule,
         CommonModule,
         FormsModule,
+
+        // Its imported here to override other interceptors and inject the interceptors of this module
+        HttpClientModule,
         NgSelectModule,
         // App
-        SharedModule
+        SharedModule,
+        // Feature
+        ComercioModule
     ],
     declarations: [
         // Page
         AdminComponent,
         CategoriaComponent,
+        ComercioSelectorComponent,
         DashboardComponent,
         ItemComponent,
         LoginComponent,
@@ -44,9 +56,12 @@ import { CommonModule } from "@angular/common";
         ApiService,
         AuthService,
         CategoriaService,
-        ComercioService,
+        ItemService,
         // Interceptor
-        comercioInterceptorProvider
+        authInterceptorProvider,
+        comercioInterceptorProvider,
+        // Guard
+        AuthGuard,
     ],
 })
 export class ComercianteModule { }

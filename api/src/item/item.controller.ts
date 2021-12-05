@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch,
 import { ItemService } from './item.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { Item } from './entities/item.entity';
-import { ComercianteAuthGuard } from 'src/comerciante/auth/guard/comerciante-auth.guard';
+import { ComercianteWithComercioAuthGuard } from 'src/comerciante/auth/guard/comerciante-with-comercio-auth.guard';
 import { EntityNotFoundError } from 'typeorm';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { ItemUpdateData } from './data/item.update.data';
@@ -16,7 +16,7 @@ export class ItemController {
     private readonly service: ItemService
     ) { }
 
-  @UseGuards(ComercianteAuthGuard)
+  @UseGuards(ComercianteWithComercioAuthGuard)
   @Post()
   async create(@Body() dto: CreateItemDto) {
     const creationData : ItemCreationData = {
@@ -37,7 +37,7 @@ export class ItemController {
     return this.toDto(entity);
   }
 
-  @UseGuards(ComercianteAuthGuard)
+  @UseGuards(ComercianteWithComercioAuthGuard)
   @Patch(':id')
   public async update(@Param('id') id: string, @Body() dto: UpdateItemDto) {
     const data : ItemUpdateData = {
@@ -60,7 +60,7 @@ export class ItemController {
     }
   }
 
-  @UseGuards(ComercianteAuthGuard)
+  @UseGuards(ComercianteWithComercioAuthGuard)
   @Delete(':id')
   public async remove(@Param('id') id: string) {
     return this.service.remove(id);
