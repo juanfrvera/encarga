@@ -13,15 +13,18 @@ export class ItemComercianteService {
         return this.itemService.countByComercio(comercioId);
     }
 
-    public async getList(comercioId: string): Promise<Array<ItemComercianteModel>>{
+    public async getList(comercioId: string): Promise<Array<ItemComercianteModel>> {
         const entityList = await this.itemService.getListByComercio(comercioId);
 
         return entityList.map(e => this.toModel(e));
     }
 
-    private toModel(entity : Item) : ItemComercianteModel{
+    private toModel(entity: Item): ItemComercianteModel {
         return {
-            id: entity.id
+            id: entity.id,
+            description: entity.description,
+            name: entity.name,
+            price: entity.price
         }
     }
 }

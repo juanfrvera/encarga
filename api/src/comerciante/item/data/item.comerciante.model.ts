@@ -1,3 +1,6 @@
-export class ItemComercianteModel{
-    id:string;
+export class ItemComercianteModel {
+    id: string;
+    description: string;
+    name: string;
+    price: number;
 }

@@ -2,7 +2,7 @@
   <!-- Formulario dentro del modal -->
   <!-- La directiva let permite obtener el item actual ya que es proveido por el componente -->
   <!-- El componente crud busca el primer ng-template que encuentra y lo mete dentro del formulario del modal -->
-  <ng-template #templateFormulario let-item>
+  <ng-template #formTemplate let-item>
     <div class="mb-3">
       <label for="titulo" class="form-label">Nombre</label>
       <input
@@ -46,17 +46,17 @@
       </ng-select>
     </div>
   </ng-template>
-  <ng-template #templateLista let-itemlista>
+  <ng-template #listTemplate let-listItem>
     <!-- here we can use item -->
     <div
       class="d-flex w-100 justify-content-between p-2 rounded cursor-pointer hover"
     >
       <div class="izquierda">
-        <h5 class="mb-1 fs-6">{{ itemlista.titulo }}</h5>
-        <p class="mb-2 text-muted desc">{{ itemlista.descripcion }}</p>
+        <h5 class="mb-1 fs-6">{{ listItem.name }}</h5>
+        <p class="mb-2 text-muted desc">{{ listItem.description }}</p>
       </div>
       <div class="derecha align-self-center fs-5 mb-0">
-        <strong>${{ itemlista.precio }}</strong>
+        <strong>${{ listItem.price }}</strong>
       </div>
     </div>
   </ng-template>

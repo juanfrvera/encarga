@@ -19,7 +19,9 @@ export class ItemComponent implements OnInit {
     return this.service;
   }
 
-  constructor(private service: ItemService, private categoriaService: CategoriaService) { }
+  constructor(
+    private readonly service: ItemService,
+    private readonly categoriaService: CategoriaService) { }
 
   ngOnInit(): void {
     this.categoriaService.getList().subscribe(list => {
