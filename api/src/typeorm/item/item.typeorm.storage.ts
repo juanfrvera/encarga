@@ -21,7 +21,7 @@ export class ItemTypeOrmStorage extends ItemStorage {
     public countByComercio(comercioId: string): Promise<number> {
         const query = this.repository.createQueryBuilder('item').select();
 
-        query.leftJoin('item.itemCategorias', 'itemCategoria');
+        query.leftJoin('item.itemCategoriaList', 'itemCategoria');
         query.leftJoin('itemCategoria.categoria', 'categoria');
         query.leftJoin('categoria.comercio', 'comercio');
 

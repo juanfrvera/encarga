@@ -1,21 +1,34 @@
 import { Injectable } from "@angular/core";
 import { ComercioApi } from "./comercio.api";
 import { ComercioState } from "./comercio.state";
-import { ComercioLightDto } from "./model/comercio.light.dto";
 
 @Injectable()
 export class ComercioFacade {
+    private readonly currentIdKey = 'comercio_current_id';
+
     constructor(
         private readonly api: ComercioApi,
         private readonly state: ComercioState
     ) { }
 
-    public getCurrent$() {
-        return this.state.getCurrent$();
+    public getCurrentId$() {
+        return this.state.getCurrentId$();
+    }
+
+    public getCurrentId() {
+        return this.state.getCurrentId();
     }
 
     public getList$() {
         return this.state.getList$();
+    }
+
+    public loadCurrentId() {
+        const currentId = localStorage.getItem(this.currentIdKey);
+
+        if (currentId) {
+            this.state.setCurrentId(currentId);
+        }
     }
 
     public loadList() {
@@ -25,7 +38,9 @@ export class ComercioFacade {
         );
     }
 
-    public setCurrent(current: ComercioLightDto) {
-        this.state.setCurrent(current);
+    public setCurrentId(currentId: string) {
+        this.state.setCurrentId(currentId);
+
+        localStorage.setItem(this.currentIdKey, currentId);
     }
 }

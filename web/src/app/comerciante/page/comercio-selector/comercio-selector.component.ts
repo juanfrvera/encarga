@@ -44,7 +44,7 @@ export class ComercioSelectorComponent implements OnInit, OnDestroy {
     }
 
     private select(comercio: ComercioLightDto) {
-        this.comercioFacade.setCurrent(comercio);
+        this.comercioFacade.setCurrentId(comercio.id);
 
         this.router.navigateByUrl('admin');
     }

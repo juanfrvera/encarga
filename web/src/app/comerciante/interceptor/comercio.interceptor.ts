@@ -7,12 +7,16 @@ import { ComercioFacade } from "../comercio/comercio.facade";
 export class ComercioInterceptor implements HttpInterceptor {
     public static readonly HeaderName = "comercio_id";
 
-    private currentComercioId: string | undefined;
+    private currentComercioId: string | null;
 
     constructor(readonly comercioFacade: ComercioFacade) {
-        comercioFacade.getCurrent$().subscribe(current => {
-            this.currentComercioId = current?.id;
+        comercioFacade.getCurrentId$().subscribe(currentId => {
+            this.currentComercioId = currentId;
         });
+
+        if (!comercioFacade.getCurrentId()) {
+            comercioFacade.loadCurrentId();
+        }
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
