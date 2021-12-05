@@ -2,7 +2,7 @@ import { Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guard/local-auth.guard';
 
-@Controller('auth')
+@Controller('comerciante/auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) { }
 

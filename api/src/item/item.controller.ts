@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch,
 import { ItemService } from './item.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { Item } from './entities/item.entity';
-import { ComercianteAuthGuard } from 'src/auth/guard/comerciante-auth.guard';
+import { ComercianteAuthGuard } from 'src/comerciante/auth/guard/comerciante-auth.guard';
 import { EntityNotFoundError } from 'typeorm';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { ItemUpdateData } from './data/item.update.data';
