@@ -1,3 +1,4 @@
-export interface CategoriaLightDto{
+export interface CategoriaLightDto {
     id: string;
+    name: string;
 }

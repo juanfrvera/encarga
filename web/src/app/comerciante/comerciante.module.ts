@@ -15,10 +15,13 @@ import { ComercianteRoutingModule } from "./comerciante.routing.module";
 import { CategoriaService } from "./service/categoria.service";
 import { ApiService } from "./service/api.service";
 import { LoginComponent } from "./page/login/login.component";
+import { AuthService } from "./service/auth.service";
+import { CommonModule } from "@angular/common";
 
 @NgModule({
     imports: [
         ComercianteRoutingModule,
+        CommonModule,
         FormsModule,
         NgSelectModule,
         // App
@@ -39,6 +42,7 @@ import { LoginComponent } from "./page/login/login.component";
     providers: [
         // Service
         ApiService,
+        AuthService,
         CategoriaService,
         ComercioService,
         // Interceptor

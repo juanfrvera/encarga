@@ -12,7 +12,7 @@
     </ng-container>
     <ng-container ngProjectAs="[body]">
         <app-formulario>
-            <ng-template [ngTemplateOutlet]="templateFormulario" [ngTemplateOutletContext]="{$implicit: Item}">
+            <ng-template [ngTemplateOutlet]="formTemplate" [ngTemplateOutletContext]="{$implicit: Item}">
             </ng-template>
         </app-formulario>
     </ng-container>
@@ -23,22 +23,22 @@
     </ng-container>
 </app-modal>
 
-<div *ngIf="Lista | async as lista; else cargando">
+<div *ngIf="List | async as list; else cargando">
     <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
             <h1 class="card-title align-self-center fs-3"><strong>{{Title}}s</strong></h1>
             <button (click)="add()" type="button"
                 class="btn btn-primary bg-gradient btn-sm text-white"><strong>Agregar</strong></button>
         </div>
-        <div *ngIf="lista.length; else empty" class="card">
+        <div *ngIf="list.length; else empty" class="card">
             <!-- Hay Items y cargó -->
 
             <div class="container-full">
-                <app-lista [items]="lista" (itemClick)="update($event)">
+                <app-lista [items]="list" (itemClick)="update($event)">
                     <!-- Se saca el item de la lista y se envía hacia arriba, dandoseló al #templateLista 
                     dentro de este componente CRUD -->
                     <ng-template let-itemlista>
-                        <ng-template [ngTemplateOutlet]="templateLista"
+                        <ng-template [ngTemplateOutlet]="listTemplate"
                             [ngTemplateOutletContext]="{$implicit: itemlista}">
                         </ng-template>
                     </ng-template>

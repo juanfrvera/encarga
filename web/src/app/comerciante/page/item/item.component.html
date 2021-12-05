@@ -1,42 +1,72 @@
 <app-crud [service]="Service" [title]="'Ítem'">
-    <!-- Formulario dentro del modal -->
-    <!-- La directiva let permite obtener el item actual ya que es proveido por el componente -->
-    <!-- El componente crud busca el primer ng-template que encuentra y lo mete dentro del formulario del modal -->
-    <ng-template #templateFormulario let-item>
-        <div class="mb-3">
-            <label for="titulo" class="form-label">Nombre</label>
-            <input [(ngModel)]="item.titulo" id="titulo" type="text" class="form-control" required>
-            <div class="invalid-feedback">Por favor ingrese un nombre</div>
-        </div>
-        <div class="mb-3">
-            <label for="precio" class="form-label">Precio</label>
-            <input [(ngModel)]="item.precio" id="precio" type="number" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="descripcion" class="form-label">Descripción</label>
-            <textarea [(ngModel)]="item.descripcion" class="form-control" id="descripcion" rows="3"></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="categorias" class="form-label">Categorías</label>
-            <ng-select id="categorias" [(ngModel)]="item.idsCategorias" [multiple]="true" [loadingText]="'Cargando...'">
-                <ng-option *ngFor="let cat of CategoriaList" [value]="cat.id">{{cat.nombre}}</ng-option>
-            </ng-select>
-        </div>
-    </ng-template>
-    <ng-template #templateLista let-itemlista>
-        <!-- here we can use item -->
-        <div class="d-flex w-100 justify-content-between p-2 rounded cursor-pointer hover">
-            <div class="izquierda">
-                <h5 class="mb-1 fs-6">{{itemlista.titulo}}</h5>
-                <p class="mb-2 text-muted desc">{{itemlista.descripcion}}</p>
-            </div>
-            <div class="derecha align-self-center fs-5 mb-0"><strong>${{itemlista.precio}}</strong></div>
-        </div>
-    </ng-template>
-    <div empty-state class="d-flex justify-content-center align-items-center w-100 h-100">
-        <div class="text-center">
-            <img src="../../../assets/empty-state/caja.png" alt="">
-            <p class="text-muted mt-3">Aún no tienes ítems, comienza a agregarlos!</p>
-        </div>
+  <!-- Formulario dentro del modal -->
+  <!-- La directiva let permite obtener el item actual ya que es proveido por el componente -->
+  <!-- El componente crud busca el primer ng-template que encuentra y lo mete dentro del formulario del modal -->
+  <ng-template #templateFormulario let-item>
+    <div class="mb-3">
+      <label for="titulo" class="form-label">Nombre</label>
+      <input
+        [(ngModel)]="item.titulo"
+        id="titulo"
+        type="text"
+        class="form-control"
+        required
+      />
+      <div class="invalid-feedback">Por favor ingrese un nombre</div>
     </div>
+    <div class="mb-3">
+      <label for="precio" class="form-label">Precio</label>
+      <input
+        [(ngModel)]="item.precio"
+        id="precio"
+        type="number"
+        class="form-control"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="descripcion" class="form-label">Descripción</label>
+      <textarea
+        [(ngModel)]="item.descripcion"
+        class="form-control"
+        id="descripcion"
+        rows="3"
+      ></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="categorias" class="form-label">Categorías</label>
+      <ng-select
+        id="categorias"
+        [(ngModel)]="item.idsCategorias"
+        [multiple]="true"
+        [loadingText]="'Cargando...'"
+      >
+        <ng-option *ngFor="let cat of CategoriaList" [value]="cat.id">
+          {{ cat.name }}
+        </ng-option>
+      </ng-select>
+    </div>
+  </ng-template>
+  <ng-template #templateLista let-itemlista>
+    <!-- here we can use item -->
+    <div
+      class="d-flex w-100 justify-content-between p-2 rounded cursor-pointer hover"
+    >
+      <div class="izquierda">
+        <h5 class="mb-1 fs-6">{{ itemlista.titulo }}</h5>
+        <p class="mb-2 text-muted desc">{{ itemlista.descripcion }}</p>
+      </div>
+      <div class="derecha align-self-center fs-5 mb-0">
+        <strong>${{ itemlista.precio }}</strong>
+      </div>
+    </div>
+  </ng-template>
+  <div
+    empty-state
+    class="d-flex justify-content-center align-items-center w-100 h-100"
+  >
+    <div class="text-center">
+      <img src="../../../assets/empty-state/caja.png" alt="" />
+      <p class="text-muted mt-3">Aún no tienes ítems, comienza a agregarlos!</p>
+    </div>
+  </div>
 </app-crud>
