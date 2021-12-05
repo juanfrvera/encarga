@@ -95,7 +95,7 @@ export class ItemTypeOrmStorage extends ItemStorage {
     public async getListByComercio(comercioId: string): Promise<Array<Item>> {
         const query = this.repository.createQueryBuilder('item').select();
 
-        query.leftJoin('item.itemCategorias', 'itemCategoria');
+        query.leftJoin('item.itemCategoriaList', 'itemCategoria');
         query.leftJoin('itemCategoria.categoria', 'categoria');
         query.leftJoin('categoria.comercio', 'comercio');
 
