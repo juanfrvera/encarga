@@ -34,7 +34,8 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
     public async getListByComercioId(comercioId: string): Promise<Categoria[]> {
         const query = this.repository.createQueryBuilder('categoria').select();
 
-        query.leftJoin('categoria.comercio', 'comercio');
+        query.leftJoin('categoria.comercioCategoriaList', 'comercioCategoria');
+        query.leftJoin('comercioCategoria.comercio', 'comercio');
 
         query.where('comercio.id = :comercioId', { comercioId });
 
@@ -48,7 +49,8 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
         const query = this.repository.createQueryBuilder('categoria').select();
 
         query.leftJoin('categoria.itemCategoriaList', 'itemcategoria');
-        query.leftJoin('categoria.comercio', 'comercio');
+        query.leftJoin('categoria.comercioCategoriaList', 'comercioCategoria');
+        query.leftJoin('comercioCategoria.comercio', 'comercio');
 
         query.where('comercio.id = :comercioId', { comercioId });
         query.andWhere('itemcategoria IS NOT NULL');
@@ -124,7 +126,8 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
         }
 
         if (filter.urlComercio) {
-            query.leftJoin('categoria.comercio', 'comercio')
+            query.leftJoin('categoria.comercioCategoriaList', 'comercioCategoria')
+                .leftJoin('comercioCategoria.comercio', 'comercio')
                 .andWhere('comercio.url = :urlComercio', { urlComercio: filter.urlComercio });
         }
 
