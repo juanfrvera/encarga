@@ -23,7 +23,8 @@ export class ItemTypeOrmStorage extends ItemStorage {
 
         query.leftJoin('item.itemCategoriaList', 'itemCategoria');
         query.leftJoin('itemCategoria.categoria', 'categoria');
-        query.leftJoin('categoria.comercio', 'comercio');
+        query.leftJoin('categoria.comercioCategoriaList', 'comercioCategoria');
+        query.leftJoin('comercioCategoria.comercio', 'comercio');
 
         query.where('comercio.id = :comercioId', { comercioId });
 
@@ -97,7 +98,8 @@ export class ItemTypeOrmStorage extends ItemStorage {
 
         query.leftJoin('item.itemCategoriaList', 'itemCategoria');
         query.leftJoin('itemCategoria.categoria', 'categoria');
-        query.leftJoin('categoria.comercio', 'comercio');
+        query.leftJoin('categoria.comercioCategoriaList', 'comercioCategoria');
+        query.leftJoin('comercioCategoria.comercio', 'comercio');
 
         query.where('comercio.id = :comercioId', { comercioId });
 
