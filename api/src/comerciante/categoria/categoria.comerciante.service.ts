@@ -17,7 +17,8 @@ export class CategoriaComercianteService {
 
     private toModel(entity: Categoria): CategoriaComercianteModel {
         return {
-            id: entity.id
+            id: entity.id,
+            name: entity.name
         };
     }
 }

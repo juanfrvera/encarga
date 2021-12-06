@@ -23,7 +23,8 @@ export class CategoriaComercianteController {
 
     private toLightDto(entity: CategoriaComercianteModel): CategoriaComercianteLightDto {
         return {
-            id: entity.id
+            id: entity.id,
+            name: entity.name
         };
     }
 }
