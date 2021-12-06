@@ -4,10 +4,10 @@
   <!-- El componente crud busca el primer ng-template que encuentra y lo mete dentro del formulario del modal -->
   <ng-template #formTemplate let-item>
     <div class="mb-3">
-      <label for="titulo" class="form-label">Nombre</label>
+      <label for="name" class="form-label">Nombre</label>
       <input
-        [(ngModel)]="item.titulo"
-        id="titulo"
+        [(ngModel)]="item.name"
+        id="name"
         type="text"
         class="form-control"
         required
@@ -15,20 +15,20 @@
       <div class="invalid-feedback">Por favor ingrese un nombre</div>
     </div>
     <div class="mb-3">
-      <label for="precio" class="form-label">Precio</label>
+      <label for="price" class="form-label">Precio</label>
       <input
-        [(ngModel)]="item.precio"
-        id="precio"
+        [(ngModel)]="item.price"
+        id="price"
         type="number"
         class="form-control"
       />
     </div>
     <div class="mb-3">
-      <label for="descripcion" class="form-label">Descripción</label>
+      <label for="description" class="form-label">Descripción</label>
       <textarea
-        [(ngModel)]="item.descripcion"
+        [(ngModel)]="item.description"
         class="form-control"
-        id="descripcion"
+        id="description"
         rows="3"
       ></textarea>
     </div>
