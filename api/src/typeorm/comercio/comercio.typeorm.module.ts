@@ -11,10 +11,12 @@ import { ComercioTypeOrmStorage } from "./comercio.typeorm.storage";
         CategoriaTypeOrmModule
     ],
     providers: [
-        {provide: ComercioStorage, useClass: ComercioTypeOrmStorage}
+        { provide: ComercioStorage, useClass: ComercioTypeOrmStorage },
+        ComercioTypeOrmStorage
     ],
-    exports:[
-        ComercioStorage
+    exports: [
+        ComercioStorage,
+        ComercioTypeOrmStorage
     ]
 })
 export class ComercioTypeOrmModule { }

@@ -1,22 +1,18 @@
 import { BaseTypeOrmModel } from "src/base/storage/base.typeorm.model";
-import { CategoriaTypeOrmModel } from "src/typeorm/categoria/categoria.typeorm.model";
 import { UsuarioComercioTypeOrmModel } from "src/typeorm/usuario-comercio/usuario-comercio.typeorm.model";
-import { Column, Entity, JoinColumn, OneToMany, OneToOne } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
+import { ComercioCategoriaTypeOrmModel } from "../comercio-categoria/comercio-categoria.typeorm.model";
 
 @Entity('comercio')
 export class ComercioTypeOrmModel extends BaseTypeOrmModel {
     @Column({ unique: true })
     url: string;
 
-    @OneToMany(() => CategoriaTypeOrmModel, categoria => categoria.comercio)
-    categoriaListWithoutDefault: CategoriaTypeOrmModel[];
-
-    /** Categoría a donde van a parar los items sin categoria */
-    @OneToOne(() => CategoriaTypeOrmModel, { eager: true }) @JoinColumn()
-    categoriaDefault: CategoriaTypeOrmModel;
+    @OneToMany(() => ComercioCategoriaTypeOrmModel, comercioCategoria => comercioCategoria.comercio)
+    comercioCategoriaList: Array<ComercioCategoriaTypeOrmModel>;
 
     /** Usuarios de este comercio */
     @OneToMany(() => UsuarioComercioTypeOrmModel, usuarioComercio => usuarioComercio.comercio,
-     { nullable: true })
+        { nullable: true })
     usuarioComercioList: UsuarioComercioTypeOrmModel[];
 }

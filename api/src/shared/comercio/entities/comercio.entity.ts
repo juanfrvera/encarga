@@ -1,13 +1,18 @@
 export class Comercio {
-    id: string;
-    url: string;
+    private _id: string;
+    private _url: string;
 
-    /** Categoría a donde van a parar los items sin categoria */
-    categoriaDefaultId: string;
+    // Accesors
+    public get id(): string {
+        return this._id;
+    }
+    public get url(): string {
+        return this._url;
+    }
 
-    constructor(id: string, url: string, categoriaDefaultId: string) {
-        this.id = id;
-        this.categoriaDefaultId = categoriaDefaultId;
-        this.url = url;
+
+    constructor(id: string, url: string) {
+        this._id = id;
+        this._url = url;
     }
 }

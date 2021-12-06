@@ -1,3 +1,3 @@
 export class CategoriaCreationData{
-    nombre: string;
+    name: string;
 }

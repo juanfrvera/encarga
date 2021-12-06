@@ -19,7 +19,7 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
     public async create(data: CategoriaCreationData, transaction?: TransactionProxy): Promise<Categoria> {
         let model = new CategoriaTypeOrmModel();
 
-        model.nombre = data.nombre;
+        model.nombre = data.name;
 
         if (transaction) {
             model = await transaction.save(model);

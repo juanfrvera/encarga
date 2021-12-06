@@ -1,8 +1,6 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { BaseTypeOrmStorage } from "src/base/storage/base.typeorm.storage";
-import { Categoria } from "src/shared/categoria/entities/categoria.entity";
-import { CategoriaTypeOrmStorage } from "../categoria/categoria.typeorm.storage";
 import { Repository } from "typeorm";
 import { ComercioCreationData } from "src/shared/comercio/data/comercio.creation.data";
 import { Comercio } from "src/shared/comercio/entities/comercio.entity";
@@ -13,7 +11,6 @@ export class ComercioTypeOrmStorage extends BaseTypeOrmStorage<ComercioTypeOrmMo
     constructor(
         @InjectRepository(ComercioTypeOrmModel)
         readonly repository: Repository<ComercioTypeOrmModel>,
-        private readonly categoriaStorage: CategoriaTypeOrmStorage
     ) {
         super(repository);
     }
@@ -29,6 +26,12 @@ export class ComercioTypeOrmStorage extends BaseTypeOrmStorage<ComercioTypeOrmMo
         else {
             model = await this.repository.save(model);
         }
+
+        return this.toEntity(model);
+    }
+
+    public async getById(id: string): Promise<Comercio> {
+        const model = await this.repository.findOne(id);
 
         return this.toEntity(model);
     }
@@ -54,25 +57,10 @@ export class ComercioTypeOrmStorage extends BaseTypeOrmStorage<ComercioTypeOrmMo
         }
     }
 
-    public async setDefaultCategoria(entity: Comercio, categoria: Categoria, transaction?: TransactionProxy)
-        : Promise<Comercio> {
-        let model = await this.getModel(entity.id, transaction);
-        const categoriaModel = await this.categoriaStorage.getModel(categoria.id, transaction);
-
-        model.categoriaDefault = categoriaModel;
-
-        if (transaction) {
-            model = await transaction.save(model);
-        }
-        else {
-            model = await this.repository.save(model);
-        }
-
-        return this.toEntity(model);
-    }
-
-
     public toEntity(model: ComercioTypeOrmModel): Comercio {
-        return new Comercio(model.id.toString(), model.url, model.categoriaDefault.id.toString());
+        return new Comercio(
+            model.id.toString(),
+            model.url
+        );
     }
 }

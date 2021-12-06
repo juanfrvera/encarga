@@ -5,33 +5,36 @@ import { Comercio } from './entities/comercio.entity';
 import { ComercioStorage } from './comercio.storage';
 import { ComercioNotFoundError } from './error/comercio-not-found.error';
 import { NoComercioUrlError } from './error/no-comercio-url.error';
-import { CategoriaService } from '../categoria/categoria.service';
+import { ComercioCategoriaService } from '../comercio-categoria/comercio-categoria.service';
 
 @Injectable()
 export class ComercioService {
     constructor(
         private readonly storage: ComercioStorage,
         private readonly baseStorage: BaseStorage,
-        private readonly categoriaService: CategoriaService
+        private readonly comercioCategoriaService: ComercioCategoriaService
     ) { }
 
     public async create(data: ComercioCreationData): Promise<Comercio> {
         return this.baseStorage.startTransaction(async transaction => {
             // Create comercio
-            let entity = await this.storage.create(data, transaction);
+            const entity = await this.storage.create(data, transaction);
 
-            // Create default category pointing to comercio
-            const categoriaDefault = await this.categoriaService.create(
-                {
-                    nombre: 'default'
-                },
-                transaction);
-
-            // Assign created default category to comercio
-            entity = await this.storage.setDefaultCategoria(entity, categoriaDefault, transaction);
+            await this.comercioCategoriaService.createDefaultForComercioId(entity.id, transaction);
 
             return entity;
         });
+    }
+
+    public async getByIdOrThrow(id: string): Promise<Comercio> {
+        const entity = await this.storage.getById(id);
+
+        if (entity) {
+            return entity;
+        }
+        else {
+            throw new ComercioNotFoundError();
+        }
     }
 
     public getByUrl(url: string): Promise<Comercio> {
