@@ -1,9 +1,11 @@
-import { Controller, Get, Param, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Put, Request, UseGuards } from "@nestjs/common";
 import { ComercianteWithComercioAuthGuard } from "src/comerciante/auth/guard/comerciante-with-comercio-auth.guard";
 import { ComercianteWithComercioData } from "../data/comerciante-with-comercio.data";
 import { ItemComercianteModel } from "./data/item.comerciante.model";
+import { ItemComercianteUpdateData } from "./data/item.comerciante.update.data";
 import { ItemComercianteDto } from "./dto/item.comerciante.dto";
 import { ItemComercianteLightDto } from "./dto/item.comerciante.light.dto";
+import { ItemComercianteUpdateDto } from "./dto/item.comerciante.update.dto";
 import { ItemComercianteService } from "./item.comerciante.service";
 
 @Controller('comerciante/item')
@@ -27,6 +29,24 @@ export class ItemComercianteController {
         const entityList = await this.service.getList(user.comercioId);
 
         return entityList.map(e => this.toLightDto(e));
+    }
+
+    @Put()
+    public async update(
+        @Body() updateDto: ItemComercianteUpdateDto, @Request() request): Promise<ItemComercianteLightDto> {
+        const user: ComercianteWithComercioData = request.user;
+
+        const updateData: ItemComercianteUpdateData = {
+            id: updateDto.id,
+            categoriaIdList: updateDto.categoriaIdList,
+            description: updateDto.description,
+            name: updateDto.name,
+            price: updateDto.price
+        };
+
+        const entity = await this.service.update(updateData, user.comercioId);
+
+        return this.toLightDto(entity);
     }
 
     @Get(':id')

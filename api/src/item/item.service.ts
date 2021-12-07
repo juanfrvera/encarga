@@ -46,10 +46,10 @@ export class ItemService {
     }
   }
 
-  public async update(id: string, data: ItemUpdateData): Promise<Item> {
-    if (!this.storage.exists(id)) throw new ItemNotFoundError();
+  public async update(data: ItemUpdateData): Promise<Item> {
+    if (!this.storage.exists(data.id)) throw new ItemNotFoundError();
 
-    const entity = await this.storage.update(id, data);
+    const entity = await this.storage.update(data.id, data);
 
     return entity;
   }

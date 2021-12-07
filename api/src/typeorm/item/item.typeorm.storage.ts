@@ -134,9 +134,9 @@ export class ItemTypeOrmStorage extends ItemStorage {
         const model = await this.repository.manager.transaction(async manager => {
             const original = await manager.findOneOrFail(this.repository.target, id) as ItemTypeOrmModel;
 
-            original.name = data.titulo ?? original.name;
-            original.description = data.descripcion ?? original.description;
-            original.price = data.precio ?? original.price;
+            original.name = data.name ?? original.name;
+            original.description = data.description ?? original.description;
+            original.price = data.price ?? original.price;
 
             await manager.save(original);
 

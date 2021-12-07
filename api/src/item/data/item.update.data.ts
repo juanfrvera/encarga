@@ -1,5 +1,6 @@
 export class ItemUpdateData {
-    titulo?: string;
-    precio?: number;
-    descripcion?: string;
+    id: string;
+    description?: string;
+    name?: string;
+    price?: number;
 }
