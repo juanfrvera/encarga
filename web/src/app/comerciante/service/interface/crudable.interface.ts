@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 
-export interface ICrudService {
+export interface ICrudable {
     create(data: any): Observable<any>;
     delete(id: string): Observable<void>;
     get(id: string): Observable<any>;

@@ -6,10 +6,10 @@ import { ItemUpdateData } from "../data/item.update.data";
 import { ItemDto } from "../dto/item.dto";
 import { ItemLightDto } from "../dto/item.light.dto";
 import { ApiService } from "./api.service";
-import { ICrudService } from "./interface/crud.service.interface";
+import { ICrudable } from "./interface/crudable.interface";
 
 @Injectable()
-export class ItemService implements ICrudService {
+export class ItemService implements ICrudable {
     private readonly endpoint = 'item/';
 
     constructor(

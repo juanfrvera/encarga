@@ -4,7 +4,7 @@ import { Util } from 'src/app/util';
 import Swal from 'sweetalert2';
 import { SwalService } from '../../service/swal.service';
 import { FormularioComponent } from '../../../shared/component/formulario/formulario.component';
-import { ICrudService } from '../../service/interface/crud.service.interface';
+import { ICrudable } from '../../service/interface/crudable.interface';
 import { ModalComponent } from '../modal/modal.component';
 import { Ideable } from '../../data/ideable.interface';
 
@@ -14,7 +14,7 @@ import { Ideable } from '../../data/ideable.interface';
   styleUrls: ['./crud.component.scss']
 })
 export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implements OnInit {
-  @Input() service: ICrudService;
+  @Input() service: ICrudable;
   @Input() title: string;
 
   @ViewChild(FormularioComponent) form: FormularioComponent;

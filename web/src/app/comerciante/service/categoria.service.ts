@@ -4,10 +4,10 @@ import { Observable } from "rxjs";
 import { CategoriaDto } from "../dto/categoria.dto";
 import { CategoriaLightDto } from "../dto/categoria.light.dto";
 import { ApiService } from "./api.service";
-import { ICrudService } from "./interface/crud.service.interface";
+import { ICrudable } from "./interface/crudable.interface";
 
 @Injectable()
-export class CategoriaService implements ICrudService {
+export class CategoriaService implements ICrudable {
     private readonly endpoint = 'categoria/'
 
     constructor(
