@@ -61,6 +61,17 @@ export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage {
         }
     }
 
+    public async existWithItemIdAndCategoriaId(itemId: string, categoriaId: string): Promise<boolean> {
+        const count = await this.repository.count({
+            where: {
+                item: { id: itemId },
+                categoria: { id: categoriaId }
+            }
+        });
+
+        return count > 0;
+    }
+
     public async getListByCategoriaIdListOrderByOrder(categoriaIdList: string[]): Promise<ItemCategoria[]> {
         const modelList = await this.repository
             .createQueryBuilder('itemCategoria')
@@ -74,15 +85,14 @@ export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage {
         return modelList.map(model => this.toEntity(model));
     }
 
-    public async existWithItemIdAndCategoriaId(itemId: string, categoriaId: string): Promise<boolean> {
-        const count = await this.repository.count({
+    public async getListByItemId(itemId: string): Promise<ItemCategoria[]> {
+        const modelList = await this.repository.find({
             where: {
-                item: { id: itemId },
-                categoria: { id: categoriaId }
+                item: { id: itemId }
             }
         });
 
-        return count > 0;
+        return modelList.map(m => this.toEntity(m));
     }
 
     public async remove(id: string, transaction?: TransactionProxy): Promise<void> {

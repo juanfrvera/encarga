@@ -7,7 +7,9 @@ export abstract class ItemCategoriaStorage {
     public abstract create(item: Item, categoria: Categoria, transaction?: TransactionProxy)
         : Promise<ItemCategoria>;
 
-    public abstract getListByCategoriaIdListOrderByOrder(categoriaIdList: string[]): Promise<ItemCategoria[]>;
+    public abstract getListByCategoriaIdListOrderByOrder(categoriaIdList: string[]): Promise<Array<ItemCategoria>>;
+
+    public abstract getListByItemId(itemId: string): Promise<Array<ItemCategoria>>;
 
     public abstract existWithItemIdAndCategoriaId(itemId: string, categoriaId: string): Promise<boolean>;
 

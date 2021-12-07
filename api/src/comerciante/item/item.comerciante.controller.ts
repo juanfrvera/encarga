@@ -61,6 +61,7 @@ export class ItemComercianteController {
     private toDto(entity: ItemComercianteModel): ItemComercianteDto {
         return {
             id: entity.id,
+            categoriaIdList: entity.categoriaIdList,
             description: entity.description,
             name: entity.name,
             price: entity.price

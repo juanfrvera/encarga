@@ -15,8 +15,12 @@ export class ItemCategoriaService {
         return this.storage.create(item, categoria, transaction);
     }
 
-    public getListByCategoriaIdList(categoriaIdList: string[]): Promise<ItemCategoria[]> {
+    public getListByCategoriaIdList(categoriaIdList: string[]): Promise<Array<ItemCategoria>> {
         return this.storage.getListByCategoriaIdListOrderByOrder(categoriaIdList);
+    }
+
+    public getListByItemId(itemId: string): Promise<Array<ItemCategoria>> {
+        return this.storage.getListByItemId(itemId);
     }
 
     public isItemFromCategoria(itemId: string, categoriaId: string): Promise<boolean> {
