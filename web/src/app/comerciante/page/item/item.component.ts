@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ItemService } from 'src/app/comerciante/service/item.service';
 import { CategoriaLightDto } from '../../dto/categoria.light.dto';
+import { ItemFacade } from '../../feature/item/item.facade';
 import { CategoriaService } from '../../service/categoria.service';
 
 @Component({
@@ -20,11 +20,11 @@ export class ItemComponent implements OnInit {
   }
 
   constructor(
-    private readonly service: ItemService,
+    private readonly service: ItemFacade,
     private readonly categoriaService: CategoriaService) { }
 
   ngOnInit(): void {
-    this.categoriaService.getList().subscribe(list => {
+    this.categoriaService.getList$().subscribe(list => {
       this.categoriaList = list;
     });
   }

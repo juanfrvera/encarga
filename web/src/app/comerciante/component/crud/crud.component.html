@@ -1,58 +1,85 @@
 <app-modal>
-    <ng-container ngProjectAs="[header]">
-        <div *ngIf="Item.id; else headerCrear" #headerEditar class="w-100 d-flex justify-content-between">
-            <h5 class="modal-title align-self-center" id="modalLabel"><strong>Editar {{Title}}</strong></h5>
-            <button (click)="delete()" class="btn">
-                <i class="far fa-trash-alt"></i>
-            </button>
-        </div>
-        <ng-template #headerCrear>
-            <h5 class="modal-title" id="modalLabel"><strong>Agregar {{Title}}</strong></h5>
-        </ng-template>
-    </ng-container>
-    <ng-container ngProjectAs="[body]">
-        <app-formulario>
-            <ng-template [ngTemplateOutlet]="formTemplate" [ngTemplateOutletContext]="{$implicit: Item}">
-            </ng-template>
-        </app-formulario>
-    </ng-container>
-    <ng-container ngProjectAs="[footer]">
-        <button (click)="cancel()" type="button" class="btn btn-outline-secondary">Cancelar</button>
-        <button (click)="save()" type="button"
-            class="btn btn-primary bg-gradient text-white"><strong>Guardar</strong></button>
-    </ng-container>
+  <ng-container ngProjectAs="[header]">
+    <div
+      *ngIf="Item.id; else headerCrear"
+      #headerEditar
+      class="w-100 d-flex justify-content-between"
+    >
+      <h5 class="modal-title align-self-center" id="modalLabel">
+        <strong>Editar {{ Title }}</strong>
+      </h5>
+      <button (click)="delete()" class="btn">
+        <i class="far fa-trash-alt"></i>
+      </button>
+    </div>
+    <ng-template #headerCrear>
+      <h5 class="modal-title" id="modalLabel">
+        <strong>Agregar {{ Title }}</strong>
+      </h5>
+    </ng-template>
+  </ng-container>
+  <ng-container ngProjectAs="[body]">
+    <app-formulario>
+      <ng-template
+        [ngTemplateOutlet]="formTemplate"
+        [ngTemplateOutletContext]="{ $implicit: Item }"
+      ></ng-template>
+    </app-formulario>
+  </ng-container>
+  <ng-container ngProjectAs="[footer]">
+    <button (click)="cancel()" type="button" class="btn btn-outline-secondary">
+      Cancelar
+    </button>
+    <button
+      (click)="save()"
+      type="button"
+      class="btn btn-primary bg-gradient text-white"
+    >
+      <strong>Guardar</strong>
+    </button>
+  </ng-container>
 </app-modal>
 
-<div *ngIf="List | async as list; else cargando">
-    <div class="card-body">
-        <div class="d-flex justify-content-between mb-3">
-            <h1 class="card-title align-self-center fs-3"><strong>{{Title}}s</strong></h1>
-            <button (click)="add()" type="button"
-                class="btn btn-primary bg-gradient btn-sm text-white"><strong>Agregar</strong></button>
-        </div>
-        <div *ngIf="list.length; else empty" class="card">
-            <!-- Hay Items y cargó -->
+<div *ngIf="Model.list.loaded; else loading">
+  <div class="card-body">
+    <div class="d-flex justify-content-between mb-3">
+      <h1 class="card-title align-self-center fs-3">
+        <strong>{{ Title }}s</strong>
+      </h1>
+      <button
+        (click)="add()"
+        type="button"
+        class="btn btn-primary bg-gradient btn-sm text-white"
+      >
+        <strong>Agregar</strong>
+      </button>
+    </div>
+    <div *ngIf="!Model.list.empty; else empty" class="card">
+      <!-- Hay Items y cargó -->
 
-            <div class="container-full">
-                <app-lista [items]="list" (itemClick)="update($event)">
-                    <!-- Se saca el item de la lista y se envía hacia arriba, dandoseló al #templateLista 
+      <div class="container-full">
+        <app-lista [items]="Model.list.value!" (itemClick)="update($event)">
+          <!-- Se saca el item de la lista y se envía hacia arriba, dandoseló al #templateLista 
                     dentro de este componente CRUD -->
-                    <ng-template let-itemlista>
-                        <ng-template [ngTemplateOutlet]="listTemplate"
-                            [ngTemplateOutletContext]="{$implicit: itemlista}">
-                        </ng-template>
-                    </ng-template>
-                </app-lista>
-            </div>
-        </div>
+          <ng-template let-itemlista>
+            <ng-template
+              [ngTemplateOutlet]="listTemplate"
+              [ngTemplateOutletContext]="{ $implicit: itemlista }"
+            ></ng-template>
+          </ng-template>
+        </app-lista>
+      </div>
     </div>
-    <ng-template #empty>
-        <ng-content select="[empty-state]"></ng-content>
-    </ng-template>
+  </div>
+  <ng-template #empty>
+    <ng-content select="[empty-state]"></ng-content>
+  </ng-template>
 </div>
-<ng-template #cargando>
-    <div class="d-flex flex-column justify-content-center align-items-center vh-100">
-        <div class="spinner-border text-primary" role="status"></div>
-        <span class="mt-3">Cargando...</span>
-    </div>
+<ng-template #loading>
+  <div
+    class="d-flex flex-column justify-content-center align-items-center vh-100"
+  >
+    <div class="spinner-border text-primary" role="status"></div>
+    <span class="mt-3">Cargando...</span>
+  </div>
 </ng-template>

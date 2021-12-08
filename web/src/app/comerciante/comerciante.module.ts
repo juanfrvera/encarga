@@ -19,10 +19,10 @@ import { LoginComponent } from "./page/login/login.component";
 import { AuthService } from "./service/auth.service";
 import { CommonModule } from "@angular/common";
 import { AuthGuard } from "./guard/auth.guard";
-import { ItemService } from "./service/item.service";
 import { HttpClientModule } from "@angular/common/http";
 import { ComercioModule } from "./comercio/comercio.module";
 import { ComercioSelectorComponent } from "./page/comercio-selector/comercio-selector.component";
+import { ItemModule } from "./feature/item/item.module";
 
 @NgModule({
     imports: [
@@ -36,7 +36,8 @@ import { ComercioSelectorComponent } from "./page/comercio-selector/comercio-sel
         // App
         SharedModule,
         // Feature
-        ComercioModule
+        ComercioModule,
+        ItemModule,
     ],
     declarations: [
         // Page
@@ -56,7 +57,6 @@ import { ComercioSelectorComponent } from "./page/comercio-selector/comercio-sel
         ApiService,
         AuthService,
         CategoriaService,
-        ItemService,
         // Interceptor
         authInterceptorProvider,
         comercioInterceptorProvider,

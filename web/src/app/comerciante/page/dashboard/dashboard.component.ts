@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ItemService } from '../../service/item.service';
+import { ItemApi } from '../../feature/item/item.api';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit {
     return this.itemCount;
   }
 
-  constructor(private readonly itemService: ItemService) { }
+  constructor(private readonly itemService: ItemApi) { }
 
   ngOnInit(): void {
     this.itemService.count().subscribe(itemCount => this.itemCount = itemCount);

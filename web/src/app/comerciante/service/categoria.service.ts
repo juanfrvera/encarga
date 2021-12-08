@@ -24,7 +24,7 @@ export class CategoriaService implements ICrudable {
     public get(id: string): Observable<CategoriaDto> {
         return this.httpClient.get<CategoriaDto>(this.apiService.Url + this.endpoint + id);
     }
-    public getList(): Observable<Array<CategoriaLightDto>> {
+    public getList$(): Observable<Array<CategoriaLightDto>> {
         return this.httpClient.get<Array<CategoriaLightDto>>(this.apiService.Url + this.endpoint);
     }
     public update(data: any): Observable<CategoriaLightDto> {

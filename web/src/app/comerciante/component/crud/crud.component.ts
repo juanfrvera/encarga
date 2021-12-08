@@ -26,14 +26,21 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
 
   /** Item en modal */
   private item: Dto = {} as Dto;
-  private list: Observable<LightDto[]>;
+
+  private model: {
+    list: {
+      value?: Array<LightDto>;
+      empty: boolean;
+      loaded: boolean;
+    };
+  }
 
   public get Item() {
     return this.item;
   }
 
-  public get List() {
-    return this.list;
+  public get Model() {
+    return this.model;
   }
 
   public get Title() {
@@ -46,7 +53,26 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
   ) { }
 
   ngOnInit(): void {
-    this.list = this.service.getList();
+    this.model = {
+      list: {
+        empty: false,
+        loaded: false,
+      }
+    };
+
+    this.service.getList$().subscribe(list => {
+      if (list) {
+        this.model.list.loaded = true;
+
+        if (list.length) {
+          this.model.list.value = list;
+          this.model.list.empty = false;
+        }
+        else {
+          this.model.list.empty = true;
+        }
+      }
+    });
   }
 
   /** Muestra el modal en modo creacion */
@@ -102,15 +128,13 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
   public save() {
     if (this.form.isValid()) {
       if (this.Item.id) {
-        // Editando
-        this.service.update(this.Item).subscribe(itemServer => {
-          console.log("Item editado");
-        })
+        // Updating
+        this.service.update(this.Item).subscribe(() => {
+        });
       }
       else {
-        // Creando
-        this.service.create(this.Item).subscribe(itemCreado => {
-          console.log("Creado");
+        // Creating
+        this.service.create(this.Item).subscribe(() => {
         });
       }
 
@@ -133,5 +157,4 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
   private clearItem() {
     this.item = {} as Dto;
   }
-
 }

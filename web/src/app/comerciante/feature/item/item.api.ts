@@ -1,15 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { ItemCreateData } from "../data/item.create.data";
-import { ItemUpdateData } from "../data/item.update.data";
-import { ItemDto } from "../dto/item.dto";
-import { ItemLightDto } from "../dto/item.light.dto";
-import { ApiService } from "./api.service";
-import { ICrudable } from "./interface/crudable.interface";
+import { ItemCreateData } from "../../data/item.create.data";
+import { ItemUpdateData } from "../../data/item.update.data";
+import { ItemDto } from "../../dto/item.dto";
+import { ItemLightDto } from "../../dto/item.light.dto";
+import { ApiService } from "../../service/api.service";
 
 @Injectable()
-export class ItemService implements ICrudable {
+export class ItemApi {
     private readonly endpoint = 'item/';
 
     constructor(
