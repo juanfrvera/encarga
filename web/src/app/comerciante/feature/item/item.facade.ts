@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { tap } from "rxjs/operators";
+import { ItemCreateData } from "../../data/item.create.data";
 import { ItemDto } from "../../dto/item.dto";
 import { ItemLightDto } from "../../dto/item.light.dto";
 import { ICrudable } from "../../service/interface/crudable.interface";
@@ -16,7 +17,7 @@ export class ItemFacade implements ICrudable {
         private readonly state: ItemState
     ) { }
 
-    public create(data: any): Observable<ItemLightDto> {
+    public create(data: ItemCreateData): Observable<ItemLightDto> {
         return this.api.create(data).pipe(
             tap(created => this.state.add(created))
         );
