@@ -7,6 +7,7 @@ import { Item } from "./entities/item.entity";
 export abstract class ItemStorage {
     public abstract countByComercio(comercioId: string): Promise<number>;
     public abstract create(data: ItemCreationData): Promise<Item>;
+    public abstract deleteById(id: string, transaction: TransactionProxy): Promise<void>;
     public abstract exists(id: string): Promise<boolean>;
     public abstract get(id: string): Promise<Item>;
     public abstract getList(filter: ItemFilter): Promise<Array<Item>>;

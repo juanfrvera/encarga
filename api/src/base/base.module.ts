@@ -1,13 +1,12 @@
 import { Module } from "@nestjs/common";
-import { BaseStorage } from "./storage/base.storage";
-import { BaseTypeOrmStorage } from "./storage/base.typeorm.storage";
+import { BaseTypeOrmModule } from "src/typeorm/feature/base/base.typeorm.module";
 
 @Module({
-    providers: [
-        {provide: BaseStorage, useClass: BaseTypeOrmStorage}
+    imports: [
+        BaseTypeOrmModule
     ],
-    exports:[
-        BaseStorage
+    exports: [
+        BaseTypeOrmModule
     ]
 })
 export class BaseModule { }

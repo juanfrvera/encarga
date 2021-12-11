@@ -61,6 +61,12 @@ export class ItemTypeOrmStorage extends ItemStorage {
         return this.toEntity(model);
     }
 
+    public async deleteById(id: string, transaction: TransactionProxy): Promise<void> {
+        const model = await transaction.findOne(this.repository.target, id);
+
+        await transaction.remove(model);
+    }
+
     public async exists(id: string): Promise<boolean> {
         const count = await this.repository.count({ id: Number(id) });
 

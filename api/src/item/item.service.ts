@@ -5,6 +5,7 @@ import { ItemStorage } from './item.storage';
 import { ItemUpdateData } from './data/item.update.data';
 import { ItemNotFoundError } from './error/item-not-found.error';
 import { ItemFilter } from './data/item.filter';
+import { TransactionProxy } from 'src/base/proxy/transaction.proxy';
 
 @Injectable()
 export class ItemService {
@@ -18,6 +19,10 @@ export class ItemService {
 
   public create(data: ItemCreationData) {
     return this.storage.create(data);
+  }
+
+  public async deleteById(id: string, transaction?: TransactionProxy) {
+    await this.storage.deleteById(id, transaction);
   }
 
   public async getById(id: string): Promise<Item> {

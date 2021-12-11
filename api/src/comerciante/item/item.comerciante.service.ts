@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { BaseStorage } from "src/base/storage/base.storage";
 import { ItemCategoriaService } from "src/item-categoria/item-categoria.service";
 import { ItemUpdateData } from "src/item/data/item.update.data";
 import { Item } from "src/item/entities/item.entity";
@@ -12,6 +13,7 @@ import { ItemNotFromComercioError } from "./error/item-not-from-comercio.error";
 @Injectable()
 export class ItemComercianteService {
     constructor(
+        private readonly baseStorage: BaseStorage,
         private readonly comercioComercianteService: ComercioComercianteService,
         private readonly comercioCategoriaService: ComercioCategoriaService,
         private readonly itemService: ItemService,
@@ -20,6 +22,15 @@ export class ItemComercianteService {
 
     public count(comercioId: string): Promise<number> {
         return this.itemService.countByComercio(comercioId);
+    }
+
+    public async deleteById(id: string, comercioId: string) {
+        await this.isFromComercioOrThrow(id, comercioId);
+
+        await this.baseStorage.startTransaction(async transaction => {
+            await this.itemCategoriaService.deleteByItemId(id, transaction);
+            await this.itemService.deleteById(id, transaction);
+        });
     }
 
     public async getById(id: string, comercioId: string): Promise<ItemComercianteModel> {

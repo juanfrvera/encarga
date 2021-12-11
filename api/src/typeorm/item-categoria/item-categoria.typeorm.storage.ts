@@ -95,7 +95,7 @@ export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage {
         return modelList.map(m => this.toEntity(m));
     }
 
-    public async remove(id: string, transaction?: TransactionProxy): Promise<void> {
+    public async deleteById(id: string, transaction?: TransactionProxy): Promise<void> {
         if (transaction) {
             const model = await transaction.findOne<ItemCategoriaTypeOrmModel>(this.repository.target, id);
 
@@ -108,7 +108,7 @@ export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage {
         }
     }
 
-    public async removeByCategoria(categoriaId: string, transaction?: TransactionProxy): Promise<void> {
+    public async deleteByCategoriaId(categoriaId: string, transaction?: TransactionProxy): Promise<void> {
         if (transaction) {
             const list = await transaction.find<ItemCategoriaTypeOrmModel>(this.repository.target,
                 { where: { categoria: { id: categoriaId } } });
@@ -122,7 +122,7 @@ export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage {
         }
     }
 
-    public async removeByItem(itemId: string, transaction?: TransactionProxy): Promise<void> {
+    public async deleteByItemId(itemId: string, transaction?: TransactionProxy): Promise<void> {
         if (transaction) {
             const list = await transaction.find<ItemCategoriaTypeOrmModel>(this.repository.target,
                 { where: { item: { id: itemId } } });

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Put, Request, UseGuards } from "@nestjs/common";
 import { ComercianteWithComercioAuthGuard } from "src/comerciante/auth/guard/comerciante-with-comercio-auth.guard";
 import { ComercianteWithComercioData } from "../data/comerciante-with-comercio.data";
 import { ItemComercianteModel } from "./data/item.comerciante.model";
@@ -22,6 +22,14 @@ export class ItemComercianteController {
         return this.service.count(user.comercioId);
     }
 
+    @Delete(':id')
+    public async deleteById(@Param('id') id: string, @Request() request): Promise<void> {
+        const user: ComercianteWithComercioData = request.user;
+
+        await this.service.deleteById(id, user.comercioId);
+    }
+
+
     @Get()
     public async getList(@Request() request): Promise<Array<ItemComercianteLightDto>> {
         const user: ComercianteWithComercioData = request.user;
@@ -29,6 +37,15 @@ export class ItemComercianteController {
         const entityList = await this.service.getList(user.comercioId);
 
         return entityList.map(e => this.toLightDto(e));
+    }
+
+    @Get(':id')
+    public async getById(@Param('id') id: string, @Request() request): Promise<ItemComercianteDto> {
+        const user: ComercianteWithComercioData = request.user;
+
+        const entity = await this.service.getById(id, user.comercioId);
+
+        return this.toDto(entity);
     }
 
     @Put()
@@ -47,15 +64,6 @@ export class ItemComercianteController {
         const entity = await this.service.update(updateData, user.comercioId);
 
         return this.toLightDto(entity);
-    }
-
-    @Get(':id')
-    public async getById(@Param('id') id: string, @Request() request): Promise<ItemComercianteDto> {
-        const user: ComercianteWithComercioData = request.user;
-
-        const entity = await this.service.getById(id, user.comercioId);
-
-        return this.toDto(entity);
     }
 
     private toDto(entity: ItemComercianteModel): ItemComercianteDto {

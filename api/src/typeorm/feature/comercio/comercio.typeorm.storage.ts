@@ -1,18 +1,17 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
-import { BaseTypeOrmStorage } from "src/base/storage/base.typeorm.storage";
 import { Repository } from "typeorm";
 import { ComercioCreationData } from "src/shared/comercio/data/comercio.creation.data";
 import { Comercio } from "src/shared/comercio/entities/comercio.entity";
 import { ComercioStorage } from "src/shared/comercio/comercio.storage";
 import { ComercioTypeOrmModel } from "./comercio.typeorm.model";
 
-export class ComercioTypeOrmStorage extends BaseTypeOrmStorage<ComercioTypeOrmModel> implements ComercioStorage {
+export class ComercioTypeOrmStorage extends ComercioStorage {
     constructor(
         @InjectRepository(ComercioTypeOrmModel)
-        readonly repository: Repository<ComercioTypeOrmModel>,
+        private readonly repository: Repository<ComercioTypeOrmModel>,
     ) {
-        super(repository);
+        super();
     }
 
     public async create(data: ComercioCreationData, transaction?: TransactionProxy): Promise<Comercio> {

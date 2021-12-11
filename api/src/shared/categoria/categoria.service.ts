@@ -32,7 +32,7 @@ export class CategoriaService {
         if (await this.storage.exists(id)) {
             await this.baseStorage.startTransaction(async transaction => {
                 await this.storage.remove(id, transaction);
-                await this.itemCategoriaService.removeByCategoria(id, transaction);
+                await this.itemCategoriaService.deleteByCategoriaId(id, transaction);
             });
         }
         else {

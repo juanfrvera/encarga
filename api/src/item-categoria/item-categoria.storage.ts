@@ -13,9 +13,9 @@ export abstract class ItemCategoriaStorage {
 
     public abstract existWithItemIdAndCategoriaId(itemId: string, categoriaId: string): Promise<boolean>;
 
-    public abstract remove(id: string, transaction?: TransactionProxy): Promise<void>;
+    public abstract deleteById(id: string, transaction?: TransactionProxy): Promise<void>;
 
-    public abstract removeByCategoria(categoriaId: string, transaction?: TransactionProxy): Promise<void>;
+    public abstract deleteByCategoriaId(categoriaId: string, transaction?: TransactionProxy): Promise<void>;
 
-    public abstract removeByItem(itemId: string, transaction?: TransactionProxy): Promise<void>;
+    public abstract deleteByItemId(itemId: string, transaction?: TransactionProxy): Promise<void>;
 }

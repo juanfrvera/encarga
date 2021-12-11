@@ -27,15 +27,15 @@ export class ItemCategoriaService {
         return this.storage.existWithItemIdAndCategoriaId(itemId, categoriaId);
     }
 
-    public remove(itemCategoria: ItemCategoria, transaction?: TransactionProxy): Promise<void> {
-        return this.storage.remove(itemCategoria.id, transaction);
+    public deleteById(id: string, transaction?: TransactionProxy): Promise<void> {
+        return this.storage.deleteById(id, transaction);
     }
 
-    public removeByCategoria(categoriaId: string, transaction?: TransactionProxy): Promise<void> {
-        return this.storage.removeByCategoria(categoriaId, transaction);
+    public deleteByCategoriaId(categoriaId: string, transaction?: TransactionProxy): Promise<void> {
+        return this.storage.deleteByCategoriaId(categoriaId, transaction);
     }
 
-    public removeByItem(itemId: string, transaction?: TransactionProxy): Promise<void> {
-        return this.storage.removeByItem(itemId, transaction);
+    public deleteByItemId(itemId: string, transaction?: TransactionProxy): Promise<void> {
+        return this.storage.deleteByItemId(itemId, transaction);
     }
 }

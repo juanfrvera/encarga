@@ -1,4 +1,4 @@
-import { BaseTypeOrmModel } from "src/base/storage/base.typeorm.model";
+import { BaseTypeOrmModel } from "src/typeorm/feature/base/base.typeorm.model";
 import { CategoriaTypeOrmModel } from "src/typeorm/categoria/categoria.typeorm.model";
 import { ItemTypeOrmModel } from "src/typeorm/item/item.typeorm.model";
 import { Column, Entity, ManyToOne } from "typeorm";
