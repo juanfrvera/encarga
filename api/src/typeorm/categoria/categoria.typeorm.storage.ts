@@ -78,7 +78,7 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
         }
     }
 
-    public async exists(id: string): Promise<boolean> {
+    public async exist(id: string): Promise<boolean> {
         const count = await this.repository.count({ id: Number(id) });
 
         return count > 0;

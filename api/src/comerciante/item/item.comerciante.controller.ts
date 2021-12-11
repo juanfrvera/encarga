@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Put, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { ComercianteWithComercioAuthGuard } from "src/comerciante/auth/guard/comerciante-with-comercio-auth.guard";
 import { ComercianteWithComercioData } from "../data/comerciante-with-comercio.data";
+import { ItemComercianteCreateData } from "./data/item.comerciante.create.data";
 import { ItemComercianteModel } from "./data/item.comerciante.model";
 import { ItemComercianteUpdateData } from "./data/item.comerciante.update.data";
+import { ItemComercianteCreateDto } from "./dto/item.comerciante.create.dto";
 import { ItemComercianteDto } from "./dto/item.comerciante.dto";
 import { ItemComercianteLightDto } from "./dto/item.comerciante.light.dto";
 import { ItemComercianteUpdateDto } from "./dto/item.comerciante.update.dto";
@@ -20,6 +22,23 @@ export class ItemComercianteController {
         const user: ComercianteWithComercioData = request.user;
 
         return this.service.count(user.comercioId);
+    }
+
+    @Post()
+    public async create(@Body() dto: ItemComercianteCreateDto, @Request() request) {
+        const user: ComercianteWithComercioData = request.user;
+
+        const createData: ItemComercianteCreateData = {
+            categoriaIdList: dto.categoriaIdList,
+            comercioId: user.comercioId,
+            description: dto.description,
+            name: dto.name,
+            price: dto.price
+        };
+
+        const entity = await this.service.create(createData);
+
+        return this.toLightDto(entity);
     }
 
     @Delete(':id')
@@ -48,7 +67,7 @@ export class ItemComercianteController {
         return this.toDto(entity);
     }
 
-    @Put()
+    @Patch()
     public async update(
         @Body() updateDto: ItemComercianteUpdateDto, @Request() request): Promise<ItemComercianteLightDto> {
         const user: ComercianteWithComercioData = request.user;

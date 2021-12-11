@@ -1,11 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import { BaseStorage } from "src/base/storage/base.storage";
 import { ItemCategoriaService } from "src/item-categoria/item-categoria.service";
+import { ItemCreateData } from "src/item/data/item.create.data";
 import { ItemUpdateData } from "src/item/data/item.update.data";
 import { Item } from "src/item/entities/item.entity";
 import { ItemService } from "src/item/item.service";
+import { CategoriaService } from "src/shared/categoria/categoria.service";
 import { ComercioCategoriaService } from "src/shared/comercio-categoria/comercio-categoria.service";
 import { ComercioComercianteService } from "../comercio/comercio.comerciante.service";
+import { ItemComercianteCreateData } from "./data/item.comerciante.create.data";
 import { ItemComercianteModel } from "./data/item.comerciante.model";
 import { ItemComercianteUpdateData } from "./data/item.comerciante.update.data";
 import { ItemNotFromComercioError } from "./error/item-not-from-comercio.error";
@@ -14,6 +17,7 @@ import { ItemNotFromComercioError } from "./error/item-not-from-comercio.error";
 export class ItemComercianteService {
     constructor(
         private readonly baseStorage: BaseStorage,
+        private readonly categoriaService: CategoriaService,
         private readonly comercioComercianteService: ComercioComercianteService,
         private readonly comercioCategoriaService: ComercioCategoriaService,
         private readonly itemService: ItemService,
@@ -22,6 +26,52 @@ export class ItemComercianteService {
 
     public count(comercioId: string): Promise<number> {
         return this.itemService.countByComercio(comercioId);
+    }
+
+    public async create(data: ItemComercianteCreateData): Promise<ItemComercianteModel> {
+        const createData: ItemCreateData = {
+            name: data.name,
+            description: data.description,
+            price: data.price
+        };
+
+        // Check that every categoria exists, throw if not
+        if (data.categoriaIdList) {
+            for (const categoriaId of data.categoriaIdList) {
+                await this.categoriaService.existByIdOrThrow(categoriaId);
+            }
+        }
+
+        const defaultComercioCategoria = await this.comercioCategoriaService.getDefaultForComercioId(data.comercioId);
+
+        // If no categoria is selected, the default will be added
+        if (!data.categoriaIdList || !data.categoriaIdList.length) {
+            data.categoriaIdList = [defaultComercioCategoria.categoriaId];
+        }
+
+        return this.baseStorage.startTransaction(async transaction => {
+            const entity = await this.itemService.create(createData, transaction);
+
+            for (const categoriaId of data.categoriaIdList) {
+                const minimumOrder = await this.itemCategoriaService.getMinimumOrderForCategoriaId(categoriaId);
+
+                let order = minimumOrder;
+
+                if (minimumOrder > Number.MIN_SAFE_INTEGER) {
+                    // Put the added item at the start of the categoria
+                    order--;
+                }
+
+                // Create item categoria information
+                await this.itemCategoriaService.create(entity.id, categoriaId, order, transaction);
+            }
+
+            // All categorias except the default
+            const returnedCategoriaIdList = data.categoriaIdList.filter(
+                cId => cId != defaultComercioCategoria.categoriaId);
+
+            return this.toModelWithCategoriaIdList(entity, returnedCategoriaIdList);
+        });
     }
 
     public async deleteById(id: string, comercioId: string) {
@@ -87,6 +137,16 @@ export class ItemComercianteService {
         return {
             id: entity.id,
             categoriaIdList: itemCategoriaList.map(ic => ic.categoriaId),
+            description: entity.description,
+            name: entity.name,
+            price: entity.price
+        }
+    }
+
+    private toModelWithCategoriaIdList(entity: Item, categoriaIdList: Array<string>): ItemComercianteModel {
+        return {
+            id: entity.id,
+            categoriaIdList,
             description: entity.description,
             name: entity.name,
             price: entity.price

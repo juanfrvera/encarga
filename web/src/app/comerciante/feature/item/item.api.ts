@@ -37,6 +37,6 @@ export class ItemApi {
     }
 
     public update(data: ItemUpdateData): Observable<ItemLightDto> {
-        return this.httpClient.put<ItemLightDto>(this.apiService.Url + this.endpoint, data);
+        return this.httpClient.patch<ItemLightDto>(this.apiService.Url + this.endpoint, data);
     }
 }

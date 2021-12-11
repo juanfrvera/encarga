@@ -20,6 +20,17 @@ export class CategoriaService {
         return this.storage.create(data, transaction);
     }
 
+    public async existByIdOrThrow(id: string): Promise<boolean> {
+        const exists = await this.storage.exist(id);
+
+        if (exists) {
+            return true;
+        }
+        else {
+            throw new CategoriaNotFoundError();
+        }
+    }
+
     public getListByComercioId(comercioId: string): Promise<Array<Categoria>> {
         return this.storage.getListByComercioId(comercioId);
     }
@@ -29,19 +40,16 @@ export class CategoriaService {
     }
 
     public async remove(id: string): Promise<void> {
-        if (await this.storage.exists(id)) {
-            await this.baseStorage.startTransaction(async transaction => {
-                await this.storage.remove(id, transaction);
-                await this.itemCategoriaService.deleteByCategoriaId(id, transaction);
-            });
-        }
-        else {
-            throw new CategoriaNotFoundError();
-        }
+        await this.existByIdOrThrow(id);
+
+        await this.baseStorage.startTransaction(async transaction => {
+            await this.storage.remove(id, transaction);
+            await this.itemCategoriaService.deleteByCategoriaId(id, transaction);
+        });
     }
 
     public async update(id: string, data: UpdateCategoriaData): Promise<Categoria> {
-        if (await this.storage.exists(id)) {
+        if (await this.storage.exist(id)) {
             return this.storage.update(id, data);
         }
         else {

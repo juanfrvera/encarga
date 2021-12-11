@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Item } from './entities/item.entity';
-import { ItemCreationData } from './data/item.creation.data';
+import { ItemCreateData } from './data/item.create.data';
 import { ItemStorage } from './item.storage';
 import { ItemUpdateData } from './data/item.update.data';
 import { ItemNotFoundError } from './error/item-not-found.error';
@@ -17,8 +17,8 @@ export class ItemService {
     return this.storage.countByComercio(comercioId);
   }
 
-  public create(data: ItemCreationData) {
-    return this.storage.create(data);
+  public create(data: ItemCreateData, transaction?: TransactionProxy) {
+    return this.storage.create(data, transaction);
   }
 
   public async deleteById(id: string, transaction?: TransactionProxy) {

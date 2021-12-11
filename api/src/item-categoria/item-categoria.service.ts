@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { TransactionProxy } from 'src/base/proxy/transaction.proxy';
-import { Categoria } from 'src/shared/categoria/entities/categoria.entity';
-import { Item } from 'src/item/entities/item.entity';
 import { ItemCategoria } from './entities/item-categoria.entity';
 import { ItemCategoriaStorage } from './item-categoria.storage';
 
@@ -11,8 +9,8 @@ export class ItemCategoriaService {
         private readonly storage: ItemCategoriaStorage
     ) { }
 
-    public create(item: Item, categoria: Categoria, transaction?: TransactionProxy): Promise<ItemCategoria> {
-        return this.storage.create(item, categoria, transaction);
+    public async create(itemId: string, categoriaId: string, order: number, transaction?: TransactionProxy): Promise<ItemCategoria> {
+        return this.storage.create(itemId, categoriaId, order, transaction);
     }
 
     public getListByCategoriaIdList(categoriaIdList: string[]): Promise<Array<ItemCategoria>> {
@@ -21,6 +19,10 @@ export class ItemCategoriaService {
 
     public getListByItemId(itemId: string): Promise<Array<ItemCategoria>> {
         return this.storage.getListByItemId(itemId);
+    }
+
+    public getMinimumOrderForCategoriaId(categoriaId: string): Promise<number> {
+        return this.storage.getMinimumOrderByCategoriaId(categoriaId);
     }
 
     public isItemFromCategoria(itemId: string, categoriaId: string): Promise<boolean> {

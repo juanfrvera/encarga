@@ -105,14 +105,13 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
       cancelButtonText: 'Cancelar',
       confirmButtonText: 'Sí, eliminar',
       showLoaderOnConfirm: true,
-      target: this.modal.Element.nativeElement,
       preConfirm: () => {
-        return this.service.delete(this.item.id).toPromise().then(() => {
-          console.log("Eliminado");
-        }).catch(
-          () => {
-            Swal.showValidationMessage('Ocurrió un error al intentar eliminar');
-          });
+        return this.service.delete(this.item.id).toPromise().then(() => { })
+          .catch(
+            () => {
+              Swal.showValidationMessage('Ocurrió un error al intentar eliminar');
+            }
+          );
       },
       // Sirve para que al apretar Escape no se cierre el modal
       keydownListenerCapture: true

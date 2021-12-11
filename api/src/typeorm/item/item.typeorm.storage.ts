@@ -1,7 +1,7 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { EntityManager, Repository } from "typeorm";
-import { ItemCreationData } from "src/item/data/item.creation.data";
+import { ItemCreateData } from "src/item/data/item.create.data";
 import { ItemUpdateData } from "src/item/data/item.update.data";
 import { Item } from "src/item/entities/item.entity";
 import { ItemStorage } from "src/item/item.storage";
@@ -31,31 +31,18 @@ export class ItemTypeOrmStorage extends ItemStorage {
         return query.getCount();
     }
 
-    public async create(data: ItemCreationData, manager?: EntityManager): Promise<Item> {
-        const _create = async (mng: EntityManager) => {
-            const preItem = new ItemTypeOrmModel();
+    public async create(data: ItemCreateData, transaction?: EntityManager): Promise<Item> {
+        let model = new ItemTypeOrmModel();
 
-            preItem.name = data.titulo;
-            preItem.price = data.precio;
-            preItem.description = data.descripcion;
+        model.description = data.description;
+        model.name = data.name;
+        model.price = data.price;
 
-            // Guardar para obtener un id
-            const item = await mng.save(preItem);
-
-            return mng.save(item);
-        };
-
-        let model: ItemTypeOrmModel;
-
-        if (manager) {
-            model = await _create(manager);
+        if (transaction) {
+            model = await transaction.save(model);
         }
         else {
-            // Se corre dentro de una transaccion ya que estamos preguardando y puede fallar luego
-            // Si falla, se cancela la transaccion y no queda guardado el item
-            model = await this.repository.manager.transaction(myManager => {
-                return _create(myManager);
-            });
+            model = await this.repository.save(model);
         }
 
         return this.toEntity(model);
