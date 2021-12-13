@@ -6,7 +6,7 @@ import { Column, Entity, ManyToOne } from "typeorm";
 @Entity('item_categoria')
 export class ItemCategoriaTypeOrmModel extends BaseTypeOrmModel {
     @Column({ type: 'int' })
-    orden: number;
+    order: number;
 
     @ManyToOne(() => ItemTypeOrmModel, item => item.itemCategoriaList, { eager: true })
     item: ItemTypeOrmModel;

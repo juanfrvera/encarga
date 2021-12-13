@@ -31,7 +31,7 @@ export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage {
 
         model.item = itemModel;
         model.categoria = categoriaModel;
-        model.orden = order;
+        model.order = order;
 
         if (transaction) {
             model = await transaction.save(model);
@@ -147,6 +147,6 @@ export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage {
 
     public toEntity(model: ItemCategoriaTypeOrmModel): ItemCategoria {
         return new ItemCategoria(
-            model.id.toString(), model.item.id.toString(), model.categoria.id.toString(), model.orden);
+            model.id.toString(), model.item.id.toString(), model.categoria.id.toString(), model.order);
     }
 }
