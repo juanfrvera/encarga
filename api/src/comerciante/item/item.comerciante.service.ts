@@ -53,17 +53,8 @@ export class ItemComercianteService {
             const entity = await this.itemService.create(createData, transaction);
 
             for (const categoriaId of data.categoriaIdList) {
-                const minimumOrder = await this.itemCategoriaService.getMinimumOrderForCategoriaId(categoriaId);
-
-                let order = minimumOrder;
-
-                if (minimumOrder > Number.MIN_SAFE_INTEGER) {
-                    // Put the added item at the start of the categoria
-                    order--;
-                }
-
                 // Create item categoria information
-                await this.itemCategoriaService.create(entity.id, categoriaId, order, transaction);
+                await this.itemCategoriaService.createWithMinimumOrder(entity.id, categoriaId, transaction);
             }
 
             // All categorias except the default
@@ -110,11 +101,44 @@ export class ItemComercianteService {
                 price: data.price
             };
 
-            const entity = await this.itemService.update(itemUpdateData);
+            const defaultCategoriaId = (await this.comercioCategoriaService.
+                getDefaultForComercioId(comercioId)).categoriaId;
 
-            const defaultCategoriaId = (await this.comercioCategoriaService.getDefaultForComercioId(comercioId)).categoriaId;
+            return this.baseStorage.startTransaction(async transaction => {
+                const entity = await this.itemService.update(itemUpdateData, transaction);
 
-            return this.toModel(entity, defaultCategoriaId);
+                if (data.categoriaIdList != undefined) {
+
+                    // If no categoria is set, use the default
+                    if (!data.categoriaIdList.length) {
+                        data.categoriaIdList = [defaultCategoriaId];
+                    }
+
+                    const itemCategoriaList = await this.itemCategoriaService.getListByItemId(data.id);
+
+                    // Add categorias
+                    // Categorias to add are the ones that aren't find in the itemCategoriaList
+                    const categoriaIdListToAdd = data.categoriaIdList.filter(cId =>
+                        !itemCategoriaList.find(ic => ic.categoriaId == cId));
+
+                    for (const categoriaIdToAdd of categoriaIdListToAdd) {
+                        await this.itemCategoriaService.createWithMinimumOrder(data.id, categoriaIdToAdd, transaction);
+                    }
+
+
+                    // Remove categorias
+                    // ItemCategorias to remove are the ones that are in itemCategoriaList but not in data.categoriaIdList
+                    const itemCategoriaListToRemove = itemCategoriaList.filter(ic =>
+                        !data.categoriaIdList.find(cId => cId == ic.categoriaId)
+                    );
+
+                    for (const itemCategoriaToRemove of itemCategoriaListToRemove) {
+                        await this.itemCategoriaService.deleteById(itemCategoriaToRemove.id);
+                    }
+                }
+
+                return this.toModel(entity, defaultCategoriaId);
+            });
         }
         else {
             throw new ItemNotFromComercioError();

@@ -4,7 +4,7 @@ import { CategoriaTypeOrmModel } from "src/typeorm/categoria/categoria.typeorm.m
 import { CategoriaTypeOrmStorage } from "src/typeorm/categoria/categoria.typeorm.storage";
 import { ItemTypeOrmModel } from "src/typeorm/item/item.typeorm.model";
 import { ItemTypeOrmStorage } from "../item/item.typeorm.storage";
-import { EntityManager, In, Repository } from "typeorm";
+import { EntityManager, FindOneOptions, In, Repository } from "typeorm";
 import { ItemCategoria } from "src/item-categoria/entities/item-categoria.entity";
 import { ItemCategoriaStorage } from "src/item-categoria/item-categoria.storage";
 import { ItemCategoriaTypeOrmModel } from "./item-categoria.typeorm.model";
@@ -44,13 +44,17 @@ export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage {
     }
 
     public async deleteById(id: string, transaction?: TransactionProxy): Promise<void> {
+        const options: FindOneOptions = {
+            where: { id }
+        }
+
         if (transaction) {
-            const model = await transaction.findOne<ItemCategoriaTypeOrmModel>(this.repository.target, id);
+            const model = await transaction.findOne<ItemCategoriaTypeOrmModel>(this.repository.target, options);
 
             await transaction.remove(model);
         }
         else {
-            const model = await this.repository.findOne(id);
+            const model = await this.repository.findOne(id, options);
 
             await this.repository.remove(model);
         }

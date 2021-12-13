@@ -4,13 +4,13 @@ import { ItemTypeOrmModel } from "src/typeorm/item/item.typeorm.model";
 import { Column, Entity, ManyToOne } from "typeorm";
 
 @Entity('item_categoria')
-export class ItemCategoriaTypeOrmModel extends BaseTypeOrmModel{
+export class ItemCategoriaTypeOrmModel extends BaseTypeOrmModel {
     @Column({ type: 'int' })
     orden: number;
 
-    @ManyToOne(() => ItemTypeOrmModel, item => item.itemCategoriaList, { primary: true, eager: true })
+    @ManyToOne(() => ItemTypeOrmModel, item => item.itemCategoriaList, { eager: true })
     item: ItemTypeOrmModel;
 
-    @ManyToOne(() => CategoriaTypeOrmModel, categoria => categoria.itemCategoriaList, { primary: true, eager: true })
+    @ManyToOne(() => CategoriaTypeOrmModel, categoria => categoria.itemCategoriaList, { eager: true })
     categoria: CategoriaTypeOrmModel;
 }

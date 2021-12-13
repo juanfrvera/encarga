@@ -9,8 +9,24 @@ export class ItemCategoriaService {
         private readonly storage: ItemCategoriaStorage
     ) { }
 
-    public async create(itemId: string, categoriaId: string, order: number, transaction?: TransactionProxy): Promise<ItemCategoria> {
+    public async create(
+        itemId: string, categoriaId: string, order: number, transaction?: TransactionProxy): Promise<ItemCategoria> {
         return this.storage.create(itemId, categoriaId, order, transaction);
+    }
+
+    public async createWithMinimumOrder(
+        itemId: string, categoriaId: string, transaction?: TransactionProxy): Promise<ItemCategoria> {
+
+        const minimumOrder = await this.getMinimumOrderForCategoriaId(categoriaId);
+
+        let order = minimumOrder;
+
+        if (minimumOrder > Number.MIN_SAFE_INTEGER) {
+            // Put the added item at the start of the categoria
+            order--;
+        }
+
+        return this.create(itemId, categoriaId, order, transaction);
     }
 
     public getListByCategoriaIdList(categoriaIdList: string[]): Promise<Array<ItemCategoria>> {

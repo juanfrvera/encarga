@@ -26,7 +26,7 @@ export class ItemService {
   }
 
   public async getById(id: string): Promise<Item> {
-    if (await this.storage.exists(id)) {
+    if (await this.storage.exist(id)) {
       return this.storage.get(id);
     }
     else {
@@ -43,7 +43,7 @@ export class ItemService {
   }
 
   public async remove(id: string): Promise<void> {
-    if (this.storage.exists(id)) {
+    if (this.storage.exist(id)) {
       await this.storage.remove(id);
     }
     else {
@@ -51,10 +51,10 @@ export class ItemService {
     }
   }
 
-  public async update(data: ItemUpdateData): Promise<Item> {
-    if (!this.storage.exists(data.id)) throw new ItemNotFoundError();
+  public async update(data: ItemUpdateData, transaction?: TransactionProxy): Promise<Item> {
+    if (!this.storage.exist(data.id, transaction)) throw new ItemNotFoundError();
 
-    const entity = await this.storage.update(data.id, data);
+    const entity = await this.storage.update(data, transaction);
 
     return entity;
   }

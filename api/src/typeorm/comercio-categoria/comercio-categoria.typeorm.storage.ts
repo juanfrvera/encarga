@@ -19,23 +19,6 @@ export class ComercioCategoriaTypeOrmStorage extends ComercioCategoriaStorage {
         super();
     }
 
-    // public async setDefaultCategoria(entity: Comercio, categoria: Categoria, transaction?: TransactionProxy)
-    //     : Promise<Comercio> {
-    //     let model = await this.getModel(entity.id, transaction);
-    //     const categoriaModel = await this.categoriaStorage.getModel(categoria.id, transaction);
-
-    //     model.categoriaDefault = categoriaModel;
-
-    //     if (transaction) {
-    //         model = await transaction.save(model);
-    //     }
-    //     else {
-    //         model = await this.repository.save(model);
-    //     }
-
-    //     return this.toEntity(model);
-    // }
-
     public async createDefault(
         comercioId: string, categoriaId: string, transaction: TransactionProxy): Promise<ComercioCategoriaEntity> {
 

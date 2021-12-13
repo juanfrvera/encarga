@@ -8,10 +8,10 @@ export abstract class ItemStorage {
     public abstract countByComercio(comercioId: string): Promise<number>;
     public abstract create(data: ItemCreateData, transaction?: TransactionProxy): Promise<Item>;
     public abstract deleteById(id: string, transaction: TransactionProxy): Promise<void>;
-    public abstract exists(id: string): Promise<boolean>;
+    public abstract exist(id: string, transaction?: TransactionProxy): Promise<boolean>;
     public abstract get(id: string): Promise<Item>;
     public abstract getList(filter: ItemFilter): Promise<Array<Item>>;
     public abstract getListByComercio(comercioId: string): Promise<Array<Item>>;
     public abstract remove(id: string, transaction?: TransactionProxy): Promise<void>;
-    public abstract update(id: string, data: ItemUpdateData): Promise<Item>;
+    public abstract update(data: ItemUpdateData, transaction?: TransactionProxy): Promise<Item>;
 }

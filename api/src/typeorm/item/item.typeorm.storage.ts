@@ -54,7 +54,7 @@ export class ItemTypeOrmStorage extends ItemStorage {
         await transaction.remove(model);
     }
 
-    public async exists(id: string): Promise<boolean> {
+    public async exist(id: string): Promise<boolean> {
         const count = await this.repository.count({ id: Number(id) });
 
         return count > 0;
@@ -121,20 +121,35 @@ export class ItemTypeOrmStorage extends ItemStorage {
         }
     }
 
-    public async update(id: string, data: ItemUpdateData): Promise<Item> {
-        // Se corre dentro de una transaccion ya que estamos preguardando y puede fallar luego
-        // Si falla, se cancela la transaccion y no queda guardado el item
-        const model = await this.repository.manager.transaction(async manager => {
-            const original = await manager.findOneOrFail(this.repository.target, id) as ItemTypeOrmModel;
+    public async update(data: ItemUpdateData, transaction?: TransactionProxy): Promise<Item> {
+        // Get
+        let model: ItemTypeOrmModel;
+        if (transaction) {
+            model = await transaction.findOneOrFail(this.repository.target, data.id);
+        }
+        else {
+            model = await this.repository.findOneOrFail(data.id);
+        }
 
-            original.name = data.name ?? original.name;
-            original.description = data.description ?? original.description;
-            original.price = data.price ?? original.price;
 
-            await manager.save(original);
+        // Update
+        if (data.description != undefined) {
+            model.description = data.description;
+        }
+        if (data.name != undefined) {
+            model.name = data.name;
+        }
+        if (data.price != undefined) {
+            model.price = data.price;
+        }
 
-            return original;
-        });
+        // Save
+        if (transaction) {
+            await transaction.save(model);
+        }
+        else {
+            await this.repository.save(model);
+        }
 
         return this.toEntity(model);
     }
