@@ -39,9 +39,9 @@ class ConfigService {
             },
             entities: [join(__dirname, '..', '**', '*.typeorm.model{.ts,.js}')],
             migrationsTableName: 'migration',
-            migrations: [join(__dirname, '../migration/*.{ts,js}')],
+            migrations: [join(__dirname, '../typeorm/migration/*.{ts,js}')],
             cli: {
-                migrationsDir: 'src/migration',
+                migrationsDir: 'src/typeorm/migration',
             },
 
         }
