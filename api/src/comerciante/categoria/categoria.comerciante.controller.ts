@@ -16,7 +16,7 @@ export class CategoriaComercianteController {
     public async getList(@Request() request): Promise<Array<CategoriaComercianteLightDto>> {
         const user: ComercianteWithComercioData = request.user;
 
-        const entityList = await this.service.getListByComercio(user.comercioId);
+        const entityList = await this.service.getListByComercioId(user.comercioId);
 
         return entityList.map(e => this.toLightDto(e));
     }

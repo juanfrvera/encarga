@@ -8,6 +8,7 @@ export abstract class CategoriaStorage {
     public abstract exist(id: string): Promise<boolean>;
     public abstract getListByComercioId(comercioId: string): Promise<Array<Categoria>>;
     public abstract getListByComercioIdNotEmpty(comercioId: string): Promise<Array<Categoria>>;
+    public abstract getListByIdList(idList: Array<String>): Promise<Array<Categoria>>;
     public abstract remove(id: string, transaction?: TransactionProxy): Promise<void>;
     public abstract update(id: string, data: UpdateCategoriaData): Promise<Categoria>;
 }

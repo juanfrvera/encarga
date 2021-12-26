@@ -60,6 +60,12 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
         return modelList.map(m => this.toEntity(m));
     }
 
+    public async getListByIdList(idList: String[]): Promise<Categoria[]> {
+        const modelList = await this.repository.findByIds(idList);
+
+        return modelList.map(m => this.toEntity(m));
+    }
+
     public getModel(id: string, transaction?: TransactionProxy): Promise<CategoriaTypeOrmModel> {
         if (transaction) {
             return transaction.findOne(this.repository.target, id);

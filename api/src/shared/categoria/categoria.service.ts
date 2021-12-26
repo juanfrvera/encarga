@@ -39,6 +39,10 @@ export class CategoriaService {
         return this.storage.getListByComercioIdNotEmpty(comercioId);
     }
 
+    public getListByIdList(idList: Array<string>): Promise<Array<Categoria>> {
+        return this.storage.getListByIdList(idList);
+    }
+
     public async remove(id: string): Promise<void> {
         await this.existByIdOrThrow(id);
 
