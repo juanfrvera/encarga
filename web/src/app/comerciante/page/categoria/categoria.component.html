@@ -2,17 +2,17 @@
     <!-- Formulario dentro del modal -->
     <!-- La directiva let permite obtener el item actual ya que es proveido por el componente -->
     <!-- El componente crud busca el primer ng-template que encuentra y lo mete dentro del formulario del modal -->
-    <ng-template #templateFormulario let-categoria>
+    <ng-template #formTemplate let-categoria>
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
             <input [(ngModel)]="categoria.nombre" id="nombre" type="text" class="form-control" required>
             <div class="invalid-feedback">Por favor ingrese un nombre</div>
         </div>
     </ng-template>
-    <ng-template #templateLista let-itemlista>
+    <ng-template #listTemplate let-listitem>
         <!-- here we can use item -->
         <div class="d-flex w-100 justify-content-between p-2 rounded cursor-pointer hover">
-            <h5 class="mb-1 fs-6">{{itemlista.nombre}}</h5>
+            <h5 class="mb-1 fs-6">{{listitem.name}}</h5>
         </div>
     </ng-template>
     <div empty-state class="empty-state text-center">
