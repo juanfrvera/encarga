@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CategoriaService } from '../../service/categoria.service';
+import { CategoriaFacade } from '../../categoria/categoria.facade';
 
 @Component({
   selector: 'app-categoria',
@@ -8,11 +8,11 @@ import { CategoriaService } from '../../service/categoria.service';
 })
 export class CategoriaComponent {
   public get Service() {
-    return this.service;
+    return this.facade;
   }
 
   constructor(
-    private readonly service: CategoriaService
+    private readonly facade: CategoriaFacade
   ) { }
 
 }

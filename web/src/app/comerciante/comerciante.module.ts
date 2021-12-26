@@ -13,7 +13,7 @@ import { ListaComponent } from "./component/lista/lista.component";
 import { ModalComponent } from "./component/modal/modal.component";
 import { SharedModule } from "../shared/shared.module";
 import { ComercianteRoutingModule } from "./comerciante.routing.module";
-import { CategoriaService } from "./service/categoria.service";
+import { CategoriaApi } from "./categoria/categoria.api";
 import { ApiService } from "./service/api.service";
 import { LoginComponent } from "./page/login/login.component";
 import { AuthService } from "./service/auth.service";
@@ -23,6 +23,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { ComercioModule } from "./comercio/comercio.module";
 import { ComercioSelectorComponent } from "./page/comercio-selector/comercio-selector.component";
 import { ItemModule } from "./feature/item/item.module";
+import { CategoriaModule } from "./categoria/categoria.module";
 
 @NgModule({
     imports: [
@@ -36,6 +37,7 @@ import { ItemModule } from "./feature/item/item.module";
         // App
         SharedModule,
         // Feature
+        CategoriaModule,
         ComercioModule,
         ItemModule,
     ],
@@ -56,7 +58,6 @@ import { ItemModule } from "./feature/item/item.module";
         // Service
         ApiService,
         AuthService,
-        CategoriaService,
         // Interceptor
         authInterceptorProvider,
         comercioInterceptorProvider,

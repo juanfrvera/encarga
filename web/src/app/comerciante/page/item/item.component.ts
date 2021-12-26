@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoriaLightDto } from '../../dto/categoria.light.dto';
 import { ItemFacade } from '../../feature/item/item.facade';
-import { CategoriaService } from '../../service/categoria.service';
+import { CategoriaApi } from '../../categoria/categoria.api';
+import { CategoriaLightDto } from '../../categoria/model/categoria.light.dto';
+import { CategoriaFacade } from '../../categoria/categoria.facade';
 
 @Component({
   selector: 'app-item',
@@ -9,7 +10,7 @@ import { CategoriaService } from '../../service/categoria.service';
   styleUrls: ['./item.component.scss']
 })
 export class ItemComponent implements OnInit {
-  private categoriaList: CategoriaLightDto[];
+  private categoriaList: CategoriaLightDto[] | undefined;
 
   public get CategoriaList() {
     return this.categoriaList;
@@ -21,10 +22,10 @@ export class ItemComponent implements OnInit {
 
   constructor(
     private readonly service: ItemFacade,
-    private readonly categoriaService: CategoriaService) { }
+    private readonly categoriaFacade: CategoriaFacade) { }
 
   ngOnInit(): void {
-    this.categoriaService.getList$().subscribe(list => {
+    this.categoriaFacade.getList$().subscribe(list => {
       this.categoriaList = list;
     });
   }
