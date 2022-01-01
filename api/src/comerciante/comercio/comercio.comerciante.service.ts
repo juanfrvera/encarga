@@ -26,7 +26,8 @@ export class ComercioComercianteService {
     }
 
     public async isItemFromComercio(itemId: string, comercioId: string): Promise<boolean> {
-        const comercio = await this.comercioService.getByIdOrThrow(comercioId);
+        // Just throw if there is no comercio
+        await this.comercioService.getByIdOrThrow(comercioId);
 
         const categoriaIdList = (await this.comercioCategoriaService.getListByComercioId(comercioId))
             .map(cc => cc.categoriaId);

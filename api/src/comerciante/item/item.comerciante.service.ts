@@ -114,7 +114,7 @@ export class ItemComercianteService {
                         data.categoriaIdList = [defaultCategoriaId];
                     }
 
-                    const itemCategoriaList = await this.itemCategoriaService.getListByItemId(data.id);
+                    const itemCategoriaList = await this.itemCategoriaService.getListByItemId(data.id, transaction);
 
                     // Add categorias
                     // Categorias to add are the ones that aren't find in the itemCategoriaList
@@ -133,7 +133,7 @@ export class ItemComercianteService {
                     );
 
                     for (const itemCategoriaToRemove of itemCategoriaListToRemove) {
-                        await this.itemCategoriaService.deleteById(itemCategoriaToRemove.id);
+                        await this.itemCategoriaService.deleteById(itemCategoriaToRemove.id, transaction);
                     }
                 }
 

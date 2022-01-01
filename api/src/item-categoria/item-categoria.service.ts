@@ -17,7 +17,7 @@ export class ItemCategoriaService {
     public async createWithMinimumOrder(
         itemId: string, categoriaId: string, transaction?: TransactionProxy): Promise<ItemCategoria> {
 
-        const minimumOrder = await this.getMinimumOrderForCategoriaId(categoriaId);
+        const minimumOrder = await this.getMinimumOrderForCategoriaId(categoriaId, transaction);
 
         let order = minimumOrder;
 
@@ -33,12 +33,12 @@ export class ItemCategoriaService {
         return this.storage.getListByCategoriaIdListOrderByOrder(categoriaIdList);
     }
 
-    public getListByItemId(itemId: string): Promise<Array<ItemCategoria>> {
-        return this.storage.getListByItemId(itemId);
+    public getListByItemId(itemId: string, transaction?: TransactionProxy): Promise<Array<ItemCategoria>> {
+        return this.storage.getListByItemId(itemId, transaction);
     }
 
-    public getMinimumOrderForCategoriaId(categoriaId: string): Promise<number> {
-        return this.storage.getMinimumOrderByCategoriaId(categoriaId);
+    public getMinimumOrderForCategoriaId(categoriaId: string, transaction?: TransactionProxy): Promise<number> {
+        return this.storage.getMinimumOrderByCategoriaId(categoriaId, transaction);
     }
 
     public isItemFromCategoria(itemId: string, categoriaId: string): Promise<boolean> {

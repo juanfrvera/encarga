@@ -69,15 +69,15 @@ export class ItemComercianteController {
 
     @Patch()
     public async update(
-        @Body() updateDto: ItemComercianteUpdateDto, @Request() request): Promise<ItemComercianteLightDto> {
+        @Body() dto: ItemComercianteUpdateDto, @Request() request): Promise<ItemComercianteLightDto> {
         const user: ComercianteWithComercioData = request.user;
 
         const updateData: ItemComercianteUpdateData = {
-            id: updateDto.id,
-            categoriaIdList: updateDto.categoriaIdList,
-            description: updateDto.description,
-            name: updateDto.name,
-            price: updateDto.price
+            id: dto.id,
+            categoriaIdList: dto.categoriaIdList,
+            description: dto.description,
+            name: dto.name,
+            price: dto.price
         };
 
         const entity = await this.service.update(updateData, user.comercioId);

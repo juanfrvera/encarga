@@ -1,10 +1,8 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
-import { CategoriaTypeOrmModel } from "src/typeorm/categoria/categoria.typeorm.model";
 import { CategoriaTypeOrmStorage } from "src/typeorm/categoria/categoria.typeorm.storage";
-import { ItemTypeOrmModel } from "src/typeorm/item/item.typeorm.model";
 import { ItemTypeOrmStorage } from "../item/item.typeorm.storage";
-import { EntityManager, FindOneOptions, In, Repository } from "typeorm";
+import { EntityManager, FindOneOptions, In, Repository, SelectQueryBuilder } from "typeorm";
 import { ItemCategoria } from "src/item-categoria/entities/item-categoria.entity";
 import { ItemCategoriaStorage } from "src/item-categoria/item-categoria.storage";
 import { ItemCategoriaTypeOrmModel } from "./item-categoria.typeorm.model";
@@ -44,7 +42,7 @@ export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage {
     }
 
     public async deleteById(id: string, transaction?: TransactionProxy): Promise<void> {
-        const options: FindOneOptions = {
+        const options: FindOneOptions<ItemCategoriaTypeOrmModel> = {
             where: { id }
         }
 
@@ -112,24 +110,39 @@ export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage {
         return modelList.map(model => this.toEntity(model));
     }
 
-    public async getListByItemId(itemId: string): Promise<ItemCategoria[]> {
-        const modelList = await this.repository.find({
+    public async getListByItemId(itemId: string, transaction?: TransactionProxy): Promise<ItemCategoria[]> {
+        const options = {
             where: {
                 item: { id: itemId }
             }
-        });
+        };
+
+        let modelList: Array<ItemCategoriaTypeOrmModel>;
+
+        if (transaction) {
+            modelList = await transaction.find<ItemCategoriaTypeOrmModel>(this.repository.target, options)
+        }
+        else {
+            modelList = await this.repository.find(options);
+        }
 
         return modelList.map(m => this.toEntity(m));
     }
 
-    public async getMinimumOrderByCategoriaId(categoriaId: string): Promise<number> {
-        const query = this.repository.createQueryBuilder('itemCategoria');
+    public async getMinimumOrderByCategoriaId(categoriaId: string, transaction?: TransactionProxy): Promise<number> {
+        let query: SelectQueryBuilder<ItemCategoriaTypeOrmModel>;
 
-        query.leftJoin('itemCategoria.categoria', 'categoria');
+        if (transaction) {
+            query = transaction.createQueryBuilder();
+        }
+        else {
+            query = this.repository.createQueryBuilder();
+        }
 
-        query.where('categoria.id = :categoriaId', { categoriaId });
-
-        query.select('MIN(itemCategoria.orden)', 'minimumOrder');
+        query.select('MIN(itemcategoria.order)', 'minimumOrder')
+            .from(ItemCategoriaTypeOrmModel, 'itemcategoria')
+            .leftJoin('itemcategoria.categoria', 'categoria')
+            .where('categoria.id = :categoriaId', { categoriaId });
 
         const result = await query.getRawOne<{ minimumOrder: number }>();
 
