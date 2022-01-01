@@ -42,7 +42,7 @@ export class AuthInterceptor implements HttpInterceptor {
           if (err instanceof HttpErrorResponse && err.status === 401) {
             // Solo redireccionar cuando se está en la parte de administrador
             if (this.router.url.includes('/admin')) {
-              this.router.navigateByUrl('login');
+              this.router.navigateByUrl('admin/login');
             }
           }
         }
