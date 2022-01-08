@@ -3,7 +3,7 @@ import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { EntityManager, Repository } from "typeorm";
 import { CategoriaFilter } from "../../shared/categoria/data/categoria-filter";
 import { CategoriaCreationData } from "../../shared/categoria/data/categoria.creation.data";
-import { UpdateCategoriaData } from "../../shared/categoria/data/update-categoria.data";
+import { CategoriaUpdate } from "../../shared/categoria/data/categoria.update";
 import { Categoria } from "../../shared/categoria/entities/categoria.entity";
 import { CategoriaStorage } from "../../shared/categoria/categoria.storage";
 import { CategoriaTypeOrmModel } from "./categoria.typeorm.model";
@@ -101,10 +101,12 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
         }
     }
 
-    public async update(id: string, data: UpdateCategoriaData) {
-        let model = await this.repository.findOneOrFail(id);
+    public async update(data: CategoriaUpdate) {
+        let model = await this.repository.findOneOrFail(data.id);
 
-        model.nombre = data.nombre ?? model.nombre;
+        if (data.name != undefined) {
+            model.nombre = data.name;
+        }
 
         model = await this.repository.save(model);
 

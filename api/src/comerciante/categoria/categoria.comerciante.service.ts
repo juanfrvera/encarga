@@ -1,8 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { CategoriaService } from "src/shared/categoria/categoria.service";
+import { CategoriaUpdate } from "src/shared/categoria/data/categoria.update";
 import { Categoria } from "src/shared/categoria/entities/categoria.entity";
 import { ComercioCategoriaService } from "src/shared/comercio-categoria/comercio-categoria.service";
+import { CategoriaComercianteUpdate } from "./data/categoria-comerciante.update";
 import { CategoriaComercianteModel } from "./data/categoria.comerciante.model";
+import { CategoriaNotFromComercioError } from "./error/categoria-not-from-comercio.error";
 
 @Injectable()
 export class CategoriaComercianteService {
@@ -24,6 +27,24 @@ export class CategoriaComercianteService {
         const entityList = await this.categoriaService.getListByIdList(categoriaIdList);
 
         return entityList.map(e => this.toModel(e));
+    }
+
+    public async update(comercioId: string, data: CategoriaComercianteUpdate): Promise<CategoriaComercianteModel> {
+        const exist = await this.comercioCategoriaService.isCategoriaFromComercio(data.id, comercioId);
+
+        if (exist) {
+            const updateData: CategoriaUpdate = {
+                id: data.id,
+                name: data.name
+            };
+
+            const entity = await this.categoriaService.update(updateData);
+
+            return this.toModel(entity);
+        }
+        else {
+            throw new CategoriaNotFromComercioError();
+        }
     }
 
     private toModel(entity: Categoria): CategoriaComercianteModel {

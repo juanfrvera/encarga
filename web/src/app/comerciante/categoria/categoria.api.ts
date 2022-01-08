@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { CategoriaDto } from "../dto/categoria.dto";
 import { ApiService } from "../service/api.service";
-import { ICrudable } from "../service/interface/crudable.interface";
 import { CategoriaLightDto } from "./model/categoria.light.dto";
 
 @Injectable()
@@ -28,6 +27,6 @@ export class CategoriaApi {
         return this.httpClient.get<Array<CategoriaLightDto>>(this.apiService.Url + this.endpoint);
     }
     public update(data: any): Observable<CategoriaLightDto> {
-        return this.httpClient.put<CategoriaLightDto>(this.apiService.Url + this.endpoint, data);
+        return this.httpClient.patch<CategoriaLightDto>(this.apiService.Url + this.endpoint, data);
     }
 }

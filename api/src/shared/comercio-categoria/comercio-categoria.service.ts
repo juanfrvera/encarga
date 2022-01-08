@@ -43,4 +43,8 @@ export class ComercioCategoriaService {
     public getListByComercioId(comercioId: string): Promise<Array<ComercioCategoriaEntity>> {
         return this.storage.getListByComercioId(comercioId);
     }
+
+    public isCategoriaFromComercio(categoriaId: string, comercioId: string): Promise<boolean> {
+        return this.storage.existWithCategoriaIdAndComercioId(categoriaId, comercioId);
+    }
 }

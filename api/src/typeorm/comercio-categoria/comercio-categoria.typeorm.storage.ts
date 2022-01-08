@@ -36,6 +36,17 @@ export class ComercioCategoriaTypeOrmStorage extends ComercioCategoriaStorage {
         return this.toEntity(model);
     }
 
+    public async existWithCategoriaIdAndComercioId(categoriaId: string, comercioId: string): Promise<boolean> {
+        const count = await this.repository.count({
+            where: {
+                categoria: { id: categoriaId },
+                comercio: { id: comercioId }
+            }
+        });
+
+        return count > 0;
+    }
+
     public async getDefaultForComercioId(comercioId: string): Promise<ComercioCategoriaEntity> {
         const model = await this.repository.findOne({
             where: {

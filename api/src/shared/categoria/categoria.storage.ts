@@ -1,6 +1,6 @@
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { CategoriaCreationData } from "./data/categoria.creation.data";
-import { UpdateCategoriaData } from "./data/update-categoria.data";
+import { CategoriaUpdate } from "./data/categoria.update";
 import { Categoria } from "./entities/categoria.entity";
 
 export abstract class CategoriaStorage {
@@ -10,5 +10,5 @@ export abstract class CategoriaStorage {
     public abstract getListByComercioIdNotEmpty(comercioId: string): Promise<Array<Categoria>>;
     public abstract getListByIdList(idList: Array<String>): Promise<Array<Categoria>>;
     public abstract remove(id: string, transaction?: TransactionProxy): Promise<void>;
-    public abstract update(id: string, data: UpdateCategoriaData): Promise<Categoria>;
+    public abstract update(data: CategoriaUpdate): Promise<Categoria>;
 }

@@ -3,7 +3,7 @@ import { TransactionProxy } from 'src/base/proxy/transaction.proxy';
 import { BaseStorage } from 'src/base/storage/base.storage';
 import { ItemCategoriaService } from 'src/item-categoria/item-categoria.service';
 import { CategoriaCreationData } from './data/categoria.creation.data';
-import { UpdateCategoriaData } from './data/update-categoria.data';
+import { CategoriaUpdate } from './data/categoria.update';
 import { Categoria } from './entities/categoria.entity';
 import { CategoriaNotFoundError } from './error/categoria-not-found.error';
 import { CategoriaStorage } from './categoria.storage';
@@ -52,9 +52,9 @@ export class CategoriaService {
         });
     }
 
-    public async update(id: string, data: UpdateCategoriaData): Promise<Categoria> {
-        if (await this.storage.exist(id)) {
-            return this.storage.update(id, data);
+    public async update(data: CategoriaUpdate): Promise<Categoria> {
+        if (await this.storage.exist(data.id)) {
+            return this.storage.update(data);
         }
         else {
             throw new CategoriaNotFoundError();
