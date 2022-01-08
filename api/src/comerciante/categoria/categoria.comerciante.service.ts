@@ -14,6 +14,13 @@ export class CategoriaComercianteService {
         private readonly comercioCategoriaService: ComercioCategoriaService
     ) { }
 
+    public async count(comercioId: string): Promise<number> {
+        const count = await this.comercioCategoriaService.countByComercioId(comercioId);
+
+        // subtract one because the default categoria is not counted
+        return count - 1;
+    }
+
     public async getListByComercioId(comercioId: string): Promise<Array<CategoriaComercianteModel>> {
         const comercioCategoriaList = await this.comercioCategoriaService.getListByComercioId(comercioId);
 

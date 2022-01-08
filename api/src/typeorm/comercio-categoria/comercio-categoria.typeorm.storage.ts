@@ -19,6 +19,10 @@ export class ComercioCategoriaTypeOrmStorage extends ComercioCategoriaStorage {
         super();
     }
 
+    public countByComercioId(comercioId: string): Promise<number> {
+        return this.repository.count({ where: { comercio: { id: comercioId } } });
+    }
+
     public async createDefault(
         comercioId: string, categoriaId: string, transaction: TransactionProxy): Promise<ComercioCategoriaEntity> {
 

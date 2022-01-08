@@ -5,8 +5,9 @@ import { ItemLightDto } from "../../dto/item.light.dto";
 
 @Injectable()
 export class ItemState {
-    private lightList$ = new BehaviorSubject<Array<ItemLightDto> | undefined>(undefined);
+    private count?: number;
     private fullList$ = new BehaviorSubject<Array<ItemDto> | undefined>(undefined);
+    private lightList$ = new BehaviorSubject<Array<ItemLightDto> | undefined>(undefined);
 
     public add(item: ItemLightDto) {
         let list = this.lightList$.value;
@@ -34,6 +35,10 @@ export class ItemState {
         this.fullList$.next(list);
     }
 
+    public hasCount() {
+        return this.count != undefined;
+    }
+
     public hasFullItem(itemId: string) {
         const list = this.fullList$.value;
 
@@ -58,12 +63,24 @@ export class ItemState {
         this.deleteFull(itemId);
     }
 
+    public getCount() {
+        return this.count;
+    }
+
     public getFull(itemId: string) {
         return this.fullList$.value?.find(i => i.id == itemId);
     }
 
     public getList$() {
         return this.lightList$.asObservable();
+    }
+
+    public setCount(newCount: number) {
+        this.count = newCount;
+    }
+
+    public setList(list: Array<ItemLightDto>) {
+        this.lightList$.next(list);
     }
 
     public update(updatedItem: ItemLightDto) {
@@ -81,10 +98,6 @@ export class ItemState {
 
         // Delete full item because is outdated
         this.deleteFull(updatedItem.id);
-    }
-
-    public setList(list: Array<ItemLightDto>) {
-        this.lightList$.next(list);
     }
 
     private deleteFull(itemId: string) {

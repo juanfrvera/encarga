@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ItemApi } from '../../feature/item/item.api';
+import { CategoriaFacade } from '../../categoria/categoria.facade';
+import { ItemFacade } from '../../feature/item/item.facade';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,16 +8,60 @@ import { ItemApi } from '../../feature/item/item.api';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
-  private itemCount: number;
-
-  public get ItemCount() {
-    return this.itemCount;
+  private model: {
+    categoria: {
+      loading: boolean;
+      count: number;
+    };
+    item: {
+      loading: boolean;
+      count: number;
+    }
   }
 
-  constructor(private readonly itemService: ItemApi) { }
+  public get Model() {
+    return this.model;
+  }
+
+  constructor(
+    private readonly categoriaFacade: CategoriaFacade,
+    private readonly itemFacade: ItemFacade
+  ) { }
 
   ngOnInit(): void {
-    this.itemService.count().subscribe(itemCount => this.itemCount = itemCount);
+    this.model = {
+      categoria: {
+        loading: true,
+        count: 0
+      },
+      item: {
+        loading: true,
+        count: 0
+      }
+    };
+
+    this.itemFacade.count().subscribe(
+      // Success
+      itemCount => {
+        this.model.item.count = itemCount;
+      },
+      // Error
+      () => { },
+      // Completed
+      () => {
+        this.model.item.loading = false;
+      }
+    );
+
+    this.categoriaFacade.count().subscribe(
+      count => {
+        this.model.categoria.count = count;
+      },
+      () => { },
+      () => {
+        this.model.categoria.loading = false;
+      }
+    )
+
   }
 }

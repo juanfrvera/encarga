@@ -14,6 +14,10 @@ export class CategoriaApi {
         private readonly apiService: ApiService
     ) { }
 
+    public count(): Observable<number> {
+        return this.httpClient.get<number>(this.apiService.Url + this.endpoint + 'count');
+    }
+
     public create(data: any): Observable<CategoriaLightDto> {
         return this.httpClient.post<CategoriaLightDto>(this.apiService.Url + this.endpoint, data);
     }

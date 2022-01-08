@@ -14,6 +14,13 @@ export class CategoriaComercianteController {
         private readonly service: CategoriaComercianteService
     ) { }
 
+    @Get('count')
+    public getCount(@Request() request): Promise<number> {
+        const user: ComercianteWithComercioData = request.user;
+
+        return this.service.count(user.comercioId);
+    }
+
     @Get()
     public async getList(@Request() request): Promise<Array<CategoriaComercianteLightDto>> {
         const user: ComercianteWithComercioData = request.user;

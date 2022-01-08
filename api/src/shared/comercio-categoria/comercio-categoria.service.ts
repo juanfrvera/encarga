@@ -13,6 +13,10 @@ export class ComercioCategoriaService {
         private readonly categoriaService: CategoriaService,
     ) { }
 
+    public countByComercioId(comercioId: string): Promise<number> {
+        return this.storage.countByComercioId(comercioId);
+    }
+
     public async createDefaultForComercioId(comercioId: string, transaction?: TransactionProxy): Promise<void> {
         const _create = async (transaction: TransactionProxy) => {
             // Create default category pointing to comercio

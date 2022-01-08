@@ -4,6 +4,7 @@ import { CategoriaLightDto } from "./model/categoria.light.dto";
 
 @Injectable()
 export class CategoriaState {
+    private count?: number;
     private list$ = new BehaviorSubject<Array<CategoriaLightDto> | undefined>(undefined);
 
     public add(categoria: CategoriaLightDto) {
@@ -33,8 +34,16 @@ export class CategoriaState {
         return this.list$.value?.find(i => i.id == id);
     }
 
+    public getCount() {
+        return this.count;
+    }
+
     public getList$() {
         return this.list$.asObservable();
+    }
+
+    public hasCount() {
+        return this.count != undefined;
     }
 
     public hasElementWithId(id: string) {
@@ -47,6 +56,10 @@ export class CategoriaState {
 
     public hasList() {
         return this.list$.value != undefined;
+    }
+
+    public setCount(newCount: number) {
+        this.count = newCount;
     }
 
     public setList(list: Array<CategoriaLightDto>) {

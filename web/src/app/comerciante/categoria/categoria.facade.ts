@@ -15,6 +15,19 @@ export class CategoriaFacade implements ICrudable {
         private readonly state: CategoriaState
     ) { }
 
+    public count(): Observable<number> {
+        if (!this.state.hasCount()) {
+            return this.api.count().pipe(
+                tap(count => {
+                    this.state.setCount(count)
+                })
+            );
+        }
+        else {
+            return of(this.state.getCount()!);
+        }
+    }
+
     public create(data: any): Observable<any> {
         return this.api.create(data).pipe(
             tap(created => this.state.add(created))

@@ -17,6 +17,19 @@ export class ItemFacade implements ICrudable {
         private readonly state: ItemState
     ) { }
 
+    public count(): Observable<number> {
+        if (!this.state.hasCount()) {
+            return this.api.count().pipe(
+                tap(count => {
+                    this.state.setCount(count)
+                })
+            );
+        }
+        else {
+            return of(this.state.getCount()!);
+        }
+    }
+
     public create(data: ItemCreateData): Observable<ItemLightDto> {
         return this.api.create(data).pipe(
             tap(created => this.state.add(created))
