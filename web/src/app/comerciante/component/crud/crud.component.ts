@@ -34,6 +34,7 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
     };
     modal: {
       loading: boolean;
+      saving: boolean;
     }
   }
 
@@ -61,7 +62,8 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
         loaded: false,
       },
       modal: {
-        loading: true
+        loading: true,
+        saving: false,
       }
     };
 
@@ -86,10 +88,6 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
     this.openModal();
   }
 
-  public cancel() {
-    this.close();
-  }
-
   /** Muestra el modal en modo edicion */
   public clickItem(dto: LightDto) {
     this.model.modal.loading = true;
@@ -103,6 +101,10 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
 
       this.model.modal.loading = false;
     });
+  }
+
+  public close() {
+    this.modal.close();
   }
 
   /** Muestra alerta de eliminar */
@@ -136,18 +138,20 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
   /** Guarda lo que se ha hecho en el modal */
   public save() {
     if (this.form.isValid()) {
+      this.model.modal.saving = true;
+
       if (this.Item.id) {
         // Updating
         this.service.update(this.Item).subscribe(() => {
-        });
+          this.close();
+        }, () => { }, () => this.model.modal.saving = false);
       }
       else {
         // Creating
         this.service.create(this.Item).subscribe(() => {
-        });
+          this.close();
+        }, () => { }, () => this.model.modal.saving = false);
       }
-
-      this.close();
     }
     else {
       this.form.showFeedback();
@@ -157,10 +161,6 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
   private openModal() {
     this.form.hideFeedback();
     this.modal.open();
-  }
-
-  private close() {
-    this.modal.close();
   }
 
   private clearItem() {

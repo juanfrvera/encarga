@@ -12,11 +12,11 @@
   </ng-template>
   <ng-container ngProjectAs="[footer]">
     <button
-      (click)="clickCancel()"
+      (click)="clickClose()"
       type="button"
       class="btn btn-outline-secondary"
     >
-      Cancelar
+      Cerrar
     </button>
     <button
       [disabled]="loading"
@@ -24,7 +24,8 @@
       type="button"
       class="btn btn-primary bg-gradient text-white"
     >
-      <strong>Guardar</strong>
+      <strong *ngIf="!saving; else savingTemplate">Guardar</strong>
+      <ng-template #savingTemplate>Guardando...</ng-template>
     </button>
   </ng-container>
 </app-modal>

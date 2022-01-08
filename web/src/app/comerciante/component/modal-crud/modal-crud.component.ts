@@ -7,8 +7,9 @@ import { ModalComponent } from "../modal/modal.component";
 })
 export class ModalCrudComponent {
     @Input() loading: boolean;
+    @Input() saving: boolean;
 
-    @Output() onCancel = new EventEmitter();
+    @Output() onClose = new EventEmitter();
     @Output() onSave = new EventEmitter();
 
     @ViewChild(ModalComponent) modal: ModalComponent;
@@ -21,11 +22,13 @@ export class ModalCrudComponent {
         this.modal.close();
     }
 
-    public clickCancel() {
-        this.onCancel.emit();
+    public clickClose() {
+        this.onClose.emit();
     }
 
     public clickSave() {
-        this.onSave.emit();
+        if (!this.saving) {
+            this.onSave.emit();
+        }
     }
 }

@@ -1,6 +1,7 @@
 <app-modal-crud
   [loading]="Model.modal.loading"
-  (onCancel)="cancel()"
+  [saving]="Model.modal.saving"
+  (onClose)="close()"
   (onSave)="save()"
 >
   <ng-container ngProjectAs="[header]">
