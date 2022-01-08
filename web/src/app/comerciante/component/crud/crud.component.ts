@@ -1,12 +1,11 @@
 import { Component, ContentChild, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Util } from 'src/app/util';
 import Swal from 'sweetalert2';
 import { SwalService } from '../../service/swal.service';
 import { FormularioComponent } from '../../../shared/component/formulario/formulario.component';
 import { ICrudable } from '../../service/interface/crudable.interface';
-import { ModalComponent } from '../modal/modal.component';
 import { Ideable } from '../../data/ideable.interface';
+import { ModalCrudComponent } from '../modal-crud/modal-crud.component';
 
 @Component({
   selector: 'app-crud',
@@ -18,7 +17,7 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
   @Input() title: string;
 
   @ViewChild(FormularioComponent) form: FormularioComponent;
-  @ViewChild(ModalComponent) modal: ModalComponent;
+  @ViewChild(ModalCrudComponent) modal: ModalCrudComponent;
 
   // Utilizado para obtener el template que irá dentro del formulario del modal y poblarlo con el item actual
   @ContentChild('formTemplate') formTemplate: TemplateRef<any>;
@@ -33,6 +32,9 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
       empty: boolean;
       loaded: boolean;
     };
+    modal: {
+      loading: boolean;
+    }
   }
 
   public get Item() {
@@ -57,6 +59,9 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
       list: {
         empty: false,
         loaded: false,
+      },
+      modal: {
+        loading: true
       }
     };
 
@@ -78,7 +83,7 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
   /** Muestra el modal en modo creacion */
   public add() {
     this.clearItem();
-    this.open();
+    this.openModal();
   }
 
   public cancel() {
@@ -86,12 +91,17 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
   }
 
   /** Muestra el modal en modo edicion */
-  public update(dto: LightDto) {
+  public clickItem(dto: LightDto) {
+    this.model.modal.loading = true;
+
+    this.openModal();
+
     // TODO: mostrar "cargando"
     this.service.get(dto.id).subscribe(item => {
       // Hacer una copia profunda para no modificar el original
       this.item = Util.deepCopy(item);
-      this.open();
+
+      this.model.modal.loading = false;
     });
   }
 
@@ -144,7 +154,7 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
     }
   }
 
-  private open() {
+  private openModal() {
     this.form.hideFeedback();
     this.modal.open();
   }

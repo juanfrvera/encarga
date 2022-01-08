@@ -1,0 +1,30 @@
+<app-modal>
+  <ng-content select="[header]" ngProjectAs="[header]"></ng-content>
+  <ng-container
+    *ngTemplateOutlet="loading ? loadingTemplate : loadedTemplate"
+    ngProjectAs="[body]"
+  ></ng-container>
+  <ng-template #loadingTemplate>
+    <app-loading></app-loading>
+  </ng-template>
+  <ng-template #loadedTemplate>
+    <ng-content select="[body]"></ng-content>
+  </ng-template>
+  <ng-container ngProjectAs="[footer]">
+    <button
+      (click)="clickCancel()"
+      type="button"
+      class="btn btn-outline-secondary"
+    >
+      Cancelar
+    </button>
+    <button
+      [disabled]="loading"
+      (click)="clickSave()"
+      type="button"
+      class="btn btn-primary bg-gradient text-white"
+    >
+      <strong>Guardar</strong>
+    </button>
+  </ng-container>
+</app-modal>

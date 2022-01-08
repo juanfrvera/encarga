@@ -1,5 +1,4 @@
 import { NgModule } from "@angular/core";
-import { ComercioApi } from "./comercio/comercio.api";
 import { provider as authInterceptorProvider } from './interceptor/auth.interceptor';
 import { provider as comercioInterceptorProvider } from './interceptor/comercio.interceptor';
 import { AdminComponent } from "./page/admin.component";
@@ -13,7 +12,6 @@ import { ListaComponent } from "./component/lista/lista.component";
 import { ModalComponent } from "./component/modal/modal.component";
 import { SharedModule } from "../shared/shared.module";
 import { ComercianteRoutingModule } from "./comerciante.routing.module";
-import { CategoriaApi } from "./categoria/categoria.api";
 import { ApiService } from "./service/api.service";
 import { LoginComponent } from "./page/login/login.component";
 import { AuthService } from "./service/auth.service";
@@ -24,6 +22,8 @@ import { ComercioModule } from "./comercio/comercio.module";
 import { ComercioSelectorComponent } from "./page/comercio-selector/comercio-selector.component";
 import { ItemModule } from "./feature/item/item.module";
 import { CategoriaModule } from "./categoria/categoria.module";
+import { ModalCrudComponent } from "./component/modal-crud/modal-crud.component";
+import { LoadingComponent } from "./component/loading/loading.component";
 
 @NgModule({
     imports: [
@@ -52,7 +52,9 @@ import { CategoriaModule } from "./categoria/categoria.module";
         // Component
         CrudComponent,
         ListaComponent,
+        LoadingComponent,
         ModalComponent,
+        ModalCrudComponent
     ],
     providers: [
         // Service

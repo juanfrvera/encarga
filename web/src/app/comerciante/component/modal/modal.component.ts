@@ -14,7 +14,6 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
     return this.element;
   }
 
-  constructor() { }
   ngAfterViewInit(): void {
     this.modal = new Modal(this.element.nativeElement);
   }
