@@ -122,6 +122,7 @@ export class ItemComercianteService {
                         !itemCategoriaList.find(ic => ic.categoriaId == cId));
 
                     for (const categoriaIdToAdd of categoriaIdListToAdd) {
+                        await this.categoriaService.existByIdOrThrow(categoriaIdToAdd, transaction);
                         await this.itemCategoriaService.createWithMinimumOrder(data.id, categoriaIdToAdd, transaction);
                     }
 
