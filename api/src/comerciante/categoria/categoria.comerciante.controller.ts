@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { ComercianteWithComercioAuthGuard } from "../auth/guard/comerciante-with-comercio-auth.guard";
 import { ComercianteWithComercioData } from "../data/comerciante-with-comercio.data";
 import { CategoriaComercianteService } from "./categoria.comerciante.service";
@@ -27,6 +27,13 @@ export class CategoriaComercianteController {
         const entity = await this.service.create(createData, user.comercioId);
 
         return this.toLightDto(entity);
+    }
+
+    @Delete(':categoriaId')
+    public deleteByCategoriaId(@Param('categoriaId') categoriaId: string, @Request() request): Promise<void>{
+        const user: ComercianteWithComercioData = request.user;
+
+        return this.service.deleteByCategoriaId(categoriaId, user.comercioId);
     }
 
     @Get('count')

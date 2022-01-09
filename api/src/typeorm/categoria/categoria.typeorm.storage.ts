@@ -1,7 +1,6 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { EntityManager, Repository } from "typeorm";
-import { CategoriaFilter } from "../../shared/categoria/data/categoria-filter";
 import { CategoriaCreate } from "../../shared/categoria/data/categoria.create";
 import { CategoriaUpdate } from "../../shared/categoria/data/categoria.update";
 import { Categoria } from "../../shared/categoria/entities/categoria.entity";
@@ -29,6 +28,30 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
         }
 
         return this.toEntity(model);
+    }
+
+    public async deleteById(id: string, manager?: EntityManager): Promise<void> {
+        if (manager) {
+            return this._deleteById(id, manager);
+        }
+        else {
+            return this.repository.manager.transaction(async newManager => {
+                return this._deleteById(id, newManager);
+            });
+        }
+    }
+
+    public async existById(id: string, transaction?: TransactionProxy): Promise<boolean> {
+        let count = 0;
+
+        if (transaction) {
+            count = await transaction.count<CategoriaTypeOrmModel>(this.repository.target, { where: { id } })
+        }
+        else {
+            count = await this.repository.count({ id: Number(id) });
+        }
+
+        return count > 0;
     }
 
     public async getListByComercioId(comercioId: string): Promise<Categoria[]> {
@@ -84,23 +107,6 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
         }
     }
 
-    public async exist(id: string): Promise<boolean> {
-        const count = await this.repository.count({ id: Number(id) });
-
-        return count > 0;
-    }
-
-    public async remove(id: string, manager?: EntityManager): Promise<void> {
-        if (manager) {
-            return this._remove(id, manager);
-        }
-        else {
-            return this.repository.manager.transaction(async newManager => {
-                return this._remove(id, newManager);
-            });
-        }
-    }
-
     public async update(data: CategoriaUpdate) {
         let model = await this.repository.findOneOrFail(data.id);
 
@@ -117,39 +123,9 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
         return new Categoria(model.id.toString(), model.nombre);
     }
 
-    private async _remove(id: string, transaction: TransactionProxy) {
+    private async _deleteById(id: string, transaction: TransactionProxy) {
         const model = await transaction.findOne(this.repository.target, id);
 
         await transaction.remove(model);
-    }
-
-    private findAllWithFilter(filter: CategoriaFilter, transaction?: TransactionProxy) {
-        const query = (transaction ?
-            transaction.createQueryBuilder<CategoriaTypeOrmModel>(this.repository.target, 'categoria') :
-            this.repository.createQueryBuilder('categoria'))
-            .select();
-
-        if (filter.ids) {
-            query.andWhereInIds(filter.ids);
-        }
-
-        if (filter.urlComercio) {
-            query.leftJoin('categoria.comercioCategoriaList', 'comercioCategoria')
-                .leftJoin('comercioCategoria.comercio', 'comercio')
-                .andWhere('comercio.url = :urlComercio', { urlComercio: filter.urlComercio });
-        }
-
-        if (filter.vacias !== undefined) {
-            if (filter.vacias) {
-                query.leftJoin('categoria.itemCategorias', 'itemcategoria')
-                    .andWhere('itemcategoria IS NULL');
-            }
-            else {
-                query.leftJoin('categoria.itemCategorias', 'itemcategoria')
-                    .andWhere('itemcategoria IS NOT NULL');
-            }
-        }
-
-        return query.getMany();
     }
 }

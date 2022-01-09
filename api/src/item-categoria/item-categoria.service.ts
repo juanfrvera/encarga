@@ -29,6 +29,10 @@ export class ItemCategoriaService {
         return this.create(itemId, categoriaId, order, transaction);
     }
 
+    public getListByCategoriaId(categoriaId: string, transaction?: TransactionProxy): Promise<Array<ItemCategoria>> {
+        return this.storage.getListByCategoriaId(categoriaId, transaction);
+    }
+
     public getListByCategoriaIdList(categoriaIdList: string[]): Promise<Array<ItemCategoria>> {
         return this.storage.getListByCategoriaIdListOrderByOrder(categoriaIdList);
     }
@@ -55,5 +59,9 @@ export class ItemCategoriaService {
 
     public deleteByItemId(itemId: string, transaction?: TransactionProxy): Promise<void> {
         return this.storage.deleteByItemId(itemId, transaction);
+    }
+
+    public itemHasCategoria(itemId: string, transaction: TransactionProxy): Promise<boolean> {
+        return this.storage.itemHasCategoria(itemId, transaction);
     }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { BaseStorage } from "src/base/storage/base.storage";
+import { ItemCategoriaService } from "src/item-categoria/item-categoria.service";
 import { CategoriaService } from "src/shared/categoria/categoria.service";
 import { CategoriaCreate } from "src/shared/categoria/data/categoria.create";
 import { CategoriaUpdate } from "src/shared/categoria/data/categoria.update";
@@ -15,7 +16,8 @@ export class CategoriaComercianteService {
     constructor(
         private readonly baseStorage: BaseStorage,
         private readonly categoriaService: CategoriaService,
-        private readonly comercioCategoriaService: ComercioCategoriaService
+        private readonly comercioCategoriaService: ComercioCategoriaService,
+        private readonly itemCategoriaService: ItemCategoriaService
     ) { }
 
     public async count(comercioId: string): Promise<number> {
@@ -37,6 +39,44 @@ export class CategoriaComercianteService {
 
             return this.toModel(entity);
         })
+    }
+
+    public async deleteByCategoriaId(categoriaId: string, comercioId: string) {
+        const isFromComercio = await this.comercioCategoriaService.isCategoriaFromComercio(categoriaId, comercioId);
+
+        if (isFromComercio) {
+            await this.baseStorage.startTransaction(async newTransaction => {
+                // Get item categoria relations to use them later
+                const itemCategoriaList = await this.itemCategoriaService.getListByCategoriaId(
+                    categoriaId, newTransaction);
+
+                // First delete relations that use the categoria
+                await this.itemCategoriaService.deleteByCategoriaId(categoriaId, newTransaction);
+                await this.comercioCategoriaService.deleteByCategoriaId(categoriaId, newTransaction);
+                
+                // Next delete the categoria
+                await this.categoriaService.deleteById(categoriaId, newTransaction);
+
+                const itemIdList = itemCategoriaList.map(ic => ic.itemId);
+
+                const defaultCategoriaId = (await this.comercioCategoriaService.getDefaultForComercioId(comercioId))
+                    .categoriaId;
+
+                // Check items that left orphan
+                for (const itemId of itemIdList) {
+                    const hasCategoria = await this.itemCategoriaService.itemHasCategoria(itemId, newTransaction);
+
+                    // If the item will be left orphan, assign it the default category of this comercio
+                    if (!hasCategoria) {
+                        await this.itemCategoriaService.createWithMinimumOrder(
+                            itemId, defaultCategoriaId, newTransaction);
+                    }
+                }
+            });
+        }
+        else {
+            throw new CategoriaNotFromComercioError();
+        }
     }
 
     public async getListByComercioId(comercioId: string): Promise<Array<CategoriaComercianteModel>> {

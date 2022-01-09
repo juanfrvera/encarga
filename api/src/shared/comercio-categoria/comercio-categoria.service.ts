@@ -44,6 +44,10 @@ export class ComercioCategoriaService {
         }
     }
 
+    public deleteByCategoriaId(categoriaId: string, transaction: TransactionProxy): Promise<void>{
+        return this.storage.deleteByCategoriaId(categoriaId, transaction);
+    }
+
     public getDefaultForComercioId(comercioId: string): Promise<ComercioCategoria> {
         return this.storage.getDefaultForComercioId(comercioId);
     }

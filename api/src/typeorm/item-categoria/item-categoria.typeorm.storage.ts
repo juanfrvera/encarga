@@ -2,7 +2,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { CategoriaTypeOrmStorage } from "src/typeorm/categoria/categoria.typeorm.storage";
 import { ItemTypeOrmStorage } from "../item/item.typeorm.storage";
-import { EntityManager, FindOneOptions, In, Repository, SelectQueryBuilder } from "typeorm";
+import { EntityManager, FindManyOptions, FindOneOptions, In, Repository, SelectQueryBuilder } from "typeorm";
 import { ItemCategoria } from "src/item-categoria/entities/item-categoria.entity";
 import { ItemCategoriaStorage } from "src/item-categoria/item-categoria.storage";
 import { ItemCategoriaTypeOrmModel } from "./item-categoria.typeorm.model";
@@ -97,6 +97,23 @@ export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage {
         return count > 0;
     }
 
+    public async getListByCategoriaId(categoriaId: any, transaction?: TransactionProxy): Promise<ItemCategoria[]> {
+        const options: FindManyOptions<ItemCategoriaTypeOrmModel> = {
+            where: { categoria: { id: categoriaId } }
+        };
+
+        let modelList: Array<ItemCategoriaTypeOrmModel>;
+
+        if (transaction) {
+            modelList = await transaction.find<ItemCategoriaTypeOrmModel>(this.repository.target, options);
+        }
+        else {
+            modelList = await this.repository.find(options);
+        }
+
+        return modelList.map(m => this.toEntity(m));
+    }
+
     public async getListByCategoriaIdListOrderByOrder(categoriaIdList: string[]): Promise<ItemCategoria[]> {
         const modelList = await this.repository
             .createQueryBuilder('itemCategoria')
@@ -147,6 +164,16 @@ export class ItemCategoriaTypeOrmStorage extends ItemCategoriaStorage {
         const result = await query.getRawOne<{ minimumOrder: number }>();
 
         return result.minimumOrder;
+    }
+
+    public async itemHasCategoria(itemId: string, transaction: TransactionProxy): Promise<boolean> {
+        const count = await transaction.count<ItemCategoriaTypeOrmModel>(this.repository.target, {
+            where: {
+                item: { id: itemId }
+            }
+        });
+
+        return count > 0;
     }
 
     public async removeModel(model: ItemCategoriaTypeOrmModel, manager?: EntityManager): Promise<void> {

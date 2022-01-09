@@ -10,6 +10,8 @@ export abstract class ComercioCategoriaStorage {
     public abstract createDefault(
         comercioId: string, categoriaId: string, transaction: TransactionProxy): Promise<ComercioCategoria>;
 
+    public abstract deleteByCategoriaId(categoriaId: string, transaction: TransactionProxy): Promise<void>;
+
     public abstract existWithCategoriaIdAndComercioId(categoriaId: string, comercioId: string): Promise<boolean>;
     public abstract getDefaultForComercioId(comercioId: string): Promise<ComercioCategoria>;
     public abstract getListByComercioId(comercioId: string): Promise<Array<ComercioCategoria>>;

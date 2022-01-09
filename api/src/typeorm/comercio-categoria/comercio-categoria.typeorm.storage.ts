@@ -57,6 +57,16 @@ export class ComercioCategoriaTypeOrmStorage extends ComercioCategoriaStorage {
         return this.toEntity(model);
     }
 
+    public async deleteByCategoriaId(categoriaId: string, transaction: TransactionProxy): Promise<void> {
+        const modelList = await transaction.find<ComercioCategoriaTypeOrmModel>(this.repository.target, {
+            where: {
+                categoria: { id: categoriaId }
+            }
+        });
+
+        await transaction.remove(this.repository.target, modelList);
+    }
+
     public async existWithCategoriaIdAndComercioId(categoriaId: string, comercioId: string): Promise<boolean> {
         const count = await this.repository.count({
             where: {
