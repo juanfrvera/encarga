@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { BaseStorage } from "src/base/storage/base.storage";
 import { CategoriaService } from "../categoria/categoria.service";
-import { ComercioCategoriaEntity } from "./comercio-categoria.entity";
+import { ComercioCategoria } from "./comercio-categoria.entity";
 import { ComercioCategoriaStorage } from "./comercio-categoria.storage";
 
 @Injectable()
@@ -15,6 +15,10 @@ export class ComercioCategoriaService {
 
     public countByComercioId(comercioId: string): Promise<number> {
         return this.storage.countByComercioId(comercioId);
+    }
+
+    public create(comercioId: string, categoriaId: string, transaction?: TransactionProxy): Promise<ComercioCategoria> {
+        return this.storage.create(comercioId, categoriaId, transaction);
     }
 
     public async createDefaultForComercioId(comercioId: string, transaction?: TransactionProxy): Promise<void> {
@@ -40,11 +44,11 @@ export class ComercioCategoriaService {
         }
     }
 
-    public getDefaultForComercioId(comercioId: string): Promise<ComercioCategoriaEntity> {
+    public getDefaultForComercioId(comercioId: string): Promise<ComercioCategoria> {
         return this.storage.getDefaultForComercioId(comercioId);
     }
 
-    public getListByComercioId(comercioId: string): Promise<Array<ComercioCategoriaEntity>> {
+    public getListByComercioId(comercioId: string): Promise<Array<ComercioCategoria>> {
         return this.storage.getListByComercioId(comercioId);
     }
 

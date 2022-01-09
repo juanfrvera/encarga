@@ -1,4 +1,4 @@
-export class ComercioCategoriaEntity {
+export class ComercioCategoria {
     private _comercioId: string;
     private _categoriaId: string;
 

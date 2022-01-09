@@ -2,7 +2,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { EntityManager, Repository } from "typeorm";
 import { CategoriaFilter } from "../../shared/categoria/data/categoria-filter";
-import { CategoriaCreationData } from "../../shared/categoria/data/categoria.creation.data";
+import { CategoriaCreate } from "../../shared/categoria/data/categoria.create";
 import { CategoriaUpdate } from "../../shared/categoria/data/categoria.update";
 import { Categoria } from "../../shared/categoria/entities/categoria.entity";
 import { CategoriaStorage } from "../../shared/categoria/categoria.storage";
@@ -16,7 +16,7 @@ export class CategoriaTypeOrmStorage extends CategoriaStorage {
         super();
     }
 
-    public async create(data: CategoriaCreationData, transaction?: TransactionProxy): Promise<Categoria> {
+    public async create(data: CategoriaCreate, transaction?: TransactionProxy): Promise<Categoria> {
         let model = new CategoriaTypeOrmModel();
 
         model.nombre = data.name;

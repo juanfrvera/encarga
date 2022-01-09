@@ -1,9 +1,11 @@
-import { Body, Controller, Get, Patch, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { ComercianteWithComercioAuthGuard } from "../auth/guard/comerciante-with-comercio-auth.guard";
 import { ComercianteWithComercioData } from "../data/comerciante-with-comercio.data";
 import { CategoriaComercianteService } from "./categoria.comerciante.service";
+import { CategoriaComercianteCreate } from "./data/categoria-comerciante.create";
 import { CategoriaComercianteUpdate } from "./data/categoria-comerciante.update";
 import { CategoriaComercianteModel } from "./data/categoria.comerciante.model";
+import { CategoriaComercianteCreateDto } from "./dto/categoria-comerciante.create.dto";
 import { CategoriaComercianteUpdateDto } from "./dto/categoria-comerciante.update.dto";
 import { CategoriaComercianteLightDto } from "./dto/categoria.comerciante.light.dto";
 
@@ -13,6 +15,19 @@ export class CategoriaComercianteController {
     constructor(
         private readonly service: CategoriaComercianteService
     ) { }
+
+    @Post()
+    public async create(@Body() dto: CategoriaComercianteCreateDto, @Request() request): Promise<CategoriaComercianteLightDto> {
+        const user: ComercianteWithComercioData = request.user;
+
+        const createData: CategoriaComercianteCreate = {
+            name: dto.name
+        };
+
+        const entity = await this.service.create(createData, user.comercioId);
+
+        return this.toLightDto(entity);
+    }
 
     @Get('count')
     public getCount(@Request() request): Promise<number> {

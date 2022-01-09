@@ -62,7 +62,7 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
         loaded: false,
       },
       modal: {
-        loading: true,
+        loading: false,
         saving: false,
       }
     };
@@ -94,7 +94,6 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
 
     this.openModal();
 
-    // TODO: mostrar "cargando"
     this.service.get(dto.id).subscribe(item => {
       // Hacer una copia profunda para no modificar el original
       this.item = Util.deepCopy(item);
@@ -142,15 +141,41 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
 
       if (this.Item.id) {
         // Updating
-        this.service.update(this.Item).subscribe(() => {
-          this.close();
-        }, () => { }, () => this.model.modal.saving = false);
+        this.service.update(this.Item).subscribe(
+          // Success
+          () => {
+            this.close();
+            this.model.modal.saving = false;
+          },
+          // Error
+          () => {
+
+            this.model.modal.saving = false;
+          }
+        );
       }
       else {
         // Creating
-        this.service.create(this.Item).subscribe(() => {
-          this.close();
-        }, () => { }, () => this.model.modal.saving = false);
+        this.service.create(this.Item).subscribe(
+          // Success
+          () => {
+            this.close();
+
+            this.model.modal.saving = false
+          },
+          // Error
+          () => {
+            this.swalService.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Ocurrió un error inesperado',
+              keydownListenerCapture: true,
+              confirmButtonText: 'Continuar'
+            });
+
+            this.model.modal.saving = false
+          }
+        );
       }
     }
     else {

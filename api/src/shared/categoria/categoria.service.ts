@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { TransactionProxy } from 'src/base/proxy/transaction.proxy';
 import { BaseStorage } from 'src/base/storage/base.storage';
 import { ItemCategoriaService } from 'src/item-categoria/item-categoria.service';
-import { CategoriaCreationData } from './data/categoria.creation.data';
+import { CategoriaCreate } from './data/categoria.create';
 import { CategoriaUpdate } from './data/categoria.update';
 import { Categoria } from './entities/categoria.entity';
 import { CategoriaNotFoundError } from './error/categoria-not-found.error';
@@ -16,7 +16,7 @@ export class CategoriaService {
         private readonly itemCategoriaService: ItemCategoriaService
     ) { }
 
-    public create(data: CategoriaCreationData, transaction?: TransactionProxy) {
+    public create(data: CategoriaCreate, transaction?: TransactionProxy) {
         return this.storage.create(data, transaction);
     }
 

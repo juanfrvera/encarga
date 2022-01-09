@@ -1,8 +1,11 @@
 import { Injectable } from "@nestjs/common";
+import { BaseStorage } from "src/base/storage/base.storage";
 import { CategoriaService } from "src/shared/categoria/categoria.service";
+import { CategoriaCreate } from "src/shared/categoria/data/categoria.create";
 import { CategoriaUpdate } from "src/shared/categoria/data/categoria.update";
 import { Categoria } from "src/shared/categoria/entities/categoria.entity";
 import { ComercioCategoriaService } from "src/shared/comercio-categoria/comercio-categoria.service";
+import { CategoriaComercianteCreate } from "./data/categoria-comerciante.create";
 import { CategoriaComercianteUpdate } from "./data/categoria-comerciante.update";
 import { CategoriaComercianteModel } from "./data/categoria.comerciante.model";
 import { CategoriaNotFromComercioError } from "./error/categoria-not-from-comercio.error";
@@ -10,6 +13,7 @@ import { CategoriaNotFromComercioError } from "./error/categoria-not-from-comerc
 @Injectable()
 export class CategoriaComercianteService {
     constructor(
+        private readonly baseStorage: BaseStorage,
         private readonly categoriaService: CategoriaService,
         private readonly comercioCategoriaService: ComercioCategoriaService
     ) { }
@@ -19,6 +23,20 @@ export class CategoriaComercianteService {
 
         // subtract one because the default categoria is not counted
         return count - 1;
+    }
+
+    public async create(data: CategoriaComercianteCreate, comercioId: string): Promise<CategoriaComercianteModel> {
+        return this.baseStorage.startTransaction(async newTransaction => {
+            const createData: CategoriaCreate = {
+                name: data.name
+            };
+
+            const entity = await this.categoriaService.create(createData, newTransaction);
+
+            await this.comercioCategoriaService.create(comercioId, entity.id, newTransaction);
+
+            return this.toModel(entity);
+        })
     }
 
     public async getListByComercioId(comercioId: string): Promise<Array<CategoriaComercianteModel>> {
