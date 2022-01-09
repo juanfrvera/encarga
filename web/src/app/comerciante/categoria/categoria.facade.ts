@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { tap } from "rxjs/operators";
+import { Subject } from "src/app/shared/util/subject";
 import { ICrudable } from "../service/interface/crudable.interface";
 import { CategoriaApi } from "./categoria.api";
 import { CategoriaState } from "./categoria.state";
@@ -9,6 +10,11 @@ import { CategoriaLightDto } from "./model/categoria.light.dto";
 @Injectable()
 export class CategoriaFacade implements ICrudable {
     private loadingList = false;
+    private onDelete = new Subject<{ id: string }>();
+
+    public get OnDelete() {
+        return this.onDelete;
+    }
 
     constructor(
         private readonly api: CategoriaApi,
@@ -35,7 +41,11 @@ export class CategoriaFacade implements ICrudable {
     }
     public delete(id: string): Observable<void> {
         return this.api.deleteById(id).pipe(
-            tap(() => this.state.deleteById(id))
+            tap(() => {
+                this.state.deleteById(id);
+
+                this.onDelete.notify({ id });
+            })
         );
     }
     public get(id: string): Observable<any> {

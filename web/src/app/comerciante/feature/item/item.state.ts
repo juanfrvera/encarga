@@ -35,6 +35,27 @@ export class ItemState {
         this.fullList$.next(list);
     }
 
+    public delete(itemId: string) {
+        const lightList = this.lightList$.value;
+
+        if (lightList) {
+            if (lightList.find(i => i.id == itemId)) {
+                this.lightList$.next(lightList.filter(i => i.id != itemId));
+            }
+        }
+
+        this.deleteFullById(itemId);
+    }
+
+    public deleteFromFullListByCategoriaId(categoriaId: string) {
+        const fullList = this.fullList$.value;
+
+        if (fullList) {
+            // Keep the items which doesn't contain the categoria
+            this.fullList$.next(fullList.filter(item => !item.categoriaIdList?.includes(categoriaId)));
+        }
+    }
+
     public hasCount() {
         return this.count != undefined;
     }
@@ -49,18 +70,6 @@ export class ItemState {
 
     public hasList() {
         return this.lightList$.value != undefined;
-    }
-
-    public delete(itemId: string) {
-        const lightList = this.lightList$.value;
-
-        if (lightList) {
-            if (lightList.find(i => i.id == itemId)) {
-                this.lightList$.next(lightList.filter(i => i.id != itemId));
-            }
-        }
-
-        this.deleteFull(itemId);
     }
 
     public getCount() {
@@ -97,10 +106,10 @@ export class ItemState {
         }
 
         // Delete full item because is outdated
-        this.deleteFull(updatedItem.id);
+        this.deleteFullById(updatedItem.id);
     }
 
-    private deleteFull(itemId: string) {
+    private deleteFullById(itemId: string) {
         const fullList = this.fullList$.value;
 
         if (fullList) {

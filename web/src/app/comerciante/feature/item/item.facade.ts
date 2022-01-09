@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { tap } from "rxjs/operators";
+import { CategoriaFacade } from "../../categoria/categoria.facade";
 import { ItemCreateData } from "../../data/item.create.data";
 import { ItemDto } from "../../dto/item.dto";
 import { ItemLightDto } from "../../dto/item.light.dto";
@@ -14,8 +15,11 @@ export class ItemFacade implements ICrudable {
 
     constructor(
         private readonly api: ItemApi,
-        private readonly state: ItemState
-    ) { }
+        private readonly state: ItemState,
+        private readonly categoriaFacade: CategoriaFacade
+    ) {
+        this.categoriaFacade.OnDelete.subscribe((data: any) => this._categoriaDeleted(data));
+    }
 
     public count(): Observable<number> {
         if (!this.state.hasCount()) {
@@ -80,5 +84,9 @@ export class ItemFacade implements ICrudable {
         return this.api.update(data).pipe(
             tap(updated => this.state.update(updated))
         );
+    }
+
+    private _categoriaDeleted({ id }: { id: string }) {
+        this.state.deleteFromFullListByCategoriaId(id);
     }
 }
