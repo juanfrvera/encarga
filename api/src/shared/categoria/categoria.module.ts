@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CategoriaService } from './categoria.service';
 import { UsuarioComercioModule } from 'src/comerciante/usuario-comercio/usuario-comercio.module';
-import { CategoriaTypeOrmModule } from 'src/typeorm/categoria/categoria.typeorm.module';
+import { CategoriaTypeOrmModule } from 'src/typeorm/feature/categoria/categoria.typeorm.module';
 
 @Module({
   imports: [

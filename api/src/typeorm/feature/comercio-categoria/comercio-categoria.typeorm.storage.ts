@@ -5,7 +5,7 @@ import { ComercioCategoria } from "src/shared/comercio-categoria/comercio-catego
 import { ComercioCategoriaStorage } from "src/shared/comercio-categoria/comercio-categoria.storage";
 import { Repository } from "typeorm";
 import { CategoriaTypeOrmStorage } from "../categoria/categoria.typeorm.storage";
-import { ComercioTypeOrmStorage } from "../feature/comercio/comercio.typeorm.storage";
+import { ComercioTypeOrmStorage } from "../comercio/comercio.typeorm.storage";
 import { ComercioCategoriaTypeOrmModel } from "./comercio-categoria.typeorm.model";
 
 @Injectable()

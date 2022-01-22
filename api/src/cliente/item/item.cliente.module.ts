@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { ItemModule } from "src/item/item.module";
+import { ItemModule } from "src/shared/item/item.module";
 import { ItemClienteController } from "./item.cliente.controller";
 import { ItemClienteService } from "./item.cliente.service";
 

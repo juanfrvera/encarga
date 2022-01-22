@@ -8,6 +8,7 @@ import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { AuthGuard } from './guard/auth.guard';
 import { LoginComponent } from './page/login/login.component';
 import { ComercioSelectorComponent } from './page/comercio-selector/comercio-selector.component';
+import { ConfiguracionComponent } from './page/configuracion/configuracion.component';
 
 const routes: Routes = [
   {
@@ -17,8 +18,9 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       { path: '', component: DashboardComponent },
+      { path: 'item', component: ItemComponent },
       { path: 'categoria', component: CategoriaComponent },
-      { path: 'item', component: ItemComponent }
+      { path: 'configuracion', component: ConfiguracionComponent },
     ]
   },
   {

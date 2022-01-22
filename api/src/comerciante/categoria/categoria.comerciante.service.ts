@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { BaseStorage } from "src/base/storage/base.storage";
-import { ItemCategoriaService } from "src/item-categoria/item-categoria.service";
+import { ItemCategoriaService } from "src/shared/item-categoria/item-categoria.service";
 import { CategoriaService } from "src/shared/categoria/categoria.service";
 import { CategoriaCreate } from "src/shared/categoria/data/categoria.create";
 import { CategoriaUpdate } from "src/shared/categoria/data/categoria.update";

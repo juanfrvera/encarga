@@ -3,7 +3,7 @@ import { ComercioService } from "src/shared/comercio/comercio.service";
 import { Comercio } from "src/shared/comercio/entities/comercio.entity";
 import { UsuarioComercioService } from "src/comerciante/usuario-comercio/usuario-comercio.service";
 import { ComercioComercianteModel } from "./data/comercio.comerciante.model";
-import { ItemCategoriaService } from "src/item-categoria/item-categoria.service";
+import { ItemCategoriaService } from "src/shared/item-categoria/item-categoria.service";
 import { ComercioCategoriaService } from "src/shared/comercio-categoria/comercio-categoria.service";
 
 @Injectable()

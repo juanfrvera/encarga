@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ItemTypeOrmModel } from "./item.typeorm.model";
 import { ItemTypeOrmStorage } from "./item.typeorm.storage";
-import { ItemStorage } from "src/item/item.storage";
+import { ItemStorage } from "src/shared/item/item.storage";
 
 @Module({
     imports: [

@@ -1,13 +1,13 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { EntityManager, Repository } from "typeorm";
-import { ItemCreateData } from "src/item/data/item.create.data";
-import { ItemUpdateData } from "src/item/data/item.update.data";
-import { Item } from "src/item/entities/item.entity";
-import { ItemStorage } from "src/item/item.storage";
+import { ItemCreateData } from "src/shared/item/data/item.create.data";
+import { ItemUpdateData } from "src/shared/item/data/item.update.data";
+import { Item } from "src/shared/item/entities/item.entity";
+import { ItemStorage } from "src/shared/item/item.storage";
 import { ItemTypeOrmModel } from "./item.typeorm.model";
 import { Injectable } from "@nestjs/common";
-import { ItemFilter } from "src/item/data/item.filter";
+import { ItemFilter } from "src/shared/item/data/item.filter";
 
 @Injectable()
 export class ItemTypeOrmStorage extends ItemStorage {

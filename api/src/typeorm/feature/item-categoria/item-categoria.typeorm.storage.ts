@@ -1,10 +1,10 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
-import { CategoriaTypeOrmStorage } from "src/typeorm/categoria/categoria.typeorm.storage";
+import { CategoriaTypeOrmStorage } from "src/typeorm/feature/categoria/categoria.typeorm.storage";
 import { ItemTypeOrmStorage } from "../item/item.typeorm.storage";
 import { EntityManager, FindManyOptions, FindOneOptions, In, Repository, SelectQueryBuilder } from "typeorm";
-import { ItemCategoria } from "src/item-categoria/entities/item-categoria.entity";
-import { ItemCategoriaStorage } from "src/item-categoria/item-categoria.storage";
+import { ItemCategoria } from "src/shared/item-categoria/entities/item-categoria.entity";
+import { ItemCategoriaStorage } from "src/shared/item-categoria/item-categoria.storage";
 import { ItemCategoriaTypeOrmModel } from "./item-categoria.typeorm.model";
 import { Injectable } from "@nestjs/common";
 

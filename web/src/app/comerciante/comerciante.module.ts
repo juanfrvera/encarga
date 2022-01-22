@@ -24,6 +24,7 @@ import { ItemModule } from "./feature/item/item.module";
 import { CategoriaModule } from "./categoria/categoria.module";
 import { ModalCrudComponent } from "./component/modal-crud/modal-crud.component";
 import { LoadingComponent } from "./component/loading/loading.component";
+import { ConfiguracionComponent } from "./page/configuracion/configuracion.component";
 
 @NgModule({
     imports: [
@@ -45,6 +46,7 @@ import { LoadingComponent } from "./component/loading/loading.component";
         // Page
         AdminComponent,
         CategoriaComponent,
+        ConfiguracionComponent,
         ComercioSelectorComponent,
         DashboardComponent,
         ItemComponent,

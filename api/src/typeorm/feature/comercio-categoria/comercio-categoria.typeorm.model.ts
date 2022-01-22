@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne } from "typeorm";
 import { CategoriaTypeOrmModel } from "../categoria/categoria.typeorm.model";
-import { ComercioTypeOrmModel } from "../feature/comercio/comercio.typeorm.model";
+import { ComercioTypeOrmModel } from "../comercio/comercio.typeorm.model";
 
 @Entity('comercio_categoria')
 export class ComercioCategoriaTypeOrmModel {

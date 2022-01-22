@@ -59,6 +59,7 @@ export class ComercioTypeOrmStorage extends ComercioStorage {
     public toEntity(model: ComercioTypeOrmModel): Comercio {
         return new Comercio(
             model.id.toString(),
+            model.phone,
             model.url
         );
     }

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UsuarioComercioService } from './usuario-comercio.service';
 import { UsuarioComercioController } from './usuario-comercio.controller';
-import { UsuarioComercioTypeOrmModule } from 'src/typeorm/usuario-comercio/usuario-comercio.typeorm.module';
+import { UsuarioComercioTypeOrmModule } from 'src/typeorm/feature/usuario-comercio/usuario-comercio.typeorm.module';
 
 @Module({
   imports: [

@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { ItemCategoriaStorage } from "src/item-categoria/item-categoria.storage";
+import { ItemCategoriaStorage } from "src/shared/item-categoria/item-categoria.storage";
 import { CategoriaTypeOrmModule } from "../categoria/categoria.typeorm.module";
 import { ItemTypeOrmModule } from "../item/item.typeorm.module";
 import { ItemCategoriaTypeOrmModel } from "./item-categoria.typeorm.model";

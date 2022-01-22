@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { BaseStorage } from "src/base/storage/base.storage";
-import { ItemCategoriaService } from "src/item-categoria/item-categoria.service";
-import { ItemCreateData } from "src/item/data/item.create.data";
-import { ItemUpdateData } from "src/item/data/item.update.data";
-import { Item } from "src/item/entities/item.entity";
-import { ItemService } from "src/item/item.service";
+import { ItemCategoriaService } from "src/shared/item-categoria/item-categoria.service";
+import { ItemCreateData } from "src/shared/item/data/item.create.data";
+import { ItemUpdateData } from "src/shared/item/data/item.update.data";
+import { Item } from "src/shared/item/entities/item.entity";
+import { ItemService } from "src/shared/item/item.service";
 import { CategoriaService } from "src/shared/categoria/categoria.service";
 import { ComercioCategoriaService } from "src/shared/comercio-categoria/comercio-categoria.service";
 import { ComercioComercianteService } from "../comercio/comercio.comerciante.service";

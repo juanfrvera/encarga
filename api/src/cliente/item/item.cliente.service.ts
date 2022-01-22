@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { ItemFilter } from "src/item/data/item.filter";
-import { Item } from "src/item/entities/item.entity";
-import { ItemService } from "src/item/item.service";
+import { ItemFilter } from "src/shared/item/data/item.filter";
+import { Item } from "src/shared/item/entities/item.entity";
+import { ItemService } from "src/shared/item/item.service";
 import { ItemClienteFilter } from "./item.cliente.filter";
 import { ItemClienteModel } from "./item.cliente.model";
 

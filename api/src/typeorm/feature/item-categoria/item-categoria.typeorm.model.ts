@@ -1,6 +1,6 @@
 import { BaseTypeOrmModel } from "src/typeorm/feature/base/base.typeorm.model";
-import { CategoriaTypeOrmModel } from "src/typeorm/categoria/categoria.typeorm.model";
-import { ItemTypeOrmModel } from "src/typeorm/item/item.typeorm.model";
+import { CategoriaTypeOrmModel } from "src/typeorm/feature/categoria/categoria.typeorm.model";
+import { ItemTypeOrmModel } from "src/typeorm/feature/item/item.typeorm.model";
 import { Column, Entity, ManyToOne } from "typeorm";
 
 @Entity('item_categoria')

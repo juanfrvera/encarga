@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { ItemModule } from "src/item/item.module";
+import { ItemModule } from "src/shared/item/item.module";
 import { AuthModule } from "./auth/auth.module";
 import { CategoriaComercianteModule } from "./categoria/categoria.comerciante.module";
 import { ComercioComercianteModule } from "./comercio/comercio.comerciante.module";

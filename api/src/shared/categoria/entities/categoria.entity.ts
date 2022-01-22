@@ -1,4 +1,4 @@
-import { ItemCategoria } from "src/item-categoria/entities/item-categoria.entity";
+import { ItemCategoria } from "src/shared/item-categoria/entities/item-categoria.entity";
 
 export class Categoria {
     id: string;

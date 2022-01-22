@@ -1,10 +1,10 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionProxy } from "src/base/proxy/transaction.proxy";
 import { EntityManager, Repository } from "typeorm";
-import { CategoriaCreate } from "../../shared/categoria/data/categoria.create";
-import { CategoriaUpdate } from "../../shared/categoria/data/categoria.update";
-import { Categoria } from "../../shared/categoria/entities/categoria.entity";
-import { CategoriaStorage } from "../../shared/categoria/categoria.storage";
+import { CategoriaCreate } from "../../../shared/categoria/data/categoria.create";
+import { CategoriaUpdate } from "../../../shared/categoria/data/categoria.update";
+import { Categoria } from "../../../shared/categoria/entities/categoria.entity";
+import { CategoriaStorage } from "../../../shared/categoria/categoria.storage";
 import { CategoriaTypeOrmModel } from "./categoria.typeorm.model";
 
 export class CategoriaTypeOrmStorage extends CategoriaStorage {

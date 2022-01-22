@@ -1,6 +1,6 @@
 import { BaseTypeOrmModel } from "src/typeorm/feature/base/base.typeorm.model";
 import { ComercioTypeOrmModel } from "src/typeorm/feature/comercio/comercio.typeorm.model";
-import { UsuarioTypeOrmModel } from "src/typeorm/usuario/usuario.typeorm.model";
+import { UsuarioTypeOrmModel } from "src/typeorm/feature/usuario/usuario.typeorm.model";
 import { Entity, ManyToOne } from "typeorm";
 
 // Se hizo esta clase de asociación pensando en que en un futuro se pueden agregar roles para usuarios
