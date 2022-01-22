@@ -31,12 +31,12 @@ class ConfigService {
     }
 
     public getTypeOrmConfig(): TypeOrmModuleOptions {
+        const ssl = this.isProduction() ? { rejectUnauthorized: false } : false;
+
         return {
             type: 'postgres',
             url: this.getValue('DATABASE_URL'),
-            ssl: {
-                rejectUnauthorized: false
-            },
+            ssl,
             entities: [join(__dirname, '..', '**', '*.typeorm.model{.ts,.js}')],
             migrationsTableName: 'migration',
             migrations: [join(__dirname, '../typeorm/migration/*.{ts,js}')],
