@@ -36,14 +36,8 @@ class ConfigService {
         return {
             type: 'postgres',
             url: this.getValue('DATABASE_URL'),
-            ssl,
             entities: [join(__dirname, '..', '**', '*.typeorm.model{.ts,.js}')],
-            migrationsTableName: 'migration',
-            migrations: [join(__dirname, '../typeorm/migration/*.{ts,js}')],
-            cli: {
-                migrationsDir: 'src/typeorm/migration',
-            },
-
+            synchronize: true,
         }
     }
 
