@@ -5,3 +5,7 @@ $ docker run --name container_name -p 5432:5432 -e POSTGRES_PASSWORD=postgres po
 
 You can start and stop the container by running:
 docker start container_name or docker stop container_name
+
+To build the dist folder: npm run build
+
+To run the project: npm run start
