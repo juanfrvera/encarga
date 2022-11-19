@@ -78,3 +78,12 @@
 .list-group-item-action:hover, .list-group-item-action:focus {
   background-color: rgb(252, 69, 60, 0.05);
 }
+
+// FONDOS
+.bg-g {
+  background: linear-gradient(to bottom, #eb3349, #f45c43);
+}
+
+.bg-g-inverse {
+  background: linear-gradient(to top, #eb3349, #f45c43);
+}
