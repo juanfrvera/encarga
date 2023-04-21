@@ -5,31 +5,36 @@
                     class="px-2" alt=""></a>
         </div>
     </nav>
-    <div class="text-white">
-        <h1>Comenzá tu prueba gratuita</h1>
-        <p>Podrás probar todas nuestras funcionalidades gratis por dos semanas, al finalizar la prueba podrás elegir si
-            seguir con nosotros o cancelar gratuitamente.</p>
-    </div>
 
-
-    <div class="container-lg mt-3 mt-md-5 mb-5 mb-xxl-2">
+    <div class="mt-3 mt-md-5 mb-5 mb-xxl-2">
         <div class="col-12 col-md-6 px-sm-5 px-md-0 pb-3 pb-md-0">
             <div class="card p-2 p-lg-4">
                 <div class="card-body">
                     <h2 class="card-title fw-bold">Tus datos</h2>
                     <p class="card-text">Antes de empezar necesitamos los siguientes datos:</p>
 
-                    <form>
-                        <!-- Numero -->
-                        <label>Tu número con Whatsapp</label>
-                        <input type="tel" />
+                    <form id="start-form">
+                        <!-- WhatsApp Number -->
+                        <div class="form-group">
+                            <label for="whatsappNumber">Tu número con Whatsapp</label>
+                            <input [(ngModel)]="view.phone" (keyup)="onPhoneKeyUp()" name="whatsappNumber" type="tel"
+                                class="form-control" id="whatsappNumber" aria-describedby="whatsappNumberHelp"
+                                placeholder="Ingresa tu número">
+                            <small id="whatsappNumberHelp" class="form-text text-muted">Lo usaremos para enviarte los
+                                pedidos que
+                                realicen tus clientes.</small>
+                        </div>
 
-                        <!-- Nombre negocio -->
-                        <label>Nombre de tu negocio</label>
-                        <input type="text" />
+                        <!-- Shop Name -->
+                        <div class="form-group">
+                            <label for="shopName">Nombre de tu negocio</label>
+                            <input [(ngModel)]="view.name" (keyup)="onNameKeyUp()" name="shopName" type="text"
+                                class="form-control" id="shopName" placeholder="Ingresa el nombre">
+                        </div>
                     </form>
 
-                    <a href="/start" class="btn btn-primary btn-lg bg-gradient mt-3"><strong>Listo</strong></a>
+                    <button [disabled]="view.disableSubmit"
+                        class="btn btn-primary btn-lg bg-gradient mt-3"><strong>Listo</strong></button>
                 </div>
             </div>
         </div>
