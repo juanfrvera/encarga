@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormularioComponent } from 'src/app/shared/component/formulario/formulario.component';
-import { AuthService } from 'src/app/comerciante/service/auth.service';
-import { SwalService } from 'src/app/comerciante/service/swal.service';
+import { AuthService } from 'src/app/seller/service/auth.service';
+import { SwalService } from 'src/app/seller/service/swal.service';
 
 @Component({
   selector: 'app-login',

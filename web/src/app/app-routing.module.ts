@@ -15,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    loadChildren: () => import('./comerciante/comerciante.module').then(m => m.ComercianteModule)
+    loadChildren: () => import('./seller/comerciante.module').then(m => m.ComercianteModule)
   },
   {
     path: 'pedido',
