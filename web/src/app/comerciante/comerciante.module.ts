@@ -18,13 +18,12 @@ import { AuthService } from "./service/auth.service";
 import { CommonModule } from "@angular/common";
 import { AuthGuard } from "./guard/auth.guard";
 import { HttpClientModule } from "@angular/common/http";
-import { ComercioModule } from "./comercio/comercio.module";
-import { ComercioSelectorComponent } from "./page/comercio-selector/comercio-selector.component";
 import { ItemModule } from "./feature/item/item.module";
 import { CategoriaModule } from "./categoria/categoria.module";
 import { ModalCrudComponent } from "./component/modal-crud/modal-crud.component";
 import { LoadingComponent } from "./component/loading/loading.component";
 import { ConfiguracionComponent } from "./page/configuracion/configuracion.component";
+import { ComercioModule } from "../shared/comercio/comercio.module";
 
 @NgModule({
     imports: [
@@ -47,7 +46,6 @@ import { ConfiguracionComponent } from "./page/configuracion/configuracion.compo
         AdminComponent,
         CategoriaComponent,
         ConfiguracionComponent,
-        ComercioSelectorComponent,
         DashboardComponent,
         ItemComponent,
         LoginComponent,

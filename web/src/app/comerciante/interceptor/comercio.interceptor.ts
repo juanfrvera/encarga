@@ -1,7 +1,7 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { ComercioFacade } from "../comercio/comercio.facade";
+import { SellerFacade } from "../../shared/comercio/comercio.facade";
 
 @Injectable()
 export class ComercioInterceptor implements HttpInterceptor {
@@ -9,7 +9,7 @@ export class ComercioInterceptor implements HttpInterceptor {
 
     private currentComercioId: string | null;
 
-    constructor(readonly comercioFacade: ComercioFacade) {
+    constructor(readonly comercioFacade: SellerFacade) {
         comercioFacade.getCurrentId$().subscribe(currentId => {
             this.currentComercioId = currentId;
         });

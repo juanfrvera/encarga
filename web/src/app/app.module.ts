@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { StartComponent } from './landing/page/start/start.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { StartComponent } from './landing/page/start/start.component';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
+    SharedModule
   ],
   bootstrap: [AppComponent]
 })

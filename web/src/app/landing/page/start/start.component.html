@@ -33,8 +33,8 @@
                         </div>
                     </form>
 
-                    <button [disabled]="view.disableSubmit"
-                        class="btn btn-primary btn-lg bg-gradient mt-3"><strong>Listo</strong></button>
+                    <button [disabled]="view.disableSubmit" (click)="submitClicked()"
+                        class="btn btn-primary btn-lg bg-gradient mt-3"><strong>Continue</strong></button>
                 </div>
             </div>
         </div>

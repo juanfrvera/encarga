@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { ComercioFacade } from "../../comercio/comercio.facade";
-import { ComercioLightDto } from "../../comercio/model/comercio.light.dto";
+import { SellerFacade } from "../../../shared/comercio/comercio.facade";
+import { ComercioLightDto } from "src/app/shared/comercio/model/comercio.light.dto";
 
 @Component({
     selector: 'app-comercio-selector',
@@ -19,7 +19,7 @@ export class ComercioSelectorComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly router: Router,
-        private readonly comercioFacade: ComercioFacade
+        private readonly comercioFacade: SellerFacade
     ) { }
 
     ngOnInit(): void {
@@ -33,8 +33,6 @@ export class ComercioSelectorComponent implements OnInit, OnDestroy {
                 }
             }
         });
-
-        this.comercioFacade.loadList();
     }
 
     ngOnDestroy(): void {

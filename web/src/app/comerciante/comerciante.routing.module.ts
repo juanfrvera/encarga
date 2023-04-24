@@ -7,7 +7,6 @@ import { CategoriaComponent } from './page/categoria/categoria.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { AuthGuard } from './guard/auth.guard';
 import { LoginComponent } from './page/login/login.component';
-import { ComercioSelectorComponent } from './page/comercio-selector/comercio-selector.component';
 import { ConfiguracionComponent } from './page/configuracion/configuracion.component';
 
 const routes: Routes = [
@@ -27,10 +26,6 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent
   },
-  {
-    path: 'elegirComercio',
-    component: ComercioSelectorComponent
-  }
 ];
 
 @NgModule({
