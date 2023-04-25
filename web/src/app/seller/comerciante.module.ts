@@ -19,7 +19,7 @@ import { CommonModule } from "@angular/common";
 import { AuthGuard } from "./guard/auth.guard";
 import { HttpClientModule } from "@angular/common/http";
 import { ItemModule } from "./feature/item/item.module";
-import { CategoriaModule } from "./categoria/categoria.module";
+import { CategoriaModule } from "./category/category.module";
 import { ModalCrudComponent } from "./component/modal-crud/modal-crud.component";
 import { LoadingComponent } from "./component/loading/loading.component";
 import { ConfiguracionComponent } from "./page/configuracion/configuracion.component";

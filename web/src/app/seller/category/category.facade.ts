@@ -3,12 +3,12 @@ import { Observable, of } from "rxjs";
 import { tap } from "rxjs/operators";
 import { Subject } from "src/app/shared/util/subject";
 import { ICrudable } from "../service/interface/crudable.interface";
-import { CategoriaApi } from "./categoria.api";
-import { CategoriaState } from "./categoria.state";
-import { CategoriaLightDto } from "./model/categoria.light.dto";
+import { CategoriaApi } from "./category.api";
+import { CategoriaState } from "./category.state";
+import { ICategoryLite } from "./model/category.lite";
 
 @Injectable()
-export class CategoriaFacade implements ICrudable {
+export class CategoryFacade implements ICrudable {
     private loadingList = false;
     private onDelete = new Subject<{ id: string }>();
 
@@ -39,20 +39,18 @@ export class CategoriaFacade implements ICrudable {
             tap(created => this.state.add(created))
         );
     }
-    public delete(id: string): Observable<void> {
-        return this.api.deleteById(id).pipe(
-            tap(() => {
-                this.state.deleteById(id);
+    public async delete(id: string) {
+        await this.api.deleteById(id);
 
-                this.onDelete.notify({ id });
-            })
-        );
+        await this.state.deleteById(id);
+
+        this.onDelete.notify({ id });
     }
-    public get(id: string): Observable<any> {
+    public async get(id: string) {
         // The item is in the state, return from there
-        return of(this.state.getById(id)!);
+        return this.state.getById(id)!;
     }
-    public getList$(): Observable<Array<CategoriaLightDto> | undefined> {
+    public getList$(): Observable<Array<ICategoryLite> | undefined> {
         // Only load list if state hasn't already
         if (!this.state.hasList()) {
             if (!this.loadingList) {
@@ -72,10 +70,14 @@ export class CategoriaFacade implements ICrudable {
 
         return this.state.getList$();
     }
-    public update(data: any): Observable<any> {
-        return this.api.update(data).pipe(
-            tap(updated => this.state.update(updated))
-        );
+
+    public getList(): Promise<Array<ICategoryLite>> {
+        return new Promise((resolve) => this.api.getList().subscribe(resolve));
+    }
+
+    public async update(data: any){
+        const updated = await this.api.update(data);
+        await this.state.update(updated);
     }
 
 }

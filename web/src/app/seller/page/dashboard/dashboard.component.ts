@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoriaFacade } from '../../categoria/categoria.facade';
+import { CategoryFacade } from '../../category/category.facade';
 import { ItemFacade } from '../../feature/item/item.facade';
+import { ItemLightDto } from '../../dto/item.light.dto';
+import { ICategoryLite } from '../../category/model/category.lite';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,60 +10,42 @@ import { ItemFacade } from '../../feature/item/item.facade';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  private model: {
-    categoria: {
-      loading: boolean;
-      count: number;
-    };
-    item: {
-      loading: boolean;
-      count: number;
+  public view: {
+    categories?: {
+      list?: ICategoryLite[];
+      showEmptyState?: boolean;
     }
-  }
-
-  public get Model() {
-    return this.model;
-  }
+    items?: {
+      list?: ItemLightDto[];
+      showEmptyState?: boolean;
+    }
+  } = {};
 
   constructor(
-    private readonly categoriaFacade: CategoriaFacade,
+    private readonly categoryFacade: CategoryFacade,
     private readonly itemFacade: ItemFacade
   ) { }
 
   ngOnInit(): void {
-    this.model = {
-      categoria: {
-        loading: true,
-        count: 0
-      },
-      item: {
-        loading: true,
-        count: 0
+    this.itemFacade.getList().then((list) => {
+      if (!this.view.items) {
+        this.view.items = {};
       }
-    };
 
-    this.itemFacade.count().subscribe(
-      // Success
-      itemCount => {
-        this.model.item.count = itemCount;
-      },
-      // Error
-      () => { },
-      // Completed
-      () => {
-        this.model.item.loading = false;
+      this.view.items.list = list;
+
+      this.view.items.showEmptyState = list.length <= 0;
+    });
+
+    this.categoryFacade.getList().then((list) => {
+      if (!this.view.categories) {
+        this.view.categories = {};
       }
-    );
 
-    this.categoriaFacade.count().subscribe(
-      count => {
-        this.model.categoria.count = count;
-      },
-      () => { },
-      () => {
-        this.model.categoria.loading = false;
-      }
-    )
+      this.view.categories.list = list;
 
+      this.view.categories.showEmptyState = list.length <= 0;
+
+    });
   }
 }

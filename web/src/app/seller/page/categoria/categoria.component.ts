@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CategoriaFacade } from '../../categoria/categoria.facade';
+import { CategoryFacade } from '../../category/category.facade';
 
 @Component({
   selector: 'app-categoria',
@@ -12,7 +12,7 @@ export class CategoriaComponent {
   }
 
   constructor(
-    private readonly facade: CategoriaFacade
+    private readonly facade: CategoryFacade
   ) { }
 
 }

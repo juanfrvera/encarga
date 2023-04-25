@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { CategoriaLightDto } from "./model/categoria.light.dto";
+import { ICategoryLite } from "./model/category.lite";
 
 @Injectable()
 export class CategoriaState {
     private count?: number;
-    private list$ = new BehaviorSubject<Array<CategoriaLightDto> | undefined>(undefined);
+    private list$ = new BehaviorSubject<Array<ICategoryLite> | undefined>(undefined);
 
-    public add(categoria: CategoriaLightDto) {
+    public add(categoria: ICategoryLite) {
         let list = this.list$.value;
 
         if (list) {
@@ -62,11 +62,11 @@ export class CategoriaState {
         this.count = newCount;
     }
 
-    public setList(list: Array<CategoriaLightDto>) {
+    public setList(list: Array<ICategoryLite>) {
         this.list$.next(list);
     }
 
-    public update(updatedItem: CategoriaLightDto) {
+    public update(updatedItem: ICategoryLite) {
         const list = this.list$.value;
 
         if (list) {

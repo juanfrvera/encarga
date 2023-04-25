@@ -94,7 +94,7 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
 
     this.openModal();
 
-    this.service.get(dto.id).subscribe(item => {
+    this.service.get(dto.id).then(item => {
       // Hacer una copia profunda para no modificar el original
       this.item = Util.deepCopy(item);
 
@@ -117,7 +117,7 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
       confirmButtonText: 'Sí, eliminar',
       showLoaderOnConfirm: true,
       preConfirm: () => {
-        return this.service.delete(this.item.id).toPromise().then(() => { })
+        return this.service.delete(this.item.id).then(() => { })
           .catch(
             () => {
               Swal.showValidationMessage('Ocurrió un error al intentar eliminar');
@@ -141,18 +141,19 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
 
       if (this.Item.id) {
         // Updating
-        this.service.update(this.Item).subscribe(
+        this.service.update(this.Item).then(
           // Success
           () => {
             this.close();
             this.model.modal.saving = false;
-          },
-          // Error
-          () => {
+          })
+          .catch(
+            // Error
+            () => {
 
-            this.model.modal.saving = false;
-          }
-        );
+              this.model.modal.saving = false;
+            }
+          );
       }
       else {
         // Creating
