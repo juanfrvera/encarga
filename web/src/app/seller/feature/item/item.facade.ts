@@ -1,12 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { tap } from "rxjs/operators";
 import { CategoryFacade } from "../../category/category.facade";
 import { ItemCreateData } from "../../data/item.create.data";
 import { ItemDto } from "../../dto/item.dto";
 import { ItemLightDto } from "../../dto/item.light.dto";
 import { ICrudable } from "../../service/interface/crudable.interface";
-import { ItemApi } from "./item.api";
 import { ItemState } from "./item.state";
 import { FakeApi } from "src/app/shared/util/fake.api";
 
@@ -31,10 +29,10 @@ export class ItemFacade implements ICrudable {
         }
     }
 
-    public create(data: ItemCreateData): Observable<ItemLightDto> {
-        const created = this.api.create(data);
+    public async create(data: ItemCreateData){
+        const created = await this.api.create(data);
 
-        this.state.add(created);
+        await this.state.add(created);
 
         return created;
     }

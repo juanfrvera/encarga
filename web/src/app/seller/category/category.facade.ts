@@ -34,10 +34,12 @@ export class CategoryFacade implements ICrudable {
         }
     }
 
-    public create(data: any): Observable<any> {
-        return this.api.create(data).pipe(
-            tap(created => this.state.add(created))
-        );
+    public async create(data: any) {
+        const created = await this.api.create(data);
+
+        await this.state.add(created);
+
+        return created;
     }
     public async delete(id: string) {
         await this.api.deleteById(id);
@@ -75,7 +77,7 @@ export class CategoryFacade implements ICrudable {
         return new Promise((resolve) => this.api.getList().subscribe(resolve));
     }
 
-    public async update(data: any){
+    public async update(data: any) {
         const updated = await this.api.update(data);
         await this.state.update(updated);
     }

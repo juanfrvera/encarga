@@ -157,13 +157,14 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
       }
       else {
         // Creating
-        this.service.create(this.Item).subscribe(
+        this.service.create(this.Item).then(
           // Success
           () => {
             this.close();
 
             this.model.modal.saving = false
-          },
+          }
+        ).catch(
           // Error
           () => {
             this.swalService.fire({

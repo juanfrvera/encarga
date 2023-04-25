@@ -16,7 +16,7 @@
       type="button"
       class="btn btn-outline-secondary"
     >
-      Cerrar
+      Close
     </button>
     <button
       [disabled]="loading"
@@ -24,8 +24,8 @@
       type="button"
       class="btn btn-primary bg-gradient text-white"
     >
-      <strong *ngIf="!saving; else savingTemplate">Guardar</strong>
-      <ng-template #savingTemplate>Guardando...</ng-template>
+      <strong *ngIf="!saving; else savingTemplate">Save</strong>
+      <ng-template #savingTemplate>Saving...</ng-template>
     </button>
   </ng-container>
 </app-modal>

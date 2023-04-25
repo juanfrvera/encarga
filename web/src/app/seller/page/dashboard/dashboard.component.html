@@ -8,25 +8,7 @@
     <div class="row feature-rows-container">
       <!-- Items -->
       <div *ngIf="view.items" class="card">
-        <div class="card-body ps-5 pt-4">
-          <h5 class="text-muted">
-            <i class="fas fa-list pe-2"></i>
-            Items
-          </h5>
-          <div class="row justify-content-center align-items-center">
-            <!-- List -->
-            <ng-container *ngIf="view.items.list">
-              <div *ngFor="let item of view.items.list">
-                {{item.id}}
-              </div>
-            </ng-container>
-            <!-- Empty State -->
-            <div *ngIf="view.items.showEmptyState" class="empty-state">
-              <div class="empty-info">Let's create your first item</div>
-              <button class="empty-action">Create Item</button>
-            </div>
-          </div>
-        </div>
+        <app-item></app-item>
       </div>
       <!-- Categories -->
       <div *ngIf="view.categories" class="card">

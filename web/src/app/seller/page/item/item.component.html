@@ -1,45 +1,24 @@
-<app-crud [service]="Service" [title]="'Ítem'">
-  <!-- Formulario dentro del modal -->
-  <!-- La directiva let permite obtener el item actual ya que es proveido por el componente -->
-  <!-- El componente crud busca el primer ng-template que encuentra y lo mete dentro del formulario del modal -->
+<app-crud [service]="Service" [title]="'Item'">
+  <!-- Formu inside modal -->
+  <!-- The let directive allows to get the current item, because it is provided by the component -->
+  <!-- The crud component uses the first ng-template found and puts it inside the modal's form -->
   <ng-template #formTemplate let-item>
     <div class="mb-3">
-      <label for="name" class="form-label">Nombre</label>
-      <input
-        [(ngModel)]="item.name"
-        id="name"
-        type="text"
-        class="form-control"
-        required
-      />
-      <div class="invalid-feedback">Por favor ingrese un nombre</div>
+      <label for="name" class="form-label">Name</label>
+      <input [(ngModel)]="item.name" id="name" type="text" class="form-control" required />
+      <div class="invalid-feedback">Please insert a name</div>
     </div>
     <div class="mb-3">
-      <label for="price" class="form-label">Precio</label>
-      <input
-        [(ngModel)]="item.price"
-        id="price"
-        type="number"
-        class="form-control"
-      />
+      <label for="price" class="form-label">Price</label>
+      <input [(ngModel)]="item.price" id="price" type="number" class="form-control" />
     </div>
     <div class="mb-3">
-      <label for="description" class="form-label">Descripción</label>
-      <textarea
-        [(ngModel)]="item.description"
-        class="form-control"
-        id="description"
-        rows="3"
-      ></textarea>
+      <label for="description" class="form-label">Description</label>
+      <textarea [(ngModel)]="item.description" class="form-control" id="description" rows="3"></textarea>
     </div>
     <div class="mb-3">
-      <label for="categorias" class="form-label">Categorías</label>
-      <ng-select
-        id="categorias"
-        [(ngModel)]="item.categoriaIdList"
-        [multiple]="true"
-        [loadingText]="'Cargando...'"
-      >
+      <label for="categorias" class="form-label">Categories</label>
+      <ng-select id="categorias" [(ngModel)]="item.categoriaIdList" [multiple]="true" [loadingText]="'Loading...'">
         <ng-option *ngFor="let cat of CategoriaList" [value]="cat.id">
           {{ cat.name }}
         </ng-option>
@@ -48,9 +27,7 @@
   </ng-template>
   <ng-template #listTemplate let-listItem>
     <!-- here we can use item -->
-    <div
-      class="d-flex w-100 justify-content-between p-2 rounded cursor-pointer hover"
-    >
+    <div class="d-flex w-100 justify-content-between p-2 rounded cursor-pointer hover">
       <div class="izquierda">
         <h5 class="mb-1 fs-6">{{ listItem.name }}</h5>
         <p class="mb-2 text-muted desc">{{ listItem.description }}</p>
@@ -60,13 +37,10 @@
       </div>
     </div>
   </ng-template>
-  <div
-    empty-state
-    class="d-flex justify-content-center align-items-center w-100 h-100"
-  >
+  <div empty-state class="d-flex justify-content-center align-items-center w-100 h-100">
     <div class="text-center">
       <img src="../../../assets/empty-state/caja.png" alt="" />
-      <p class="text-muted mt-3">Aún no tienes ítems, comienza a agregarlos!</p>
+      <p class="text-muted mt-3">You don't have items yet, let's start adding them!</p>
     </div>
   </div>
 </app-crud>

@@ -11,7 +11,7 @@
       class="w-100 d-flex justify-content-between"
     >
       <h5 class="modal-title align-self-center" id="modalLabel">
-        <strong>Editar {{ Title }}</strong>
+        <strong>Edit {{ Title }}</strong>
       </h5>
       <button (click)="delete()" class="btn">
         <i class="far fa-trash-alt"></i>
@@ -19,7 +19,7 @@
     </div>
     <ng-template #headerCrear>
       <h5 class="modal-title" id="modalLabel">
-        <strong>Agregar {{ Title }}</strong>
+        <strong>Add {{ Title }}</strong>
       </h5>
     </ng-template>
   </ng-container>
@@ -44,7 +44,7 @@
         type="button"
         class="btn btn-primary bg-gradient btn-sm text-white"
       >
-        <strong>Agregar</strong>
+        <strong>Add</strong>
       </button>
     </div>
     <div *ngIf="!Model.list.empty; else empty" class="card">

@@ -18,8 +18,8 @@ export class CategoriaApi {
         return this.httpClient.get<number>(this.apiService.Url + this.endpoint + 'count');
     }
 
-    public create(data: any): Observable<ICategoryLite> {
-        return this.httpClient.post<ICategoryLite>(this.apiService.Url + this.endpoint, data);
+    public create(data: any) {
+        return this.httpClient.post<ICategoryLite>(this.apiService.Url + this.endpoint, data).toPromise();
     }
     public deleteById(id: string): Observable<void> {
         return this.httpClient.delete<void>(this.apiService.Url + this.endpoint + id);
