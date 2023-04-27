@@ -1,67 +1,17 @@
-<app-modal-crud
-  [loading]="Model.modal.loading"
-  [saving]="Model.modal.saving"
-  (onClose)="close()"
-  (onSave)="save()"
->
-  <ng-container ngProjectAs="[header]">
-    <div
-      *ngIf="Item.id; else headerCrear"
-      #headerEditar
-      class="w-100 d-flex justify-content-between"
-    >
-      <h5 class="modal-title align-self-center" id="modalLabel">
-        <strong>Edit {{ Title }}</strong>
-      </h5>
-      <button (click)="delete()" class="btn">
-        <i class="far fa-trash-alt"></i>
-      </button>
-    </div>
-    <ng-template #headerCrear>
-      <h5 class="modal-title" id="modalLabel">
-        <strong>Add {{ Title }}</strong>
-      </h5>
-    </ng-template>
-  </ng-container>
-  <ng-container ngProjectAs="[body]">
-    <app-formulario>
-      <ng-template
-        [ngTemplateOutlet]="formTemplate"
-        [ngTemplateOutletContext]="{ $implicit: Item }"
-      ></ng-template>
-    </app-formulario>
-  </ng-container>
-</app-modal-crud>
-
-<div *ngIf="Model.list.loaded; else loading">
-  <div class="card-body">
-    <div class="d-flex justify-content-between mb-3">
-      <h1 class="card-title align-self-center fs-3">
-        <strong>{{ Title }}s</strong>
-      </h1>
-      <button
-        (click)="add()"
-        type="button"
-        class="btn btn-primary bg-gradient btn-sm text-white"
-      >
-        <strong>Add</strong>
-      </button>
-    </div>
-    <div *ngIf="!Model.list.empty; else empty" class="card">
-      <!-- Hay Items y cargó -->
-
-      <div class="container-full">
-        <app-lista [items]="Model.list.value!" (itemClick)="clickItem($event)">
-          <!-- Se saca el item de la lista y se envía hacia arriba, dandoseló al #templateLista 
-                    dentro de este componente CRUD -->
-          <ng-template let-itemlista>
-            <ng-template
-              [ngTemplateOutlet]="listTemplate"
-              [ngTemplateOutletContext]="{ $implicit: itemlista }"
-            ></ng-template>
-          </ng-template>
-        </app-lista>
-      </div>
+<div *ngIf="view.list; else loading">
+  <div class="d-flex justify-content-between mb-3">
+    <h1 class="card-title align-self-center fs-3">
+      <strong>{{ title }}s</strong>
+    </h1>
+    <button (click)="add()" type="button" class="btn btn-primary bg-gradient btn-sm text-white">
+      <strong>Add</strong>
+    </button>
+  </div>
+  <!-- There are items and are loaded -->
+  <div *ngIf="!view.showEmptyState; else empty" class="list">
+    <div *ngFor="let item of view.list" (click)="itemClicked(item)" class="item-container">
+      <ng-template [ngTemplateOutlet]="listTemplate" [ngTemplateOutletContext]="{$implicit: item}">
+      </ng-template>
     </div>
   </div>
   <ng-template #empty>
@@ -73,3 +23,26 @@
     <app-loading></app-loading>
   </div>
 </ng-template>
+
+<app-modal-crud [loading]="view.modal.loading" [saving]="view.modal.saving" (onClose)="close()" (onSave)="save()">
+  <ng-container ngProjectAs="[header]">
+    <div *ngIf="view.modal.editing; else headerCrear" #headerEditar class="w-100 d-flex justify-content-between">
+      <h5 class="modal-title align-self-center" id="modalLabel">
+        <strong>Edit {{ title }}</strong>
+      </h5>
+      <button (click)="delete()" class="btn">
+        <i class="far fa-trash-alt"></i>
+      </button>
+    </div>
+    <ng-template #headerCrear>
+      <h5 class="modal-title" id="modalLabel">
+        <strong>Add {{ title }}</strong>
+      </h5>
+    </ng-template>
+  </ng-container>
+  <ng-container ngProjectAs="[body]">
+    <app-formulario>
+      <ng-template [ngTemplateOutlet]="formTemplate" [ngTemplateOutletContext]="{ $implicit: item }"></ng-template>
+    </app-formulario>
+  </ng-container>
+</app-modal-crud>

@@ -26,6 +26,7 @@ export class FakeApi {
     public create(data) {
         const list = this.getList();
 
+        data.id = Date.now().toString();
         list.push(data);
 
         this.save(list);

@@ -15,13 +15,10 @@ export class ItemComponent implements OnInit {
     return this.categoriaList;
   }
 
-  public get Service() {
-    return this.service;
-  }
-
   constructor(
-    private readonly service: ItemFacade,
-    private readonly categoriaFacade: CategoryFacade) { }
+    private readonly categoriaFacade: CategoryFacade,
+    public service: ItemFacade,
+  ) { }
 
   ngOnInit(): void {
     this.categoriaFacade.getList$().subscribe(list => {

@@ -1,5 +1,19 @@
-<app-crud [service]="Service" [title]="'Item'">
-  <!-- Formu inside modal -->
+<app-crud [service]="service" [title]="'Item'">
+  <ng-template #listTemplate let-listItem>
+    <!-- here we can use item -->
+    <div class="item">
+      <div class="item-name">{{ listItem.name }}</div>
+      <div class="item-price">${{ listItem.price }}</div>
+    </div>
+  </ng-template>
+  <div empty-state class="d-flex justify-content-center align-items-center w-100 h-100">
+    <div class="text-center">
+      <img src="../../../assets/empty-state/caja.png" alt="" />
+      <p class="text-muted mt-3">You don't have items yet, let's start adding them!</p>
+    </div>
+  </div>
+
+  <!-- Form inside modal -->
   <!-- The let directive allows to get the current item, because it is provided by the component -->
   <!-- The crud component uses the first ng-template found and puts it inside the modal's form -->
   <ng-template #formTemplate let-item>
@@ -25,22 +39,4 @@
       </ng-select>
     </div>
   </ng-template>
-  <ng-template #listTemplate let-listItem>
-    <!-- here we can use item -->
-    <div class="d-flex w-100 justify-content-between p-2 rounded cursor-pointer hover">
-      <div class="izquierda">
-        <h5 class="mb-1 fs-6">{{ listItem.name }}</h5>
-        <p class="mb-2 text-muted desc">{{ listItem.description }}</p>
-      </div>
-      <div class="derecha align-self-center fs-5 mb-0">
-        <strong>${{ listItem.price }}</strong>
-      </div>
-    </div>
-  </ng-template>
-  <div empty-state class="d-flex justify-content-center align-items-center w-100 h-100">
-    <div class="text-center">
-      <img src="../../../assets/empty-state/caja.png" alt="" />
-      <p class="text-muted mt-3">You don't have items yet, let's start adding them!</p>
-    </div>
-  </div>
 </app-crud>

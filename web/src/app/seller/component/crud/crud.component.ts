@@ -14,7 +14,7 @@ import { ModalCrudComponent } from '../modal-crud/modal-crud.component';
 })
 export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implements OnInit {
   @Input() service: ICrudable;
-  @Input() title: string;
+  @Input() public title: string;
 
   @ViewChild(FormularioComponent) form: FormularioComponent;
   @ViewChild(ModalCrudComponent) modal: ModalCrudComponent;
@@ -23,44 +23,25 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
   @ContentChild('formTemplate') formTemplate: TemplateRef<any>;
   @ContentChild('listTemplate') listTemplate: TemplateRef<any>;
 
-  /** Item en modal */
-  private item: Dto = {} as Dto;
+  /** Item inside modal */
+  public item: Dto = {} as Dto;
 
-  private model: {
-    list: {
-      value?: Array<LightDto>;
-      empty: boolean;
-      loaded: boolean;
-    };
+  public view: {
+    list?: Array<LightDto>;
+    showEmptyState?: boolean;
     modal: {
+      editing?: boolean;
       loading: boolean;
       saving: boolean;
     }
   }
-
-  public get Item() {
-    return this.item;
-  }
-
-  public get Model() {
-    return this.model;
-  }
-
-  public get Title() {
-    return this.title;
-  }
-
 
   constructor(
     private readonly swalService: SwalService
   ) { }
 
   ngOnInit(): void {
-    this.model = {
-      list: {
-        empty: false,
-        loaded: false,
-      },
+    this.view = {
       modal: {
         loading: false,
         saving: false,
@@ -69,15 +50,8 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
 
     this.service.getList$().subscribe(list => {
       if (list) {
-        this.model.list.loaded = true;
-
-        if (list.length) {
-          this.model.list.value = list;
-          this.model.list.empty = false;
-        }
-        else {
-          this.model.list.empty = true;
-        }
+        this.view.list = list;
+        this.view.showEmptyState = list.length <= 0;
       }
     });
   }
@@ -89,8 +63,9 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
   }
 
   /** Muestra el modal en modo edicion */
-  public clickItem(dto: LightDto) {
-    this.model.modal.loading = true;
+  public itemClicked(dto: LightDto) {
+    this.view.modal.loading = true;
+    this.view.modal.editing = true;
 
     this.openModal();
 
@@ -98,7 +73,7 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
       // Hacer una copia profunda para no modificar el original
       this.item = Util.deepCopy(item);
 
-      this.model.modal.loading = false;
+      this.view.modal.loading = false;
     });
   }
 
@@ -137,32 +112,32 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
   /** Guarda lo que se ha hecho en el modal */
   public save() {
     if (this.form.isValid()) {
-      this.model.modal.saving = true;
+      this.view.modal.saving = true;
 
-      if (this.Item.id) {
+      if (this.item.id) {
         // Updating
-        this.service.update(this.Item).then(
+        this.service.update(this.item).then(
           // Success
           () => {
             this.close();
-            this.model.modal.saving = false;
+            this.view.modal.saving = false;
           })
           .catch(
             // Error
             () => {
 
-              this.model.modal.saving = false;
+              this.view.modal.saving = false;
             }
           );
       }
       else {
         // Creating
-        this.service.create(this.Item).then(
+        this.service.create(this.item).then(
           // Success
           () => {
             this.close();
 
-            this.model.modal.saving = false
+            this.view.modal.saving = false
           }
         ).catch(
           // Error
@@ -175,7 +150,7 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
               confirmButtonText: 'Continuar'
             });
 
-            this.model.modal.saving = false
+            this.view.modal.saving = false
           }
         );
       }
