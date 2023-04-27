@@ -1,0 +1,27 @@
+<app-crud [service]="service">
+  <strong title>Categories</strong>
+  <!-- List -->
+  <ng-template #listTemplate let-listitem>
+    <!-- here we can use item -->
+    <div class="category">
+      <div class="category-name">{{ listitem.name }}</div>
+    </div>
+  </ng-template>
+
+  <!-- Formulario dentro del modal -->
+  <!-- La directiva let permite obtener el item actual ya que es proveido por el componente -->
+  <!-- El componente crud busca el primer ng-template que encuentra y lo mete dentro del formulario del modal -->
+  <ng-template #formTemplate let-categoria>
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input [(ngModel)]="categoria.name" id="name" type="text" class="form-control" required />
+      <div class="invalid-feedback">Por favor ingrese un nombre</div>
+    </div>
+  </ng-template>
+
+  <!-- Empty State -->
+  <div empty-state class="empty-state">
+    <img src="../../../assets/empty-state/etiqueta-changed.png" alt="" />
+    <div>Categories help you organize your items, click Add to create one</div>
+  </div>
+</app-crud>

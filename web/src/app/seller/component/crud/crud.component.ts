@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import { SwalService } from '../../service/swal.service';
 import { FormularioComponent } from '../../../shared/component/formulario/formulario.component';
 import { ICrudable } from '../../service/interface/crudable.interface';
-import { Ideable } from '../../data/ideable.interface';
+import { Ideable as Idable } from '../../data/ideable.interface';
 import { ModalCrudComponent } from '../modal-crud/modal-crud.component';
 
 @Component({
@@ -12,14 +12,14 @@ import { ModalCrudComponent } from '../modal-crud/modal-crud.component';
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.scss']
 })
-export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implements OnInit {
+export class CrudComponent<Dto extends Idable, Lite extends Idable> implements OnInit {
   @Input() service: ICrudable;
   @Input() public title: string;
 
   @ViewChild(FormularioComponent) form: FormularioComponent;
   @ViewChild(ModalCrudComponent) modal: ModalCrudComponent;
 
-  // Utilizado para obtener el template que irá dentro del formulario del modal y poblarlo con el item actual
+  // Used to get the template that will go inside the modal's form and populate it with the current item
   @ContentChild('formTemplate') formTemplate: TemplateRef<any>;
   @ContentChild('listTemplate') listTemplate: TemplateRef<any>;
 
@@ -27,7 +27,7 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
   public item: Dto = {} as Dto;
 
   public view: {
-    list?: Array<LightDto>;
+    list?: Array<Lite>;
     showEmptyState?: boolean;
     modal: {
       editing?: boolean;
@@ -48,7 +48,7 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
       }
     };
 
-    this.service.getList$().subscribe(list => {
+    this.service.getList().then(list => {
       if (list) {
         this.view.list = list;
         this.view.showEmptyState = list.length <= 0;
@@ -56,21 +56,19 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
     });
   }
 
-  /** Muestra el modal en modo creacion */
-  public add() {
+  public addClicked() {
     this.clearItem();
     this.openModal();
   }
 
-  /** Muestra el modal en modo edicion */
-  public itemClicked(dto: LightDto) {
+  public itemClicked(dto: Lite) {
     this.view.modal.loading = true;
     this.view.modal.editing = true;
 
     this.openModal();
 
     this.service.get(dto.id).then(item => {
-      // Hacer una copia profunda para no modificar el original
+      // So we don't modify the original
       this.item = Util.deepCopy(item);
 
       this.view.modal.loading = false;
@@ -86,30 +84,29 @@ export class CrudComponent<Dto extends Ideable, LightDto extends Ideable> implem
     this.swalService.fire({
       icon: 'warning',
       iconColor: '#fc453c',
-      title: '¿Estás seguro?',
+      title: 'Are you sure?',
       showCancelButton: true,
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Yes, delete',
       showLoaderOnConfirm: true,
       preConfirm: () => {
         return this.service.delete(this.item.id).then(() => { })
           .catch(
             () => {
-              Swal.showValidationMessage('Ocurrió un error al intentar eliminar');
+              Swal.showValidationMessage('An error occurred when trying to delete');
             }
           );
       },
-      // Sirve para que al apretar Escape no se cierre el modal
+      // So when Escape key is pressed, the modal isn't closed
       keydownListenerCapture: true
     }).then(result => {
-      // Si se eliminó sin errores
+      // If deleted without errors
       if (result.isConfirmed) {
         this.close();
       }
     });
   }
 
-  /** Guarda lo que se ha hecho en el modal */
   public save() {
     if (this.form.isValid()) {
       this.view.modal.saving = true;

@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { ItemCreateData } from "../../data/item.create.data";
 import { ItemUpdateData } from "../../data/item.update.data";
 import { ItemDto } from "../../dto/item.dto";
-import { ItemLightDto } from "../../dto/item.light.dto";
+import { IItemLite } from "../../dto/item.lite";
 import { ApiService } from "../../service/api.service";
 
 @Injectable()
@@ -16,8 +16,8 @@ export class ItemApi {
         private readonly apiService: ApiService
     ) { }
 
-    public create(data: ItemCreateData): Observable<ItemLightDto> {
-        return this.httpClient.post<ItemLightDto>(this.apiService.Url + this.endpoint, data);
+    public create(data: ItemCreateData): Observable<IItemLite> {
+        return this.httpClient.post<IItemLite>(this.apiService.Url + this.endpoint, data);
     }
 
     public count(): Observable<number> {
@@ -32,11 +32,11 @@ export class ItemApi {
         return this.httpClient.get<ItemDto>(this.apiService.Url + this.endpoint + id);
     }
 
-    public getList(): Observable<Array<ItemLightDto>> {
-        return this.httpClient.get<Array<ItemLightDto>>(this.apiService.Url + this.endpoint);
+    public getList(): Observable<Array<IItemLite>> {
+        return this.httpClient.get<Array<IItemLite>>(this.apiService.Url + this.endpoint);
     }
 
-    public update(data: ItemUpdateData): Observable<ItemLightDto> {
-        return this.httpClient.patch<ItemLightDto>(this.apiService.Url + this.endpoint, data);
+    public update(data: ItemUpdateData): Observable<IItemLite> {
+        return this.httpClient.patch<IItemLite>(this.apiService.Url + this.endpoint, data);
     }
 }

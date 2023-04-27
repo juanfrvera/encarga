@@ -1,37 +1,28 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { tap } from "rxjs/operators";
 import { Subject } from "src/app/shared/util/subject";
 import { ICrudable } from "../service/interface/crudable.interface";
-import { CategoriaApi } from "./category.api";
 import { CategoriaState } from "./category.state";
 import { ICategoryLite } from "./model/category.lite";
+import { FakeApi } from "src/app/shared/util/fake.api";
 
 @Injectable()
 export class CategoryFacade implements ICrudable {
     private loadingList = false;
     private onDelete = new Subject<{ id: string }>();
 
+    private api = new FakeApi("category");
+
     public get OnDelete() {
         return this.onDelete;
     }
 
     constructor(
-        private readonly api: CategoriaApi,
         private readonly state: CategoriaState
     ) { }
 
-    public count(): Observable<number> {
-        if (!this.state.hasCount()) {
-            return this.api.count().pipe(
-                tap(count => {
-                    this.state.setCount(count)
-                })
-            );
-        }
-        else {
-            return of(this.state.getCount()!);
-        }
+    public count() {
+        return this.api.getTotalCount();
     }
 
     public async create(data: any) {
@@ -42,8 +33,7 @@ export class CategoryFacade implements ICrudable {
         return created;
     }
     public async delete(id: string) {
-        await this.api.deleteById(id);
-
+        await this.api.delete(id);
         await this.state.deleteById(id);
 
         this.onDelete.notify({ id });
@@ -59,14 +49,12 @@ export class CategoryFacade implements ICrudable {
                 this.loadingList = true;
 
                 // Load from api
-                this.api.getList().subscribe(
-                    list => {
-                        // Save to state
-                        this.state.setList(list);
-                    },
-                    error => console.error(error),
-                    () => this.loadingList = false
-                );
+                this.api.getList().then((list) => {
+                    // Save to state
+                    this.state.setList(list);
+                })
+                    .catch(error => console.error(error))
+                    .finally(() => this.loadingList = false);
             }
         }
 
@@ -74,7 +62,7 @@ export class CategoryFacade implements ICrudable {
     }
 
     public getList(): Promise<Array<ICategoryLite>> {
-        return new Promise((resolve) => this.api.getList().subscribe(resolve));
+        return this.api.getList();
     }
 
     public async update(data: any) {

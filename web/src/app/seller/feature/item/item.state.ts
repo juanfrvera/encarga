@@ -1,15 +1,15 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { ItemDto } from "../../dto/item.dto";
-import { ItemLightDto } from "../../dto/item.light.dto";
+import { IItemLite } from "../../dto/item.lite";
 
 @Injectable()
 export class ItemState {
     private count?: number;
     private fullList$ = new BehaviorSubject<Array<ItemDto> | undefined>(undefined);
-    private lightList$ = new BehaviorSubject<Array<ItemLightDto> | undefined>(undefined);
+    private lightList$ = new BehaviorSubject<Array<IItemLite> | undefined>(undefined);
 
-    public add(item: ItemLightDto) {
+    public add(item: IItemLite) {
         let list = this.lightList$.value;
 
         if (list) {
@@ -72,10 +72,6 @@ export class ItemState {
         return this.lightList$.value != undefined;
     }
 
-    public getCount() {
-        return this.count;
-    }
-
     public getFull(itemId: string) {
         return this.fullList$.value?.find(i => i.id == itemId);
     }
@@ -84,15 +80,11 @@ export class ItemState {
         return this.lightList$.asObservable();
     }
 
-    public setCount(newCount: number) {
-        this.count = newCount;
-    }
-
-    public setList(list: Array<ItemLightDto>) {
+    public setList(list: Array<IItemLite>) {
         this.lightList$.next(list);
     }
 
-    public update(updatedItem: ItemLightDto) {
+    public update(updatedItem: IItemLite) {
         const list = this.lightList$.value;
 
         if (list) {

@@ -1,9 +1,10 @@
+<!-- List -->
 <div *ngIf="view.list; else loading">
   <div class="d-flex justify-content-between mb-3">
     <h1 class="card-title align-self-center fs-3">
-      <strong>{{ title }}s</strong>
+      <ng-content select="[title]"></ng-content>
     </h1>
-    <button (click)="add()" type="button" class="btn btn-primary bg-gradient btn-sm text-white">
+    <button (click)="addClicked()" type="button" class="btn btn-primary bg-gradient btn-sm text-white">
       <strong>Add</strong>
     </button>
   </div>
@@ -14,6 +15,7 @@
       </ng-template>
     </div>
   </div>
+  <!-- Empty State -->
   <ng-template #empty>
     <ng-content select="[empty-state]"></ng-content>
   </ng-template>
@@ -24,6 +26,7 @@
   </div>
 </ng-template>
 
+<!-- Modal -->
 <app-modal-crud [loading]="view.modal.loading" [saving]="view.modal.saving" (onClose)="close()" (onSave)="save()">
   <ng-container ngProjectAs="[header]">
     <div *ngIf="view.modal.editing; else headerCrear" #headerEditar class="w-100 d-flex justify-content-between">

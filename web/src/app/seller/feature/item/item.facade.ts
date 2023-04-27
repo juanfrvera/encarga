@@ -1,9 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
 import { CategoryFacade } from "../../category/category.facade";
 import { ItemCreateData } from "../../data/item.create.data";
-import { ItemDto } from "../../dto/item.dto";
-import { ItemLightDto } from "../../dto/item.light.dto";
+import { IItemLite } from "../../dto/item.lite";
 import { ICrudable } from "../../service/interface/crudable.interface";
 import { ItemState } from "./item.state";
 import { FakeApi } from "src/app/shared/util/fake.api";
@@ -20,16 +18,11 @@ export class ItemFacade implements ICrudable {
         this.categoriaFacade.OnDelete.subscribe((data: any) => this._categoriaDeleted(data));
     }
 
-    public count(): number {
-        if (!this.state.hasCount()) {
-            return this.api.count();
-        }
-        else {
-            return this.state.getCount()!;
-        }
+    public count() {
+        return this.api.getTotalCount();
     }
 
-    public async create(data: ItemCreateData){
+    public async create(data: ItemCreateData) {
         const created = await this.api.create(data);
 
         await this.state.add(created);
@@ -57,31 +50,8 @@ export class ItemFacade implements ICrudable {
         }
     }
 
-    public async getList(): Promise<Array<ItemLightDto>> {
+    public async getList(): Promise<Array<IItemLite>> {
         return this.api.getList();
-    }
-
-    public getList$(): Observable<Array<ItemLightDto> | undefined> {
-        // Only load list if state hasn't already
-        if (!this.state.hasList()) {
-            if (!this.loadingList) {
-                this.loadingList = true;
-
-                try {
-                    // Load from api
-                    const list = this.api.getList();
-
-                    // Save to state
-                    this.state.setList(list);
-                } catch (error) {
-                    console.error(error);
-                }
-
-                this.loadingList = false
-            }
-        }
-
-        return this.state.getList$();
     }
 
     public async update(data: any) {

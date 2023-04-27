@@ -1,4 +1,6 @@
-<app-crud [service]="service" [title]="'Item'">
+<app-crud [service]="service">
+  <strong title>Items</strong>
+
   <ng-template #listTemplate let-listItem>
     <!-- here we can use item -->
     <div class="item">
@@ -6,11 +8,10 @@
       <div class="item-price">${{ listItem.price }}</div>
     </div>
   </ng-template>
-  <div empty-state class="d-flex justify-content-center align-items-center w-100 h-100">
-    <div class="text-center">
-      <img src="../../../assets/empty-state/caja.png" alt="" />
-      <p class="text-muted mt-3">You don't have items yet, let's start adding them!</p>
-    </div>
+  <!-- Empty State -->
+  <div empty-state class="empty-state">
+    <img src="../../../assets/empty-state/caja.png" alt="" />
+    <div>You don't have items yet, let's start adding them!</div>
   </div>
 
   <!-- Form inside modal -->

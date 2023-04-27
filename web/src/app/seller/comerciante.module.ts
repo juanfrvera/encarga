@@ -7,8 +7,7 @@ import { ItemComponent } from "./page/item/item.component";
 import { CrudComponent } from "./component/crud/crud.component";
 import { FormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
-import { CategoriaComponent } from "./page/categoria/categoria.component";
-import { ListaComponent } from "./component/lista/lista.component";
+import { CategoriaComponent } from "./page/categories/categories.component";
 import { ModalComponent } from "./component/modal/modal.component";
 import { SharedModule } from "../shared/shared.module";
 import { ComercianteRoutingModule } from "./comerciante.routing.module";
@@ -51,7 +50,6 @@ import { ComercioModule } from "../shared/comercio/comercio.module";
         LoginComponent,
         // Component
         CrudComponent,
-        ListaComponent,
         LoadingComponent,
         ModalComponent,
         ModalCrudComponent

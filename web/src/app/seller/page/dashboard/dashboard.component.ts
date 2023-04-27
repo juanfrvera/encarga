@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryFacade } from '../../category/category.facade';
 import { ItemFacade } from '../../feature/item/item.facade';
-import { ItemLightDto } from '../../dto/item.light.dto';
+import { IItemLite } from '../../dto/item.lite';
 import { ICategoryLite } from '../../category/model/category.lite';
 
 @Component({
@@ -14,16 +14,16 @@ export class DashboardComponent implements OnInit {
     categories?: {
       list?: ICategoryLite[];
       showEmptyState?: boolean;
-    }
+    };
     items?: {
-      list?: ItemLightDto[];
+      list?: IItemLite[];
       showEmptyState?: boolean;
-    }
+    };
   } = {};
 
   constructor(
-    private readonly categoryFacade: CategoryFacade,
-    private readonly itemFacade: ItemFacade
+    private itemFacade: ItemFacade,
+    private categoryFacade: CategoryFacade,
   ) { }
 
   ngOnInit(): void {

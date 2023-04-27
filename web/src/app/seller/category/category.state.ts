@@ -34,16 +34,8 @@ export class CategoriaState {
         return this.list$.value?.find(i => i.id == id);
     }
 
-    public getCount() {
-        return this.count;
-    }
-
     public getList$() {
         return this.list$.asObservable();
-    }
-
-    public hasCount() {
-        return this.count != undefined;
     }
 
     public hasElementWithId(id: string) {

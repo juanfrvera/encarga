@@ -11,26 +11,8 @@
         <app-item></app-item>
       </div>
       <!-- Categories -->
-      <div *ngIf="view.categories" class="card">
-        <div class="card-body ps-5 pt-4">
-          <h5 class="text-muted">
-            <i class="fas fa-tags pe-2"></i>
-            Categories
-          </h5>
-          <div class="row justify-content-center align-items-center">
-            <!-- List -->
-            <ng-container *ngIf="!view.categories?.showEmptyState">
-              <div *ngFor="let category of view.categories?.list">
-                {{category.name}}
-              </div>
-            </ng-container>
-            <!-- Empty State -->
-            <div *ngIf="view.categories.showEmptyState" class="empty-state">
-              <div class="empty-info">Categories help you organize your items</div>
-              <button class="empty-action">Create Category</button>
-            </div>
-          </div>
-        </div>
+      <div *ngIf="view.categories" class="feature">
+        <app-categories></app-categories>
       </div>
     </div>
   </div>
