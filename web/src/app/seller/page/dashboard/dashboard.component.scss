@@ -1,8 +1,14 @@
-.font-number {
-    font-size: 4rem;
+.page-container {
+    margin-top: 16px;
 }
 
-.feature-rows-container{
+.page-title {
+    font-size: 28px;
+}
+
+.feature-rows {
+    margin-top: 16px;
     display: flex;
     flex-direction: column;
+    row-gap: 16px;
 }

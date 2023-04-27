@@ -1,19 +1,13 @@
-<div class="container">
-  <div class="card">
-    <div class="card-body">
-      <h2 class="ps-3 m-0"><strong>Admin panel</strong></h2>
+<div class="container page-container">
+  <div class="page-title">Admin panel</div>
+  <div class="feature-rows">
+    <!-- Items -->
+    <div *ngIf="view.items" class="feature">
+      <app-item></app-item>
     </div>
-  </div>
-  <div>
-    <div class="row feature-rows">
-      <!-- Items -->
-      <div *ngIf="view.items" class="feature">
-        <app-item></app-item>
-      </div>
-      <!-- Categories -->
-      <div *ngIf="view.categories" class="feature">
-        <app-categories></app-categories>
-      </div>
+    <!-- Categories -->
+    <div *ngIf="view.categories" class="feature">
+      <app-categories></app-categories>
     </div>
   </div>
 </div>
