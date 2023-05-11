@@ -1,8 +1,8 @@
 <main>
     <!-- HOME -->
     <section id="home" class="min-vh-100 bg-g p-2 p-md-3 p-lg-4">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white rounded shadow">
-            <div class="container-fluid px-4 px-lg-5">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow fixed-top">
+            <div class="container-fluid ">
                 <a href="#" class="navbar-brand"><img src="../../../assets/logo/small-oscuro.svg" width="150"
                         height="auto" class="px-2" alt=""></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
@@ -14,11 +14,11 @@
                         data-bs-target=".navbar-collapse">
                         <li class="nav-item" role="button">
                             <a class="nav-link font-inter"
-                                onclick="document.getElementById('about').scrollIntoView()">Sobre</a>
+                                onclick="document.getElementById('home').scrollIntoView()">Inicio</a>
                         </li>
                         <li class="nav-item" role="button">
                             <a class="nav-link font-inter"
-                                onclick="document.getElementById('demo').scrollIntoView()">Demo</a>
+                                onclick="document.getElementById('about').scrollIntoView()">Características</a>
                         </li>
                         <li class="nav-item" role="button">
                             <a class="nav-link font-inter"
@@ -29,102 +29,28 @@
                                 onclick="document.getElementById('contacto').scrollIntoView()">Contacto</a>
                         </li>
                     </ul>
-                    <a class="btn btn-outline-primary bg-gradient" routerLink='admin/login'><strong>Ingresar</strong></a>
+                    <a class="btn btn-outline-primary bg-gradient"
+                        routerLink='admin/login'><strong>Ingresar</strong></a>
                 </div>
             </div>
         </nav>
 
-        <div class="container-lg mt-3 mt-md-5 mb-5 mb-xxl-2">
+        <div class="container-lg mt-8 mb-5 mb-xxl-2">
             <div class="row align-items-center justify-content-center">
                 <div class="col-12 col-md-6 px-sm-5 px-md-0 pb-3 pb-md-0">
                     <div class="card p-2 p-lg-4">
                         <div class="card-body">
-                            <h2 class="card-title fw-bold">Tus pedidos en un sólo mensaje de Whatsapp</h2>
-                            <p class="card-text">Te ofrecemos una manera sencilla de expandir tu negocio y llegar a
-                                más clientes.</p>
-                            <a href="/start" class="btn btn-primary btn-lg bg-gradient"><strong>Comenzá gratis</strong></a>
+                            <h2 class="card-title fw-bold">Tus pedidos en un mensaje de Whatsapp</h2>
+                            <p class="card-text">¿Quieres ofrecer a tus clientes una manera fácil y conveniente de pedir
+                                tus productos? Con nuestra aplicación web, pueden elegir los productos de tu catálogo y
+                                enviar su pedido completo en un solo mensaje de Whatsapp.</p>
+                            <p class="fw-bold">¡Simplifica el proceso para tus clientes y haz crecer tu negocio!</p>
+                            <a href="/start" class="btn btn-primary btn-lg bg-gradient"><strong>Comienza
+                                    gratis</strong></a>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 text-center">
-                    <img src="../../../assets/phone-frames/mockup-1.webp" alt="mockup-web" class="width-img">
-                </div>
-            </div>
-
-        </div>
-
-        <div class="text-center p-0 p-md-5 p-lg-0">
-            <a (click)="irA('about')" class="text-white" role="button">
-                <i class="fas fa-chevron-down fs-2 "></i>
-            </a>
-        </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about" class="min-vh-100 p-4 bg-g-inverse ir-a-seccion">
-        <div class="text-center m-5 text-white">
-            <h2>
-                <strong>Negocios y clientes conectados</strong>
-            </h2>
-            <p class="m-0">Te presentamos los puntos importantes de nuestra app web que te permitirán llegar a mucho
-                más.</p>
-        </div>
-
-        <div class="container text-white py-3 py-lg-5">
-            <div class="row p-lg-4 px-5 px-lg-3">
-                <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
-                    <i class="fas fa-clipboard-list fs-1 mb-3"></i>
-                    <h5>100% AUTOGESTIONABLE</h5>
-                    <p class="text-14">Nuestro panel administrativo te permite agregar, actualizar y quitar ítems
-                        sencillamente.</p>
-                </div>
-                <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
-                    <i class="fab fa-whatsapp fs-1 mb-3"></i>
-                    <h5>WHATSAPP INTEGRADO</h5>
-                    <p class="text-14">Incorporamos tu número de Whatsapp para que tus pedidos lleguen claramente en un
-                        sólo mensaje.
-                    </p>
-                </div>
-                <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
-                    <i class="fas fa-store fs-1 mb-3"></i>
-                    <h5>VERSATILIDAD</h5>
-                    <p class="text-14">Nuestra web de pedidos está preparada para cualquier rubro comercial.
-                    </p>
-                </div>
-            </div>
-            <div class="row p-lg-4 px-5 px-lg-3">
-                <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
-                    <i class="far fa-grin-wink fs-1 mb-3"></i>
-                    <h5>FÁCIL USO</h5>
-                    <p class="text-14">Apuntamos a diseñar una interfaz amigable y sencilla, fácil de
-                        seguir para cualquier persona.</p>
-                </div>
-                <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
-                    <i class="fas fa-mobile-alt fs-1 mb-3"></i>
-                    <h5>PLATAFORMA FLEXIBLE</h5>
-                    <p class="text-14">Nuestra interfaz se adapta completamente a los distintos dispositivos.</p>
-                </div>
-                <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
-                    <i class="far fa-clock fs-1 mb-3"></i>
-                    <h5>AHORRO DE TIEMPO</h5>
-                    <p class="text-14">Ahorrá tiempo contactándote fácilmente con tus clientes.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- DEMO -->
-    <section id="demo" class="min-vh-100 p-4 ir-a-seccion">
-        <div class="text-center m-5">
-            <h2>
-                <strong>Un vistazo a nuestra interfaz</strong>
-            </h2>
-        </div>
-
-        <div class="container py-3 py-md-5">
-            <div class="row">
-                <div class="col-12 col-md-8">
                     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
                             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
@@ -142,59 +68,109 @@
                         </div>
                         <div class="carousel-inner pb-5">
                             <div class="carousel-item active">
-                                <img src="../../../assets/phone-frames/mockup-1.webp" class="d-block width-slides m-auto"
-                                    alt="mockup-inicio">
+                                <img src="../../../assets/phone-frames/mockup-1.webp"
+                                    class="d-block width-slides m-auto" alt="mockup-inicio">
                             </div>
                             <div class="carousel-item">
-                                <img src="../../../assets/phone-frames/mockup-2.webp" class="d-block width-slides m-auto"
-                                    alt="mockup-carrito">
+                                <img src="../../../assets/phone-frames/mockup-2.webp"
+                                    class="d-block width-slides m-auto" alt="mockup-carrito">
                             </div>
                             <div class="carousel-item">
-                                <img src="../../../assets/phone-frames/mockup-3.webp" class="d-block width-slides m-auto"
-                                    alt="mockup-carrito">
+                                <img src="../../../assets/phone-frames/mockup-3.webp"
+                                    class="d-block width-slides m-auto" alt="mockup-carrito">
                             </div>
                             <div class="carousel-item">
-                                <img src="../../../assets/phone-frames/mockup-4.webp" class="d-block width-slides m-auto"
-                                    alt="mockup-carrito">
+                                <img src="../../../assets/phone-frames/mockup-4.webp"
+                                    class="d-block width-slides m-auto" alt="mockup-carrito">
                             </div>
                             <div class="carousel-item">
-                                <img src="../../../assets/phone-frames/mockup-5.webp" class="d-block width-slides m-auto"
-                                    alt="mockup-carrito">
+                                <img src="../../../assets/phone-frames/mockup-5.webp"
+                                    class="d-block width-slides m-auto" alt="mockup-carrito">
                             </div>
                             <div class="carousel-item">
-                                <img src="../../../assets/phone-frames/mockup-6.webp" class="d-block width-slides m-auto"
-                                    alt="mockup-carrito">
+                                <img src="../../../assets/phone-frames/mockup-6.webp"
+                                    class="d-block width-slides m-auto" alt="mockup-carrito">
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
                             data-bs-slide="prev">
-                            <span class="text-primary fs-4" aria-hidden="true">
+                            <span class="text-white fs-4" aria-hidden="true">
                                 <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="visually-hidden">Anterior</span>
                         </button>
                         <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
                             data-bs-slide="next">
-                            <span class="text-primary fs-4" aria-hidden="true">
+                            <span class="text-white fs-4" aria-hidden="true">
                                 <i class="fas fa-chevron-right"></i>
                             </span>
                             <span class="visually-hidden">Siguiente</span>
                         </button>
                     </div>
+                    <!-- <img src="../../../assets/phone-frames/mockup-1.webp" alt="mockup-web" class="width-img"> -->
                 </div>
-                <div class="col-12 col-md-4 align-self-center pt-5 pt-md-0">
-                    <h4>Probá nuestra Demo</h4>
-                    <p>Te invitamos a experimentar nuestra app web completamente
-                        <strong>gratis</strong>. Podrás
-                        interactuar en tiempo real con las funcionalidades que tenemos para ofrecerte.
-                    </p>
-                    <a href="/pedido" class="btn btn-primary bg-gradient"><strong>Probálo aquí</strong></a>
-                </div>
-
             </div>
 
         </div>
 
+        <div class="text-center p-0 p-md-5 p-lg-0">
+            <a (click)="irA('about')" class="text-white" role="button">
+                <i class="fas fa-chevron-down fs-2 "></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="min-vh-100 p-4 bg-g-inverse ir-a-seccion">
+        <div class="text-center m-5 text-white">
+            <h2>
+                <strong>Comercios y clientes conectados</strong>
+            </h2>
+            <p class="m-0">Te presentamos los puntos importantes de nuestra app web que te permitirán llegar a mucho
+                más.</p>
+        </div>
+
+        <div class="container text-white py-3 py-lg-5">
+            <div class="row p-lg-4 px-5 px-lg-3">
+                <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
+                    <i class="fas fa-clipboard-list fs-1 mb-3"></i>
+                    <h5>100% AUTOGESTIONABLE</h5>
+                    <p class="text-14">Nuestro panel administrativo te permite agregar, actualizar y quitar productos
+                        fácilmente.</p>
+                </div>
+                <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
+                    <i class="fab fa-whatsapp fs-1 mb-3"></i>
+                    <h5>WHATSAPP INTEGRADO</h5>
+                    <p class="text-14">Incorporamos tu número de Whatsapp para que tus pedidos lleguen claramente en un
+                        solo mensaje.
+                    </p>
+                </div>
+                <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
+                    <i class="fas fa-store fs-1 mb-3"></i>
+                    <h5>VERSATILIDAD</h5>
+                    <p class="text-14">Nuestra web de pedidos está preparada para cualquier rubro comercial.
+                    </p>
+                </div>
+            </div>
+            <div class="row p-lg-4 px-5 px-lg-3">
+                <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
+                    <i class="far fa-grin-wink fs-1 mb-3"></i>
+                    <h5>FÁCIL USO</h5>
+                    <p class="text-14">Apuntamos a diseñar una interfaz amigable y sencilla, cualquier persona puede
+                        utilizarla.</p>
+                </div>
+                <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
+                    <i class="fas fa-mobile-alt fs-1 mb-3"></i>
+                    <h5>PLATAFORMA FLEXIBLE</h5>
+                    <p class="text-14">Nuestra interfaz se adapta a cualquiera de tus dispositivos.</p>
+                </div>
+                <div class="col-12 col-md-4 text-center pb-3 pb-lg-0">
+                    <i class="far fa-clock fs-1 mb-3"></i>
+                    <h5>AHORRO DE TIEMPO</h5>
+                    <p class="text-14">Ahorra tiempo contactándote fácilmente con tus clientes.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
 
@@ -258,7 +234,7 @@
                 <div class="col-12 col-md-6 px-sm-5 mb-3 mb-md-0">
                     <a href="#"><img src="../../../assets/logo/small-claro.svg" width="150" height="auto" class="pb-2"
                             alt=""></a>
-                    <p class="text-light">Tus pedidos en un sólo mensaje de Whatsapp</p>
+                    <p class="text-light">Tus pedidos en un solo mensaje de Whatsapp</p>
                 </div>
                 <div id="contacto" class="col-12 col-md-6 px-sm-5">
                     <h5>Contáctanos</h5>

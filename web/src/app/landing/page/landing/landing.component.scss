@@ -34,15 +34,15 @@ li {
 // BOTON DE IR HACIA ARRIBA
 #btn-back-to-top {
     position: fixed;
-    bottom  : 25px;
-    right   : 25px;
-    display : none;
+    bottom: 25px;
+    right: 25px;
+    display: none;
 }
 
 // ANCHO
 .width-profile {
     max-width: 200px;
-    margin   : auto;
+    margin: auto;
 }
 
 //ANCHO IMAGEN PRINCIPAL
@@ -80,49 +80,57 @@ li {
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) {
     .width-slides {
-        max-width: 40%;
+        max-width: 60%;
     }
 }
 
 // X-Large devices (large desktops, 1200px and up)
 @media (min-width: 1200px) {
     .width-slides {
-        max-width: 35%;
+        max-width: 50%;
+    }
+
+    .mt-8 {
+        margin-top: 7rem !important;
     }
 }
 
 // XX-Large devices (larger desktops, 1400px and up)
 @media (min-width: 1400px) {
     .width-slides {
-        max-width: 30%;
+        max-width: 40%;
+    }
+
+    .mt-8 {
+        margin-top: 7rem !important;
     }
 }
 
 
 // color a las flechas de slide
 .carousel-indicators button {
-    background-color: #fc453c;
+    background-color: #fdfcfa;
 }
 
 // quita el fondo y el borde en la lista de items
 .list-group-item {
-    border          : none;
+    border: none;
     background-color: transparent;
 }
 
 
 // ICONOS DE REDES SOCIALES
 .social-icons .social-icon {
-    display         : inline-flex;
-    align-items     : center;
-    justify-content : center;
-    height          : 3rem;
-    width           : 3rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    width: 3rem;
     background-color: #5b5b5b;
-    color           : #fdfcfa;
-    border-radius   : 100%;
-    font-size       : 1.2rem;
-    margin-right    : 1.5rem;
+    color: #fdfcfa;
+    border-radius: 100%;
+    font-size: 1.2rem;
+    margin-right: 1.5rem;
 }
 
 .social-icons .social-icon:last-child {
@@ -153,4 +161,32 @@ li {
     .ir-a-seccion {
         scroll-margin-top: 170px;
     }
+}
+
+// margin 6 rem 
+.mt-8 {
+    margin-top: 6rem;
+}
+
+// making nav link relative so the after element doesnt take any physical place
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    display: inline-block;
+    opacity: 0;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    background: #fc453c;
+    transition: opacity .4s ease-in-out;
+    position: absolute;
+    left: 50%;
+    top: 80%;
+}
+
+.nav-link:hover::after {
+    opacity: 1;
 }
