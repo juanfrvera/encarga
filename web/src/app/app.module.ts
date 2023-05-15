@@ -7,10 +7,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { StartComponent } from './landing/page/start/start.component';
 import { SharedModule } from './shared/shared.module';
+import { LandingComponent } from './landing/page/landing/landing.component';
 
 @NgModule({
   declarations: [
-    AppComponent, StartComponent
+    AppComponent, LandingComponent, StartComponent
   ],
   imports: [
     BrowserModule,

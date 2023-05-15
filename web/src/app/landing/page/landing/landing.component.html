@@ -1,6 +1,6 @@
 <main>
     <!-- HOME -->
-    <section id="home" class="min-vh-100 bg-g p-2 p-md-3 p-lg-4">
+    <section #inicio id="inicio" class="min-vh-100 bg-g p-2 p-md-3 p-lg-4">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow fixed-top">
             <div class="container-fluid ">
                 <a href="#" class="navbar-brand"><img src="../../../assets/logo/small-oscuro.svg" width="150"
@@ -13,20 +13,33 @@
                     <ul class="navbar-nav text-16 me-auto mb-2 mb-lg-0" data-bs-toggle="collapse"
                         data-bs-target=".navbar-collapse">
                         <li class="nav-item" role="button">
-                            <a class="nav-link font-inter"
-                                onclick="document.getElementById('home').scrollIntoView()">Inicio</a>
+                            <a class="nav-link font-inter" [class.active]="activeSection === 'inicio'"
+                                (mouseenter)="startHoverAnimation($event)" (mouseleave)="stopHoverAnimation($event)"
+                                (click)="scrollToSection('inicio')">Inicio
+                                <span class="dot"></span>
+                            </a>
                         </li>
                         <li class="nav-item" role="button">
-                            <a class="nav-link font-inter"
-                                onclick="document.getElementById('about').scrollIntoView()">Características</a>
+                            <a class="nav-link font-inter" [class.active]="activeSection === 'caracteristicas'"
+                                (mouseenter)="startHoverAnimation($event)" (mouseleave)="stopHoverAnimation($event)"
+                                (click)="scrollToSection('caracteristicas')">Características
+                                <span class="dot"></span>
+                            </a>
+
                         </li>
                         <li class="nav-item" role="button">
-                            <a class="nav-link font-inter"
-                                onclick="document.getElementById('nosotros').scrollIntoView()">Nosotros</a>
+                            <a class="nav-link font-inter" [class.active]="activeSection === 'nosotros'"
+                                (mouseenter)="startHoverAnimation($event)" (mouseleave)="stopHoverAnimation($event)"
+                                (click)="scrollToSection('nosotros')">Nosotros
+                                <span class="dot"></span>
+                            </a>
                         </li>
                         <li class="nav-item" role="button">
-                            <a class="nav-link font-inter"
-                                onclick="document.getElementById('contacto').scrollIntoView()">Contacto</a>
+                            <a class="nav-link font-inter" [class.active]="activeSection === 'contacto'"
+                                (mouseenter)="startHoverAnimation($event)" (mouseleave)="stopHoverAnimation($event)"
+                                (click)="scrollToSection('contacto')">Contacto
+                                <span class="dot"></span>
+                            </a>
                         </li>
                     </ul>
                     <a class="btn btn-outline-primary bg-gradient"
@@ -114,14 +127,14 @@
         </div>
 
         <div class="text-center p-0 p-md-5 p-lg-0">
-            <a (click)="irA('about')" class="text-white" role="button">
+            <a (click)="scrollToSection('caracteristicas')" class="text-white" role="button">
                 <i class="fas fa-chevron-down fs-2 "></i>
             </a>
         </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="min-vh-100 p-4 bg-g-inverse ir-a-seccion">
+    <!-- CARACTERISTICAS -->
+    <section #caracteristicas id="caracteristicas" class="min-vh-100 p-4 bg-g-inverse ir-a-seccion">
         <div class="text-center m-5 text-white">
             <h2>
                 <strong>Comercios y clientes conectados</strong>
@@ -175,7 +188,7 @@
 
 
     <!-- EQUIPO -->
-    <section id="nosotros" class="min-vh-100 p-4 ir-a-seccion">
+    <section #nosotros id="nosotros" class="min-vh-100 p-4 ir-a-seccion">
         <div class="text-center m-5">
             <h2>
                 <strong>Nosotros</strong>
@@ -236,7 +249,7 @@
                             alt=""></a>
                     <p class="text-light">Tus pedidos en un solo mensaje de Whatsapp</p>
                 </div>
-                <div id="contacto" class="col-12 col-md-6 px-sm-5">
+                <section #contacto id="contacto" class="col-12 col-md-6 px-sm-5">
                     <h5>Contáctanos</h5>
                     <a class="link-light font-lato" href="mailto:encarga.shop@gmail.com">
                         <i class="far fa-envelope"></i>
@@ -248,7 +261,7 @@
                                 class="fab fa-instagram"></i></a>
                         <a class="social-icon"><i class="fab fa-youtube"></i></a>
                     </div>
-                </div>
+                </section>
             </div>
         </div>
 

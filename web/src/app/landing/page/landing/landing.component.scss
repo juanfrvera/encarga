@@ -168,25 +168,26 @@ li {
     margin-top: 6rem;
 }
 
-// making nav link relative so the after element doesnt take any physical place
-.nav-link {
+
+// navbar dot animation when hover and scroll
+.nav-item {
     position: relative;
 }
 
-.nav-link::after {
-    content: '';
-    display: inline-block;
-    opacity: 0;
-    border-radius: 50%;
+.dot {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 8px;
     height: 8px;
-    background: #fc453c;
-    transition: opacity .4s ease-in-out;
-    position: absolute;
-    left: 50%;
-    top: 80%;
+    border-radius: 50%;
+    background-color: #fc453c;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
 }
 
-.nav-link:hover::after {
+.nav-item a:hover .dot,
+.nav-item a.active .dot {
     opacity: 1;
 }

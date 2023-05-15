@@ -1,10 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent implements OnInit {
+
+  @ViewChild('inicio') homeSection!: ElementRef<HTMLElement>;
+  @ViewChild('caracteristicas') caracteristicasSection!: ElementRef<HTMLElement>;
+  @ViewChild('nosotros') nosotrosSection!: ElementRef<HTMLElement>;
+  @ViewChild('contacto') contactoSection!: ElementRef<HTMLElement>;
+
+  activeSection: string = 'inicio';
 
   constructor() { }
 
@@ -40,16 +47,63 @@ export class LandingComponent implements OnInit {
 
   }
 
-  public irA(tag : string, offset : number = 0){
-    const element = document.getElementById(tag);
-    
-    if(element){
-      window.scrollTo(window.scrollX, element.offsetTop + offset);
+  
+  // add animation to dot at navbar
+  startHoverAnimation(event: MouseEvent) {
+    const target = event.currentTarget as HTMLElement;
+    const dot = target.querySelector('.dot');
+    if (dot) {
+      dot.classList.add('hover');
+    }
+  }
+
+  // remove animation to dot at navbar
+  stopHoverAnimation(event: MouseEvent) {
+    const target = event.currentTarget as HTMLElement;
+    const dot = target.querySelector('.dot');
+    if (dot) {
+      dot.classList.remove('hover');
+    }
+  }
+
+  // Go to section smoothly
+  scrollToSection(tag: string) {
+    let section = document.getElementById(tag);
+
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // Scrolling detect for dot animation in navbar
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll() {
+    const scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+    console.log(scrollPos, this.contactoSection.nativeElement.offsetTop, this.contactoSection.nativeElement.offsetTop - 1500);
+
+    if (this.homeSection && scrollPos >= this.homeSection.nativeElement.offsetTop && scrollPos < this.homeSection.nativeElement.offsetTop + this.homeSection.nativeElement.offsetHeight - 200) {
+      this.activeSection = 'inicio';
+    }
+    else if (this.caracteristicasSection && scrollPos >= (this.caracteristicasSection.nativeElement.offsetTop - 200) && scrollPos < this.caracteristicasSection.nativeElement.offsetTop + this.caracteristicasSection.nativeElement.offsetHeight - 200) {
+      this.activeSection = 'caracteristicas';
+    }
+    else if (this.nosotrosSection && scrollPos >= this.nosotrosSection.nativeElement.offsetTop - 200 && scrollPos < this.nosotrosSection.nativeElement.offsetTop + this.nosotrosSection.nativeElement.offsetHeight - 800) {
+      this.activeSection = 'nosotros';
+    }
+    else if (this.contactoSection && scrollPos >= this.contactoSection.nativeElement.offsetTop - 1500) {
+      this.activeSection = 'contacto';
+    }
+    else {
+      this.activeSection = '';
     }
   }
 
 
 
 
-
 }
+
+
+
+
