@@ -139,6 +139,28 @@ li {
 
 .social-icons .social-icon:hover {
     background-color: #fc453c;
+    transition: 0.3s;
+}
+
+// ICONOS DE REDES SOCIALES
+.contact-icons .contact-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    width: 3rem;
+    background-color: #fff;
+    color: #fc453c;
+    border: 2px solid #fc453c;
+    border-radius: 100%;
+    font-size: 1.2rem;
+    text-decoration: none;
+}
+
+.contact-icons .contact-icon:hover {
+    background-color: #fc453c;
+    color: #fff;
+    transition: 0.3s;
 }
 
 // QUITA SUBRAYADO EN EL MAIL DE CONTACTO
@@ -148,11 +170,7 @@ li {
 
 .link-light:hover {
     color: #fc453c;
-}
-
-// MARGEN A ICONOS AL LADO DE CARACTERISTICAS EN PRECIOS
-.check-icon i {
-    margin-right: 0.5rem;
+    transition: 0.3s;
 }
 
 
@@ -191,3 +209,36 @@ li {
 .nav-item a.active .dot {
     opacity: 1;
 }
+
+
+
+.shapedividers_com-3107 {
+    overflow: hidden;
+    position: relative;
+}
+
+.shapedividers_com-3107::before {
+    content: '';
+    font-family: 'shape divider from ShapeDividers.com';
+    position: absolute;
+    z-index: 3;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    bottom: -0.1vw;
+    left: -0.1vw;
+    right: -0.1vw;
+    top: -0.1vw;
+    background-size: 100% 86px;
+    background-position: 50% 100%;
+    background-image: url('data:image/svg+xml;charset=utf8, <svg preserveAspectRatio="xMidYMin slice" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 91.5"><path fill="%23fdfcfa" d="M0 92V65c14 2 29-3 42-11 21-12 40-29 63-34 24-4 48 7 71 16 21 9 42 17 64 19 47 5 94-17 140-33s98-25 139 3c13 9 25 21 39 19 10 0 18-7 26-12 34-21 75-27 112-15 12 4 25 11 31 25 8 17 28 26 45 22s30-15 46-23c51-29 111-24 167-18l15 2 15-2c56-6 116-11 168 18 15 8 29 19 45 23s37-5 45-22c6-14 19-21 31-25 37-12 78-6 112 15 8 5 16 12 26 13 14 1 26-11 39-20 41-28 93-19 139-3s93 38 140 33c22-2 43-10 64-19 23-9 47-20 71-16 23 5 42 22 63 34 13 8 28 13 42 11v27z" opacity=".75"/><path fill="%23fdfcfa" d="M1458 92c21-9 48-19 80-30a127 127 0 0165-4h1l32 7 19 4a78 78 0 0019 2 87 87 0 0024-5 180 180 0 0025-10l6-4 2-1 7-3 2-1 21-10c16-6 31-7 46-4s31 9 46 15l19 8c19 8 38 14 58 13h3a71 71 0 0032-10 97 97 0 0019-16 283 283 0 0016-18v35c-18 10-38 18-57 21-31 5-69-5-99-13l-10-3a70 70 0 01-10-5c-17-9-36-16-54-7l-1 1a199 199 0 00-18 12l-11 7a76 76 0 01-11 5 87 87 0 01-18 4 124 124 0 01-19 2 265 265 0 01-32-2c-21-3-43-7-62-5-17 2-32 7-47 15zM815 92l2-1 15-12 24-17a424 424 0 0165-36 331 331 0 0131-12l21-6a98 98 0 0154 0l21 6a331 331 0 0131 12 424 424 0 0165 36l24 17 15 12 2 1h-8l-9-7c-41-30-116-28-168-2-52-26-127-28-168 2l-9 7z" opacity=".51"/><path fill="%23fdfcfa" d="M1304 92v-1c17-12 33-27 50-38 16-10 33-16 54-13a251 251 0 0128 6c29 7 56 16 83 0l11-6c45-21 111-27 178 2l21 10v1q11 5 22 13a307 307 0 0133 26h-82a403 403 0 00-28-21 238 238 0 00-35-20 138 138 0 00-14-5 140 140 0 00-17-5 91 91 0 00-32 0 103 103 0 00-24 7c-31 13-56 36-115 21-11-3-19-9-30-12l-4-1c-10-3-19 0-27 4-12 7-23 17-32 23l-15 9z" opacity=".51"/><circle  fill="%23fdfcfa" cx="1940.8" cy="27.4" r="17.1" transform="rotate(-67 1934 23)" opacity=".51"/><path fill="%23fdfcfa" d="M1420 92a19 19 0 0132-5 18 18 0 012 5z"/><circle  fill="%23fdfcfa" cx="1710.8" cy="61.6" r="13.4"/><circle  fill="%23fdfcfa" cx="1741.9" cy="28.9" r="5.9" opacity=".51"/><circle  fill="%23fdfcfa" cx="1060.7" cy="27.8" r="18.6" opacity=".51"/><circle  fill="%23fdfcfa" cx="1320.5" cy="57.1" r="13.4"/><circle  fill="%23fdfcfa" cx="1109" cy="9.2" r="8.9" opacity=".51"/><circle  fill="%23fdfcfa" cx="1625.5" cy="17.4" r="8.9" transform="rotate(-45 1615 13)" opacity=".51"/><circle  fill="%23fdfcfa" cx="1887.5" cy="6.9" r="6.1" opacity=".51"/><path fill="%23fdfcfa" d="M1166 92v-2a80 80 0 01155 1l1 1z" opacity=".51"/><path fill="%23fdfcfa" d="M0 92V48a63 63 0 0115-5h1c16-3 33 0 50 3l62 10a363 363 0 0048 4l20-1a323 323 0 0035-5l31-6 30-6a195 195 0 0183 4l22 5a108 108 0 0027 2 109 109 0 0024-5l22-8c14-5 29-9 44-9 17 1 34 8 50 15l29 11a72 72 0 0034 3 84 84 0 0019-7l18-8a128 128 0 0196-3l4 2 32 14 4 1c18 5 37 4 56 3h1l77-5a121 121 0 0166 9l4-2c19-10 41-8 62-7l77 5h1a166 166 0 0060-4l32-14 4-2a128 128 0 0196 3l18 8a84 84 0 0019 7h3c10 2 21 0 31-3l29-11c16-7 33-14 50-15 15 0 30 4 44 9l22 8a109 109 0 0024 5 108 108 0 0027-2l22-5a443 443 0 0124-5c20-3 40-2 59 1l30 6 31 6a323 323 0 0035 5l20 1a363 363 0 0048-4l62-10c17-3 34-6 50-3h1a63 63 0 0115 5v44z"/><path fill="%23fdfcfa" d="M542 92c-21-9-48-19-80-30a127 127 0 00-65-4h-1l-32 7-19 4a78 78 0 01-19 2 87 87 0 01-24-5 180 180 0 01-25-10l-6-4-2-1-7-3-2-1-21-10c-16-6-31-7-46-4s-31 9-46 15l-19 8c-19 8-38 14-58 13h-3a71 71 0 01-32-10 97 97 0 01-19-16A283 283 0 010 25v35c18 10 38 18 57 21 31 5 69-5 99-13l10-3a70 70 0 0010-5c17-9 36-16 54-7l1 1a199 199 0 0118 12l11 7a76 76 0 0011 5 87 87 0 0018 4 124 124 0 0019 2 265 265 0 0032-2c21-3 43-7 62-5 17 2 32 7 47 15z" opacity=".51"/><path fill="%23fdfcfa" d="M696 92v-1c-17-12-33-27-50-38a78 78 0 00-54-13 251 251 0 00-28 6c-29 7-56 16-83 0l-11-6c-45-21-111-27-178 2l-21 10v1q-11 5-22 13a307 307 0 00-33 26h82a403 403 0 0128-21 238 238 0 0135-20 138 138 0 0114-5 140 140 0 0117-5 91 91 0 0132 0 103 103 0 0124 7c31 13 56 36 115 21 11-3 19-9 30-12l4-1c10-3 19 0 27 4 12 7 23 17 32 23l15 9z" opacity=".51"/><circle  fill="%23fdfcfa" cx="59.2" cy="27.4" r="17.1" transform="rotate(-23 38 23)" opacity=".51"/><path fill="%23fdfcfa" d="M580 92a19 19 0 00-32-5 18 18 0 00-2 5z"/><circle  fill="%23fdfcfa" cx="289.2" cy="70" r="13.4" transform="rotate(-2 69 66)"/><circle  fill="%23fdfcfa" cx="258.1" cy="28.9" r="5.9" opacity=".51"/><circle  fill="%23fdfcfa" cx="939.3" cy="27.8" r="18.6" opacity=".51"/><circle  fill="%23fdfcfa" cx="679.5" cy="57.1" r="13.4"/><circle  fill="%23fdfcfa" cx="891" cy="9.2" r="8.9" opacity=".51"/><circle  fill="%23fdfcfa" cx="374.5" cy="17.4" r="8.9" transform="rotate(-45 364 13)" opacity=".51"/><circle  fill="%23fdfcfa" cx="112.5" cy="6.9" r="6.1" opacity=".51"/><path fill="%23fdfcfa" d="M834 92v-2a80 80 0 00-155 1l-1 1z" opacity=".51"/></svg>');
+}
+
+@media (min-width:2100px) {
+    .shapedividers_com-3107::before {
+        background-size: 100% calc(2vw + 86px);
+    }
+}
+
+
+
+
