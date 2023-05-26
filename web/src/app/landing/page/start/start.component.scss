@@ -3,3 +3,28 @@
     flex-direction: column;
     row-gap: 16px;
 }
+
+@media (min-width: 1024px) {
+    .form-width-lg {
+        width: 75%;
+        margin: auto;
+    }
+
+    .card-width-lg {
+        width: 60%;
+        margin: auto;
+    }
+
+}
+
+@media (min-width: 1200px) {
+    .form-width-lg {
+        width: 50%;
+        margin: auto;
+    }
+
+    .card-width-lg {
+        width: 50%;
+        margin: auto;
+    }
+}
