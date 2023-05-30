@@ -80,8 +80,6 @@ export class LandingComponent implements OnInit {
   onWindowScroll() {
     const scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
 
-    console.log(scrollPos, this.contactoSection.nativeElement.offsetTop, this.contactoSection.nativeElement.offsetTop - 1500);
-
     if (this.homeSection && scrollPos >= this.homeSection.nativeElement.offsetTop && scrollPos < this.homeSection.nativeElement.offsetTop + this.homeSection.nativeElement.offsetHeight - 200) {
       this.activeSection = 'inicio';
     }

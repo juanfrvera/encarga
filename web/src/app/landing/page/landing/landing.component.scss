@@ -1,26 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-
-// FUENTES 
-main h1,
-h2,
-h3,
-h4,
-h5,
-a {
-    font-family: 'Poppins', sans-serif;
-}
-
-main p,
-li {
-    font-family: 'Inter', sans-serif;
-}
-
-.font-inter {
-    font-family: 'Inter', sans-serif;
-}
-
 // TAMAÑO TEXTO
 .text-16 li {
     font-size: 1rem;
@@ -142,7 +119,7 @@ li {
     transition: 0.3s;
 }
 
-// ICONOS DE REDES SOCIALES
+// ICONOS DE CONTACTO EN NOSOTROS
 .contact-icons .contact-icon {
     display: inline-flex;
     align-items: center;
@@ -210,8 +187,10 @@ li {
     opacity: 1;
 }
 
+// FIN.. navbar dot animation when hover and scroll
 
 
+// SHAPE DIVIDER
 .shapedividers_com-3107 {
     overflow: hidden;
     position: relative;
@@ -238,6 +217,8 @@ li {
         background-size: 100% calc(2vw + 86px);
     }
 }
+
+// FIN ... SHAPE DIVIDER
 
 
 
