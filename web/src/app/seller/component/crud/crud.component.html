@@ -1,11 +1,11 @@
 <!-- List -->
 <div *ngIf="view.list; else loading">
-  <div class="d-flex justify-content-between mb-3">
-    <h1 class="card-title align-self-center fs-3">
+  <div class="d-flex mb-3 align-items-start">
+    <h1 class="card-title fs-3">
       <ng-content select="[title]"></ng-content>
     </h1>
-    <button (click)="addClicked()" type="button" class="btn btn-primary bg-gradient btn-sm text-white">
-      <strong>Add</strong>
+    <button (click)="addClicked()" type="button" class="btn btn-primary bg-gradient btn-sm text-white ms-3">
+      <strong>Agregar</strong>
     </button>
   </div>
   <!-- There are items and are loaded -->
@@ -31,7 +31,7 @@
   <ng-container ngProjectAs="[header]">
     <div *ngIf="view.modal.editing; else headerCrear" #headerEditar class="w-100 d-flex justify-content-between">
       <h5 class="modal-title align-self-center" id="modalLabel">
-        <strong>Edit {{ title }}</strong>
+        <strong>Editar {{ title }}</strong>
       </h5>
       <button (click)="delete()" class="btn">
         <i class="far fa-trash-alt"></i>
@@ -39,7 +39,7 @@
     </div>
     <ng-template #headerCrear>
       <h5 class="modal-title" id="modalLabel">
-        <strong>Add {{ title }}</strong>
+        <strong>Agregar {{ title }}</strong>
       </h5>
     </ng-template>
   </ng-container>

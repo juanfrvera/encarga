@@ -1,61 +1,42 @@
 <div #container>
-    <nav class="navbar navbar-light bg-white shadow">
-        <div class="container-fluid justify-content-start">
-            <button (click)="abrirMenu()" class="btn btn-link" type="button">
-                <i class="fas fa-bars"></i>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow fixed-top">
+        <div class="container-fluid ">
+            <a href="#" class="navbar-brand"><img src="../../../assets/logo/small-oscuro.svg" width="150"
+                    height="auto" class="px-2" alt=""></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+                aria-controls="navbarToggler" aria-expanded="true" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
-            <span class="navbar-brand mb-0 ms-3 h1"><strong>encarga.shop</strong></span>
-        </div>
-    </nav>
+            <div class="collapse navbar-collapse" id="navbarToggler">
+                <ul class="navbar-nav text-16 me-auto mb-2 mb-lg-0" data-bs-toggle="collapse"
+                    data-bs-target=".navbar-collapse">
+                    <li class="nav-item" role="button">
+                        <a class="nav-link"><i class="fas fa-th-large me-1"></i>Panel
+                        </a>
+                    </li>
+                    <li class="nav-item" role="button">
+                        <a class="nav-link"> <i class="fas fa-list me-1"></i>Productos
+                        </a>
 
+                    </li>
+                    <li class="nav-item" role="button">
+                        <a class="nav-link"> <i class="fas fa-tags me-1"></i>Categorías
+                        </a>
+                    </li>
+                    <li class="nav-item" role="button">
+                        <a class="nav-link" ><i class="fas fa-cog me-1"></i>Configuración
+                        </a>
+                    </li>
+                   
+                </ul>
 
-    <div #offcanvas class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasAdmin"
-        aria-labelledby="offcanvasAdminLabel">
-        <div class="offcanvas-header border-bottom border-primary border-2">
-            <h5 class="offcanvas-title" id="offcanvasAdminLabel"><strong>encarga.shop</strong></h5>
-            <button type="button" class="btn btn-link" data-bs-dismiss="offcanvas" aria-label="Close">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-        <div class="offcanvas-body">
-            <div class="list-group list-group-flush">
-                <button routerLink="/admin" data-bs-dismiss="offcanvas" type="button"
-                    class="list-group-item list-group-item-action">
-                    <div class="d-inline-block w-fixed">
-                        <i class="fas fa-tachometer-alt"></i>
-                    </div>
-                    Panel
-                </button>
-                <button routerLink="item" data-bs-dismiss="offcanvas" type="button"
-                    class="list-group-item list-group-item-action">
-                    <div class="d-inline-block w-fixed">
-                        <i class="fas fa-list"></i>
-                    </div>
-                    Ítems
-                </button>
-                <button routerLink="categoria" data-bs-dismiss="offcanvas" type="button"
-                    class="list-group-item list-group-item-action">
-                    <div class="d-inline-block w-fixed">
-                        <i class="fas fa-tags"></i>
-                    </div>
-                    Categorías
-                </button>
-                <button routerLink="configuracion" data-bs-dismiss="offcanvas" type="button"
-                    class="list-group-item list-group-item-action">
-                    <div class="d-inline-block w-fixed">
-                        <i class="fas fa-tags"></i>
-                    </div>
-                    Configuración
-                </button>
-                <button routerLink="/admin/login" type="button" class="list-group-item list-group-item-action">
-                    <div class="d-inline-block w-fixed">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </div>
-                    Salir
-                </button>
+                <span class="me-3">Bienvenido, Ramiro</span>
+
+                <a class="btn btn-outline-primary bg-gradient"
+                    routerLink=''><strong>Salir</strong></a>
             </div>
         </div>
-    </div>
+    </nav>
 
     <router-outlet></router-outlet>
 </div>
