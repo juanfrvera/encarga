@@ -18,7 +18,7 @@
     "@angular/platform-browser": "~13.4.0",
     "@angular/platform-browser-dynamic": "~13.4.0",
     "@angular/router": "~13.4.0",
-    "@ng-select/ng-select": "^7.2.0",
+    "@ng-select/ng-select": "^8.1.1",
     "@types/ms": "^0.7.31",
     "bootstrap": "^5.0.2",
     "moment": "^2.29.1",
