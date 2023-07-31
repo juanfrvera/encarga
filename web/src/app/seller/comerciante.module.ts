@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { provider as authInterceptorProvider } from './interceptor/auth.interceptor';
-import { provider as comercioInterceptorProvider } from './interceptor/comercio.interceptor';
 import { AdminComponent } from "./page/admin.component";
 import { DashboardComponent } from "./page/dashboard/dashboard.component";
 import { ItemComponent } from "./page/item/item.component";
@@ -62,7 +61,6 @@ import { ItemApiService } from "./service/item.api.service";
         ItemApiService,
         // Interceptor
         authInterceptorProvider,
-        comercioInterceptorProvider,
         // Guard
         AuthGuard,
     ],

@@ -14,22 +14,22 @@ export class ItemApiService {
     private readonly path = `${this.apiService.Url}/items`
 
     public getList() {
-        return this.httpClient.get<Array<ItemData>>(this.path);
+        return this.httpClient.get<Array<ItemData>>(this.path).toPromise();
     }
 
     public get(id: string) {
-        return this.httpClient.get<ItemData>(`${this.path}/item?id=${id}`);
+        return this.httpClient.get<ItemData>(`${this.path}/item?id=${id}`).toPromise();
     }
 
     public create(data: ItemCreateData) {
-        // TODO: backend POST request
+        return this.httpClient.post<ItemCreateData>(this.path, data).toPromise();
     }
 
     public update(data: any) {
-        // TODO: backend PUT request
+        return this.httpClient.patch<any>(this.path, data).toPromise();
     }
 
     public delete(id: string) {
-        // TODO: backend DELETE request
+        return this.httpClient.delete<any>(`${this.path}/item?id=${id}`).toPromise();
     }
 }

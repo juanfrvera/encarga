@@ -10,11 +10,11 @@ export class ItemFacade implements ICrudable {
     ) { }
 
     public getList() {
-        return this.api.getList().toPromise();
+        return this.api.getList();
     }
 
     public get(id: string) {
-        const item = this.api.get(id).toPromise();
+        const item = this.api.get(id);
         return item;
     }
     

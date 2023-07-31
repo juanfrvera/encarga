@@ -41,6 +41,12 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
   ) { }
 
   ngOnInit(): void {
+    this.refresh();
+  }
+
+  public refresh() {
+    // TODO: avoid refreshing with every operation
+
     this.view = {
       modal: {
         loading: false,
@@ -77,6 +83,7 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
 
   public close() {
     this.modal.close();
+    this.refresh();
   }
 
   /** Muestra alerta de eliminar */
@@ -84,16 +91,16 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
     this.swalService.fire({
       icon: 'warning',
       iconColor: '#fc453c',
-      title: 'Are you sure?',
+      title: '¿Estás seguro?',
       showCancelButton: true,
-      cancelButtonText: 'Cancel',
-      confirmButtonText: 'Yes, delete',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Sí, eliminar',
       showLoaderOnConfirm: true,
       preConfirm: () => {
         return this.service.delete(this.item._id).then(() => { })
           .catch(
             () => {
-              Swal.showValidationMessage('An error occurred when trying to delete');
+              Swal.showValidationMessage('Ocurrió un error al eliminar');
             }
           );
       },
@@ -102,6 +109,13 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
     }).then(result => {
       // If deleted without errors
       if (result.isConfirmed) {
+        this.swalService.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Se ha eliminado exitosamente',
+          keydownListenerCapture: true,
+          confirmButtonText: 'Continuar'
+        });
         this.close();
       }
     });
@@ -116,13 +130,26 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
         this.service.update(this.item).then(
           // Success
           () => {
+            this.swalService.fire({
+              icon: 'success',
+              title: 'Éxito',
+              text: 'Se ha actualizado exitosamente',
+              keydownListenerCapture: true,
+              confirmButtonText: 'Continuar'
+            });
             this.close();
             this.view.modal.saving = false;
           })
           .catch(
             // Error
             () => {
-
+              this.swalService.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error inesperado',
+                keydownListenerCapture: true,
+                confirmButtonText: 'Continuar'
+              });
               this.view.modal.saving = false;
             }
           );
@@ -132,9 +159,16 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
         this.service.create(this.item).then(
           // Success
           () => {
+            this.swalService.fire({
+              icon: 'success',
+              title: 'Éxito',
+              text: 'Se ha creado exitosamente',
+              keydownListenerCapture: true,
+              confirmButtonText: 'Continuar'
+            })
             this.close();
 
-            this.view.modal.saving = false
+            this.view.modal.saving = false;
           }
         ).catch(
           // Error
