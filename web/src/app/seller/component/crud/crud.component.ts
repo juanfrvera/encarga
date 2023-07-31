@@ -67,7 +67,7 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
 
     this.openModal();
 
-    this.service.get(dto.id).then(item => {
+    this.service.get(dto._id).then(item => {
       // So we don't modify the original
       this.item = Util.deepCopy(item);
 
@@ -90,7 +90,7 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
       confirmButtonText: 'Yes, delete',
       showLoaderOnConfirm: true,
       preConfirm: () => {
-        return this.service.delete(this.item.id).then(() => { })
+        return this.service.delete(this.item._id).then(() => { })
           .catch(
             () => {
               Swal.showValidationMessage('An error occurred when trying to delete');
@@ -111,7 +111,7 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
     if (this.form.isValid()) {
       this.view.modal.saving = true;
 
-      if (this.item.id) {
+      if (this.item._id) {
         // Updating
         this.service.update(this.item).then(
           // Success

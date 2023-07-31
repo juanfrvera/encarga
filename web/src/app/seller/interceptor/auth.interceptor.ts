@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  public static readonly HeaderName = "Authorization";
+  public static readonly HeaderName = "Token";
 
 
   constructor(private readonly auth: AuthService, private readonly router: Router) { }
@@ -23,13 +23,13 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let req = request;
 
-    if (this.auth.isLogged()) {
+    if (!req.url.endsWith('login') && req.method !== 'OPTIONS' && this.auth.isLogged()) {
       // Token no es null ya que el usuario está logeado
       const token = this.auth.getToken()!;
 
       // Insertar la header del bearer token
       const cloned = request.clone({
-        headers: request.headers.set(AuthInterceptor.HeaderName, "Bearer " + token)
+        headers: request.headers.set(AuthInterceptor.HeaderName, token)
       });
 
       req = cloned;

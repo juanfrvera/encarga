@@ -13,7 +13,6 @@ export class AuthService {
   private readonly tokenKey = 'token';
   private readonly tokenExpirationKey = 'token_expiration';
 
-  private readonly route = 'auth/';
 
   constructor(
     private readonly httpClient: HttpClient,
@@ -41,8 +40,8 @@ export class AuthService {
     return false;
   }
 
-  public login(mail: string, password: string) {
-    return this.httpClient.post<AuthData>(this.apiService.Url + this.route + 'login', { mail, password }).pipe(
+  public login(email: string, password: string) {
+    return this.httpClient.post<AuthData>(`${this.apiService.Url}/login`, { email, password }).pipe(
       tap(data => {
         // Usando la misma librería que usa el servidor para transformar el formato a milisegundos
         const milliseconds = ms(data.expiresIn);

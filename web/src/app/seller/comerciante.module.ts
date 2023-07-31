@@ -23,6 +23,7 @@ import { ModalCrudComponent } from "./component/modal-crud/modal-crud.component"
 import { LoadingComponent } from "./component/loading/loading.component";
 import { ConfiguracionComponent } from "./page/configuracion/configuracion.component";
 import { ComercioModule } from "../shared/comercio/comercio.module";
+import { ItemApiService } from "./service/item.api.service";
 
 @NgModule({
     imports: [
@@ -58,6 +59,7 @@ import { ComercioModule } from "../shared/comercio/comercio.module";
         // Service
         ApiService,
         AuthService,
+        ItemApiService,
         // Interceptor
         authInterceptorProvider,
         comercioInterceptorProvider,

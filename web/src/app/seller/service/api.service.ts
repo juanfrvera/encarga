@@ -3,7 +3,8 @@ import { environment } from "src/environments/environment";
 
 @Injectable()
 export class ApiService {
-    private readonly url: string = environment.apiUrl + 'comerciante/';
+
+    private readonly url: string = environment.apiUrl;
 
     public get Url() {
         return this.url;

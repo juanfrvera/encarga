@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
 
       this.auth.login(this.Mail, this.Password).subscribe(
         () => {
-          this.router.navigateByUrl('admin/elegirComercio');
+          this.router.navigateByUrl('admin');
         },
         // Error  
         () => {

@@ -1,3 +1,4 @@
 
 *.cache
 api/ormconfig.json
+web/.env

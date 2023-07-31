@@ -1,3 +1,3 @@
 export interface Ideable {
-    id: string;
+    _id: string;
 }

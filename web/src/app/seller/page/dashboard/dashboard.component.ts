@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryFacade } from '../../category/category.facade';
 import { ItemFacade } from '../../feature/item/item.facade';
-import { IItemLite } from '../../dto/item.lite';
-import { ICategoryLite } from '../../category/model/category.lite';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,11 +10,11 @@ import { ICategoryLite } from '../../category/model/category.lite';
 export class DashboardComponent implements OnInit {
   public view: {
     categories?: {
-      list?: ICategoryLite[];
+      list?: any[];
       showEmptyState?: boolean;
     };
     items?: {
-      list?: IItemLite[];
+      list?: any[];
       showEmptyState?: boolean;
     };
   } = {};
