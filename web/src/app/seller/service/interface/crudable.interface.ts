@@ -1,9 +1,7 @@
-import { Observable } from "rxjs";
-
-export interface ICrudable {
-    create(data: any): Promise<any>;
+export interface ICrudable<Full, Lite> {
+    create(data: any): Promise<Lite>;
     delete(id: string): Promise<void>;
-    get(id: string): Promise<any>;
-    update(data: any): Promise<any>;
-    getList(): Promise<Array<any>>;
+    get(id: string): Promise<Full>;
+    update(data: any): Promise<Lite>;
+    getList(): Promise<Array<Lite>>;
 }

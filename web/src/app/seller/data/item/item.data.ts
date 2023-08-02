@@ -1,4 +1,4 @@
-export interface ItemData {
+export interface Item {
     _id: string,
     name: string,
     description: string,

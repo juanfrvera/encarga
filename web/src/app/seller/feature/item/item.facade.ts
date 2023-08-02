@@ -1,10 +1,12 @@
 import { Injectable } from "@angular/core";
-import { ItemCreateData } from "../../data/item.create.data";
 import { ICrudable } from "../../service/interface/crudable.interface";
 import { ItemApiService } from "../../service/item.api.service";
+import { ItemLite } from "../../data/item/item-lite.data";
+import { ItemCreateData } from "../../data/item/item.create.data";
+import { Item } from "../../data/item/item.data";
 
 @Injectable()
-export class ItemFacade implements ICrudable {
+export class ItemFacade implements ICrudable<Item, ItemLite> {
     constructor(
         private readonly api: ItemApiService
     ) { }
@@ -18,15 +20,15 @@ export class ItemFacade implements ICrudable {
         return item;
     }
     
-    public async create(data: ItemCreateData) {
-        this.api.create(data);
+    public create(data: ItemCreateData) {
+        return this.api.create(data);
     }
 
-    public async update(data: any) {
-        this.api.update(data);
+    public update(data: ItemLite) {
+        return this.api.update(data);
     }
 
-    public async delete(id: string) {
-        this.api.delete(id);
+    public delete(id: string) {
+        return this.api.delete(id);
     }
 }

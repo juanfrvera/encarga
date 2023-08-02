@@ -12,8 +12,8 @@ import { ModalCrudComponent } from '../modal-crud/modal-crud.component';
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.scss']
 })
-export class CrudComponent<Dto extends Idable, Lite extends Idable> implements OnInit {
-  @Input() service: ICrudable;
+export class CrudComponent<Full extends Idable, Lite extends Idable> implements OnInit {
+  @Input() service: ICrudable<Full, Lite>;
   @Input() public title: string;
 
   @ViewChild(FormularioComponent) form: FormularioComponent;
@@ -24,7 +24,7 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
   @ContentChild('listTemplate') listTemplate: TemplateRef<any>;
 
   /** Item inside modal */
-  public item: Dto = {} as Dto;
+  public item: Full = {} as Full;
 
   public view: {
     list?: Array<Lite>;
@@ -45,8 +45,6 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
   }
 
   public refresh() {
-    // TODO: avoid refreshing with every operation
-
     this.view = {
       modal: {
         loading: false,
@@ -83,7 +81,6 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
 
   public close() {
     this.modal.close();
-    this.refresh();
   }
 
   /** Muestra alerta de eliminar */
@@ -117,6 +114,14 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
           confirmButtonText: 'Continuar'
         });
         this.close();
+
+        if(this.view.list){
+          const index = this.view.list.findIndex(i => i._id === this.item._id);
+          if(index > -1){
+            this.view.list.splice(index, 1);
+          }
+        }
+
       }
     });
   }
@@ -129,7 +134,7 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
         // Updating
         this.service.update(this.item).then(
           // Success
-          () => {
+          (item) => {
             this.swalService.fire({
               icon: 'success',
               title: 'Éxito',
@@ -139,6 +144,13 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
             });
             this.close();
             this.view.modal.saving = false;
+
+            if(this.view.list){
+              const index = this.view.list.findIndex(i => i._id === item._id);
+              if(index > -1){
+                this.view.list[index] = item;
+              }
+            }
           })
           .catch(
             // Error
@@ -158,7 +170,7 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
         // Creating
         this.service.create(this.item).then(
           // Success
-          () => {
+          (item) => {
             this.swalService.fire({
               icon: 'success',
               title: 'Éxito',
@@ -167,8 +179,9 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
               confirmButtonText: 'Continuar'
             })
             this.close();
-
             this.view.modal.saving = false;
+            this.view.list?.push(item);
+
           }
         ).catch(
           // Error
@@ -197,6 +210,6 @@ export class CrudComponent<Dto extends Idable, Lite extends Idable> implements O
   }
 
   private clearItem() {
-    this.item = {} as Dto;
+    this.item = {} as Full;
   }
 }
