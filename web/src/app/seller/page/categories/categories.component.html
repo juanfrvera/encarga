@@ -11,10 +11,10 @@
   <!-- Formulario dentro del modal -->
   <!-- La directiva let permite obtener el item actual ya que es proveido por el componente -->
   <!-- El componente crud busca el primer ng-template que encuentra y lo mete dentro del formulario del modal -->
-  <ng-template #formTemplate let-categoria>
+  <ng-template #formTemplate let-category>
     <div class="mb-3">
       <label for="nombre" class="form-label">Nombre</label>
-      <input [(ngModel)]="categoria.name" id="name" type="text" class="form-control" required />
+      <input [(ngModel)]="category.name" id="name" type="text" class="form-control" required />
       <div class="invalid-feedback">Por favor ingrese un nombre</div>
     </div>
   </ng-template>

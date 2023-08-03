@@ -36,8 +36,8 @@
     </div>
     <div class="mb-3 ">
       <label for="categorias" class="form-label">Categorías</label>
-      <ng-select id="categorias" [(ngModel)]="item.categoriaIdList" [multiple]="true" [loadingText]="'Loading...'">
-        <ng-option *ngFor="let cat of CategoriaList" [value]="cat.id">
+      <ng-select id="categorias" [(ngModel)]="item.categoryIdList" [multiple]="true" [loadingText]="'Loading...'">
+        <ng-option *ngFor="let cat of CategoriaList" [value]="cat._id">
           {{ cat.name }}
         </ng-option>
       </ng-select>

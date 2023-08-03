@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CategoryFacade } from '../../category/category.facade';
+import { CategoryFacade } from '../../feature/category/category.facade';
 
 @Component({
   selector: 'app-categories',

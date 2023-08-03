@@ -17,12 +17,13 @@ import { CommonModule } from "@angular/common";
 import { AuthGuard } from "./guard/auth.guard";
 import { HttpClientModule } from "@angular/common/http";
 import { ItemModule } from "./feature/item/item.module";
-import { CategoriaModule } from "./category/category.module";
+import { CategoryModule } from "./feature/category/category.module";
 import { ModalCrudComponent } from "./component/modal-crud/modal-crud.component";
 import { LoadingComponent } from "./component/loading/loading.component";
 import { ConfiguracionComponent } from "./page/configuracion/configuracion.component";
 import { ComercioModule } from "../shared/comercio/comercio.module";
 import { ItemApiService } from "./service/item.api.service";
+import { CategoryApiService } from "./service/category.api.service";
 
 @NgModule({
     imports: [
@@ -36,7 +37,7 @@ import { ItemApiService } from "./service/item.api.service";
         // App
         SharedModule,
         // Feature
-        CategoriaModule,
+        CategoryModule,
         ComercioModule,
         ItemModule,
     ],
@@ -59,6 +60,7 @@ import { ItemApiService } from "./service/item.api.service";
         ApiService,
         AuthService,
         ItemApiService,
+        CategoryApiService,
         // Interceptor
         authInterceptorProvider,
         // Guard

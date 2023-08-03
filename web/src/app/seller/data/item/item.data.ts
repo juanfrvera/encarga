@@ -3,6 +3,6 @@ export interface Item {
     name: string,
     description: string,
     price: string,
-    categoryId: string,
+    categoryIdList: string[],
     shopId: string
 }

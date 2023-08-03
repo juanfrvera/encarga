@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryFacade } from '../../category/category.facade';
+import { CategoryFacade } from '../../feature/category/category.facade';
 import { ItemFacade } from '../../feature/item/item.facade';
 
 @Component({
