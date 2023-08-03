@@ -5,6 +5,7 @@ import { AuthData } from '../data/auth/auth-data.dto';
 import * as moment from 'moment';
 import ms from 'ms';
 import { ApiService } from './api.service';
+import { ShopService } from './shop.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,10 @@ export class AuthService {
   private readonly tokenKey = 'token';
   private readonly tokenExpirationKey = 'token_expiration';
 
-
   constructor(
     private readonly httpClient: HttpClient,
-    private readonly apiService: ApiService
+    private readonly apiService: ApiService,
+    private readonly shopService: ShopService
   ) { }
 
   public getToken() {
@@ -52,6 +53,9 @@ export class AuthService {
         // Guardamos también la fecha de expiración para en un futuro detectar
         // automáticamente si el token está expirado
         localStorage.setItem(this.tokenExpirationKey, JSON.stringify(expirationDate));
+
+        // Pedimos al service que guarde la lista de shops
+        this.shopService.setList(data.shopList);
       })
     );
   }

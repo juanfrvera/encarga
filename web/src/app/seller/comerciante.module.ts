@@ -24,6 +24,8 @@ import { ConfiguracionComponent } from "./page/configuracion/configuracion.compo
 import { ComercioModule } from "../shared/comercio/comercio.module";
 import { ItemApiService } from "./service/item.api.service";
 import { CategoryApiService } from "./service/category.api.service";
+import { ShopService } from "./service/shop.service";
+import { ShopModule } from "./feature/shop/shop.module";
 
 @NgModule({
     imports: [
@@ -40,6 +42,7 @@ import { CategoryApiService } from "./service/category.api.service";
         CategoryModule,
         ComercioModule,
         ItemModule,
+        ShopModule,
     ],
     declarations: [
         // Page
@@ -61,6 +64,7 @@ import { CategoryApiService } from "./service/category.api.service";
         AuthService,
         ItemApiService,
         CategoryApiService,
+        ShopService,
         // Interceptor
         authInterceptorProvider,
         // Guard
