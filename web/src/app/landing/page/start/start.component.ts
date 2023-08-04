@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { SellerFacade } from "src/app/shared/comercio/comercio.facade";
 
 @Component({
     templateUrl: "./start.component.html",
@@ -11,7 +10,6 @@ export class StartComponent {
 
     constructor(
         private router: Router,
-        private comercioFacade: SellerFacade
     ) { }
 
     public onPhoneKeyUp() {
@@ -23,9 +21,7 @@ export class StartComponent {
     }
 
     public submitClicked() {
-        this.comercioFacade.createTemporalSeller({ phone: this.view.phone, name: this.view.name });
-
-        this.router.navigate(['admin']);
+        //this.router.navigate(['admin']);
     }
 
     private checkSubmitDisable() {
