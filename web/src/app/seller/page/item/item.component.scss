@@ -5,3 +5,8 @@ img {
 .item-container {
     margin-top: 100px ;
 }
+
+// Append a comma to all items except last to separate different categories
+.category-name-in-item:not(:last-child)::after{
+    content: ", ";
+}

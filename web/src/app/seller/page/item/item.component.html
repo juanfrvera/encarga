@@ -17,7 +17,11 @@
           <td>{{ item.name }}</td>
           <td>{{ item.description }}</td>
           <td>${{ item.price }}</td>
-          <td><span *ngFor="let cat of item.categoryIdList">{{cat}} </span></td>
+          <td>
+            <ng-container *ngIf="item.categoryNameList; else loadingItemCategories">
+              <span *ngFor="let cat of item.categoryNameList" class="category-name-in-item">{{cat}}</span>
+            </ng-container>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -29,4 +33,6 @@
     <img src="../../../../assets/empty-state/caja-changed.png" alt="" />
     <p class="mt-3">No tienes productos, empieza a agregarlos!</p>
   </ng-template>
+
+  <ng-template #loadingItemCategories>Cargando...</ng-template>
 </div>
