@@ -6,7 +6,7 @@ import { ItemComponent } from "./page/item/item.component";
 import { CrudComponent } from "./component/crud/crud.component";
 import { FormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
-import { CategoriaComponent } from "./page/categories/categories.component";
+import { CategoryComponent } from "./page/categories/categories.component";
 import { ModalComponent } from "./component/modal/modal.component";
 import { SharedModule } from "../shared/shared.module";
 import { ComercianteRoutingModule } from "./comerciante.routing.module";
@@ -21,7 +21,6 @@ import { CategoryModule } from "./feature/category/category.module";
 import { ModalCrudComponent } from "./component/modal-crud/modal-crud.component";
 import { LoadingComponent } from "./component/loading/loading.component";
 import { ConfiguracionComponent } from "./page/configuracion/configuracion.component";
-import { ComercioModule } from "../shared/comercio/comercio.module";
 import { ItemApiService } from "./service/item.api.service";
 import { CategoryApiService } from "./service/category.api.service";
 import { ShopService } from "./service/shop.service";
@@ -40,14 +39,13 @@ import { ShopModule } from "./feature/shop/shop.module";
         SharedModule,
         // Feature
         CategoryModule,
-        ComercioModule,
         ItemModule,
         ShopModule,
     ],
     declarations: [
         // Page
         AdminComponent,
-        CategoriaComponent,
+        CategoryComponent,
         ConfiguracionComponent,
         DashboardComponent,
         ItemComponent,

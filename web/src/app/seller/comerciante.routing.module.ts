@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AdminComponent } from './page/admin.component';
 import { ItemComponent } from './page/item/item.component';
-import { CategoriaComponent } from './page/categories/categories.component';
+import { CategoryComponent } from './page/categories/categories.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { AuthGuard } from './guard/auth.guard';
 import { LoginComponent } from './page/login/login.component';
@@ -17,8 +17,8 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       { path: '', component: DashboardComponent },
-      { path: 'item', component: ItemComponent },
-      { path: 'categoria', component: CategoriaComponent },
+      { path: 'items', component: ItemComponent },
+      { path: 'categorias', component: CategoryComponent },
       { path: 'configuracion', component: ConfiguracionComponent },
     ]
   },

@@ -2,29 +2,6 @@ img {
     max-width: 150px;
 }
 
-.desc {
-    font-size: 0.875rem;
-}
-
-.item {
-    border: 1px solid;
-    display: flex;
-
-    width: 128px;
-    height: 128px;
-
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    row-gap: 8px;
-}
-
-.item-name {
-    text-align: center;
-}
-
-.item-description {
-    text-align: center;
-    overflow: hidden;
+.item-container {
+    margin-top: 100px ;
 }

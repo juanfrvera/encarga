@@ -6,7 +6,7 @@ import { CategoryFacade } from '../../feature/category/category.facade';
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.scss']
 })
-export class CategoriaComponent {
+export class CategoryComponent {
   constructor(
     public service: CategoryFacade
   ) { }

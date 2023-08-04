@@ -20,8 +20,8 @@ export class DashboardComponent implements OnInit {
   } = {};
 
   constructor(
-    private itemFacade: ItemFacade,
-    private categoryFacade: CategoryFacade,
+    public itemFacade: ItemFacade,
+    public categoryFacade: CategoryFacade,
   ) { }
 
   ngOnInit(): void {
