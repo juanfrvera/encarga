@@ -2,37 +2,96 @@
   <h1 class="fw-bold mb-4">Tu negocio <h2 class="d-inline">&gt; Productos</h2>
   </h1>
 
-  <ng-container *ngIf="view.items; else elseBlock">
-    <table class="table table-hover table-responsive">
-      <thead>
-        <tr>
-          <th scope="col">Nombre</th>
-          <th scope="col">Descripción</th>
-          <th scope="col">Precio</th>
-          <th scope="col">Categorías</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of view.items.list">
-          <td>{{ item.name }}</td>
-          <td>{{ item.description }}</td>
-          <td>${{ item.price }}</td>
-          <td>
-            <ng-container *ngIf="item.categoryNameList; else loadingItemCategories">
-              <span *ngFor="let cat of item.categoryNameList" class="category-name-in-item">{{cat}}</span>
-            </ng-container>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <ng-container *ngIf="view.items; else loadingItems">
+    <ng-container *ngIf="view.items.length > 0; else emptyState">
+      <button class="btn btn-primary fw-bold" (click)="addProductClick()">+ Agregar</button>
+      <table class="table table-hover table-responsive">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Categorías</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of view.items" (click)="productClick(item)">
+            <td>{{ item.name }}</td>
+            <td>{{ item.description }}</td>
+            <td>${{ item.price }}</td>
+            <td>
+              <ng-container *ngIf="item.categoryNameList; else loadingItemCategories">
+                <span *ngFor="let cat of item.categoryNameList" class="category-name-in-item">{{cat}}</span>
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+    </ng-container>
+    <ng-template #emptyState>
+      <img src="../../../../assets/empty-state/caja-changed.png" alt="" />
+      <p class="mt-3">No tienes productos, empieza a agregarlos!</p>
+    </ng-template>
   </ng-container>
 
+  <app-modal-crud>
+    <ng-container ngProjectAs="[header]">
+      <div *ngIf="view.modal && view.modal.editing; else agregarHeader" #editarHeader
+        class="w-100 d-flex justify-content-between">
+        <h5 class="modal-title align-self-center" id="modalLabel">
+          <strong>Editar</strong>
+        </h5>
+        <button (click)="deleteProduct()" class="btn">
+          <i class="far fa-trash-alt"></i>
+        </button>
+      </div>
+      <ng-template #agregarHeader>
+        <h5 class="modal-title" id="modalLabel">
+          <strong>Agregar</strong>
+        </h5>
+      </ng-template>
+    </ng-container>
+    <ng-container ngProjectAs="[body]">
+      <app-formulario>
+        <ng-container *ngIf="view.modal">
+          <div class="mb-3 form-floating">
+            <input [(ngModel)]="view.modal.item.name" id="name" type="text" class="form-control" required />
+            <label for="name" class="form-label">Nombre</label>
 
+            <small class="invalid-feedback">Por favor, ingresa un nombre</small>
+          </div>
+          <div class="mb-3 form-floating">
+            <input [(ngModel)]="view.modal.item.price" id="price" type="number" class="form-control" />
+            <label for="price" class="form-label">Precio</label>
 
-  <ng-template #elseBlock>
-    <img src="../../../../assets/empty-state/caja-changed.png" alt="" />
-    <p class="mt-3">No tienes productos, empieza a agregarlos!</p>
+          </div>
+          <div class="mb-3 form-floating">
+            <textarea [(ngModel)]="view.modal.item.description" class="form-control" id="description"
+              rows="3"></textarea>
+            <label for="description" class="form-label">Descripción</label>
+
+          </div>
+          <div class="mb-3 " *ngIf="view.categories">
+            <label for="categorias" class="form-label">Categorías</label>
+            <ng-select id="categorias" [(ngModel)]="view.modal.item.categoryIdList" [multiple]="true"
+              [loadingText]="'Loading...'">
+              <ng-option *ngFor="let cat of view.categories" [value]="cat._id">
+                {{ cat.name }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </ng-container>
+
+      </app-formulario>
+    </ng-container>
+  </app-modal-crud>
+
+  <ng-template #loadingItems>
+    <app-loading></app-loading>
   </ng-template>
 
-  <ng-template #loadingItemCategories>Cargando...</ng-template>
+  <ng-template #loadingItemCategories>
+    <div class="spinner-border text-primary" role="status"></div>
+  </ng-template>
 </div>

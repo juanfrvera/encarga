@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ItemFacade } from '../../feature/item/item.facade';
 import { CategoryFacade } from '../../feature/category/category.facade';
 import { CategoryLite } from '../../data/category/category-lite.data';
+import { ModalCrudComponent } from '../../component/modal-crud/modal-crud.component';
+import { Item } from '../../data/item/item.data';
 import { ItemLite } from '../../data/item/item-lite.data';
 
 @Component({
@@ -10,48 +12,38 @@ import { ItemLite } from '../../data/item/item-lite.data';
   styleUrls: ['./item.component.scss']
 })
 export class ItemComponent implements OnInit {
+  @ViewChild(ModalCrudComponent) modal: ModalCrudComponent;
+
   public view: {
-    categories?: {
-      list?: CategoryLite[];
-      showEmptyState?: boolean;
-    };
-    items?: {
-      list?: ItemLiteUI[];
-      showEmptyState?: boolean;
-    };
+    categories?: CategoryLite[];
+    items?: ItemLiteUI[];
+    modal?: {
+      editing: boolean;
+      item: Item;
+    }
   } = {};
+
 
   constructor(
     private readonly categoryFacade: CategoryFacade,
-    private readonly itemFacade: ItemFacade,
+    public readonly itemFacade: ItemFacade,
   ) { }
 
   ngOnInit(): void {
+
     this.categoryFacade.getList().then((list) => {
-      if (!this.view.categories) {
-        this.view.categories = {};
-      }
+      this.view.categories = list;
 
-      this.view.categories.list = list;
-
-      this.view.categories.showEmptyState = list.length <= 0;
-
-      if (this.view.items && this.view.items.list && this.view.categories && this.view.categories.list) {
-        this.fillItemsWithCategories(this.view.items.list, this.view.categories.list);
+      if (this.view.items && this.view.categories) {
+        this.fillItemsWithCategories(this.view.items, this.view.categories);
       }
     });
 
     this.itemFacade.getList().then((list) => {
-      if (!this.view.items) {
-        this.view.items = {};
-      }
+      this.view.items = list;
 
-      this.view.items.list = list;
-
-      this.view.items.showEmptyState = list.length <= 0;
-
-      if (this.view.items && this.view.items.list && this.view.categories && this.view.categories.list) {
-        this.fillItemsWithCategories(this.view.items.list, this.view.categories.list);
+      if (this.view.items && this.view.categories) {
+        this.fillItemsWithCategories(this.view.items, this.view.categories);
       }
     });
   }
@@ -68,6 +60,27 @@ export class ItemComponent implements OnInit {
       }
     })
   }
+
+  public productClick(item: Item) {
+    this.view.modal  = {
+      editing: true,
+      item
+    };
+    this.modal.open();
+  }
+
+  public addProductClick() {
+    this.view.modal  = {
+      editing: false,
+      item: {} as Item
+    };
+    this.modal.open();
+  }
+
+  public deleteProduct() {
+
+  }
+  
 
 }
 
