@@ -1,0 +1,67 @@
+<div class="container category-container">
+    <h1 class="fw-bold mb-4">Tu negocio <h2 class="d-inline">&gt; Categorías</h2>
+    </h1>
+
+    <ng-container *ngIf="view.categories; else loadingTemplate">
+        <ng-container *ngIf="view.categories.length > 0; else emptyState">
+            <button class="btn btn-primary bg-gradient text-white fw-bold" (click)="addCategoryClick()">+
+                Agregar</button>
+            <table class="table table-hover table-responsive rounded overflow-hidden mt-3">
+                <thead>
+                    <tr>
+                        <th class="bg-primary bg-opacity-10 border-end">Nombre</th>
+                        <th class="bg-primary bg-opacity-10">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let cat of view.categories">
+                        <td class="border-end">
+                            <span *ngIf="!cat.editing">{{ cat.name }}</span>
+                            <input [id]="'input-'+cat._id" *ngIf="cat.editing" class="form-control" type="text"
+                                autofocus [placeholder]="view.currentCategory ? view.currentCategory.name : ''"
+                                value="{{cat.name}}" [(ngModel)]="cat.name" (keyup.enter)="saveCategoryClick(cat)"
+                                (keyup.esc)="cancelEditedClick(cat)" />
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-start gap-2" *ngIf="cat.editing">
+                                <button title="Guardar" class="btn btn-success bg-gradient text-white fw-bold"
+                                    (click)="saveCategoryClick(cat)">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button title="Cancelar" class="btn btn-danger bg-gradient text-white fw-bold"
+                                    (click)="cancelEditedClick(cat)">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-start gap-2" *ngIf="!cat.editing">
+                                <button *ngIf="!cat.editing" title="Editar"
+                                    class="btn btn-info bg-gradient text-white fw-bold"
+                                    (click)="editCategoryClick(cat)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button title="Eliminar" class="btn btn-danger bg-gradient text-white fw-bold"
+                                    (click)="removeCategoryClick(cat._id)">
+                                    <i class="far fa-trash-alt"></i>
+                                </button>
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </ng-container>
+    </ng-container>
+
+
+    <ng-template #emptyState>
+        <img src="../../../../assets/empty-state/caja-changed.png" alt="" />
+        <p class="mt-3">No tienes categorías, empieza a agregarlas!</p>
+    </ng-template>
+
+    <ng-template #loadingTemplate>
+        <app-loading></app-loading>
+    </ng-template>
+
+
+</div>

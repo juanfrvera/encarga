@@ -3,7 +3,7 @@ import { ICrudable } from "../../service/interface/crudable.interface";
 import { CategoryApiService } from "../../service/category.api.service";
 import { CategoryCreateData } from "../../data/category/category.create.data";
 import { CategoryLite } from "../../data/category/category-lite.data";
-import { Category } from "../../data/category/category.data";
+import { Category, CategoryData } from "../../data/category/category.data";
 
 @Injectable()
 export class CategoryFacade implements ICrudable<Category, CategoryLite> {
@@ -24,8 +24,8 @@ export class CategoryFacade implements ICrudable<Category, CategoryLite> {
         return this.api.create(data);
     }
 
-    public update(data: CategoryLite) {
-        return this.api.update(data);
+    public update(id: string, data: Partial<CategoryData>) {
+        return this.api.update(id, data);
     }
 
     public delete(id: string) {
