@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ApiService } from "./api.service";
 import { ItemLite } from "../data/item/item-lite.data";
-import { Item } from "../data/item/item.data";
+import { Item, ItemData } from "../data/item/item.data";
 import { ItemCreateData } from "../data/item/item.create.data";
 
 @Injectable()
@@ -19,18 +19,18 @@ export class ItemApiService {
     }
 
     public get(id: string) {
-        return this.httpClient.get<Item>(`${this.path}/item?id=${id}`).toPromise();
+        return this.httpClient.get<Item>(`${this.path}/${id}`).toPromise();
     }
 
     public create(data: ItemCreateData) {
         return this.httpClient.post<ItemLite>(this.path, data).toPromise();
     }
 
-    public update(data: ItemLite) {
-        return this.httpClient.patch<ItemLite>(this.path, data).toPromise();
+    public update(id: string, data: Partial<ItemData>) {
+        return this.httpClient.patch<ItemLite>(`${this.path}/${id}`, data).toPromise();
     }
 
     public delete(id: string) {
-        return this.httpClient.delete<any>(`${this.path}/item?id=${id}`).toPromise();
+        return this.httpClient.delete<any>(`${this.path}/${id}`).toPromise();
     }
 }

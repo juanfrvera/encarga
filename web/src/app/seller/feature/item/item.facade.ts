@@ -3,7 +3,7 @@ import { ICrudable } from "../../service/interface/crudable.interface";
 import { ItemApiService } from "../../service/item.api.service";
 import { ItemLite } from "../../data/item/item-lite.data";
 import { ItemCreateData } from "../../data/item/item.create.data";
-import { Item } from "../../data/item/item.data";
+import { Item, ItemData } from "../../data/item/item.data";
 
 @Injectable()
 export class ItemFacade implements ICrudable<Item, ItemLite> {
@@ -24,8 +24,8 @@ export class ItemFacade implements ICrudable<Item, ItemLite> {
         return this.api.create(data);
     }
 
-    public update(data: ItemLite) {
-        return this.api.update(data);
+    public update(id: string, data: Partial<ItemData>) {
+        return this.api.update(id, data);
     }
 
     public delete(id: string) {

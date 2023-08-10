@@ -2,9 +2,9 @@
   <h1 class="fw-bold mb-4">Tu negocio <h2 class="d-inline">&gt; Productos</h2>
   </h1>
 
-  <ng-container *ngIf="view.items; else loadingItems">
+  <ng-container *ngIf="view.items; else loadingTemplate">
     <ng-container *ngIf="view.items.length > 0; else emptyState">
-      <button class="btn btn-primary fw-bold" (click)="addProductClick()">+ Agregar</button>
+      <button class="btn btn-primary bg-gradient text-white fw-bold" (click)="addProductClick()">+ Agregar</button>
       <table class="table table-hover table-responsive">
         <thead>
           <tr>
@@ -15,7 +15,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of view.items" (click)="productClick(item)">
+          <tr *ngFor="let item of view.items" (click)="productClick(item)" role="button">
             <td>{{ item.name }}</td>
             <td>{{ item.description }}</td>
             <td>${{ item.price }}</td>
@@ -35,7 +35,9 @@
     </ng-template>
   </ng-container>
 
-  <app-modal-crud>
+  <app-modal-crud [saving]="!!view.modal && !!view.modal.saving"
+    [disableSaveButton]="!!view.modal && !!view.modal.disableSaveButton" (onClose)="modalCloseClick()"
+    (onSave)="modalSaveClick()">
     <ng-container ngProjectAs="[header]">
       <div *ngIf="view.modal && view.modal.editing; else agregarHeader" #editarHeader
         class="w-100 d-flex justify-content-between">
@@ -52,42 +54,44 @@
         </h5>
       </ng-template>
     </ng-container>
-    <ng-container ngProjectAs="[body]">
-      <app-formulario>
-        <ng-container *ngIf="view.modal">
-          <div class="mb-3 form-floating">
-            <input [(ngModel)]="view.modal.item.name" id="name" type="text" class="form-control" required />
-            <label for="name" class="form-label">Nombre</label>
+    <ng-container ngProjectAs="[body]" *ngIf="view.modal">
+      <ng-container *ngIf="!view.modal.error; else bodyError">
+        <ng-container *ngIf="view.modal.item; else loadingTemplate">
+          <app-formulario>
+            <div class="mb-3 form-floating">
+              <input [(ngModel)]="view.modal.item.name" id="name" type="text" class="form-control" required />
+              <label for="name" class="form-label">Nombre</label>
 
-            <small class="invalid-feedback">Por favor, ingresa un nombre</small>
-          </div>
-          <div class="mb-3 form-floating">
-            <input [(ngModel)]="view.modal.item.price" id="price" type="number" class="form-control" />
-            <label for="price" class="form-label">Precio</label>
+              <small class="invalid-feedback">Por favor, ingresa un nombre</small>
+            </div>
+            <div class="mb-3 form-floating">
+              <input [(ngModel)]="view.modal.item.price" id="price" type="number" class="form-control" />
+              <label for="price" class="form-label">Precio</label>
 
-          </div>
-          <div class="mb-3 form-floating">
-            <textarea [(ngModel)]="view.modal.item.description" class="form-control" id="description"
-              rows="3"></textarea>
-            <label for="description" class="form-label">Descripción</label>
+            </div>
+            <div class="mb-3 form-floating">
+              <textarea [(ngModel)]="view.modal.item.description" class="form-control" id="description"
+                rows="3"></textarea>
+              <label for="description" class="form-label">Descripción</label>
 
-          </div>
-          <div class="mb-3 " *ngIf="view.categories">
-            <label for="categorias" class="form-label">Categorías</label>
-            <ng-select id="categorias" [(ngModel)]="view.modal.item.categoryIdList" [multiple]="true"
-              [loadingText]="'Loading...'">
-              <ng-option *ngFor="let cat of view.categories" [value]="cat._id">
-                {{ cat.name }}
-              </ng-option>
-            </ng-select>
-          </div>
+            </div>
+            <div class="mb-3 " *ngIf="view.categories">
+              <label for="categorias" class="form-label">Categorías</label>
+              <ng-select id="categorias" [(ngModel)]="view.modal.item.categoryIdList" [multiple]="true"
+                [loadingText]="'Loading...'">
+                <ng-option *ngFor="let cat of view.categories" [value]="cat._id">
+                  {{ cat.name }}
+                </ng-option>
+              </ng-select>
+            </div>
+          </app-formulario>
         </ng-container>
-
-      </app-formulario>
+      </ng-container>
+      <ng-template #bodyError>{{view.modal.error}}</ng-template>
     </ng-container>
   </app-modal-crud>
 
-  <ng-template #loadingItems>
+  <ng-template #loadingTemplate>
     <app-loading></app-loading>
   </ng-template>
 

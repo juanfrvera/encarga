@@ -46,4 +46,23 @@ export class Util {
 
         return true;
     }
+
+
+    /**
+     * Compare fields of two objects
+     * @param oldObj Original object
+     * @param newObj New object
+     * @returns New object containing only fields that differ from original
+     */
+    public static getObjectWithChangedFields(oldObj: any, newObj: any): any {
+        let diff = {};
+        for (const key in newObj) {
+            if (oldObj[key] != newObj[key]) {
+                diff[key] = newObj[key];
+            }
+        }
+        return diff;
+    }
+
+
 }

@@ -6,8 +6,8 @@ import { ModalComponent } from "../modal/modal.component";
     templateUrl: './modal-crud.component.html'
 })
 export class ModalCrudComponent {
-    @Input() loading: boolean;
     @Input() saving: boolean;
+    @Input() disableSaveButton: boolean;
 
     @Output() onClose = new EventEmitter();
     @Output() onSave = new EventEmitter();

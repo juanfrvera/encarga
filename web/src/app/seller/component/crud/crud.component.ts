@@ -132,7 +132,7 @@ export class CrudComponent<Full extends Idable, Lite extends Idable> implements 
 
       if (this.item._id) {
         // Updating
-        this.service.update(this.item).then(
+        this.service.update(this.item._id, this.item).then(
           // Success
           (item) => {
             this.swalService.fire({

@@ -27,7 +27,7 @@
 </ng-template>
 
 <!-- Modal -->
-<app-modal-crud [loading]="view.modal.loading" [saving]="view.modal.saving" (onClose)="close()" (onSave)="save()">
+<app-modal-crud [saving]="view.modal.saving" (onClose)="close()" (onSave)="save()">
   <ng-container ngProjectAs="[header]">
     <div *ngIf="view.modal.editing; else headerCrear" #headerEditar class="w-100 d-flex justify-content-between">
       <h5 class="modal-title align-self-center" id="modalLabel">
