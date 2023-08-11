@@ -5,20 +5,20 @@
   <ng-container *ngIf="view.items; else loadingTemplate">
     <ng-container *ngIf="view.items.length > 0; else emptyState">
       <button class="btn btn-primary bg-gradient text-white fw-bold" (click)="addProductClick()">+ Agregar</button>
-      <table class="table table-hover table-responsive">
+      <table class="table table-hover table-responsive rounded overflow-hidden mt-3">
         <thead>
           <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Descripción</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Categorías</th>
+            <th class="bg-primary bg-opacity-10 border-end">Nombre</th>
+            <th class="bg-primary bg-opacity-10 border-end">Descripción</th>
+            <th class="bg-primary bg-opacity-10 border-end">Precio</th>
+            <th class="bg-primary bg-opacity-10">Categorías</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of view.items" (click)="productClick(item)" role="button">
-            <td>{{ item.name }}</td>
-            <td>{{ item.description }}</td>
-            <td>${{ item.price }}</td>
+            <td class="border-end">{{ item.name }}</td>
+            <td class="border-end">{{ item.description }}</td>
+            <td class="border-end">${{ item.price }}</td>
             <td>
               <ng-container *ngIf="item.categoryNameList; else loadingItemCategories">
                 <span *ngFor="let cat of item.categoryNameList" class="category-name-in-item">{{cat}}</span>
