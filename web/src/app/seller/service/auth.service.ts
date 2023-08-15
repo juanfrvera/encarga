@@ -59,4 +59,23 @@ export class AuthService {
       })
     );
   }
+
+  public register(email: string, password: string) {
+    return this.httpClient.post<AuthData>(`${this.apiService.Url}/register`, { email, password }).pipe(
+      tap(data => {
+        // Usando la misma librería que usa el servidor para transformar el formato a milisegundos
+        const milliseconds = ms(data.expiresIn);
+        const expirationDate = moment().add(milliseconds, 'milliseconds');
+
+        localStorage.setItem(this.tokenKey, data.token);
+
+        // Guardamos también la fecha de expiración para en un futuro detectar
+        // automáticamente si el token está expirado
+        localStorage.setItem(this.tokenExpirationKey, JSON.stringify(expirationDate));
+
+        // Pedimos al service que guarde la lista de shops
+        this.shopService.setList(data.shopList);
+      })
+    );
+  }
 }

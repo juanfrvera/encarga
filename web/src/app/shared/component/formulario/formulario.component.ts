@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-formulario',
@@ -7,6 +7,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 })
 export class FormularioComponent {
   @ViewChild('formulario') formulario: ElementRef<HTMLFormElement>;
+  @Output() onSubmit = new EventEmitter();
 
   /** Clase que se agrega al formulario para mostrar feedback de validación */
   private claseParaValidarFormulario = 'was-validated';
@@ -27,6 +28,11 @@ export class FormularioComponent {
   /** Oculta el feedback mostrado */
   public hideFeedback() {
     this.formulario.nativeElement.classList.remove(this.claseParaValidarFormulario);
+  }
+
+  public submitted(ev: SubmitEvent) {
+    ev.preventDefault();
+    this.onSubmit.emit()
   }
 
 }

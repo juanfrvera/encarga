@@ -1,5 +1,5 @@
 <!-- El novalidate es necesario para que el formulario no se autovalide on submit -->
-<form #formulario novalidate>
+<form #formulario (submit)="submitted($event)">
     <!-- Content projection, aqui se pondra lo que ponen dentro del componente (los inputs) -->
     <ng-content></ng-content>
 </form>

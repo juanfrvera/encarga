@@ -20,11 +20,12 @@ import { ItemModule } from "./feature/item/item.module";
 import { CategoryModule } from "./feature/category/category.module";
 import { ModalCrudComponent } from "./component/modal-crud/modal-crud.component";
 import { LoadingComponent } from "./component/loading/loading.component";
-import { ConfiguracionComponent } from "./page/configuracion/configuracion.component";
+import { ConfigComponent } from "./page/config/config.component";
 import { ItemApiService } from "./service/item.api.service";
 import { CategoryApiService } from "./service/category.api.service";
 import { ShopService } from "./service/shop.service";
 import { ShopModule } from "./feature/shop/shop.module";
+import { RegisterComponent } from "./page/register/register.component";
 
 @NgModule({
     imports: [
@@ -46,10 +47,11 @@ import { ShopModule } from "./feature/shop/shop.module";
         // Page
         AdminComponent,
         CategoryComponent,
-        ConfiguracionComponent,
+        ConfigComponent,
         DashboardComponent,
         ItemComponent,
         LoginComponent,
+        RegisterComponent,
         // Component
         CrudComponent,
         LoadingComponent,

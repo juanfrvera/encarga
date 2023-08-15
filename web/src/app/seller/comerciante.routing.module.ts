@@ -7,7 +7,8 @@ import { CategoryComponent } from './page/categories/categories.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { AuthGuard } from './guard/auth.guard';
 import { LoginComponent } from './page/login/login.component';
-import { ConfiguracionComponent } from './page/configuracion/configuracion.component';
+import { ConfigComponent } from './page/config/config.component';
+import { RegisterComponent } from './page/register/register.component';
 
 const routes: Routes = [
   {
@@ -19,12 +20,16 @@ const routes: Routes = [
       { path: '', component: DashboardComponent },
       { path: 'items', component: ItemComponent },
       { path: 'categorias', component: CategoryComponent },
-      { path: 'configuracion', component: ConfiguracionComponent },
+      { path: 'config', component: ConfigComponent },
     ]
   },
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   },
 ];
 

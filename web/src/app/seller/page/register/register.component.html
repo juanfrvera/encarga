@@ -1,0 +1,53 @@
+<main class="min-vh-100 bg-g p-2 p-md-3 p-lg-4">
+    <section class="col-12">
+        <div class="card card-width-lg py-3">
+            <div class="card-body text-center ">
+                <a href=""><img src="../../../assets/logo/small-oscuro.svg" width="200" height="auto" class="my-3"
+                        alt=""></a>
+
+                <hr>
+                <div class="my-4 py-2">
+                    <h2 class="card-title fw-bold">¿Listo para potenciar tu negocio?</h2>
+                    <p class="card-text">Completa estos datos para comenzar a disfrutar de los beneficios de nuestra
+                        app.</p>
+
+                    <app-formulario (onSubmit)="submitClicked()">
+                        <div class="pt-3 px-md-5 form-width-lg">
+                            <!-- Email -->
+                            <div class="form-floating mb-3">
+                                <input [(ngModel)]="view.email" name="email" type="email" required class="form-control"
+                                    id="email" pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
+                                    placeholder="Ingresa tu email">
+                                <label for="email">Tu email</label>
+                                <div class="invalid-feedback">Por favor, ingresa un email válido.</div>
+
+                            </div>
+
+                            <!-- Password -->
+                            <div class="form-floating">
+                                <input [(ngModel)]="view.password" name="password" type="password" class="form-control"
+                                    id="password" required placeholder="Ingresa tu contraseña">
+                                <label for="password">Contraseña</label>
+                                <div class="invalid-feedback">Por favor, ingresa una contraseña.</div>
+
+
+                            </div>
+                        </div>
+                        <button [disabled]="view.registering" type="submit"
+                            class="btn btn-primary btn-lg bg-gradient mt-3">
+                            <strong *ngIf="!view.registering; else templateRegistering">¡Comenzar!</strong>
+                            <ng-template #templateRegistering>
+                                <div class="spinner-border spinner-border-sm me-2" role="status">
+                                </div>
+                                <span>Ingresando...</span>
+                            </ng-template>
+                        </button>
+                    </app-formulario>
+                </div>
+                <hr>
+                <a routerLink="" class="text-muted">Volver</a>
+            </div>
+
+        </div>
+    </section>
+</main>
