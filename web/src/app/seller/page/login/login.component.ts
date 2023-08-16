@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
 
       this.auth.login(this.Mail, this.Password).subscribe(
         () => {
+          this.ingresando = false;
           this.router.navigateByUrl('admin');
         },
         // Error  
@@ -56,8 +57,7 @@ export class LoginComponent implements OnInit {
             title: 'Ocurrió un error',
             confirmButtonText: 'Aceptar',
           });
-        },
-        () => {
+
           this.ingresando = false;
         });
     }

@@ -5,7 +5,7 @@
     </div>
 
     <div class="width-form mx-auto">
-        <app-formulario>
+        <app-formulario (onSubmit)="ingresar()">
             <div class="row g-3 px-2 mt-4">
                 <!-- Email -->
                 <div class="col-12">
@@ -22,12 +22,11 @@
                 </div>
             </div>
             <div class="text-center m-4">
-                <button (click)="ingresar()" [disabled]="Ingresando"
+                <button [disabled]="Ingresando" type="submit"
                     class="btn btn-primary btn-lg bg-gradient text-white">
                     <strong *ngIf="!Ingresando; else templateIngresando">Ingresar</strong>
                     <ng-template #templateIngresando>
                         <div class="spinner-border spinner-border-sm me-2" role="status">
-                            <span class="visually-hidden">Loading...</span>
                         </div>
                         <span>Ingresando...</span>
                     </ng-template>
