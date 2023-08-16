@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryFacade } from '../../feature/category/category.facade';
-import { ItemFacade } from '../../feature/item/item.facade';
+import { ShopService } from '../../service/shop.service';
+import { ShopLite } from '../../data/shop/shop-lite.data';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,42 +8,16 @@ import { ItemFacade } from '../../feature/item/item.facade';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  public view: {
-    categories?: {
-      list?: any[];
-      showEmptyState?: boolean;
-    };
-    items?: {
-      list?: any[];
-      showEmptyState?: boolean;
-    };
-  } = {};
 
+  public view: {
+    shopList?: ShopLite[]
+  } = {}
+  
   constructor(
-    public itemFacade: ItemFacade,
-    public categoryFacade: CategoryFacade,
+    private readonly shopService: ShopService
   ) { }
 
   ngOnInit(): void {
-    this.itemFacade.getList().then((list) => {
-      if (!this.view.items) {
-        this.view.items = {};
-      }
-
-      this.view.items.list = list;
-
-      this.view.items.showEmptyState = list.length <= 0;
-    });
-
-    this.categoryFacade.getList().then((list) => {
-      if (!this.view.categories) {
-        this.view.categories = {};
-      }
-
-      this.view.categories.list = list;
-
-      this.view.categories.showEmptyState = list.length <= 0;
-
-    });
+    this.view.shopList = this.shopService.getList();
   }
 }

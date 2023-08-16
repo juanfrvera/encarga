@@ -15,16 +15,16 @@
                         </a>
                     </li>
                     <li class="nav-item" role="button">
-                        <a class="nav-link" routerLink="/admin/items"> <i class="fas fa-list me-1"></i>Productos
+                        <a class="nav-link" routerLink="/admin/items" [ngClass]="!!ShopList ? 'disabled' : ''"> <i class="fas fa-list me-1"></i>Productos
                         </a>
 
                     </li>
                     <li class="nav-item" role="button">
-                        <a class="nav-link" routerLink="/admin/categorias"> <i class="fas fa-tags me-1"></i>Categorías
+                        <a class="nav-link" routerLink="/admin/categorias" [ngClass]="!!ShopList ? 'disabled' : ''"> <i class="fas fa-tags me-1"></i>Categorías
                         </a>
                     </li>
                     <li class="nav-item" role="button">
-                        <a class="nav-link"><i class="fas fa-cog me-1"></i>Configuración
+                        <a class="nav-link" routerLink="/admin/config"><i class="fas fa-cog me-1"></i>Configuración
                         </a>
                     </li>
 
@@ -32,6 +32,7 @@
 
                 <!-- TODO: shop list choice window -->
                 <span *ngIf="ShopList.length == 1" class="me-3">Bienvenido, {{ ShopList[0].name }}</span>
+                <span *ngIf="!!ShopList" class="me-3">Bienvenido</span>
 
                 <a class="btn btn-outline-primary bg-gradient" routerLink=''><strong>Salir</strong></a>
             </div>

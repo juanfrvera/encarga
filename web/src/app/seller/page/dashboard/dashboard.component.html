@@ -1,85 +1,20 @@
 <div class="container page-container">
   <h1 class="fw-bold">Tu negocio <h2 class="d-inline">&gt; Panel</h2>
   </h1>
-  <div class="feature-rows">
-    <!-- Items -->
-    <div *ngIf="view.items" class="feature">
-      <app-crud [service]="itemFacade">
-        <strong title>Productos</strong>
 
-        <ng-template #listTemplate let-listItem>
-          <!-- here we can use item -->
-          <div class="item">
-            <div class="item-name">{{ listItem.name }}</div>
-            <div class="item-price">${{ listItem.price }}</div>
-          </div>
-        </ng-template>
-        <!-- Empty State -->
-        <div empty-state class="empty-state">
-          <img src="../../../../assets/empty-state/caja-changed.png" alt="" />
-          <p class="mt-3">No tienes productos, empieza a agregarlos!</p>
-        </div>
-
-        <!-- Form inside modal -->
-        <!-- The let directive allows to get the current item, because it is provided by the component -->
-        <!-- The crud component uses the first ng-template found and puts it inside the modal's form -->
-        <ng-template #formTemplate let-item>
-          <div class="mb-3 form-floating">
-            <input [(ngModel)]="item.name" id="name" type="text" class="form-control" required />
-            <label for="name" class="form-label">Nombre</label>
-
-            <small class="invalid-feedback">Por favor, ingresa un nombre</small>
-          </div>
-          <div class="mb-3 form-floating">
-            <input [(ngModel)]="item.price" id="price" type="number" class="form-control" />
-            <label for="price" class="form-label">Precio</label>
-
-          </div>
-          <div class="mb-3 form-floating">
-            <textarea [(ngModel)]="item.description" class="form-control" id="description" rows="3"></textarea>
-            <label for="description" class="form-label">Descripción</label>
-
-          </div>
-          <div class="mb-3 " *ngIf="view.categories && view.categories.list">
-            <label for="categorias" class="form-label">Categorías</label>
-            <ng-select id="categorias" [(ngModel)]="item.categoryIdList" [multiple]="true" [loadingText]="'Loading...'">
-              <ng-option *ngFor="let cat of view.categories.list" [value]="cat._id">
-                {{ cat.name }}
-              </ng-option>
-            </ng-select>
-          </div>
-        </ng-template>
-      </app-crud>
-    </div>
-    <!-- Categories -->
-    <div *ngIf="view.categories" class="feature">
-      <app-crud [service]="categoryFacade">
-        <strong title>Categorías</strong>
-        <!-- List -->
-        <ng-template #listTemplate let-listitem>
-          <!-- here we can use item -->
-          <div class="category">
-            <div class="category-name">{{ listitem.name }}</div>
-          </div>
-        </ng-template>
-      
-        <!-- Formulario dentro del modal -->
-        <!-- La directiva let permite obtener el item actual ya que es proveido por el componente -->
-        <!-- El componente crud busca el primer ng-template que encuentra y lo mete dentro del formulario del modal -->
-        <ng-template #formTemplate let-category>
-          <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input [(ngModel)]="category.name" id="name" type="text" class="form-control" required />
-            <div class="invalid-feedback">Por favor ingrese un nombre</div>
-          </div>
-        </ng-template>
-      
-        <!-- Empty State -->
-        <div empty-state class="empty-state">
-          <img src="../../../assets/empty-state/etiqueta-changed.png" alt="" />
-          <div>Las categorías te ayudan a organizar tus productos, haz click en Agregar para crear una.</div>
-        </div>
-      </app-crud>
+  <div class="d-flex flex-row justify-content-center align-items-center gap-5 pt-3" *ngIf="!!view.shopList; else hasShopTemplate">
+    <img src="../../../../assets/empty-state/caja-changed.png" alt="" width="150">
+    <div>
+      <h4>Completar la configuración nos ayudará a personalizar la aplicación según tus necesidades. ¿Listo para
+        continuar?
+      </h4>
+      <button routerLink="/admin/config" class="btn btn-primary bg-gradient text-white fw-bold">Ir a Configuración</button>
     </div>
   </div>
+
+  <ng-template #hasShopTemplate>
+    <h4>Bienvenido a tu panel</h4>
+  </ng-template>
+
+
 </div>
