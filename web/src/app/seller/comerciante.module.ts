@@ -26,6 +26,7 @@ import { CategoryApiService } from "./service/category.api.service";
 import { ShopService } from "./service/shop.service";
 import { ShopModule } from "./feature/shop/shop.module";
 import { RegisterComponent } from "./page/register/register.component";
+import { IntlTelInputNgModule } from "intl-tel-input-ng";
 
 @NgModule({
     imports: [
@@ -36,6 +37,8 @@ import { RegisterComponent } from "./page/register/register.component";
         // Its imported here to override other interceptors and inject the interceptors of this module
         HttpClientModule,
         NgSelectModule,
+        IntlTelInputNgModule,
+
         // App
         SharedModule,
         // Feature

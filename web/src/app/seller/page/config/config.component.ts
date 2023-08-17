@@ -6,41 +6,52 @@ import { SwalService } from "../../service/swal.service";
     selector: 'app-config',
     templateUrl: './config.component.html',
     styleUrls: ['./config.component.scss']
+
 })
+
 export class ConfigComponent {
     @ViewChild(FormularioComponent) formulario: FormularioComponent;
 
-    public view = { disableSubmit: true, name: "", phone: "", url: "", saving: false };
+    public view = {submitted: false, name: "", phone: "", url: "", saving: false };
 
     constructor(
         private readonly swalService: SwalService
 
     ) { }
 
-    public onNameKeyUp() {
-        this.checkSubmitDisable();
-    }
-
-    public onPhoneKeyUp() {
-        this.checkSubmitDisable();
-    }
-
-    public onUrlKeyUp() {
-        this.checkSubmitDisable();
-    }
-
     public submitClicked() {
+        this.view.submitted = true;
         if (this.formulario.isValid()) {
-            this.view.saving = true;
-
-            
-        }
+            if (this.view.phone == null) {
+                this.formulario.showFeedback();
+                }
+                else {
+                    console.log(this.view);
+                    this.view.saving = true;
+                    this.formulario.showFeedback();
+                }
+            }
         else {
             this.formulario.showFeedback();
         }
     }
 
-    private checkSubmitDisable() {
-        this.view.disableSubmit = this.view.name == null || this.view.name.length <= 0 || this.view.phone == null || this.view.phone.length <= 0 || this.view.url == null || this.view.url.length <= 0
+
+    // When entering name, url automatically offers an option using name input
+    public onNameInputChange() {
+        const valueToShow = this.view.name.toLowerCase().split(' ').join('-');
+        this.view.url = valueToShow;
     }
+
+    // Avoid user to enter characters that dont match the regex
+    public onUrlInputChange() {
+        console.log(this.view.url)
+        if (!RegExp("^[a-z0-9-]+$").test(this.view.url)) {
+            // Remove characters that don't match the pattern
+            this.view.url = this.view.url.replace(RegExp("[^a-z0-9-]"), '');
+        }
+    }
+
 }
+
+
