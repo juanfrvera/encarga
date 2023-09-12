@@ -15,12 +15,14 @@
                         </a>
                     </li>
                     <li class="nav-item" role="button">
-                        <a class="nav-link" routerLink="/admin/items" [ngClass]="!!ShopList ? 'disabled' : ''"> <i class="fas fa-list me-1"></i>Productos
+                        <a class="nav-link" routerLink="/admin/items" [ngClass]="!view.shopList ? 'disabled' : ''"> <i
+                                class="fas fa-list me-1"></i>Productos
                         </a>
 
                     </li>
                     <li class="nav-item" role="button">
-                        <a class="nav-link" routerLink="/admin/categorias" [ngClass]="!!ShopList ? 'disabled' : ''"> <i class="fas fa-tags me-1"></i>Categorías
+                        <a class="nav-link" routerLink="/admin/categorias" [ngClass]="!view.shopList ? 'disabled' : ''"> <i
+                                class="fas fa-tags me-1"></i>Categorías
                         </a>
                     </li>
                     <li class="nav-item" role="button">
@@ -31,8 +33,11 @@
                 </ul>
 
                 <!-- TODO: shop list choice window -->
-                <span *ngIf="ShopList.length == 1" class="me-3">Bienvenido, {{ ShopList[0].name }}</span>
-                <span *ngIf="!!ShopList" class="me-3">Bienvenido</span>
+                <app-loading *ngIf="!view.shopList; else shopTemplate" class="me-3"></app-loading>
+
+                <ng-template #shopTemplate>
+                    <small *ngIf="view.shopList" class="me-3 mt-0 fw-bold form-text"> Bienvenido{{ view.shopList.length > 0 ? ', ' + view.shopList[0].name : '' }}</small>
+                </ng-template>
 
                 <a class="btn btn-outline-primary bg-gradient" routerLink=''><strong>Salir</strong></a>
             </div>

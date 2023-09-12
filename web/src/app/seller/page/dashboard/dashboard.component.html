@@ -2,7 +2,7 @@
   <h1 class="fw-bold">Tu negocio <h2 class="d-inline">&gt; Panel</h2>
   </h1>
 
-  <div class="d-flex flex-row justify-content-center align-items-center gap-5 pt-3" *ngIf="!!view.shopList; else hasShopTemplate">
+  <div class="d-flex flex-row justify-content-center align-items-center gap-5 pt-3" *ngIf="!view.shopList; else hasShopTemplate">
     <img src="../../../../assets/empty-state/caja-changed.png" alt="" width="150">
     <div>
       <h4>Completar la configuración nos ayudará a personalizar la aplicación según tus necesidades. ¿Listo para

@@ -8,18 +8,17 @@ import { ShopLite } from '../data/shop/shop-lite.data';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
-  private shopList: ShopLite[];
 
-  public get ShopList() {
-    return this.shopList;
-  }
+  public view: {
+    shopList?: ShopLite[]
+  } = {}
 
   constructor(
-    private shopFacade: ShopFacade
+    private readonly shopFacade: ShopFacade
     ) { }
 
   ngOnInit(): void {
-    this.shopList = this.shopFacade.getList();
+    this.view.shopList = this.shopFacade.getList();
   }
 
 }
