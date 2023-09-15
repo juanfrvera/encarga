@@ -1,5 +1,4 @@
-export interface ShopLite {
-    _id: string;
+export interface ShopCreateData {
     name: string;
     phone: string;
     path: string;
