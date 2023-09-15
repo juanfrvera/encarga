@@ -19,6 +19,12 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.view.shopList = this.shopFacade.getList();
+
+    this.shopFacade.channel.subscribe(signal => {
+      if(signal.type === 'shopListUpdated'){
+        this.view.shopList = signal.data.shops
+      }
+    })
   }
 
 }

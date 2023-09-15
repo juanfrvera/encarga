@@ -63,7 +63,7 @@ export class AuthService {
     );
   }
 
-  private setLocalAuthInfo(data: AuthData) {
+  public setLocalAuthInfo(data: AuthData) {
     // Usando la misma librería que usa el servidor para transformar el formato a milisegundos
     const milliseconds = ms(data.expiresIn);
     const expirationDate = moment().add(milliseconds, 'milliseconds');

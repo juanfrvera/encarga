@@ -3,9 +3,14 @@ import { ShopService } from "../../service/shop.service";
 import { ShopApiService } from "../../service/shop.api.service";
 import { ShopCreateData } from "../../data/shop/shop.create.data";
 import { ShopData } from "../../data/shop/shop.data";
+import { Subject } from "rxjs";
+import { ShopLite } from "../../data/shop/shop-lite.data";
 
 @Injectable()
 export class ShopFacade {
+
+    public channel = new Subject<ShopChannel.Signal>();
+
     constructor(
         private readonly service: ShopService,
         private readonly apiService: ShopApiService
@@ -19,13 +24,24 @@ export class ShopFacade {
         const shop = this.apiService.get(id);
         return shop;
     }
-    
-    public create(data: ShopCreateData) {
-        return this.apiService.create(data);
+
+    public async create(data: ShopCreateData) {
+        const response = await this.apiService.create(data);
+        this.channel.next({ type: 'shopListUpdated', data: { shops: response.shopList } });
+        return response;
     }
 
     public update(id: string, data: Partial<ShopData>) {
         return this.apiService.update(id, data);
     }
-    
+
+}
+
+namespace ShopChannel {
+    export type Signal = IShopListUpdatedSignal;
+
+    interface IShopListUpdatedSignal {
+        type: 'shopListUpdated';
+        data: { shops: ShopLite[] };
+    }
 }

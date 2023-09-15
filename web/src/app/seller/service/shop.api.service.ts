@@ -4,12 +4,19 @@ import { ApiService } from "./api.service";
 import { Shop, ShopData } from "../data/shop/shop.data";
 import { ShopCreateData } from "../data/shop/shop.create.data";
 import { ShopLite } from "../data/shop/shop-lite.data";
+import { AuthData } from "../data/auth/auth-data.dto";
+import { tap } from 'rxjs/operators';
+import { AuthService } from "./auth.service";
+import { ShopService } from "./shop.service";
+
 
 @Injectable()
 export class ShopApiService {
     constructor(
         private readonly httpClient: HttpClient,
-        private readonly apiService: ApiService
+        private readonly apiService: ApiService,
+        private readonly authService: AuthService,
+        private readonly shopService: ShopService
     ) { }
 
     private readonly path = `${this.apiService.Url}/shops`
@@ -19,7 +26,14 @@ export class ShopApiService {
     }
 
     public create(data: ShopCreateData) {
-        return this.httpClient.post<ShopLite>(this.path, data).toPromise();
+        return this.httpClient.post<AuthData>(this.path, data).pipe(
+            tap(data => {
+                // Saving token and expiration to local storage
+                this.authService.setLocalAuthInfo(data);
+                // saving shoplist to local storage
+                this.shopService.setList(data.shopList);
+            })
+        ).toPromise()
     }
 
     public update(id: string, data: Partial<ShopData>) {
