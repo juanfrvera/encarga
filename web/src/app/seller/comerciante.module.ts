@@ -27,6 +27,7 @@ import { ShopService } from "./service/shop.service";
 import { ShopModule } from "./feature/shop/shop.module";
 import { RegisterComponent } from "./page/register/register.component";
 import { IntlTelInputNgModule } from "intl-tel-input-ng";
+import { ShopApiService } from "./service/shop.api.service";
 
 @NgModule({
     imports: [
@@ -68,6 +69,7 @@ import { IntlTelInputNgModule } from "intl-tel-input-ng";
         ItemApiService,
         CategoryApiService,
         ShopService,
+        ShopApiService,
         // Interceptor
         authInterceptorProvider,
         // Guard

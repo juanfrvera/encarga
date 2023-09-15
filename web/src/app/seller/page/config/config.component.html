@@ -1,45 +1,53 @@
 <div class="container config-container">
     <h1 class="fw-bold mb-4">Tu negocio <h2 class="d-inline">&gt; Configuración</h2>
     </h1>
-    <p class="card-text">Completa estos datos para configurar tu negocio.</p>
 
-    <app-formulario (onSubmit)="submitClicked()" ngForm>
-        <div class="mb-3">
-            <label class="form-label" for="shopName">Nombre de tu negocio</label>
-            <input [(ngModel)]="view.name" name="shopName" type="text" class="form-control" id="shopName"
-                placeholder="Tu negocio" required (keyup)="onNameInputChange()">
-        </div>
-        <intl-tel-input id="phone" label="Tu número con Whatsapp" name="whatsappNumber"
-            [cssClass]="(this.view.submitted && this.view.phone == null) ? 'form-control mb-3 invalid-control' : 'form-control mb-3'"
-            [labelCssClass]="'d-block mb-2'" ngDefaultControl [required]="true"
-            [options]="{preferredCountries: ['ar'], nationalMode: false, separateDialCode: true}"
-            [(E164PhoneNumber)]="view.phone">
-        </intl-tel-input>
-        <small id="whatsappNumberHelp" class="text-muted ms-2">Lo usaremos para enviarte
-            los
-            pedidos que
-            realicen tus clientes.</small>
-        <div class="my-3">
-            <label class="form-label" for="password">Link de tu negocio</label>
-            <div class="d-flex justifiy-content-center align-items-center gap-2">
-                <p class="d-inline text-muted m-0">https://encarga.shop/</p>
-                <input [(ngModel)]="view.url" name="url" type="text" class="form-control w-auto" id="url"
-                    aria-describedby="urlHelp" required placeholder="tu-negocio" pattern="^[a-z0-9\-]+$"
-                    (keyup)="onUrlInputChange()">
-                <small id="urlHelp" class="form-text text-muted">Este será el link a tu negocio. Solo se aceptan
-                    minúsculas, números y guiones</small>
+
+    <ng-container *ngIf="view.currentShop; else loadingTemplate">
+        <p class="card-text">Completa estos datos para configurar tu negocio.</p>
+
+        <app-formulario (onSubmit)="submitClicked()" ngForm>
+            <div class="mb-3">
+                <label class="form-label" for="shopName">Nombre de tu negocio</label>
+                <input [(ngModel)]="view.currentShop.name" name="shopName" type="text" class="form-control"
+                    id="shopName" placeholder="Tu negocio" required (keyup)="onNameInputChange()">
             </div>
-
-        </div>
-        <button class="btn btn-primary btn-lg bg-gradient mt-3 text-white" type="submit">
-            <strong *ngIf="!view.saving; else templateSaving">Guardar</strong>
-            <ng-template #templateSaving>
-                <div class="spinner-border spinner-border-sm me-2" role="status">
+            <intl-tel-input id="phone" label="Tu número con Whatsapp" name="whatsappNumber"
+                [cssClass]="(this.view.submitted && this.view.currentShop.phone == null) ? 'form-control mb-3 invalid-control' : 'form-control mb-3'"
+                [labelCssClass]="'d-block mb-2'" ngDefaultControl [required]="true"
+                [options]="{preferredCountries: ['ar'], nationalMode: true, separateDialCode: true}"
+                [(E164PhoneNumber)]="view.currentShop.phone">
+            </intl-tel-input>
+            <small id="whatsappNumberHelp" class="text-muted ms-2">Lo usaremos para enviarte
+                los
+                pedidos que
+                realicen tus clientes.</small>
+            <div class="my-3">
+                <label class="form-label" for="password">Link de tu negocio</label>
+                <div class="d-flex justifiy-content-center align-items-center gap-2">
+                    <p class="d-inline text-muted m-0">https://encarga.shop/</p>
+                    <input [(ngModel)]="view.currentShop.path" name="url" type="text" class="form-control w-auto"
+                        id="url" aria-describedby="urlHelp" required placeholder="tu-negocio" pattern="^[a-z0-9\-]+$"
+                        (keyup)="onUrlInputChange()">
+                    <small id="urlHelp" class="form-text text-muted">Este será el link a tu negocio. Solo se aceptan
+                        minúsculas, números y guiones</small>
                 </div>
-                <span>Guardando...</span>
-            </ng-template>
-        </button>
 
-    </app-formulario>
+            </div>
+            <button class="btn btn-primary btn-lg bg-gradient mt-3 text-white" type="submit">
+                <strong *ngIf="!view.saving; else templateSaving">Guardar</strong>
+                <ng-template #templateSaving>
+                    <div class="spinner-border spinner-border-sm me-2" role="status">
+                    </div>
+                    <span>Guardando...</span>
+                </ng-template>
+            </button>
+
+        </app-formulario>
+    </ng-container>
+
+    <ng-template #loadingTemplate>
+        <app-loading></app-loading>
+    </ng-template>
 
 </div>
