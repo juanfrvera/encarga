@@ -1,8 +1,0 @@
-{
-  "type": "postgres",
-  "url": "postgres://postgres:postgres@localhost:5432",
-  "entities": [
-    "./dist/**/*.typeorm.model.js"
-  ],
-  "synchronize": true
-}
