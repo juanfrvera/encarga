@@ -15,14 +15,18 @@ export class AdminComponent implements OnInit {
 
   constructor(
     private readonly shopFacade: ShopFacade
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.view.shopList = this.shopFacade.getList();
 
     this.shopFacade.channel.subscribe(signal => {
-      if(signal.type === 'shopListUpdated'){
+      if (signal.type === 'shopListUpdated') {
         this.view.shopList = signal.data.shops
+      }
+      if (signal.type === 'shopUpdated') {
+        this.view.shopList = [];
+        this.view.shopList.push(signal.data.shop);
       }
     })
   }

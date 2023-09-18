@@ -31,17 +31,24 @@ export class ShopFacade {
         return response;
     }
 
-    public update(id: string, data: Partial<ShopData>) {
-        return this.apiService.update(id, data);
+    public async update(id: string, data: Partial<ShopData>) {
+        const response = await this.apiService.update(id, data);
+        this.channel.next({ type: 'shopUpdated', data: { shop: response } })
+        return response;
     }
 
 }
 
 namespace ShopChannel {
-    export type Signal = IShopListUpdatedSignal;
+    export type Signal = IShopListUpdatedSignal | IShopUpdatedSignal;
 
     interface IShopListUpdatedSignal {
         type: 'shopListUpdated';
         data: { shops: ShopLite[] };
+    }
+
+    interface IShopUpdatedSignal {
+        type: 'shopUpdated';
+        data: { shop: ShopLite }
     }
 }

@@ -37,6 +37,13 @@ export class ShopApiService {
     }
 
     public update(id: string, data: Partial<ShopData>) {
-        return this.httpClient.patch<ShopLite>(`${this.path}/${id}`, data).toPromise();
+        return this.httpClient.patch<ShopLite>(`${this.path}/${id}`, data).pipe(
+            tap(data => {
+                // saving shoplist to local storage
+                let shopList: ShopLite[] = [];
+                shopList.push(data);
+                this.shopService.setList(shopList);
+            })
+        ).toPromise();
     }
 }
