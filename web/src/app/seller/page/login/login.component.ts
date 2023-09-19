@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { FormularioComponent } from 'src/app/shared/component/formulario/formulario.component';
 import { AuthService } from 'src/app/seller/service/auth.service';
 import { SwalService } from 'src/app/seller/service/swal.service';
+import { LocaleService } from 'src/app/shared/service/locale.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +37,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private readonly auth: AuthService,
     private readonly router: Router,
-    private readonly swalService: SwalService) { }
+    private readonly swalService: SwalService,
+    private readonly localeService: LocaleService,
+    ) { }
 
   ngOnInit(): void {
   }
@@ -50,11 +54,13 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('admin');
         },
         // Error  
-        () => {
+        (res: HttpErrorResponse) => {
+          const text = this.localeService.getUserFriendlyError(res.error);
           this.swalService.fire({
             icon: 'error',
             iconColor: SwalService.errorColor,
-            title: 'Ocurrió un error',
+            title: 'Error',
+            text,
             confirmButtonText: 'Aceptar',
           });
 
