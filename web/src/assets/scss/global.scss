@@ -29,8 +29,8 @@ label {
   background-color: #fc453c21;
 }
 
-.btn-primary, .btn-primary:hover, .btn-primary:disabled, .btn-primary:active, .btn-primary:focus {
-  color: #fdfcfa;
+.btn-primary, .btn-primary:hover, .btn-primary:disabled, .btn-primary:active, .btn-primary:focus, .btn-primary:focus-visible {
+  color: #fdfcfa !important;
 }
 
 .btn-outline-primary:hover {
