@@ -28,6 +28,7 @@ export class RegisterComponent {
 
             this.auth.register(this.view.email, this.view.password).subscribe(
                 () => {
+                    this.view.registering = false;
                     this.router.navigateByUrl('admin/config');
                 },
                 // Error  
@@ -40,9 +41,8 @@ export class RegisterComponent {
                         keydownListenerCapture: true,
                         confirmButtonText: 'Continuar'
                     });
-                },
-                () => {
                     this.view.registering = false;
+
                 });
         }
         else {
