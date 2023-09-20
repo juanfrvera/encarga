@@ -1,3 +1,4 @@
 {
-    "incorrect_credentials": "Usuario y/o contraseña incorrectos"
+    "incorrect_credentials": "Email y/o contraseña incorrectos",
+    "user_already_registered": "Este email ya ha sido registrado"
 }

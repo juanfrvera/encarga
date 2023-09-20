@@ -3,6 +3,8 @@ import { Router } from "@angular/router";
 import { FormularioComponent } from "src/app/shared/component/formulario/formulario.component";
 import { AuthService } from "../../service/auth.service";
 import { SwalService } from "../../service/swal.service";
+import { HttpErrorResponse } from "@angular/common/http";
+import { LocaleService } from "src/app/shared/service/locale.service";
 
 @Component({
     templateUrl: "./register.component.html",
@@ -16,11 +18,11 @@ export class RegisterComponent {
     constructor(
         private router: Router,
         private readonly auth: AuthService,
-        private readonly swalService: SwalService
+        private readonly swalService: SwalService,
+        private readonly localeService: LocaleService
 
     ) { }
     public submitClicked() {
-        console.log('clickeado')
         if (this.formulario.isValid()) {
             this.view.registering = true;
 
@@ -29,11 +31,12 @@ export class RegisterComponent {
                     this.router.navigateByUrl('admin/config');
                 },
                 // Error  
-                () => {
+                (res: HttpErrorResponse) => {
+                    const text = this.localeService.getUserFriendlyError(res.error);
                     this.swalService.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Ocurrió un error inesperado',
+                        text,
                         keydownListenerCapture: true,
                         confirmButtonText: 'Continuar'
                     });
