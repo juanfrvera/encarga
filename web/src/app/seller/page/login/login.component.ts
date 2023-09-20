@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
       this.auth.login(this.Mail, this.Password).subscribe(
         () => {
           this.ingresando = false;
-          this.router.navigateByUrl('admin');
+          this.router.navigateByUrl('admin/productos');
         },
         // Error  
         (res: HttpErrorResponse) => {
