@@ -38,8 +38,7 @@
               "src/assets/scss/styles.scss"
             ],
             "scripts": [
-              "./node_modules/intl-tel-input/build/js/utils.js",
-              "./node_modules/bootstrap/dist/js/bootstrap.js"
+              "./node_modules/intl-tel-input/build/js/utils.js"
             ]
           },
           "configurations": {
@@ -53,7 +52,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "8kb"
                 }
               ],
               "fileReplacements": [
