@@ -9,6 +9,8 @@ import { Item } from '../../data/item/item.data';
 import { ItemLite } from '../../data/item/item-lite.data';
 import { SwalService } from '../../service/swal.service';
 import Swal from 'sweetalert2';
+import { LocaleService } from 'src/app/shared/service/locale.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-item',
@@ -35,7 +37,8 @@ export class ItemComponent implements OnInit {
   constructor(
     private readonly categoryFacade: CategoryFacade,
     private readonly itemFacade: ItemFacade,
-    private readonly swalService: SwalService
+    private readonly swalService: SwalService,
+    private readonly localeService: LocaleService
   ) { }
 
   ngOnInit(): void {
@@ -66,9 +69,9 @@ export class ItemComponent implements OnInit {
         this.view.modal.item = { ...item };
       }
     })
-      .catch(error => {
+      .catch((res: HttpErrorResponse) => {
         if (this.view.modal) {
-          this.view.modal.error = 'Ocurrió un error inesperado';
+          this.view.modal.error = this.localeService.getUserFriendlyError(res.error);
           this.view.modal.disableSaveButton = true;
         }
       })
@@ -94,8 +97,9 @@ export class ItemComponent implements OnInit {
       preConfirm: () => {
         return this.itemFacade.delete(item._id).then(() => { })
           .catch(
-            () => {
-              Swal.showValidationMessage('Ocurrió un error al eliminar');
+            (res: HttpErrorResponse) => {
+              const message = this.localeService.getUserFriendlyError(res.error);
+              Swal.showValidationMessage('Error: ' + message);
             }
           );
       },
@@ -155,13 +159,14 @@ export class ItemComponent implements OnInit {
               if (index > -1) this.view.items[index] = this.itemToItemUI(item, this.view.categories);
             }
           })
-            .catch((error) => {
+            .catch((res: HttpErrorResponse) => {
               if (this.view.modal) this.view.modal.saving = false;
 
+              const text = this.localeService.getUserFriendlyError(res.error);
               this.swalService.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Ocurrió un error inesperado',
+                text,
                 keydownListenerCapture: true,
                 confirmButtonText: 'Continuar'
               })
@@ -186,13 +191,14 @@ export class ItemComponent implements OnInit {
             this.modal.close();
             if (this.view.items) this.view.items.push(this.itemToItemUI(item, this.view.categories));
           })
-            .catch(error => {
+            .catch((res: HttpErrorResponse) => {
               if (this.view.modal) this.view.modal.saving = false;
 
+              const text = this.localeService.getUserFriendlyError(res.error);
               this.swalService.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Ocurrió un error inesperado',
+                text,
                 keydownListenerCapture: true,
                 confirmButtonText: 'Continuar'
               })

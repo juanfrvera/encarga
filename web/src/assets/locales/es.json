@@ -2,5 +2,7 @@
     "incorrect_credentials": "Email y/o contraseña incorrectos",
     "user_already_registered": "Este email ya ha sido registrado",
     "category_not_found": "Categoría no encontrada. Intente más tarde",
-    "forbidden_category": "No puedes editar esta categoría"
+    "forbidden_category": "No puedes manipular esta categoría",
+    "item_not_found": "Producto no encontrado. Intente más tarde",
+    "forbidden_item": "No puedes manipular este producto"
 }
