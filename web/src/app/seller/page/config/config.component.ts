@@ -6,6 +6,8 @@ import { ShopFacade } from "../../feature/shop/shop.facade";
 import { IntlTelInputComponent } from "intl-tel-input-ng";
 import { ShopLite } from "../../data/shop/shop-lite.data";
 import { Shop } from "../../data/shop/shop.data";
+import { HttpErrorResponse } from "@angular/common/http";
+import { LocaleService } from "src/app/shared/service/locale.service";
 
 @Component({
     selector: 'app-config',
@@ -33,7 +35,8 @@ export class ConfigComponent implements OnInit, AfterViewInit {
 
     constructor(
         private readonly swalService: SwalService,
-        private readonly shopFacade: ShopFacade
+        private readonly shopFacade: ShopFacade,
+        private readonly localeService: LocaleService
     ) { }
 
 
@@ -81,14 +84,15 @@ export class ConfigComponent implements OnInit, AfterViewInit {
                             this.view.saving = false;
 
                         })
-                            .catch((error) => {
+                            .catch((res: HttpErrorResponse) => {
                                 this.view.submitted = false;
                                 this.view.saving = false;
 
+                                const text = this.localeService.getUserFriendlyError(res.error)
                                 this.swalService.fire({
                                     icon: 'error',
                                     title: 'Error',
-                                    text: 'Ocurrió un error inesperado',
+                                    text,
                                     keydownListenerCapture: true,
                                     confirmButtonText: 'Continuar'
                                 })
@@ -112,14 +116,15 @@ export class ConfigComponent implements OnInit, AfterViewInit {
 
                         
                     })
-                        .catch((error) => {
+                        .catch((res: HttpErrorResponse) => {
                             this.view.submitted = false;
                             this.view.saving = false;
 
+                            const text = this.localeService.getUserFriendlyError(res.error);
                             this.swalService.fire({
                                 icon: 'error',
                                 title: 'Error',
-                                text: 'Ocurrió un error inesperado',
+                                text,
                                 keydownListenerCapture: true,
                                 confirmButtonText: 'Continuar'
                             })

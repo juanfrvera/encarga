@@ -4,5 +4,9 @@
     "category_not_found": "Categoría no encontrada. Intente más tarde",
     "forbidden_category": "No puedes manipular esta categoría",
     "item_not_found": "Producto no encontrado. Intente más tarde",
-    "forbidden_item": "No puedes manipular este producto"
+    "forbidden_item": "No puedes manipular este producto",
+    "user_not_found": "Usuario no encontrado. Intente más tarde",
+    "forbidden_shop": "No puedes manipular este negocio",
+    "shop_not_found": "Negocio no encontrado. Intente más tarde",
+    "shop_path_already_registered": "El link ingresado se encuentra en uso. Intente ingresar uno diferente"
 }
