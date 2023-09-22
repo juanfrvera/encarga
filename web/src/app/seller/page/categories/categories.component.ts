@@ -3,6 +3,8 @@ import { CategoryFacade } from '../../feature/category/category.facade';
 import { CategoryLite } from '../../data/category/category-lite.data';
 import { SwalService } from '../../service/swal.service';
 import Swal from 'sweetalert2';
+import { LocaleService } from 'src/app/shared/service/locale.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-categories',
@@ -18,7 +20,8 @@ export class CategoryComponent implements OnInit {
 
   constructor(
     public categoryFacade: CategoryFacade,
-    private swalService: SwalService
+    private swalService: SwalService,
+    private localeService: LocaleService
   ) { }
 
   ngOnInit(): void {
@@ -59,8 +62,9 @@ export class CategoryComponent implements OnInit {
       preConfirm: () => {
         return this.categoryFacade.delete(id).then(() => { })
           .catch(
-            () => {
-              Swal.showValidationMessage('Ocurrió un error al eliminar');
+            (res: HttpErrorResponse) => {
+              const message = this.localeService.getUserFriendlyError(res.error);
+              Swal.showValidationMessage('Error: ' + message);
             }
           );
       },
@@ -100,13 +104,14 @@ export class CategoryComponent implements OnInit {
           confirmButtonText: 'Continuar'
         })
       })
-        .catch((error) => {
+        .catch((res: HttpErrorResponse) => {
           cat.saving = false;
 
+          const text = this.localeService.getUserFriendlyError(res.error);
           this.swalService.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Ocurrió un error inesperado',
+            text,
             keydownListenerCapture: true,
             confirmButtonText: 'Continuar'
           })
@@ -130,13 +135,14 @@ export class CategoryComponent implements OnInit {
         })
 
       })
-        .catch(error => {
+        .catch((res: HttpErrorResponse) => {
           cat.saving = false;
 
+          const text = this.localeService.getUserFriendlyError(res.error);
           this.swalService.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Ocurrió un error inesperado',
+            text,
             keydownListenerCapture: true,
             confirmButtonText: 'Continuar'
           })
