@@ -3,7 +3,6 @@ import { provider as authInterceptorProvider } from './interceptor/auth.intercep
 import { AdminComponent } from "./page/admin.component";
 import { DashboardComponent } from "./page/dashboard/dashboard.component";
 import { ItemComponent } from "./page/item/item.component";
-import { CrudComponent } from "./component/crud/crud.component";
 import { FormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { CategoryComponent } from "./page/categories/categories.component";
@@ -57,7 +56,6 @@ import { ShopApiService } from "./service/shop.api.service";
         LoginComponent,
         RegisterComponent,
         // Component
-        CrudComponent,
         LoadingComponent,
         ModalComponent,
         ModalCrudComponent
