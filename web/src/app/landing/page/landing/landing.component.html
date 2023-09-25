@@ -6,10 +6,10 @@
                 <a href="#" class="navbar-brand"><img src="../../../assets/logo/small-oscuro.svg" width="150"
                         height="auto" class="px-2" alt=""></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
-                    aria-controls="navbarToggler" aria-expanded="true" aria-label="Toggle navigation">
+                    aria-controls="navbarToggler" aria-expanded="true" aria-label="Toggle navigation" (click)="toggleMenu()">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarToggler">
+                <div #nav class="collapse navbar-collapse text-center" id="navbarToggler">
                     <ul class="navbar-nav text-16 me-auto mb-2 mb-lg-0" data-bs-toggle="collapse"
                         data-bs-target=".navbar-collapse">
                         <li class="nav-item" role="button">

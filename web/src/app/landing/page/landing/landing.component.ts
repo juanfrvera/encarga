@@ -10,8 +10,10 @@ export class LandingComponent implements OnInit {
   @ViewChild('caracteristicas') caracteristicasSection!: ElementRef<HTMLElement>;
   @ViewChild('nosotros') nosotrosSection!: ElementRef<HTMLElement>;
   @ViewChild('contacto') contactoSection!: ElementRef<HTMLElement>;
+  @ViewChild('nav') menu!: ElementRef<HTMLElement>;
 
   activeSection: string = 'inicio';
+  private isOpen = false;
 
   constructor() { }
 
@@ -72,6 +74,9 @@ export class LandingComponent implements OnInit {
 
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
+      this.menu.nativeElement.classList.remove("show");
+      this.isOpen = false;
+
     }
   }
 
@@ -95,6 +100,18 @@ export class LandingComponent implements OnInit {
     else {
       this.activeSection = '';
     }
+  }
+
+  public toggleMenu() {
+    if(!this.isOpen) {
+      this.menu.nativeElement.classList.add("show");
+      this.isOpen = true;
+    }
+    else {
+      this.menu.nativeElement.classList.remove("show");
+      this.isOpen = false;
+    }
+
   }
 
 
