@@ -3,11 +3,12 @@
         <div class="container-fluid ">
             <a href="#" class="navbar-brand"><img src="../../../assets/logo/small-oscuro.svg" width="150" height="auto"
                     class="px-2" alt=""></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAdmin"
-                aria-controls="navbarAdmin" aria-expanded="true" aria-label="Toggle navigation">
+            <button class="navbar-toggler border-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarAdmin" aria-controls="navbarAdmin" aria-expanded="true"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarAdmin">
+            <div class="collapse navbar-collapse ms-2 ms-lg-0" id="navbarAdmin">
                 <ul class="navbar-nav text-16 me-auto mb-2 mb-lg-0" data-bs-toggle="collapse"
                     data-bs-target=".navbar-collapse">
                     <!-- <li class="nav-item" role="button">
@@ -15,13 +16,15 @@
                         </a>
                     </li> -->
                     <li class="nav-item" role="button">
-                        <a class="nav-link" routerLink="/admin/productos" [ngClass]="!view.shopList || !view.shopList.length ? 'disabled' : ''"> <i
+                        <a class="nav-link" routerLink="/admin/productos"
+                            [ngClass]="!view.shopList || !view.shopList.length ? 'disabled' : ''"> <i
                                 class="fas fa-list me-1"></i>Productos
                         </a>
 
                     </li>
                     <li class="nav-item" role="button">
-                        <a class="nav-link" routerLink="/admin/categorias" [ngClass]="!view.shopList || !view.shopList.length ? 'disabled' : ''"> <i
+                        <a class="nav-link" routerLink="/admin/categorias"
+                            [ngClass]="!view.shopList || !view.shopList.length ? 'disabled' : ''"> <i
                                 class="fas fa-tags me-1"></i>Categorías
                         </a>
                     </li>
@@ -36,10 +39,11 @@
                 <app-loading *ngIf="!view.shopList; else shopTemplate" class="me-3"></app-loading>
 
                 <ng-template #shopTemplate>
-                    <small *ngIf="view.shopList" class="me-3 mt-0 fw-bold form-text"> Bienvenido{{ view.shopList.length > 0 ? ', ' + view.shopList[0].name : '' }}</small>
+                    <small *ngIf="view.shopList" class="me-3 mt-0 fw-bold form-text"> Bienvenido{{ view.shopList.length
+                        > 0 ? ', ' + view.shopList[0].name : '' }}</small>
                 </ng-template>
 
-                <a class="btn btn-outline-primary bg-gradient" routerLink=''><strong>Salir</strong></a>
+                <a class="btn btn-sm btn-outline-primary bg-gradient d-block nav__button mt-2 mt-lg-0" routerLink=''><strong>Salir</strong></a>
             </div>
         </div>
     </nav>
