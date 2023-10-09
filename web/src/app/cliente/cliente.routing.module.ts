@@ -18,7 +18,7 @@ const routes: Routes = [
         ]
     },
     {
-        path: ':urlComercio',
+        path: `:${routeData.comercioUrlParameter}`,
         component: PedidoComponent,
         children: [
             { path: '', component: HomeComponent },

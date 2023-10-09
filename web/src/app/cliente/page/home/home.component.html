@@ -1,69 +1,37 @@
 <div class="card mt-4">
   <div class="card-body p-0">
-    <div *ngIf="!model.loadingCategoriaList; else cargandoTodo">
+    <div *ngIf="ui.accordionCategories; else cargandoTodo">
       <div #accordion class="accordion w-100" id="accordionCategorias">
         <!-- Categoria -->
-        <div
-          *ngFor="
-            let catWithItems of model.categoriaWithItemsList;
-            index as i;
-            first as esPrimera
-          "
-          class="accordion-item"
-          (show.bs.collapse)="categoriaWillShow(i)"
-          (hidden.bs.collapse)="categoriaHidden(i)"
-        >
-          <h2
-            class="accordion-header"
-            id="heading{{ catWithItems.categoria.id }}"
-          >
-            <button
-              class="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              [attr.data-bs-target]="'#collapse' + catWithItems.categoria.id"
-              aria-expanded="false"
-              [attr.aria-controls]="'collapse' + catWithItems.categoria.id"
-            >
-              <strong class="fs-5">{{ catWithItems.categoria.name }}</strong>
+        <div *ngFor="let accordionCat of ui.accordionCategories; index as i" class="accordion-item"
+          (show.bs.collapse)="loadItems(accordionCat)">
+          <h2 class="accordion-header" id="heading{{ accordionCat._id }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#collapse' + accordionCat._id" aria-expanded="false"
+              [attr.aria-controls]="'collapse' + accordionCat._id">
+              <strong class="fs-5">{{ accordionCat.name }}</strong>
             </button>
           </h2>
-          <div
-            id="collapse{{ catWithItems.categoria.id }}"
-            class="accordion-collapse collapse"
-            [attr.aria-labelledby]="'heading' + catWithItems.categoria.id"
-            data-bs-parent="#accordionCategorias"
-          >
-            <div *ngIf="CurrentCategoriaIndex === i" class="accordion-body">
+          <div id="collapse{{ accordionCat._id }}" class="accordion-collapse collapse"
+            [attr.aria-labelledby]="'heading' + accordionCat._id" data-bs-parent="#accordionCategorias">
+            <div class="accordion-body">
               <!-- Items-->
-              <!-- TODO: no usar metodo en la vista -->
-              <div *ngIf="catWithItems.itemDataListLoaded; else cargando">
+              <div *ngIf="accordionCat.items; else cargando">
                 <div class="list-group list-group-flush px-2">
                   <!-- Item -->
-                  <div
-                    *ngFor="let item of catWithItems.itemDataList"
-                    class="item d-flex w-100 justify-content-between mb-4"
-                  >
+                  <div *ngFor="let item of accordionCat.items" class="item d-flex w-100 justify-content-between mb-4">
                     <div class="izquierda">
                       <h5 class="mb-1 fs-6">{{ item.name }}</h5>
                       <p class="mb-2 text-muted desc">{{ item.description }}</p>
                       <div class="d-flex">
-                        <button
-                          (click)="add(item)"
-                          type="button"
-                          class="btn btn-outline-primary btn-sm rounded-circle"
-                        >
+                        <button type="button" class="btn btn-outline-primary btn-sm rounded-circle">
                           <i class="fas fa-plus"></i>
                         </button>
-                        <div *ngIf="item.count" class="d-flex">
+                        <div class="d-flex">
                           <p class="m-auto px-3">
-                            <strong>{{ item.count }}</strong>
+                            <!-- <strong>{{ item.count }}</strong> -->
                           </p>
-                          <button
-                            (click)="removeItem(item)"
-                            type="button"
-                            class="btn btn-outline-primary btn-sm rounded-circle"
-                          >
+                          <button type="button" class="btn btn-outline-primary btn-sm rounded-circle">
                             <i class="fas fa-minus"></i>
                           </button>
                         </div>
@@ -84,23 +52,13 @@
 </div>
 <!-- Toast -->
 <div class="position-sticky p-3 bottom-0" style="z-index: 11;">
-  <div
-    #toast
-    class="toast text-white bg-primary bg-gradient"
-    role="alert"
-    aria-live="assertive"
-    aria-atomic="true"
-    data-bs-autohide="false"
-  >
+  <div #toast class="toast text-white bg-primary bg-gradient" role="alert" aria-live="assertive" aria-atomic="true"
+    data-bs-autohide="false">
     <div class="toast-body">
       <span class="precio fs-5">
-        <strong>${{ model.total }}</strong>
+        <strong>${{ ui.total }}</strong>
       </span>
-      <button
-        (click)="continue()"
-        type="button"
-        class="btn btn-primary continuar border-white"
-      >
+      <button type="button" class="btn btn-primary continuar border-white">
         <strong>Ver mi pedido</strong>
       </button>
     </div>
@@ -108,9 +66,7 @@
 </div>
 <!-- Cargando para todo -->
 <ng-template #cargandoTodo>
-  <div
-    class="d-flex flex-column justify-content-center align-items-center vh-100"
-  >
+  <div class="d-flex flex-column justify-content-center align-items-center vh-100">
     <div class="spinner-border text-primary" role="status"></div>
     <span class="mt-3">Cargando...</span>
   </div>

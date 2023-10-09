@@ -5,7 +5,7 @@ import { PedidoService } from "../service/pedido.service";
 
 @Injectable()
 export class UrlComercioInterceptor implements HttpInterceptor {
-    public static readonly HeaderName = "comercio_url";
+    public static readonly HeaderName = "Shop_path";
 
     constructor(private pedidoService: PedidoService) { }
 

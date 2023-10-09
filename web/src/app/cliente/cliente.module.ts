@@ -7,13 +7,11 @@ import { DetalleComponent } from "./page/detalle/detalle.component";
 import { HomeComponent } from "./page/home/home.component";
 import { PedidoComponent } from "./page/pedido.component";
 import { ApiService } from "./service/api.service";
-import { CategoriaService } from "./service/categoria.service";
+import { CategoryService } from "./service/category.service";
 import { ItemService } from "./service/item.service";
 import { PedidoService } from "./service/pedido.service";
-import { provider as mockInterceptorProvider } from "./interceptor/mock.interceptor";
 import { provider as urlComercioInterceptorProvider } from "./interceptor/url-comercio.interceptor";
 import { HttpClientModule } from "@angular/common/http";
-import { ComercioService } from "./service/comercio.service";
 
 @NgModule({
     imports: [
@@ -33,13 +31,11 @@ import { ComercioService } from "./service/comercio.service";
     ],
     providers: [
         ApiService,
-        CategoriaService,
-        ComercioService,
+        CategoryService,
         ItemService,
         PedidoService,
         // Interceptor (order is important)
         urlComercioInterceptorProvider,
-        mockInterceptorProvider,
     ]
 })
 export class ClienteModule { }

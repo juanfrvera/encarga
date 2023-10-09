@@ -3,19 +3,14 @@ import { PedidoService } from '../../service/pedido.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Toast } from 'bootstrap';
-import { CategoriaService } from 'src/app/cliente/service/categoria.service';
-import { CategoriaLightDto } from '../../dto/categoria.light.dto';
+import { CategoryService } from 'src/app/cliente/service/category.service';
 import { ItemService } from '../../service/item.service';
-import { ItemLightDto } from '../../dto/item.light.dto';
-import { ItemData } from '../../data/item.data';
-import { ComercioService } from '../../service/comercio.service';
+import { CategoryLite } from '../../data/category/category-lite.data';
+import { ItemLite } from '../../data/item/item-lite.data';
 
-interface CategoriaWithItemsViewModel {
-  categoria: CategoriaLightDto;
-  itemDataList?: Array<ItemData>;
-  itemDataListLoaded: boolean;
-  loadingItemDataList: boolean;
-  errorText?: string;
+
+interface IAccordionCategory extends CategoryLite {
+  items?: ItemLite[];
 }
 
 @Component({
@@ -29,61 +24,62 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private toast: Toast;
 
-  /** Categoría actual en accordion */
-  private currentCategoriaIndex?: number;
+  public ui: {
+    accordionCategories?: IAccordionCategory[],
+    total: number
+  } = {
+      total: 0
+    }
 
-  public model: {
-    categoriaWithItemsList?: Array<CategoriaWithItemsViewModel>;
-    loadingCategoriaList: boolean;
-    total?: number;
-  };
-
-  public get CurrentCategoriaIndex() {
-    return this.currentCategoriaIndex;
-  }
+  private catCount: number;
+  private orphanCount: number;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private readonly categoriaService: CategoriaService,
-    private readonly comercioService: ComercioService,
+    private readonly categoryService: CategoryService,
     private readonly itemService: ItemService,
     private readonly pedidoService: PedidoService,
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.toast = new Toast(this.toastElement.nativeElement, { autohide: false });
+    let catCount: number;
+    let orphanCount: number;
+    try {
+      // Get count of categories for this shop
+      catCount = await this.categoryService.count();
+    } catch (error) {
+      // If error is because there's no shop, redirect to 404 page
+      console.log('No shop found, show 404 page');
+      return;
+    }
 
-    this.model = {
-      loadingCategoriaList: true
-    };
+    // Get count of orphan items for this shop
+    orphanCount = await this.itemService.orphanCount();
 
-    this.comercioService.getDefaultCategoriaId().subscribe(defaultCategoriaId => {
+    // If there are categories
+    if (catCount > 0) {
+      // Get categories and add to accordion without items loaded
+      const categories = await this.categoryService.getList();
+      this.ui.accordionCategories = [...categories];
 
-      this.categoriaService.getList().subscribe(list => {
-        this.model.categoriaWithItemsList = list.map(c => {
-          if (c.id == defaultCategoriaId) {
-            if (list.length == 1) {
-              c.name = 'Todo';
-            }
-            else {
-              c.name = 'Otros';
-            }
-          }
+      // If it also has orphan items, add that category without items loaded too
+      if (orphanCount > 0) {
+        this.ui.accordionCategories.push({ _id: 'orphan', name: 'Otros' });
+      }
+    }
+    // If there arent any categories
+    else if (orphanCount > 0) {
+      // Add "all" category without items loaded too
+      this.ui.accordionCategories = [{ _id: 'orphan', name: 'Todos' }];
+    } else {
+      this.ui.accordionCategories = [];
+    }
 
-          return {
-            categoria: c,
-            itemDataListLoaded: false,
-            loadingItemDataList: false
-          };
-        });
-
-        this.model.loadingCategoriaList = false;
-      });
-    });
 
     if (this.pedidoService.hayPedido()) {
-      this.reflectPedido();
+      //this.reflectPedido();
     }
   }
 
@@ -91,42 +87,33 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.hideToast();
   }
 
+  public loadItems(accordionCategory: IAccordionCategory) {
+    if (!accordionCategory.items) {
+      this.itemService.getListByCategoryId(accordionCategory._id).then(list => {
+        accordionCategory.items = list;
+      });
+    }
+  }
 
-  /** Agrega el producto al pedido, sumandolo al total */
-  public add(item: ItemLightDto) {
-    const itemData = this.getItemData(item.id);
+  /** Agrega el producto al pedido, sumandolo al total 
+  public add(item: ItemLite) {
+    const itemData = this.getItemData(item._id);
 
     if (itemData) {
       itemData.count++;
 
-      if (!this.model.total) {
-        this.model.total = 0;
+      if (!this.ui.total) {
+        this.ui.total = 0;
       }
 
-      this.model.total += item.price ?? 0;
+      this.ui.total += item.price ?? 0;
       this.showToast();
 
-      this.pedidoService.add(item.id);
+      this.pedidoService.add(item._id);
     }
     else {
       console.error('Ocurrió un error al querer agregar el item');
     }
-  }
-
-  // Cuando una categoría será mostrada (todavía no se hizo la animación de abrir accordion)
-  public categoriaWillShow(index: number) {
-    if (this.model.categoriaWithItemsList) {
-      const categoriaWithItems = this.model.categoriaWithItemsList[index];
-      if (!categoriaWithItems.itemDataListLoaded && !categoriaWithItems.loadingItemDataList) {
-        this.loadItemDataListForCategoria(categoriaWithItems);
-      }
-    }
-
-    this.currentCategoriaIndex = index;
-  }
-
-  // Cuando una categoría fue ocultada (la animación de ocultar accordion ya terminó)
-  public categoriaHidden(index: number) {
   }
 
   public itemCount(itemId: string) {
@@ -170,8 +157,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     return null;
   }
+  */
 
-  /** Quita el producto al pedido, restandolo del total */
+  /** Quita el producto al pedido, restandolo del total 
   public removeItem(item: ItemLightDto) {
     const objetoCantidad = this.getItemData(item.id);
     // Se fija que la cantidad este en 0 para no pasar a nros negativos
@@ -197,7 +185,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.pedidoService.remove(item.id);
   }
 
-  /** Continua a la pagina de detalle */
+  */
+
+  /** Continua a la pagina de detalle 
   public continue() {
     this.router.navigate(['detalle'], { relativeTo: this.route });
   }
@@ -206,28 +196,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     return this.model.total;
   }
 
-  private loadItemDataListForCategoria(categoriaWithItems: CategoriaWithItemsViewModel) {
-    categoriaWithItems.loadingItemDataList = true;
-
-    this.itemService.getListByCategoriaId(categoriaWithItems.categoria.id).subscribe(list => {
-      categoriaWithItems.itemDataList = list.map(item => {
-        return {
-          id: item.id,
-          count: this.pedidoService.getItemCount(item.id),
-          description: item.description,
-          name: item.name,
-          price: item.price
-        }
-      });
-
-      categoriaWithItems.itemDataListLoaded = true;
-      categoriaWithItems.loadingItemDataList = false;
-    },
-      () => {
-        categoriaWithItems.errorText = 'Ocurrió un error inesperado';
-        categoriaWithItems.loadingItemDataList = false;
-      });
-  }
+  */
 
   /** Muestra el toast */
   private showToast() {
@@ -239,7 +208,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.toast.hide();
   }
 
-  /** Carga las cantidades pedidas a los items con cantidad y calcula la variable total */
+  /** Carga las cantidades pedidas a los items con cantidad y calcula la variable total 
   private reflectPedido() {
     this.model.total = 0;
 
@@ -268,4 +237,5 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     });
   }
+  */
 }

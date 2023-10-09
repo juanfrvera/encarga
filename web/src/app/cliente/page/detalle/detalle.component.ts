@@ -47,27 +47,27 @@ export class DetalleComponent implements OnInit {
       // Obtiene los id de los items
       const itemIds = pedido.lines?.map(lp => lp.itemId);
       // Pedir items para esos ids y guardarlos con su cantidad
-      this.itemService.getListByIdList(itemIds).subscribe(itemList => {
-        this.itemDataList = itemList.map(item => {
-          // Linea correspondiente a este item mapeado
-          const pedidoLine = pedido.lines.find(linea => linea.itemId === item.id) ?? { count: 0 };
+      // this.itemService.getListByIdList(itemIds).subscribe(itemList => {
+      //   this.itemDataList = itemList.map(item => {
+      //     // Linea correspondiente a este item mapeado
+      //     const pedidoLine = pedido.lines.find(linea => linea.itemId === item.id) ?? { count: 0 };
 
-          // Aprovecho para calcular el total
-          if (item.price) {
-            this.total += item.price * pedidoLine.count;
-          }
+      //     // Aprovecho para calcular el total
+      //     if (item.price) {
+      //       this.total += item.price * pedidoLine.count;
+      //     }
 
-          // Convierte un item a item con cantidad
-          // Descomponiendo las propiedades de item y agregandole cantidad
-          return {
-            id: item.id,
-            count: pedidoLine.count,
-            description: item.description,
-            name: item.name,
-            price: item.price
-          };
-        });
-      });
+      //     // Convierte un item a item con cantidad
+      //     // Descomponiendo las propiedades de item y agregandole cantidad
+      //     return {
+      //       id: item.id,
+      //       count: pedidoLine.count,
+      //       description: item.description,
+      //       name: item.name,
+      //       price: item.price
+      //     };
+      //   });
+      // });
     }
     else {
       // La lista vacía significa que el carrito está vacío y muestra el #emptyState

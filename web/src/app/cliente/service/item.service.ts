@@ -1,31 +1,32 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { ItemLightDto } from "../dto/item.light.dto";
 import { ApiService } from "./api.service";
+import { ItemLite } from "../data/item/item-lite.data";
 
 @Injectable()
 export class ItemService {
-    private readonly endpoint = 'item/';
-
     constructor(
         private readonly httpClient: HttpClient,
         private readonly apiService: ApiService
     ) { }
 
-    public getListByCategoriaId(categoriaId: string): Observable<Array<ItemLightDto>> {
-        return this.httpClient.get<Array<ItemLightDto>>(
-            this.apiService.Url + this.endpoint, {
-            params: { categoriaId }
-        });
+    private readonly path = `${this.apiService.Url}/items`
+
+    public getListByCategoryId(categoryId: string) {
+        return this.httpClient.get<ItemLite[]>(`${this.path}/by-category/${categoryId}`).toPromise();
     }
 
-    public getListByIdList(idList: Array<string>): Observable<Array<ItemLightDto>> {
-        const filterDto = {
-            idList
-        };
-
-        return this.httpClient.post<Array<ItemLightDto>>(
-            this.apiService.Url + this.endpoint + 'filter', filterDto);
+    public count(categoryId: string) {
+        return this.httpClient.get<number>(`${this.path}/count/by-category/${categoryId}`).toPromise();
     }
+
+    public getOrphanItems() {
+        return this.httpClient.get<ItemLite[]>(`${this.path}/orphans`).toPromise();
+    }
+
+    public orphanCount() {
+        return this.httpClient.get<number>(`${this.path}/count/orphans`).toPromise();
+    }
+
 }
