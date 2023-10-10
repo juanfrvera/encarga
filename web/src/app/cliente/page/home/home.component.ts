@@ -8,11 +8,9 @@ import { ItemService } from '../../service/item.service';
 import { CategoryLite } from '../../data/category/category-lite.data';
 import { ItemLite } from '../../data/item/item-lite.data';
 
-
 interface IAccordionCategory extends CategoryLite {
   items?: ItemLite[];
 }
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -30,9 +28,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   } = {
       total: 0
     }
-
-  private catCount: number;
-  private orphanCount: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -89,9 +84,17 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public loadItems(accordionCategory: IAccordionCategory) {
     if (!accordionCategory.items) {
-      this.itemService.getListByCategoryId(accordionCategory._id).then(list => {
-        accordionCategory.items = list;
-      });
+      if(accordionCategory._id == 'orphan') {
+        this.itemService.getOrphanItems().then(list => {
+          accordionCategory.items = list;
+        })
+      }
+      else {
+        this.itemService.getListByCategoryId(accordionCategory._id).then(list => {
+          accordionCategory.items = list;
+        });
+      }
+      
     }
   }
 
