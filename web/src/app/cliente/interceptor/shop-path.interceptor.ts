@@ -1,21 +1,21 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { PedidoService } from "../service/pedido.service";
+import { OrderService } from "../service/order.service";
 
 @Injectable()
-export class UrlComercioInterceptor implements HttpInterceptor {
-    public static readonly HeaderName = "Shop_path";
+export class shopPathInterceptor implements HttpInterceptor {
+    public static readonly HeaderName = "shop_path";
 
-    constructor(private pedidoService: PedidoService) { }
+    constructor(private orderService: OrderService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let req = request;
 
-        const url = this.pedidoService.UrlComercio;
+        const url = this.orderService.ShopPath;
         if (url) {
             const cloned = request.clone({
-                headers: request.headers.set(UrlComercioInterceptor.HeaderName, url)
+                headers: request.headers.set(shopPathInterceptor.HeaderName, url)
             });
 
             req = cloned;
@@ -28,6 +28,6 @@ export class UrlComercioInterceptor implements HttpInterceptor {
 export const provider =
 {
     provide: HTTP_INTERCEPTORS,
-    useClass: UrlComercioInterceptor,
+    useClass: shopPathInterceptor,
     multi: true
 };

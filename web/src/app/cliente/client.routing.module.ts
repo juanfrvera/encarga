@@ -2,24 +2,24 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DetalleComponent } from './page/detalle/detalle.component';
 import { HomeComponent } from './page/home/home.component';
-import { PedidoComponent } from './page/pedido.component';
+import { ClientComponent } from './page/client.component';
 
 export const routeData = {
-    comercioUrlParameter: 'urlComercio'
+    shopPathParameter: 'shopPath'
 };
 
 const routes: Routes = [
     {
         path: '',
-        component: PedidoComponent,
+        component: ClientComponent,
         children: [
             { path: '', component: HomeComponent },
             { path: 'detalle', component: DetalleComponent }
         ]
     },
     {
-        path: `:${routeData.comercioUrlParameter}`,
-        component: PedidoComponent,
+        path: `:${routeData.shopPathParameter}`,
+        component: ClientComponent,
         children: [
             { path: '', component: HomeComponent },
             { path: 'detalle', component: DetalleComponent }
@@ -31,4 +31,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class ClienteRoutingModule { }
+export class ClientRoutingModule { }

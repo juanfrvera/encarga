@@ -19,13 +19,13 @@ const routes: Routes = [
   },
   {
     path: 'pedido',
-    loadChildren: () => import('./cliente/cliente.module').then(m => m.ClienteModule)
+    loadChildren: () => import('./cliente/client.module').then(m => m.ClientModule)
   },
   // Para comercio real (ponerlo debajo para que no haya conflictos con paths estáticos)
   // Es importante repetir para que funcione
   {
-    path: ':urlComercio',
-    loadChildren: () => import('./cliente/cliente.module').then(m => m.ClienteModule)
+    path: ':shopPath',
+    loadChildren: () => import('./cliente/client.module').then(m => m.ClientModule)
   },
   { path: '**', redirectTo: '/' }
 ];

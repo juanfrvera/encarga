@@ -4,29 +4,28 @@ import { LineaPedido } from '../data/pedido/linea-pedido';
 import { Pedido } from '../data/pedido/pedido';
 import { PedidoDto } from '../data/pedido/pedido.dto';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ItemService } from './item.service';
 
 @Injectable()
-export class PedidoService {
-  private static readonly storageKey = 'pedidos';
-  private urlComercio = new BehaviorSubject<string | null>(null);
-  private urlComercioObs: Observable<string | null>;
+export class OrderService {
+  private static readonly storageKey = 'orders';
+  private shopPath = new BehaviorSubject<string | null>(null);
+  private shopPathObs: Observable<string | null>;
 
   /** Url del comercio actual */
-  public get UrlComercio() {
-    return this.urlComercio.value;
+  public get ShopPath() {
+    return this.shopPath.value;
   }
 
-  public set UrlComercio(url: string | null) {
-    this.urlComercio.next(url);
+  public set ShopPath(url: string | null) {
+    this.shopPath.next(url);
   }
 
-  public get UrlComercioObservable() {
-    if (!this.urlComercioObs) {
-      this.urlComercioObs = this.urlComercio.asObservable();
+  public get ShopPathObservable() {
+    if (!this.shopPathObs) {
+      this.shopPathObs = this.shopPath.asObservable();
     }
 
-    return this.urlComercioObs;
+    return this.shopPathObs;
   }
 
   constructor(
@@ -115,7 +114,7 @@ export class PedidoService {
   public get() {
     const listaDtos = this.getListaPedidos();
 
-    const dto = listaDtos.find(p => p.urlComercio == this.UrlComercio);
+    const dto = listaDtos.find(p => p.urlComercio == this.ShopPath);
 
     if (dto) {
       // Convertir a clase para poder usar funciones y propiedades
@@ -123,13 +122,13 @@ export class PedidoService {
     }
     else {
       // Crear una nueva instancia
-      return new Pedido([], this.UrlComercio);
+      return new Pedido([], this.ShopPath);
     }
   }
 
   // ------------- PRIVADOS --------------
   private getListaPedidos() {
-    const pedidosJson = localStorage.getItem(PedidoService.storageKey);
+    const pedidosJson = localStorage.getItem(OrderService.storageKey);
 
     // El Json obtenido es de una lista de dtos serializables
     return (pedidosJson ? JSON.parse(pedidosJson) : []) as PedidoDto[];
@@ -154,6 +153,6 @@ export class PedidoService {
     }
 
     // Se guarda el dto porque es serializable
-    localStorage.setItem(PedidoService.storageKey, JSON.stringify(listaDtosGuardados));
+    localStorage.setItem(OrderService.storageKey, JSON.stringify(listaDtosGuardados));
   }
 }

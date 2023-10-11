@@ -2,20 +2,21 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
-import { ClienteRoutingModule } from "./cliente.routing.module";
+import { ClientRoutingModule } from "./client.routing.module";
 import { DetalleComponent } from "./page/detalle/detalle.component";
 import { HomeComponent } from "./page/home/home.component";
-import { PedidoComponent } from "./page/pedido.component";
+import { ClientComponent } from "./page/client.component";
 import { ApiService } from "./service/api.service";
 import { CategoryService } from "./service/category.service";
 import { ItemService } from "./service/item.service";
-import { PedidoService } from "./service/pedido.service";
-import { provider as urlComercioInterceptorProvider } from "./interceptor/url-comercio.interceptor";
+import { OrderService } from "./service/order.service";
+import { provider as shopPathInterceptorProvider } from "./interceptor/shop-path.interceptor";
 import { HttpClientModule } from "@angular/common/http";
+import { ShopService } from "./service/shop.service";
 
 @NgModule({
     imports: [
-        ClienteRoutingModule,
+        ClientRoutingModule,
         CommonModule,
 
         // Its imported here to override other interceptors and inject the interceptors of this module
@@ -25,7 +26,7 @@ import { HttpClientModule } from "@angular/common/http";
     ],
     declarations: [
         // Page
-        PedidoComponent,
+        ClientComponent,
         HomeComponent,
         DetalleComponent,
     ],
@@ -33,9 +34,10 @@ import { HttpClientModule } from "@angular/common/http";
         ApiService,
         CategoryService,
         ItemService,
-        PedidoService,
+        OrderService,
+        ShopService,
         // Interceptor (order is important)
-        urlComercioInterceptorProvider,
+        shopPathInterceptorProvider,
     ]
 })
-export class ClienteModule { }
+export class ClientModule { }
