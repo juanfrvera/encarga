@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PedidoService } from '../../service/pedido.service';
+import { OrderService } from '../../service/order.service';
 import { FormularioComponent } from '../../../shared/component/formulario/formulario.component';
 import { Util } from '../../../util';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -37,7 +37,7 @@ export class DetalleComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private readonly itemService: ItemService,
-    private readonly pedidoService: PedidoService
+    private readonly pedidoService: OrderService
   ) { }
 
   ngOnInit() {

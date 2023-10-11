@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { PedidoService } from '../../service/pedido.service';
+import { OrderService } from '../../service/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Toast } from 'bootstrap';
@@ -7,6 +7,7 @@ import { CategoryService } from 'src/app/cliente/service/category.service';
 import { ItemService } from '../../service/item.service';
 import { CategoryLite } from '../../data/category/category-lite.data';
 import { ItemLite } from '../../data/item/item-lite.data';
+import { ShopService } from '../../service/shop.service';
 
 interface IAccordionCategory extends CategoryLite {
   items?: ItemLite[];
@@ -24,9 +25,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public ui: {
     accordionCategories?: IAccordionCategory[],
-    total: number
+    total: number,
+    shopName?: string
   } = {
-      total: 0
+      total: 0,
+      shopName: ''
     }
 
   constructor(
@@ -34,10 +37,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private readonly categoryService: CategoryService,
     private readonly itemService: ItemService,
-    private readonly pedidoService: PedidoService,
+    private readonly pedidoService: OrderService,
+    private readonly shopService: ShopService
   ) { }
 
   async ngOnInit() {
+    this.ui.shopName = await this.shopService.getShopNameByPath();
+
     this.toast = new Toast(this.toastElement.nativeElement, { autohide: false });
     let catCount: number;
     let orphanCount: number;
