@@ -26,14 +26,14 @@
                       <h5 class="mb-1 fs-6">{{ item.name }}</h5>
                       <p class="mb-2 text-muted desc">{{ item.description }}</p>
                       <div class="d-flex">
-                        <button type="button" class="btn btn-outline-primary btn-sm rounded-circle">
+                        <button type="button" class="btn btn-outline-primary btn-sm rounded-circle" (click)="addItem(item, i)">
                           <i class="fas fa-plus"></i>
                         </button>
                         <div class="d-flex">
                           <p class="m-auto px-3">
-                            <!-- <strong>{{ item.count }}</strong> -->
+                            <strong>{{ item.count }}</strong>
                           </p>
-                          <button type="button" class="btn btn-outline-primary btn-sm rounded-circle">
+                          <button type="button" class="btn btn-outline-primary btn-sm rounded-circle" (click)="removeItem(item, i)">
                             <i class="fas fa-minus"></i>
                           </button>
                         </div>

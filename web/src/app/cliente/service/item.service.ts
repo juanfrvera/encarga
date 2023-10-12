@@ -29,4 +29,8 @@ export class ItemService {
         return this.httpClient.get<number>(`${this.path}/count/orphans`).toPromise();
     }
 
+    public getListByIdList(idList: string[]) {
+        return this.httpClient.get<ItemLite[]>(`${this.path}?id=${idList}`).toPromise();
+    }
+
 }

@@ -41,9 +41,9 @@ export class DetalleComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const pedido = this.pedidoService.get();
+    const pedido = this.pedidoService.getOrder();
 
-    if (pedido && pedido.HasItems) {
+    if (pedido && this.pedidoService.hasOrder()) {
       // Obtiene los id de los items
       const itemIds = pedido.lines?.map(lp => lp.itemId);
       // Pedir items para esos ids y guardarlos con su cantidad

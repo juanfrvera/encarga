@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Util } from '../../util';
-import { LineaPedido } from '../data/pedido/linea-pedido';
-import { Pedido } from '../data/pedido/pedido';
-import { PedidoDto } from '../data/pedido/pedido.dto';
+import { OrderLine } from '../data/order/order-line';
+import { Order } from '../data/order/order.data';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class OrderService {
-  private static readonly storageKey = 'orders';
+  private readonly storageKey = 'orders';
   private shopPath = new BehaviorSubject<string | null>(null);
   private shopPathObs: Observable<string | null>;
 
@@ -31,40 +30,41 @@ export class OrderService {
   constructor(
   ) { }
 
-  public hayPedido() {
-    return this.get()?.HasItems ?? false;
+  public hasOrder() {
+    const order = this.getOrder();
+    return order.lines ? true : false
   }
 
   /** Agrega un item al carrito y guarda cambios en el local storage */
   public add(itemId: string) {
-    const pedido = this.get();
+    const order = this.getOrder();
 
     // Si no hay array de lineas, se pondrá en null
-    const lineaPedido = pedido.lines?.find(p => p.itemId === itemId);
+    const orderLine = order.lines?.find(l => l.itemId === itemId);
 
-    if (!lineaPedido) {
+    if (!orderLine) {
       // Inicializar array si este no existe
-      if (!pedido.lines) {
-        pedido.lines = [];
+      if (!order.lines) {
+        order.lines = [];
       }
       // Add item
-      pedido.lines.push({ itemId, count: 1 });
+      order.lines.push({ itemId, count: 1 });
     }
     else {
-      lineaPedido.count++;
+      orderLine.count++;
     }
 
-    this.save(pedido);
+    this.save(order);
   }
 
   public getItemCount(itemId: string): number {
-    const pedido = this.get();
+    const order = this.getOrder();
 
     // Si no hay array de lineas, se pondrá en null
-    const lineaPedido = pedido.lines?.find(p => p.itemId === itemId);
+    const orderLine = order.lines?.find(p => p.itemId === itemId);
 
-    if (lineaPedido) {
-      return lineaPedido.count;
+    if (orderLine) {
+      return orderLine.count;
     }
 
     return 0;
@@ -72,20 +72,20 @@ export class OrderService {
 
   /** Quita un item del carrito y guarda cambios en el local storage */
   public remove(itemId: string) {
-    const pedido = this.get();
+    const order = this.getOrder();
 
-    const lineaPedido = pedido.lines?.find(p => p.itemId == itemId);
+    const orderLine = order.lines?.find(p => p.itemId == itemId);
 
-    if (lineaPedido) {
-      if (lineaPedido.count === 1) {
+    if (orderLine) {
+      if (orderLine.count === 1) {
         // Remove item
-        Util.deleteElement(pedido.lines, lineaPedido);
+        Util.deleteElement(order.lines!, orderLine);
       }
       else {
-        lineaPedido.count--;
+        orderLine.count--;
       }
 
-      this.save(pedido);
+      this.save(order);
     }
     else {
       throw "No se encontró la línea a remover";
@@ -93,66 +93,62 @@ export class OrderService {
   }
 
   /** Quita un item con sus cantidades del carrito y guarda cambios en el local storage */
-  public deleteLine(line: LineaPedido) {
-    const pedido = this.get();
+  public deleteLine(line: OrderLine) {
+    const order = this.getOrder();
     // Se busca por id ya que el objeto pasado puede ser diferente al objeto traido del localstorage
-    const indice = pedido.lines.findIndex(l => l.itemId === line.itemId);
-    Util.deleteAt(pedido.lines, indice);
-
-    this.save(pedido);
+    if(order.lines) {
+      const index = order.lines.findIndex(l => l.itemId === line.itemId);
+      Util.deleteAt(order.lines, index);
+    }  
+    this.save(order);
   }
 
   /** Elimina todos los items con sus cantidades y guarda cambios en el local storage */
   public deleteAllLines() {
-    const pedido = this.get();
+    const order = this.getOrder();
 
-    pedido.lines = [];
+    order.lines = [];
 
-    this.save(pedido);
+    this.save(order);
   }
 
-  public get() {
-    const listaDtos = this.getListaPedidos();
+  public getOrder() {
+    const orderList = this.getOrderList();
 
-    const dto = listaDtos.find(p => p.urlComercio == this.ShopPath);
+    const currentOrder = orderList.find(o => o.shopPath == this.ShopPath);
 
-    if (dto) {
-      // Convertir a clase para poder usar funciones y propiedades
-      return Pedido.fromDto(dto);
+    if (currentOrder) {
+      return currentOrder;
     }
     else {
-      // Crear una nueva instancia
-      return new Pedido([], this.ShopPath);
+      return { lines: undefined, shopPath: this.ShopPath } as Order
     }
   }
 
   // ------------- PRIVADOS --------------
-  private getListaPedidos() {
-    const pedidosJson = localStorage.getItem(OrderService.storageKey);
+  private getOrderList() {
+    const jsonOrder = localStorage.getItem(this.storageKey);
 
-    // El Json obtenido es de una lista de dtos serializables
-    return (pedidosJson ? JSON.parse(pedidosJson) : []) as PedidoDto[];
+    return (jsonOrder ? JSON.parse(jsonOrder) : []) as Order[];
   }
 
   /** Guarda cambios en el localStorage */
-  private save(pedido: Pedido) {
-    const dto = Pedido.toDto(pedido);
-
-    const listaDtosGuardados = this.getListaPedidos();
+  private save(order: Order) {
+    const orderList = this.getOrderList();
 
     // Buscar si hay un pedido guardado con la misma urlComercio
-    const index = listaDtosGuardados.findIndex(p => p.urlComercio == dto.urlComercio);
+    const index = orderList.findIndex(o => o.shopPath == order.shopPath);
 
     if (index >= 0) {
       // Si se encontró, reemplazar el viejo
-      listaDtosGuardados[index] = dto;
+      orderList[index] = order;
     }
     else {
       // Si no se encontró agregarlo
-      listaDtosGuardados.push(dto);
+      orderList.push(order);
     }
 
     // Se guarda el dto porque es serializable
-    localStorage.setItem(OrderService.storageKey, JSON.stringify(listaDtosGuardados));
+    localStorage.setItem(this.storageKey, JSON.stringify(orderList));
   }
 }
