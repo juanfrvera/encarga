@@ -1,8 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ApiService } from "./api.service";
-import { CategoryLite } from "../data/category/category-lite.data";
-
 @Injectable()
 export class ShopService {
 
@@ -15,5 +13,9 @@ export class ShopService {
 
     public getShopNameByPath() {
         return this.httpClient.get<string>(`${this.path}/name`).toPromise();
+    }
+
+    public getShopPhoneByPath() {
+        return this.httpClient.get<string>(`${this.path}/phone`).toPromise();
     }
 }
