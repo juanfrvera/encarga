@@ -117,6 +117,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       accordionItem.count!++;
 
       this.ui.total += Number(item.price) ?? 0;
+      // show new toast with new info
       this.showToast();
 
       this.orderService.add(item._id);
@@ -133,14 +134,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (accordionItem.count && accordionItem.count > 0) {
       accordionItem.count--;
 
-      // Resta el producto del total
       this.ui.total -= Number(item.price) ?? 0;
 
-      // Si el total esta en 0, no muestra ningun toast con total
+      // If total == 0 hide the toast
       if (!this.hasPedido()) {
         this.hideToast();
       }
-      // Si el total es mayor que 0, borra el toast anterior y crea uno nuevo con el total actualizado
+      // If total > 0 show new toast with new info
       else {
         this.showToast();
       }
@@ -149,6 +149,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Get full item with count data
   public getAccordionItemData(itemId: string, currentIndex: number) {
     let accordionItemData: IAccordionItem | undefined;
 
@@ -174,25 +175,20 @@ export class HomeComponent implements OnInit, OnDestroy {
     return this.ui.total;
   }
 
-
-  /** Continua a la pagina de detalle 
+  // Continues to order detail page
   public continue() {
     this.router.navigate(['detalle'], { relativeTo: this.route });
   }
 
-  */
-
-  /** Muestra el toast */
   private showToast() {
     this.toast.show();
   }
 
-  /** Oculta el toast */
   private hideToast() {
     this.toast.hide();
   }
 
-  // Carga las cantidades pedidas a los items con cantidad y calcula la variable total 
+  // Loads quantites of items ordered y computes total price
   private reflectOrder() {
     this.ui.total = 0;
 
@@ -205,15 +201,14 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (order.lines) {
           order.lines.forEach(line => {
             const item = list.find(i => i._id === line.itemId);
-            // El item puede haber sido eliminado de la base de datos mientras estaba guardado en el pedido de un cliente
-            // Este chequeo es para que no haya un error de referencia
+            // Item could have been removed from DB while it was saving the order
             if (item) {
               if (item.price) {
                 this.ui.total += Number(item.price) * line.count;
               }
             }
             else {
-              // Como el item guardado no existe mas, eliminar la linea del pedido
+              // As item saved no longer exists, delete that order line
               this.orderService.deleteLine(line);
               console.log('Se eliminó el item \'' + line.itemId + '\' porque ya no existe en el catálogo');
             }
