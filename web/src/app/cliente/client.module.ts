@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
 import { ClientRoutingModule } from "./client.routing.module";
-import { DetalleComponent } from "./page/detalle/detalle.component";
+import { DetailComponent } from "./page/detail/detail.component";
 import { HomeComponent } from "./page/home/home.component";
 import { ClientComponent } from "./page/client.component";
 import { ApiService } from "./service/api.service";
@@ -28,7 +28,7 @@ import { ShopService } from "./service/shop.service";
         // Page
         ClientComponent,
         HomeComponent,
-        DetalleComponent,
+        DetailComponent,
     ],
     providers: [
         ApiService,
