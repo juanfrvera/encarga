@@ -8,6 +8,7 @@ import { ItemService } from '../../service/item.service';
 import { CategoryLite } from '../../data/category/category-lite.data';
 import { ItemLite } from '../../data/item/item-lite.data';
 import { ShopService } from '../../service/shop.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface IAccordionCategory extends CategoryLite {
   items?: IAccordionItem[];
@@ -56,9 +57,13 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
       // Get shop name
       this.ui.shopName = await this.shopService.getShopNameByPath();
-    } catch (error) {
-      // If error is because there's no shop, redirect to 404 page
-      console.log('No shop found, show 404 page');
+    } catch (res) {
+      if (res instanceof HttpErrorResponse) {
+        if (res.error.messageId == 'shop_not_found') {
+          // Redirect to 404 page
+          this.router.navigate(['not-found'])
+        }
+      }
       return;
     }
 

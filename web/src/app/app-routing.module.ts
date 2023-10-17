@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LandingComponent } from './landing/page/landing/landing.component';
 import { StartComponent } from './landing/page/start/start.component';
+import { NotFoundComponent } from './cliente/page/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
   {
     path: 'pedido',
     loadChildren: () => import('./cliente/client.module').then(m => m.ClientModule)
+  },
+  {
+    path: 'not-found',
+    component: NotFoundComponent,
   },
   // Para comercio real (ponerlo debajo para que no haya conflictos con paths estáticos)
   // Es importante repetir para que funcione

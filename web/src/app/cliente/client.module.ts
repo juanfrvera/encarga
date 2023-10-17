@@ -13,6 +13,7 @@ import { OrderService } from "./service/order.service";
 import { provider as shopPathInterceptorProvider } from "./interceptor/shop-path.interceptor";
 import { HttpClientModule } from "@angular/common/http";
 import { ShopService } from "./service/shop.service";
+import { NotFoundComponent } from "./page/not-found/not-found.component";
 
 @NgModule({
     imports: [
@@ -29,6 +30,7 @@ import { ShopService } from "./service/shop.service";
         ClientComponent,
         CatalogComponent,
         DetailComponent,
+        NotFoundComponent
     ],
     providers: [
         ApiService,
