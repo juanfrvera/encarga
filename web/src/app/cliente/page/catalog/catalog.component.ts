@@ -18,11 +18,11 @@ interface IAccordionItem extends ItemLite {
 }
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-catalog',
+  templateUrl: './catalog.component.html',
+  styleUrls: ['./catalog.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class CatalogComponent implements OnInit, OnDestroy {
   @ViewChild('toast', { static: true }) toastElement: ElementRef;
 
   private toast: Toast;
@@ -46,7 +46,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) { }
 
   async ngOnInit() {
-    this.ui.shopName = await this.shopService.getShopNameByPath();
 
     this.toast = new Toast(this.toastElement.nativeElement, { autohide: false });
     let catCount: number;
@@ -54,6 +53,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     try {
       // Get count of categories for this shop
       catCount = await this.categoryService.count();
+
+      // Get shop name
+      this.ui.shopName = await this.shopService.getShopNameByPath();
     } catch (error) {
       // If error is because there's no shop, redirect to 404 page
       console.log('No shop found, show 404 page');

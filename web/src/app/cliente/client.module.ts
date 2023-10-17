@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
 import { ClientRoutingModule } from "./client.routing.module";
 import { DetailComponent } from "./page/detail/detail.component";
-import { HomeComponent } from "./page/home/home.component";
+import { CatalogComponent } from "./page/catalog/catalog.component";
 import { ClientComponent } from "./page/client.component";
 import { ApiService } from "./service/api.service";
 import { CategoryService } from "./service/category.service";
@@ -27,7 +27,7 @@ import { ShopService } from "./service/shop.service";
     declarations: [
         // Page
         ClientComponent,
-        HomeComponent,
+        CatalogComponent,
         DetailComponent,
     ],
     providers: [

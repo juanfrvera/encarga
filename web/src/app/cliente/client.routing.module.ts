@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DetailComponent } from './page/detail/detail.component';
-import { HomeComponent } from './page/home/home.component';
+import { CatalogComponent } from './page/catalog/catalog.component';
 import { ClientComponent } from './page/client.component';
 
 export const routeData = {
@@ -13,7 +13,7 @@ const routes: Routes = [
         path: '',
         component: ClientComponent,
         children: [
-            { path: '', component: HomeComponent },
+            { path: '', component: CatalogComponent },
             { path: 'detalle', component: DetailComponent }
         ]
     },
@@ -21,7 +21,7 @@ const routes: Routes = [
         path: `:${routeData.shopPathParameter}`,
         component: ClientComponent,
         children: [
-            { path: '', component: HomeComponent },
+            { path: '', component: CatalogComponent },
             { path: 'detalle', component: DetailComponent }
         ]
     },
