@@ -1,0 +1,15 @@
+.big-title {
+    font-size: 10rem;
+    background: -webkit-linear-gradient(#eb3349, #f45c43);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.card-content {
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
